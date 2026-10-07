@@ -1,4 +1,5 @@
 import { heute, nachFrist } from '../dates.ts'
+import { kontaktpflege } from './beziehung.ts'
 import { kontakteMitPruefbedarf } from './datenschutz.ts'
 import { BEWERBUNG_STATUS, LEAD_STATUS } from '../labels.ts'
 import { bewerbungenNachStatus } from './bewerbungen.ts'
@@ -13,9 +14,11 @@ export interface KontaktFilter {
   nurFaellig: boolean
   /** Nur Kontakte ohne Aktivität seit 12 Monaten oder ohne Rechtsgrundlage (DSGVO-Prüfung) */
   nurPruefen: boolean
+  /** Nur Kontakte ohne Verlaufseintrag seit 60 Tagen */
+  nurFunkstille: boolean
 }
 
-export const LEERER_KONTAKT_FILTER: KontaktFilter = { suche: '', kontext: 'alle', nurFaellig: false, nurPruefen: false }
+export const LEERER_KONTAKT_FILTER: KontaktFilter = { suche: '', kontext: 'alle', nurFaellig: false, nurPruefen: false, nurFunkstille: false }
 
 export function unternehmenName(data: AppData, id: string | null): string | null {
   return id ? (data.unternehmen.find((u) => u.id === id)?.name ?? null) : null
@@ -32,6 +35,7 @@ export function kontaktListe(data: AppData, filter: KontaktFilter, now: Date): K
   const pruefen = new Set(filter.nurPruefen ? kontakteMitPruefbedarf(data, now).map((k) => k.id) : [])
   return data.kontakte
     .filter((k) => !filter.nurPruefen || pruefen.has(k.id))
+    .filter((k) => !filter.nurFunkstille || kontaktpflege(data, k, now).funkstille)
     .filter((k) => filter.kontext === 'alle' || k.kontext === filter.kontext)
     .filter((k) => !filter.nurFaellig || istAktionFaellig(k, now))
     .filter(

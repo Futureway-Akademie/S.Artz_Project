@@ -412,3 +412,14 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - **Wochenvorschau:**
   - „Diese Woche“ ersetzt „Anstehend (7 Tage)“: sieben Tage ab heute, je Tag Termine, Fristen, Wiedervorlagen und Kursaufgaben, freie Tage sind als „frei“ markiert.
   - Die Daten kommen aus derselben Quelle wie der Kalender (`selectWoche` nutzt `kalenderEintraege`); `selectAnstehend` entfällt.
+
+## 2026-10-07 – Beziehungspflege (task-8-2)
+
+- **Letzter Kontakt** = letzter Verlaufseintrag. Die Kontaktliste zeigt „Letzter Kontakt vor X Tagen“ bzw. „Noch kein Verlauf“, die Detailseite Datum und Abstand.
+- **Funkstille:**
+  - ab 60 Tagen ohne Verlaufseintrag, gerechnet ab dem letzten Eintrag bzw. dem Anlegen.
+  - Hinweis als Badge in Liste und Detailseite, dazu der Filter „Funkstille“.
+- **„Wie geht es weiter?“:** Nach jedem neuen Verlaufseintrag lässt sich die nächste Aktion mit einem Klick setzen („In 3 Tagen“, „In 1 Woche“, „In 2 Wochen“) oder überspringen. Der Text ist anpassbar und mit der bisherigen Aktion bzw. „Nachfassen“ vorbelegt.
+- **„Zuletzt aktiv“ automatisch:**
+  - Wer eine Aufgabe, einen Termin, einen Verlaufseintrag oder einen Lead mit Projektbezug anlegt oder ändert, setzt das Projekt auf heute.
+  - Das passiert im Reducer, nie rückwärts, ohne eigenen Protokolleintrag. Der Status des Projekts bleibt manuell.

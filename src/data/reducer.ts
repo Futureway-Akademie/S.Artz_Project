@@ -1,4 +1,5 @@
 import type { Aktivitaet, AppData, Eintrag, Sammlung } from '../domain/types.ts'
+import { toDatum } from '../domain/dates.ts'
 import type { Action, ActionMeta } from './actions.ts'
 import { aktivitaetText, geaenderteFelder, titelVon } from './activity.ts'
 
@@ -160,7 +161,7 @@ function aenderungsArt(sammlung: Sammlung, felder: string[], nachher: Record<str
   return 'geaendert'
 }
 
-export function reducer(data: AppData, action: Action, meta: ActionMeta): AppData {
+function kernReducer(data: AppData, action: Action, meta: ActionMeta): AppData {
   switch (action.type) {
     case 'anlegen': {
       const zeit = meta.now.toISOString()
@@ -236,4 +237,36 @@ export function reducer(data: AppData, action: Action, meta: ActionMeta): AppDat
     case 'ersetzen':
       return action.daten
   }
+}
+
+/** Sammlungen, deren Einträge ein Projekt als „zuletzt aktiv“ markieren */
+function projektVon(sammlung: Sammlung, eintrag: Record<string, unknown> | undefined): string | null {
+  if (!eintrag) return null
+  if (sammlung === 'aufgaben' || sammlung === 'termine') {
+    const bezug = eintrag.bezug as Eintrag<'aufgaben'>['bezug']
+    return bezug.art === 'projekt' ? bezug.id : null
+  }
+  if (sammlung === 'interaktionen' || sammlung === 'leads') return (eintrag.projektId as string | null) ?? null
+  return null
+}
+
+/**
+ * Wer an einem Projekt arbeitet (Aufgabe, Termin, Verlauf oder Lead anlegen bzw. ändern),
+ * setzt dessen „zuletzt aktiv“ auf heute – nie zurück, ohne eigene Aktivität im Protokoll.
+ */
+function zuletztAktivNachziehen(vorher: AppData, nachher: AppData, action: Action, meta: ActionMeta): AppData {
+  if (nachher === vorher || (action.type !== 'anlegen' && action.type !== 'aendern')) return nachher
+  const eintraege = nachher[action.sammlung] as Array<{ id: string }>
+  const id = action.type === 'aendern' ? action.id : eintraege[eintraege.length - 1]?.id
+  const projektId = projektVon(action.sammlung, eintraege.find((e) => e.id === id) as Record<string, unknown> | undefined)
+  if (!projektId) return nachher
+  const tag = toDatum(meta.now)
+  return {
+    ...nachher,
+    projekte: nachher.projekte.map((p) => (p.id === projektId && (p.zuletztAktiv ?? '') < tag ? { ...p, zuletztAktiv: tag } : p)),
+  }
+}
+
+export function reducer(data: AppData, action: Action, meta: ActionMeta): AppData {
+  return zuletztAktivNachziehen(data, kernReducer(data, action, meta), action, meta)
 }

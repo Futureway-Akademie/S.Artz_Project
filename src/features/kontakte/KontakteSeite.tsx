@@ -10,10 +10,17 @@ import { useStore } from '../../data/storeContext.ts'
 import { KONTEXT } from '../../domain/labels.ts'
 import { kontaktListe, LEERER_KONTAKT_FILTER, unternehmenName, type KontaktFilter } from '../../domain/selectors/crm.ts'
 import { kontakteMitPruefbedarf, PRUEFUNG_NACH_MONATEN } from '../../domain/selectors/datenschutz.ts'
+import { kontaktpflege, vorTagen } from '../../domain/selectors/beziehung.ts'
+import type { AppData, Kontakt } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import styles from './crm.module.css'
 import { KontaktDialog } from './KontaktDialog.tsx'
 import { KontakteNavigation } from './KontakteNavigation.tsx'
+
+function pflegeText(data: AppData, k: Kontakt, now: Date): string {
+  const p = kontaktpflege(data, k, now)
+  return p.letzter ? `Letzter Kontakt ${vorTagen(p.tage)}` : 'Noch kein Verlauf'
+}
 
 export function KontakteSeite() {
   const { data } = useStore()
@@ -66,6 +73,10 @@ export function KontakteSeite() {
               <input type="checkbox" checked={filter.nurPruefen} onChange={(e) => setFilter({ ...filter, nurPruefen: e.target.checked })} />
               Datenschutz prüfen
             </label>
+            <label className={styles.check}>
+              <input type="checkbox" checked={filter.nurFunkstille} onChange={(e) => setFilter({ ...filter, nurFunkstille: e.target.checked })} />
+              Funkstille
+            </label>
           </div>
           <p className={styles.treffer} aria-live="polite">
             {kontakte.length} von {data.kontakte.length} Kontakten
@@ -91,8 +102,10 @@ export function KontakteSeite() {
                       </Link>
                       <span className={styles.unter}>{[k.rolle, firma].filter(Boolean).join(' · ') || 'Keine Rolle oder Firma hinterlegt'}</span>
                       {k.naechsteAktion && <span>Nächste Aktion: {k.naechsteAktion.text}</span>}
+                      <span className={styles.unter}>{pflegeText(data, k, now)}</span>
                     </div>
                     <div className={styles.meta}>
+                      {kontaktpflege(data, k, now).funkstille && <Badge tone="warning">Funkstille</Badge>}
                       <Badge>{KONTEXT[k.kontext]}</Badge>
                       {k.naechsteAktion && <DueLabel faelligAm={k.naechsteAktion.faelligAm} />}
                     </div>

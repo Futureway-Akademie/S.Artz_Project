@@ -11,7 +11,10 @@ import { useToast } from '../../components/ui/toastContext.ts'
 import { SAMMLUNG_INFO } from '../../data/activity.ts'
 import { loeschfolgen } from '../../data/reducer.ts'
 import { useStore } from '../../data/storeContext.ts'
+import { formatDatum } from '../../domain/dates.ts'
 import { KONTEXT } from '../../domain/labels.ts'
+import { kontaktpflege, vorTagen } from '../../domain/selectors/beziehung.ts'
+import { useNow } from '../../hooks/useNow.ts'
 import styles from './crm.module.css'
 import { Gesamtsicht } from '../gemeinsam/Gesamtsicht.tsx'
 import { DatenschutzPanel } from './DatenschutzPanel.tsx'
@@ -24,6 +27,7 @@ export function KontaktDetailSeite() {
   const { data, dispatch } = useStore()
   const { zeige } = useToast()
   const navigate = useNavigate()
+  const now = useNow()
   const [bearbeiten, setBearbeiten] = useState(false)
   const [loeschen, setLoeschen] = useState(false)
   const [email, setEmail] = useState(false)
@@ -39,6 +43,7 @@ export function KontaktDetailSeite() {
 
   const firma = data.unternehmen.find((u) => u.id === kontakt.unternehmenId)
   const folge = loeschfolgen(data, 'kontakte', kontakt.id)
+  const pflege = kontaktpflege(data, kontakt, now)
 
   return (
     <Seite
@@ -84,6 +89,16 @@ export function KontaktDetailSeite() {
                   </ExternerLink>
                 ) : (
                   'Nicht hinterlegt'
+                )}
+              </dd>
+              <dt>Letzter Kontakt</dt>
+              <dd>
+                {pflege.letzter ? `${formatDatum(pflege.letzter)} (${vorTagen(pflege.tage)})` : 'Noch keiner'}
+                {pflege.funkstille && (
+                  <>
+                    {' '}
+                    <Badge tone="warning">Funkstille</Badge>
+                  </>
                 )}
               </dd>
               <dt>Herkunft</dt>

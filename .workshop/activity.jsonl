@@ -142,3 +142,6 @@
 {"timestamp":"2026-10-07T15:46:11Z","type":"task_started","taskId":"task-8-1","summary":"Task 'Cockpit-Fokus' gestartet."}
 {"timestamp":"2026-10-07T15:51:08Z","type":"verification_passed","taskId":"task-8-1","summary":"Fokus, Abhaken und Wochenvorschau im Cockpit; 286 Tests grün."}
 {"timestamp":"2026-10-07T15:51:08Z","type":"task_completed","taskId":"task-8-1","summary":"Task 'Cockpit-Fokus' abgeschlossen."}
+{"timestamp":"2026-10-07T15:51:15Z","type":"task_started","taskId":"task-8-2","summary":"Task 'Beziehungspflege' gestartet."}
+{"timestamp":"2026-10-07T15:57:21Z","type":"verification_passed","taskId":"task-8-2","summary":"Letzter Kontakt, Funkstille, nächste Aktion nach Gespräch, zuletzt aktiv automatisch; 290 Tests grün."}
+{"timestamp":"2026-10-07T15:57:21Z","type":"task_completed","taskId":"task-8-2","summary":"Task 'Beziehungspflege' abgeschlossen."}

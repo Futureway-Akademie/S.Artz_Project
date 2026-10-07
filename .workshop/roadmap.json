@@ -1136,7 +1136,7 @@
           "description": "Letzter Kontakt und Funkstille-Hinweis, nächste Aktion direkt nach einem Verlaufseintrag, „zuletzt aktiv“ automatisch.",
           "order": 2,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-7-2"
           ],
@@ -1145,13 +1145,18 @@
             "Nach Verlaufseintrag nächste Aktion setzen",
             "Projekt „zuletzt aktiv“ automatisch"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:51:15Z",
+          "completedAt": "2026-10-07T15:57:21Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Letzter Kontakt je Kontakt in Liste und Detailseite, Funkstille ab 60 Tagen mit Badge und Filter, „Wie geht es weiter?“ nach jedem Verlaufseintrag mit 1-Klick-Wiedervorlage, „zuletzt aktiv“ von Projekten automatisch im Reducer (nie rückwärts, ohne Protokolleintrag). 290 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:57:21Z"
           }
         },
         {

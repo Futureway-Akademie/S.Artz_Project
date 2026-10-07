@@ -134,6 +134,7 @@ export function ProjektDialog({ projekt, onSchliessen, onAngelegt }: ProjektDial
           value={werte.zuletztAktiv}
           onChange={(e) => setze('zuletztAktiv', e.target.value)}
           error={fehler.zuletztAktiv}
+          hint="Wird automatisch gesetzt, wenn du am Projekt arbeitest."
         />
       </div>
       <TextAreaField label="Beschreibung" value={werte.beschreibung} onChange={(e) => setze('beschreibung', e.target.value)} rows={3} />

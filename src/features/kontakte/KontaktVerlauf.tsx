@@ -9,7 +9,7 @@ import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
-import { formatDatum, heute } from '../../domain/dates.ts'
+import { formatDatum, heute, plusTage } from '../../domain/dates.ts'
 import { INTERAKTION_ART, optionen } from '../../domain/labels.ts'
 import type { AppData, Interaktion, Kontakt } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
@@ -78,6 +78,44 @@ function NaechsteAktion({ kontakt }: { kontakt: Kontakt }) {
   )
 }
 
+/** Direkt nach einem Verlaufseintrag: nächste Aktion mit einem Klick festlegen. */
+function WieWeiter({ kontakt, onFertig }: { kontakt: Kontakt; onFertig: () => void }) {
+  const { dispatch } = useStore()
+  const { zeige } = useToast()
+  const now = useNow()
+  const [text, setText] = useState(kontakt.naechsteAktion?.text ?? 'Nachfassen')
+
+  const setzen = (tage: number) => {
+    const faelligAm = plusTage(heute(now), tage)
+    dispatch({ type: 'aendern', sammlung: 'kontakte', id: kontakt.id, aenderung: { naechsteAktion: { text: text.trim() || 'Nachfassen', faelligAm } } })
+    zeige(`Nächste Aktion am ${formatDatum(faelligAm)}`)
+    onFertig()
+  }
+
+  return (
+    <div className={styles.weiter} role="group" aria-labelledby="wie-weiter">
+      <p id="wie-weiter" className={styles.weiterTitel}>
+        Wie geht es weiter?
+      </p>
+      <TextField label="Nächste Aktion" optionalKennzeichnen={false} value={text} onChange={(e) => setText(e.target.value)} />
+      <div className={styles.knoepfe}>
+        {[
+          [3, 'In 3 Tagen'],
+          [7, 'In 1 Woche'],
+          [14, 'In 2 Wochen'],
+        ].map(([tage, label]) => (
+          <Button key={tage} size="sm" variant="secondary" onClick={() => setzen(Number(tage))}>
+            {label}
+          </Button>
+        ))}
+        <Button size="sm" variant="ghost" onClick={onFertig}>
+          Nichts planen
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 /** Auswahl für „Gehört zu“: zuerst Bewerbungen und Leads dieser Person, dann ihre Projekte, dann alle übrigen Projekte. */
 function zuordnungen(data: AppData, kontakt: Kontakt) {
   const eigeneProjekte = data.projekte.filter((p) => kontakt.projektIds.includes(p.id))
@@ -104,6 +142,7 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
   const [richtung, setRichtung] = useState<'eingang' | 'ausgang'>('ausgang')
   const [fehler, setFehler] = useState<string>()
   const [loeschen, setLoeschen] = useState<Interaktion | null>(null)
+  const [weiter, setWeiter] = useState(false)
 
   const eintraege = data.interaktionen
     .filter((i) => i.kontaktId === kontakt.id)
@@ -134,6 +173,7 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
     zeige('Verlaufseintrag hinzugefügt')
     setText('')
     setBetreff('')
+    setWeiter(true)
     setFehler(undefined)
   }
 
@@ -174,6 +214,8 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
           </Button>
         </div>
       </form>
+
+      {weiter && <WieWeiter kontakt={kontakt} onFertig={() => setWeiter(false)} />}
 
       {eintraege.length === 0 ? (
         <EmptyState title="Noch kein Verlauf">Halte Telefonate, E-Mails und Treffen in ein, zwei Sätzen fest.</EmptyState>
