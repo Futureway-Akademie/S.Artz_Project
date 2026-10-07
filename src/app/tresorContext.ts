@@ -7,6 +7,11 @@ export interface TresorValue {
   passwortAendern: (alt: string, neu: string) => Promise<void>
   sperreMinuten: number
   setSperreMinuten: (minuten: number) => void
+  /** E-Mail-Adresse der eingerichteten Wiederherstellung oder `null` */
+  wiederherstellung: string | null
+  /** Erzeugt einen neuen Wiederherstellungsschlüssel und liefert den Link für die Mail an sich selbst (ältere Links werden ungültig). */
+  wiederherstellungEinrichten: (email: string) => Promise<string>
+  wiederherstellungEntfernen: () => Promise<void>
 }
 
 export const TresorContext = createContext<TresorValue | null>(null)

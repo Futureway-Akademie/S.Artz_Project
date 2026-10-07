@@ -152,3 +152,10 @@
 {"timestamp":"2026-10-07T16:02:18Z","type":"task_started","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' gestartet."}
 {"timestamp":"2026-10-07T16:05:39Z","type":"verification_passed","taskId":"task-8-4","summary":"Abschlussprüfung v3 bestanden: 295 Tests, 19 Seiten × 3 Breiten, Daten nur verschlüsselt."}
 {"timestamp":"2026-10-07T16:05:39Z","type":"task_completed","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' abgeschlossen."}
+{"timestamp":"2026-10-07T16:29:27Z","type":"roadmap_updated","taskId":"task-5-7","summary":"Neuer Task task-5-7: Passwort-Wiederherstellung per E-Mail über Supabase (Wunsch von Sascha)."}
+{"timestamp":"2026-10-07T16:29:27Z","type":"task_started","taskId":"task-5-7","summary":"Task 'Passwort-Wiederherstellung per E-Mail (Supabase)' gestartet."}
+{"timestamp":"2026-10-07T16:33:12Z","type":"roadmap_updated","summary":"Roadmap v4: Phase 9 (Login, verschlüsselte Datenbank über Supabase, zweites Gehirn für KI und Weiterbildung) auf Saschas Wunsch ergänzt; task-5-7 auf Wiederherstellung per Mail-Link ohne Server-Schlüssel präzisiert."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"verification_passed","taskId":"task-5-7","summary":"Passwort-Wiederherstellung per Mail-Link ohne Server-Schlüssel; 302 Tests grün, im Browser geprüft."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"task_completed","taskId":"task-5-7","summary":"Task 'Passwort-Wiederherstellung per E-Mail-Link' abgeschlossen."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"task_ready","taskId":"task-9-1","summary":"Task 'Supabase-Anbindung und Login' ist startbar."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"task_ready","taskId":"task-9-3","summary":"Task 'Zweites Gehirn: Wissen zu KI und Weiterbildung' ist startbar."}

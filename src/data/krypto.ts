@@ -25,20 +25,20 @@ export interface Schluessel {
   iterationen: number
 }
 
-function zuBase64(bytes: Uint8Array): string {
+export function zuBase64(bytes: Uint8Array): string {
   let text = ''
   for (const b of bytes) text += String.fromCharCode(b)
   return btoa(text)
 }
 
-function ausBase64(text: string): Uint8Array<ArrayBuffer> {
+export function ausBase64(text: string): Uint8Array<ArrayBuffer> {
   const roh = atob(text)
   const bytes = new Uint8Array(roh.length)
   for (let i = 0; i < roh.length; i++) bytes[i] = roh.charCodeAt(i)
   return bytes
 }
 
-function zufall(laenge: number): Uint8Array<ArrayBuffer> {
+export function zufall(laenge: number): Uint8Array<ArrayBuffer> {
   return crypto.getRandomValues(new Uint8Array(laenge))
 }
 
@@ -53,7 +53,7 @@ export async function schluesselAbleiten(
     basis,
     { name: 'AES-GCM', length: 256 },
     false,
-    ['encrypt', 'decrypt'],
+    ['encrypt', 'decrypt', 'wrapKey', 'unwrapKey'],
   )
   return { key, salt, iterationen }
 }

@@ -8,6 +8,7 @@ import { useToast } from '../../components/ui/toastContext.ts'
 import { FalschesPasswort, MIN_PASSWORT_LAENGE, pruefePasswort } from '../../data/krypto.ts'
 import { SPERRE_OPTIONEN } from '../../data/tresor.ts'
 import styles from './EinstellungenSeite.module.css'
+import { WiederherstellungBlock } from './WiederherstellungBlock.tsx'
 
 /** Sperre und Passwort; nur sichtbar, wenn die Daten verschlüsselt gespeichert werden. */
 export function SicherheitPanel() {
@@ -47,8 +48,8 @@ export function SicherheitPanel() {
     <Panel titel="Sicherheit">
       <div className={styles.block}>
         <p className={styles.hinweis}>
-          Die Daten sind mit deinem Passwort verschlüsselt (AES-256). Das Passwort wird nirgends gespeichert – vergisst du es, sind die
-          Daten verloren. Ein Export ist dein Backup.
+          Die Daten sind mit deinem Passwort verschlüsselt (AES-256). Das Passwort wird nirgends gespeichert – richte deshalb die
+          Wiederherstellung per E-Mail ein und erstelle regelmäßig eine Sicherung.
         </p>
         <div className={styles.zeile}>
           <SelectField
@@ -63,6 +64,7 @@ export function SicherheitPanel() {
           </Button>
         </div>
       </div>
+      <WiederherstellungBlock />
       <form className={styles.block} onSubmit={aendern} noValidate aria-labelledby="passwort-aendern">
         <h3 id="passwort-aendern" className={styles.unter}>
           Passwort ändern

@@ -433,3 +433,24 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - **Dubletten-Warnung:**
   - Kontakt bei gleichem Namen oder gleicher E-Mail, Projekt bei gleichem Titel; beim Unternehmen gab es sie schon.
   - Die Warnung blockiert nicht, weil zwei Personen gleich heißen können.
+
+## 2026-10-07 – Passwort-Wiederherstellung per E-Mail-Link (task-5-7)
+
+**Wunsch:** Passwort wiederherstellen mit Bestätigung per Mail und Klick auf einen Link.
+
+- **Neues Tresor-Format (Version 2):**
+  - Die Daten sind mit einem zufälligen Datenschlüssel verschlüsselt (`src/data/tresorKrypto.ts`).
+  - Dieser Schlüssel liegt verpackt im Umschlag: einmal mit dem Passwortschlüssel (PBKDF2), optional zusätzlich mit einem Wiederherstellungsschlüssel (32 zufällige Bytes).
+  - Ein Passwortwechsel verpackt nur den Datenschlüssel neu.
+  - Umschläge der Version 1 werden beim nächsten Entsperren ohne Datenverlust umgestellt.
+- **Einrichten** (Einstellungen → Sicherheit):
+  - Die App erzeugt den Wiederherstellungsschlüssel und öffnet über `mailto:` eine Mail an Saschas eigene Adresse mit dem Link `…/wiederherstellen#schluessel=…`.
+  - Der Schlüssel steht im Fragment (`#`), das Browser nie an einen Server senden. Im Speicher steht er nicht im Klartext.
+  - Der Link wird nur einmal angezeigt. Ein neuer Link macht den alten ungültig.
+- **Wiederherstellen:**
+  - Ein Klick auf den Link öffnet die App. Die App entfernt den Schlüssel sofort aus der Adresszeile und zeigt „Passwort wiederherstellen“.
+  - Nach Bestätigung mit einem neuen Passwort sind die Daten offen; das alte Passwort gilt nicht mehr.
+  - „Passwort vergessen?“ verweist auf die Mail.
+- **Warum nicht über Supabase:** Wenn künftig auch die verschlüsselten Daten bei Supabase liegen (Phase 9), dürfte der Wiederherstellungsschlüssel nicht dort liegen. Sonst könnte der Anbieter alles entschlüsseln.
+- **Bewusster Kompromiss:** Wer die Mail und Zugang zum Rechner hat, kann die Daten öffnen. Die App weist darauf hin und empfiehlt Zwei-Faktor-Schutz für das Postfach.
+- **Im Browser geprüft** (gebaute App, Testadresse @example.org, danach gelöscht): einrichten, Link aufrufen, neues Passwort setzen, Daten vollständig da.

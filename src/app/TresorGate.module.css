@@ -53,3 +53,10 @@
   background: var(--color-danger);
   color: var(--color-white);
 }
+
+.hinweisBox {
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid var(--color-blue);
+  border-radius: var(--radius-md);
+  background: var(--color-blue-soft);
+}

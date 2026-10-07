@@ -1,4 +1,4 @@
-import { entschluesselnMit, alsUmschlag, verschluesseln, type Schluessel } from './krypto.ts'
+import { alsTresor, tresorOeffnenMitSchluessel, tresorVerschluesseln, type Tresorschluessel } from './tresorKrypto.ts'
 import { STORAGE_KEY, type KeyValueStorage } from './storage.ts'
 
 /** Unverschlüsselte, nicht persönliche Einstellungen der Sperre (z. B. Minuten bis zur Sperre). */
@@ -31,11 +31,11 @@ export function speichereSperreMinuten(basis: KeyValueStorage | null, minuten: n
 export class VerschluesselterSpeicher implements KeyValueStorage {
   private klartext: string | null
   private kette: Promise<void> = Promise.resolve()
-  private schluessel: Schluessel
+  private schluessel: Tresorschluessel
   private readonly basis: KeyValueStorage
   private readonly onFehler: (fehler: string) => void
 
-  constructor(basis: KeyValueStorage, schluessel: Schluessel, klartext: string | null, onFehler: (fehler: string) => void = () => {}) {
+  constructor(basis: KeyValueStorage, schluessel: Tresorschluessel, klartext: string | null, onFehler: (fehler: string) => void = () => {}) {
     this.basis = basis
     this.schluessel = schluessel
     this.klartext = klartext
@@ -62,7 +62,7 @@ export class VerschluesselterSpeicher implements KeyValueStorage {
     this.kette = this.kette.then(async () => {
       if (this.klartext !== value) return // ein neuerer Stand folgt
       try {
-        const umschlag = await verschluesseln(schluessel, value)
+        const umschlag = await tresorVerschluesseln(schluessel, value)
         if (this.klartext !== value) return
         this.basis.setItem(STORAGE_KEY, JSON.stringify(umschlag))
       } catch (error) {
@@ -77,8 +77,13 @@ export class VerschluesselterSpeicher implements KeyValueStorage {
     return this.kette
   }
 
-  /** Neuer Schlüssel (Passwort geändert): aktueller Stand wird sofort neu verschlüsselt geschrieben. */
-  async schluesselWechseln(neu: Schluessel): Promise<void> {
+  /** Aktueller Schlüssel, z. B. um die Wiederherstellung einzurichten */
+  aktuellerSchluessel(): Tresorschluessel {
+    return this.schluessel
+  }
+
+  /** Neuer Schlüssel bzw. Kopf (Passwort oder Wiederherstellung geändert): aktueller Stand wird sofort neu geschrieben. */
+  async schluesselWechseln(neu: Tresorschluessel): Promise<void> {
     await this.kette
     this.schluessel = neu
     if (this.klartext !== null) this.schreiben(this.klartext)
@@ -91,12 +96,15 @@ export class VerschluesselterSpeicher implements KeyValueStorage {
       this.klartext = null
       return
     }
-    const umschlag = alsUmschlag(roh)
-    if (!umschlag) return
+    const umschlag = alsTresor(roh)
+    if (!umschlag || umschlag.version !== 2) return
     try {
-      this.klartext = await entschluesselnMit(this.schluessel, umschlag)
+      // Gleicher Datenschlüssel: Inhalt und Kopf übernehmen (z. B. neues Passwort aus dem anderen Tab)
+      const geoeffnet = await tresorOeffnenMitSchluessel(this.schluessel.datenschluessel, umschlag)
+      this.klartext = geoeffnet.klartext
+      this.schluessel = geoeffnet.schluessel
     } catch {
-      // Mit anderem Passwort gespeichert: beim nächsten Entsperren klärt sich das.
+      // Anderer Datenschlüssel (Daten im anderen Tab neu angelegt): beim nächsten Entsperren klärt sich das.
     }
   }
 }

@@ -153,6 +153,19 @@ describe('Barrierefreiheit (axe-core)', () => {
     expect(await pruefe(container.ownerDocument.body)).toEqual([])
   })
 
+  it('Wiederherstellen-Seite ohne Verstöße', async () => {
+    const { TresorGate } = await import('../app/TresorGate.tsx')
+    const { render } = await import('@testing-library/react')
+    const { verschluesseln, schluesselAbleiten } = await import('../data/krypto.ts')
+    const { createFakeStorage } = await import('./fakes.ts')
+    const { STORAGE_KEY } = await import('../data/storage.ts')
+    const basis = createFakeStorage({ [STORAGE_KEY]: JSON.stringify(await verschluesseln(await schluesselAbleiten('x'.repeat(12), undefined, 1000), '{}')) })
+    window.history.replaceState(null, '', '/wiederherstellen#schluessel=' + encodeURIComponent('C'.repeat(43) + '='))
+    const { container } = render(<TresorGate basis={basis} iterationen={1000}>{() => null}</TresorGate>)
+    expect(await pruefe(container)).toEqual([])
+    window.history.replaceState(null, '', '/')
+  })
+
   it('Fehlerseite bei defekten Daten ohne Verstöße', async () => {
     const { createFakeStorage } = await import('./fakes.ts')
     const { STORAGE_KEY } = await import('../data/storage.ts')

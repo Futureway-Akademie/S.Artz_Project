@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 3,
+  "roadmapVersion": 4,
   "status": "active",
   "phases": [
     {
@@ -715,7 +715,7 @@
       "title": "Datenschutz und Sicherheit",
       "description": "Keine persönliche Information von außen einsehbar, Daten verschlüsselt, DSGVO-Funktionen für Kontaktdaten.",
       "order": 5,
-      "weight": 13,
+      "weight": 16,
       "status": "in_progress",
       "tasks": [
         {
@@ -890,6 +890,38 @@
             "summary": null,
             "commands": [],
             "checkedAt": null
+          }
+        },
+        {
+          "id": "task-5-7",
+          "title": "Passwort-Wiederherstellung per E-Mail-Link",
+          "description": "Wiederherstellungsschlüssel, den Sascha sich über das eigene Mailprogramm als Link schickt (Schlüssel im #-Teil des Links, erreicht nie einen Server). Klick auf den Link öffnet die App, nach Bestätigung wird ein neues Passwort gesetzt; die Daten bleiben erhalten. Datenschlüssel-Format (Version 2) mit Umstellung ohne Datenverlust.",
+          "order": 7,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-3"
+          ],
+          "definitionOfDone": [
+            "Daten werden mit einem Datenschlüssel verschlüsselt, der per Passwort und per Wiederherstellungsschlüssel geöffnet werden kann (Umstellung ohne Datenverlust)",
+            "Einrichten in den Einstellungen: Mail an sich selbst mit Wiederherstellungslink",
+            "Passwort vergessen: Klick auf den Link öffnet die App, Bestätigung, neues Passwort, Daten bleiben erhalten",
+            "Der Wiederherstellungsschlüssel wird nie an einen Server übertragen (Test)",
+            "Datenschutzhinweis und Doku ergänzt"
+          ],
+          "startedAt": "2026-10-07T16:29:27Z",
+          "completedAt": "2026-10-07T16:39:58Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Tresor-Format v2 mit Datenschlüssel (per Passwort und optional per Wiederherstellungsschlüssel verpackt), Umstellung von v1 beim Entsperren; Einrichten in den Einstellungen mit Mail an sich selbst (mailto), Schlüssel nur im Link-Fragment; Wiederherstellen über den Link mit neuem Passwort, Daten bleiben erhalten; neuer Link macht alten ungültig; Hinweise in Sperr- und Einrichtungsbildschirm. 302 Tests inkl. axe, typecheck, lint, build fehlerfrei; im Browser (Build) vollständig durchgespielt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: Wiederherstellung einrichten, Link öffnen, neues Passwort"
+            ],
+            "checkedAt": "2026-10-07T16:39:58Z"
           }
         }
       ]
@@ -1219,6 +1251,117 @@
               "npm run preview + Browser: 19 Seiten × 3 Breiten, localStorage-Prüfung"
             ],
             "checkedAt": "2026-10-07T16:05:39Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-9",
+      "title": "Login, verschlüsselte Datenbank und zweites Gehirn",
+      "description": "Anmeldung und geräteübergreifende Speicherung über Supabase – Ende-zu-Ende-verschlüsselt, Supabase sieht nur Chiffretext; Wissensbereich für KI und Weiterbildung.",
+      "order": 9,
+      "weight": 12,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-9-1",
+          "title": "Supabase-Anbindung und Login",
+          "description": "Supabase-Client mit Konfiguration über .env.local, Login per E-Mail-Link (ohne zweites Passwort), Abmelden, SQL-Schema mit Row Level Security im Repository, CSP-Ausnahme nur für die eigene Supabase-Adresse; ohne Konfiguration bleibt die App lokal und ohne Verbindung.",
+          "order": 1,
+          "weight": 3,
+          "status": "ready",
+          "dependsOn": [
+            "task-5-7"
+          ],
+          "definitionOfDone": [
+            "Login per E-Mail-Link und Abmelden",
+            "SQL-Schema (Tabelle tresor) mit Row Level Security unter supabase/",
+            "CSP erlaubt nur die konfigurierte Supabase-Adresse, ohne Konfiguration keine Verbindung (Test)",
+            "Anleitung zur Einrichtung in docs/"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-9-2",
+          "title": "Verschlüsselte Synchronisierung",
+          "description": "Der verschlüsselte Umschlag wird nach Änderungen zu Supabase hochgeladen und beim Entsperren abgeglichen; Konflikte zwischen Geräten werden erkannt und angezeigt; Supabase speichert nur Chiffretext.",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-9-1"
+          ],
+          "definitionOfDone": [
+            "Nach Änderungen wird nur der verschlüsselte Umschlag hochgeladen",
+            "Neuerer Stand auf dem Server wird beim Entsperren übernommen",
+            "Konflikt (beide Seiten geändert) wird angezeigt, nichts geht stillschweigend verloren",
+            "Test: Upload enthält keinen Klartext"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-9-3",
+          "title": "Zweites Gehirn: Wissen zu KI und Weiterbildung",
+          "description": "Neuer Bereich Wissen: Notizen, Prompts, Tools, Erkenntnisse, Quellen und Lerntagebuch je Kurstag; Themen und Schlagworte; Verknüpfung mit Projekten, Kurs und Kursaufgaben; Suche (Strg+K) und Gesamtsicht.",
+          "order": 3,
+          "weight": 4,
+          "status": "ready",
+          "dependsOn": [
+            "task-5-7"
+          ],
+          "definitionOfDone": [
+            "Wissenseinträge anlegen, bearbeiten, löschen (Typ, Thema, Inhalt, Quelle, Schlagworte)",
+            "Lerntagebuch je Kurstag",
+            "Verknüpfung mit Projekten, Kurs und Kursaufgaben, sichtbar in der Gesamtsicht",
+            "Filter nach Typ, Thema und Schlagwort; Suche über Strg+K"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-9-4",
+          "title": "Abschlussprüfung Roadmap v4",
+          "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-9-1",
+            "task-9-2",
+            "task-9-3"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Neue Seiten bei drei Breiten geprüft",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
           }
         }
       ]

@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 98,82 % (84 von 85 Gewichtspunkten, 36 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v4, Fortschritt 87 % (87 von 100 Gewichtspunkten, 37 von 42 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-5-7 – Passwort-Wiederherstellung per E-Mail-Link (2026-10-07T16:39:58Z). Datenschlüssel v2, Link nur mit Fragment.
 - task-8-4 – Abschlussprüfung Roadmap v3 (2026-10-07T16:05:39Z). 295 Tests, Browser 19 Seiten × 3 Breiten.
 - task-8-3 – Schlagworte und Dubletten (2026-10-07T16:02:13Z). Filter in drei Listen, Warnung bei Dubletten.
 - task-8-2 – Beziehungspflege (2026-10-07T15:57:21Z). Letzter Kontakt, Funkstille, Wie geht es weiter, zuletzt aktiv automatisch.
@@ -53,7 +54,8 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-Keine.
+- task-9-1 – Supabase-Anbindung und Login
+- task-9-3 – Zweites Gehirn: Wissen zu KI und Weiterbildung
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -108,6 +110,7 @@ Keine.
 | task-5-4 | Verschlüsselte Sicherung und Erinnerung | ✅ erledigt |  |
 | task-5-5 | DSGVO-Funktionen für Kontakte | ✅ erledigt |  |
 | task-5-6 | Git-Historie bereinigen | ⛔ blockiert | – |
+| task-5-7 | Passwort-Wiederherstellung per E-Mail-Link | ✅ erledigt |  |
 
 ### Alles verbinden
 
@@ -133,6 +136,15 @@ Keine.
 | task-8-2 | Beziehungspflege | ✅ erledigt |  |
 | task-8-3 | Schlagworte und Dubletten | ✅ erledigt |  |
 | task-8-4 | Abschlussprüfung Roadmap v3 | ✅ erledigt |  |
+
+### Login, verschlüsselte Datenbank und zweites Gehirn
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-9-1 | Supabase-Anbindung und Login | ▶️ startbar | – |
+| task-9-2 | Verschlüsselte Synchronisierung | ⏳ geplant | task-9-1 |
+| task-9-3 | Zweites Gehirn: Wissen zu KI und Weiterbildung | ▶️ startbar | – |
+| task-9-4 | Abschlussprüfung Roadmap v4 | ⏳ geplant | task-9-1, task-9-2, task-9-3 |
 
 ## Blockiert
 
