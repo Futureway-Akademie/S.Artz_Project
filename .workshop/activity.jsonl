@@ -149,3 +149,6 @@
 {"timestamp":"2026-10-07T16:02:12Z","type":"verification_passed","taskId":"task-8-3","summary":"Schlagworte mit Filter und Dubletten-Warnung; 295 Tests grün."}
 {"timestamp":"2026-10-07T16:02:12Z","type":"task_completed","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' abgeschlossen."}
 {"timestamp":"2026-10-07T16:02:12Z","type":"task_ready","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' ist startbar."}
+{"timestamp":"2026-10-07T16:02:18Z","type":"task_started","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' gestartet."}
+{"timestamp":"2026-10-07T16:05:39Z","type":"verification_passed","taskId":"task-8-4","summary":"Abschlussprüfung v3 bestanden: 295 Tests, 19 Seiten × 3 Breiten, Daten nur verschlüsselt."}
+{"timestamp":"2026-10-07T16:05:39Z","type":"task_completed","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' abgeschlossen."}

@@ -1099,7 +1099,7 @@
       "description": "Cockpit für den Tag, Beziehungspflege, Ordnung und Abschlussprüfung.",
       "order": 8,
       "weight": 8,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-8-1",
@@ -1193,7 +1193,7 @@
           "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px, Doku und Prüfprotokoll aktualisieren.",
           "order": 4,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-8-1",
             "task-8-2",
@@ -1206,13 +1206,19 @@
             "Alle Seiten bei drei Breiten geprüft",
             "Architektur, Entscheidungen und Prüfprotokoll aktuell"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T16:02:18Z",
+          "completedAt": "2026-10-07T16:05:39Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, 295 Tests (inkl. axe auf allen Seiten und Dialogen, Datenschutz-Wächter, CSP-Test) und build fehlerfrei; gebaute App im Browser auf allen 19 Seiten bei 375, 768 und 1280 px geprüft (h1, aktive Navigation, kein Überlauf, keine Laufzeitfehler); localStorage enthält nur den verschlüsselten Umschlag; Architektur, Entscheidungen, README und Prüfprotokoll aktualisiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: 19 Seiten × 3 Breiten, localStorage-Prüfung"
+            ],
+            "checkedAt": "2026-10-07T16:05:39Z"
           }
         }
       ]

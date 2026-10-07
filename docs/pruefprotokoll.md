@@ -59,3 +59,66 @@ Detailseiten für Kontakt und Unternehmen sind in den Bedienungstests und der ax
 - Arbeitstage ohne Feiertage.
 - Ältere Browser-Daten übernehmen neue Startdaten nur über „Zurücksetzen“.
 - Projektdetails liegen nur lokal in `src/data/seed.privat.ts`, weil das Repository öffentlich ist. Auf einem anderen Rechner starten die Projekte ohne Details.
+
+---
+
+# Prüfprotokoll Roadmap v3 (task-8-4)
+
+Abschlussprüfung am 2026-10-07 mit der gebauten App (`npm run build` und `npm run preview`, Port 4173) im Browserbereich von Claude Code.
+
+- Für die Prüfung habe ich ein Wegwerf-Testpasswort gesetzt und die Testdaten danach gelöscht.
+- Saschas Daten auf Port 5173 habe ich nicht berührt.
+
+## Automatische Prüfungen
+
+| Befehl | Ergebnis |
+|---|---|
+| `npm run typecheck` | fehlerfrei |
+| `npm run lint` | fehlerfrei |
+| `npm test` | 295 Tests grün |
+| `npm run build` | fehlerfrei |
+
+Die Tests enthalten neu:
+
+- Verschlüsselung und Passwortschutz
+- verschlüsselte Sicherung
+- DSGVO-Funktionen
+- Verknüpfungen und Gesamtsicht
+- Suche, Kalender mit .ics-Export, E-Mail-Vorlagen und Pipeline
+- Fokus, Beziehungspflege, Schlagworte
+- axe-core auf allen neuen Seiten und Dialogen
+- zwei Wächter:
+  - keine persönlichen Begriffe im Repository
+  - keine Netzwerkzugriffe, strikte Content-Security-Policy
+
+## Seiten bei 375, 768 und 1280 px
+
+Geprüft je Breite: Überschrift (h1), aktiver Navigationspunkt (`aria-current`), kein horizontaler Überlauf, keine Laufzeitfehler.
+
+| Seite | 375 | 768 | 1280 |
+|---|---|---|---|
+| `/` Arbeitscockpit (Fokus, Diese Woche, Sicherungs-Erinnerung) | ✓ | ✓ | ✓ |
+| `/projekte`, `/projekte/:id` | ✓ | ✓ | ✓ |
+| `/automationen`, `/weiterbildung`, `/pikartz-ai` | ✓ | ✓ | ✓ |
+| `/aufgaben`, `/aufgaben?ansicht=termine` | ✓ | ✓ | ✓ |
+| `/kalender` (Monat, Woche, Liste) | ✓ | ✓ | ✓ |
+| `/kontakte`, `/kontakte/unternehmen`, `/kontakte/leads`, `/kontakte/vorlagen` | ✓ | ✓ | ✓ |
+| `/bewerbungen`, `/bewerbungen/zielrollen` | ✓ | ✓ | ✓ |
+| `/einstellungen` | ✓ | ✓ | ✓ |
+| Seite nicht gefunden | ✓ | ✓ | ✓ |
+
+- **Detailseiten** von Kontakt, Unternehmen, Lead und Bewerbung sowie die Pipeline mit Einträgen: abgedeckt durch Bedienungstests und axe-Prüfung. Die Startdaten enthalten bewusst keine Kontakte oder Bewerbungen.
+
+## Datenschutz im Browser
+
+- **Speicher:** Im localStorage steht nur der Schlüssel `pikartz-arbeitscockpit` mit dem verschlüsselten Umschlag (`format: pikartz-verschluesselt`). Kein Projekttitel ist im Klartext lesbar.
+- **Sperre:** Nach dem Neuladen ist die App gesperrt; Entsperren funktioniert.
+- **Netzwerk:** Ein Abruf nach außen (`fetch`) wird von der Content-Security-Policy blockiert.
+- **Suche:** Strg+K öffnet die Suche mit Fokus im Suchfeld (Fehler gefunden und behoben, task-6-3).
+
+## Bekannte Einschränkungen
+
+- **Passwort:** Vergessen bedeutet Datenverlust. Die verschlüsselte Sicherung ist das Backup.
+- **Datei-Abrufe:** Downloads (Sicherung, Auskunft, .ics) habe ich auf Saschas Rechner nicht im Browser ausgelöst, sondern über Tests geprüft.
+- **Git-Historie:** Alte Commits auf GitHub enthalten noch persönliche Begriffe (task-5-6, blockiert). Bereinigen geht nur per Force-Push mit Saschas Freigabe oder indem das Repository privat wird.
+- **Vorhandene Browserdaten:** Ältere Daten auf Port 5173 sind noch unverschlüsselt, bis Sascha beim nächsten Öffnen ein Passwort festlegt. Die App fragt danach automatisch.

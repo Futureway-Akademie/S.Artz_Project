@@ -1,6 +1,8 @@
 # PIKARTZ.AI – Arbeitscockpit
 
-Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz: Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI, Kontakte und Leads, Bewerbungen. Web-App (React, Vite, TypeScript). Die Daten liegen im Demo-Modus nur im Browser (localStorage).
+Persönliches Arbeitscockpit mit CRM-Funktionen: Projekte, Aufgaben und Termine, Kalender, Automationen, Weiterbildung, PIKARTZ.AI, Kontakte, Leads, E-Mail-Vorlagen und Bewerbungen – alles miteinander verknüpft. Web-App (React, Vite, TypeScript).
+
+**Datenschutz:** Alle Daten bleiben im Browser, verschlüsselt mit deinem Passwort (AES-256). Es gibt keinen Server, kein Konto und keine Verbindung nach außen. Beim ersten Start legst du ein Passwort fest – vergisst du es, sind die Daten verloren; sichere sie deshalb regelmäßig (verschlüsselte Sicherung in den Einstellungen).
 
 ```bash
 npm install

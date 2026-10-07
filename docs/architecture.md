@@ -80,30 +80,39 @@ Die Felder Kontext-Kategorie, Herkunft, LinkedIn-URL, Ansprechpartner und Quelle
 - Vitest + Testing Library + jsdom, Zeitzone `TZ=Europe/Berlin` in den Tests
 - Datumsfelder als `YYYY-MM-DD` (lokal geparst), Zeitpunkte als ISO; `now` wird an Reducer und Selektoren übergeben
 
-### Ordnerstruktur (umgesetzt)
+### Ordnerstruktur (umgesetzt, Roadmap v3)
 
 ```
+csp.config.ts                 Content-Security-Policy (per Vite-Plugin nur im Build)
 src/
-├─ main.tsx, App.tsx          StoreProvider → StoreGate → ToastProvider → BrowserRouter
-├─ app/                       routes.tsx (alle Routen), StoreGate (Fehlerseite bei defekten Daten)
+├─ main.tsx, App.tsx          TresorGate → StoreProvider → StoreGate → ToastProvider → BrowserRouter
+├─ app/                       routes.tsx, TresorGate (Passwort, Sperre), tresorContext,
+│                             StoreGate (Fehlerseite bei defekten Daten)
 ├─ styles/                    tokens.css, fonts.css, base.css, contrast.ts (+ Kontrast-Test)
-├─ domain/                    types.ts (aus zod abgeleitet), dates.ts, labels.ts,
-│  └─ selectors/              projekte, aufgaben, bezug, automationen, weiterbildung,
-│                             cockpit, crm, leads, bewerbungen (alle mit Tests)
-├─ data/                      schema.ts (zod, Version 2), migrations.ts, storage.ts,
-│                             exportImport.ts, empty.ts, seed.ts (+ lokal seed.privat.ts),
+├─ domain/                    types.ts (aus zod abgeleitet), dates.ts, labels.ts, url.ts
+│  └─ selectors/              projekte, aufgaben, bezug, automationen, weiterbildung, cockpit,
+│                             crm, leads, bewerbungen, datenschutz, verknuepft, suche,
+│                             kalender, vorlagen, beziehung, schlagworte
+├─ data/                      schema.ts (zod, Version 6), migrations.ts (1 → 6), storage.ts,
+│                             krypto.ts (AES-GCM/PBKDF2), tresor.ts (verschlüsselter Speicher),
+│                             sicherung.ts (verschlüsselte Sicherung), exportImport.ts,
+│                             empty.ts, seed.ts (+ lokal seed.privat.ts), vorlagen.ts,
 │                             actions.ts, reducer.ts, activity.ts, store.tsx, storeContext.ts
 ├─ hooks/                     useForm, useNow
 ├─ components/
-│  ├─ layout/                 AppShell, NavList, NavDrawer, Seite, navigation.ts
+│  ├─ layout/                 AppShell (Suche/Neu, Sperren), NavList, NavDrawer, Seite, navigation.ts
 │  ├─ brand/                  Wordmark, Logo (mit Platzhalter), Diamond
-│  └─ ui/                     Button, Field (Text/Textarea/Select), Badge, Panel, Tabs,
-│                             Dialog, FormDialog, ConfirmDialog, Toast, DueLabel, Icon,
-│                             States (Empty/Error/Loading)
+│  └─ ui/                     Button, Field, Badge, Panel, Tabs, Dialog, FormDialog,
+│                             ConfirmDialog, PasswortDialog, Toast, DueLabel, Icon,
+│                             ExternerLink, States
 ├─ features/                  cockpit, projekte, automationen, weiterbildung, marke,
-│                             aufgaben, kontakte (inkl. Unternehmen, Leads), bewerbungen,
-│                             einstellungen, NichtGefunden
-└─ test/                      setup, fakes, renderApp, barrierefreiheit (axe-core)
+│                             aufgaben (inkl. FokusKnopf), kalender, kontakte (Unternehmen,
+│                             Leads, Vorlagen, E-Mail, Datenschutz), bewerbungen (Pipeline),
+│                             gemeinsam (Gesamtsicht), suche (Suche, Schnellerfassung),
+│                             einstellungen (Sicherheit), NichtGefunden
+└─ test/                      setup, fakes, renderApp, beispielStart (fiktive Startdaten),
+                              barrierefreiheit (axe-core), datenschutz (Wächter),
+                              keineVerbindung (CSP und Quellcode)
 public/brand/                 Logos unverändert
 ```
 
@@ -116,21 +125,32 @@ public/brand/                 Logos unverändert
 | `/automationen` | Automationen nach Plattform oder Projekt |
 | `/weiterbildung` | Kurs, Arbeitstage, Kursaufgaben, Fortschritt |
 | `/pikartz-ai` | Marke, Designregeln, Präsentations-System |
-| `/aufgaben` (`?ansicht=termine`) | Aufgaben und Termine |
-| `/kontakte` (`?faellig=1`), `/kontakte/:id` | Kontakte, Kontaktdetail mit Verlauf und Wiedervorlage |
-| `/kontakte/unternehmen`, `/kontakte/unternehmen/:id` | Unternehmen mit Verknüpfungen |
-| `/kontakte/leads` | Leads |
-| `/bewerbungen`, `/bewerbungen/zielrollen` | Bewerbungen, Zielrollen |
-| `/einstellungen` | Anzeigename, Export, Import, Zurücksetzen |
+| `/aufgaben` (`?ansicht=termine`) | Aufgaben (mit Fokus) und Termine |
+| `/kalender` (`?ansicht=monat\|woche\|liste&datum=…`) | Kalender mit Terminen, Fristen, Wiedervorlagen, Kursaufgaben; .ics-Export |
+| `/kontakte` (`?faellig=1`, `?pruefen=1`), `/kontakte/:id` | Kontakte, Kontaktdetail mit Verlauf, Wiedervorlage, E-Mail, Datenschutz, Gesamtsicht |
+| `/kontakte/unternehmen`, `/kontakte/unternehmen/:id` | Unternehmen mit Gesamtsicht |
+| `/kontakte/leads`, `/kontakte/leads/:id` | Leads, Lead-Detail mit Gesamtsicht |
+| `/kontakte/vorlagen` | E-Mail-Vorlagen |
+| `/bewerbungen` (`?ansicht=pipeline`), `/bewerbungen/:id`, `/bewerbungen/zielrollen` | Bewerbungen mit Kennzahlen und Pipeline, Detail, Zielrollen |
+| `/einstellungen` | Speicherung, Sicherheit, Datenschutz, Anzeigename, Sicherung und Import, Zurücksetzen |
 | `*` | Seite nicht gefunden |
 
 ### Qualitätssicherung
 
 - `npm test`: Vitest mit jsdom (Zeitzone Europe/Berlin)
-  - Unit-Tests für Reducer, Speicherschicht, Migration, Seed, Datums-Hilfen und alle Selektoren
-  - Bedienungstests je Bereich (Testing Library)
-  - axe-core-Prüfung aller Seiten
+  - Unit-Tests für Reducer, Speicherschicht, Migrationen, Seed, Verschlüsselung, Datums-Hilfen und alle Selektoren
+  - Bedienungstests je Bereich (Testing Library), inkl. Passwortschutz, Sicherung, Suche, Kalender, E-Mail
+  - axe-core-Prüfung aller Seiten und Dialoge
+  - Wächter: keine persönlichen Begriffe im Repository (`datenschutz.test.ts`), keine Netzwerkzugriffe und strikte CSP (`keineVerbindung.test.tsx`)
 - `npm run lint` (ESLint 9 mit jsx-a11y und react-hooks), `npm run typecheck`, `npm run build`
+
+### Datenschutz und Sicherheit (Roadmap v3)
+
+- Keine Verbindung nach außen (CSP `connect-src 'none'`, keine fremden Skripte, Schriften oder Bilder).
+- Daten im Browser nur verschlüsselt (AES-GCM 256, Schlüssel per PBKDF2-SHA-256 mit 600 000 Runden); Klartext nur im Arbeitsspeicher; automatische Sperre nach Inaktivität.
+- Sicherungen nur verschlüsselt; Auskunft (Art. 15) und Kalenderexport bewusst unverschlüsselt mit Hinweis.
+- Kontakte mit Rechtsgrundlage und Zweck; Löschen entfernt die Person auch aus dem Protokoll; Prüfhinweis nach 12 Monaten.
+- Persönliche Startdaten nur lokal (`seed.privat.ts`), Tests mit fiktiven Daten.
 
 ### Datenmodell (Kern)
 
@@ -143,7 +163,7 @@ public/brand/                 Logos unverändert
     - Routing-Regeln, inklusive Fallback, mit `routingStatus: geplant | umgesetzt`
     - Logik-Hinweise
     - `verbindung: 'nicht_verbunden'` (fest)
-- **Aufgabe**, einheitlich, mit `bezug`: ohne | projekt | weiterbildung | kontakt
+- **Aufgabe**, einheitlich, mit `bezug`: ohne | projekt | weiterbildung | kontakt | unternehmen | lead | bewerbung; `fokus` für den Tagesfokus
   - „Nächste Schritte“ eines Projekts sind Aufgaben mit Projektbezug.
   - `faelligAm` ist nullable.
 - **Termin**: Datum (Pflicht), Uhrzeit optional, Bezug
@@ -151,17 +171,20 @@ public/brand/                 Logos unverändert
 - **Designregel** und **Deck** (PIKARTZ.AI)
 - **CRM**
   - Unternehmen
-  - Kontakt: mit Kontext, Herkunft, LinkedIn, unternehmenId, projektIds, naechsteAktion
-  - Interaktion
-  - Lead: `betragEur: number | null`
-- **Bewerbungen**: Zielrolle; Bewerbung mit Status, Zielrolle, Kontakt, Quelle, Datum, Link und nächstem Schritt
+  - Kontakt: mit Kontext, Herkunft, LinkedIn, unternehmenId, projektIds, naechsteAktion, Rechtsgrundlage, Zweck, Schlagworte
+  - Interaktion (Verlauf): optional zu Projekt, Bewerbung oder Lead; bei E-Mails Betreff und Richtung
+  - Lead: `betragEur: number | null`, Projekt, Wiedervorlage
+  - Vorlage: E-Mail-Vorlage mit Platzhaltern
+- **Bewerbungen**: Zielrolle; Bewerbung mit Status, Zielrolle, Kontakt, Quelle, Datum, Link, nächstem Schritt und Wiedervorlage
 - **Aktivität**: Zeitpunkt, Art, Bezug mit Titel-Snapshot, deutsche Zusammenfassung
-- **Einstellungen**: Anzeigename
-- **AppData**: `schemaVersion: 1` plus alle Listen
+- **Projekt** zusätzlich: Auftraggeber (Unternehmen), Schlagworte, „zuletzt aktiv“ wird automatisch nachgezogen
+- **Einstellungen**: Anzeigename, Zeitpunkt der letzten Sicherung
+- **AppData**: `schemaVersion: 6` plus alle Listen; Migrationen 1 → 6 ohne Datenverlust
 
 ### Zustand und Speicherung
 
 - **Store-Status**: `loading | ready | error`
+- **Verschlüsselung**: Der TresorGate liefert dem StoreProvider einen `VerschluesselterSpeicher`; der Store selbst arbeitet unverändert synchron, geschrieben wird nur der verschlüsselte Umschlag.
 - **Laden**: fehlt der Eintrag, wird der Seed geschrieben. Defektes JSON, ungültiges Schema oder eine neuere Version führt in den Fehlerzustand mit „Rohdaten exportieren“ und „Zurücksetzen“; in diesem Zustand wird nicht automatisch gespeichert. Ist localStorage nicht verfügbar, läuft die App im Speicher weiter und zeigt einen deutlichen Hinweis.
 - **Speichern**: entprellt (400 ms) und zusätzlich bei `pagehide`. Bei Speicherfehler (z. B. Speicher voll) erscheint ein Banner mit Export.
 - **Reiner Reducer**: `now` und `newId` kommen über `meta`.
@@ -176,9 +199,15 @@ public/brand/                 Logos unverändert
 |---|---|
 | `selectBegruessung` | Gruß nach Tageszeit, Name, Datum lang (de-DE) |
 | `selectTagesuebersicht` | heute fällig, überfällig, Termine heute, Arbeitstag ja/nein |
-| `selectNaechsteSchritte` | offene Projektaufgaben und Kontakt-Wiedervorlagen; Reihenfolge: überfällig → mit Frist → ohne Frist |
+| `selectNaechsteSchritte` | offene Projektaufgaben und Wiedervorlagen (Kontakte, laufende Bewerbungen, offene Leads); Reihenfolge: überfällig → mit Frist → ohne Frist |
+| `selectFokus`, `selectWoche` | Aufgaben im Fokus mit Vorschlägen; die nächsten 7 Tage aus den Kalenderdaten |
+| `selectSicherungHinweis` | Erinnerung ohne Sicherung oder ab 7 Tagen |
+| `kalenderEintraege`, `alsIcs` | datierte Einträge aller Bereiche; iCalendar-Export |
+| `selectVerknuepft` | „Alles dazu“ für Kontakt, Unternehmen, Projekt, Bewerbung, Lead (auch indirekt) |
+| `suche` | Volltextsuche mit Relevanz über alle Bereiche |
+| `bewerbungKennzahlen`, `bewerbungPipeline` | Kennzahlen und Spalten je Status |
+| `kontaktpflege`, `kontakteMitPruefbedarf`, `datenauskunft` | letzter Kontakt und Funkstille; DSGVO-Prüfbedarf; Auskunft nach Art. 15 |
 | `selectAktuelleProjekte` | nicht abgeschlossen/pausiert, mit offenen und erledigten Schritten; **kein Prozentwert** |
-| `selectAnstehend` | Aufgaben, Termine und KursAufgaben der nächsten 7 Tage |
 | `selectWeiterbildung` | Kursrelation (vor/laufend/nach), Arbeitstage (gesamt/vergangen/verbleibend, ohne Feiertage); Fortschritt `null`, solange keine Aufgaben eingetragen sind |
 | `selectAutomationenNachPlattform` / `…NachProjekt` | gruppierte Sicht |
 | `selectLetzteAktivitaeten` | neueste zuerst; leer → Leerzustand |

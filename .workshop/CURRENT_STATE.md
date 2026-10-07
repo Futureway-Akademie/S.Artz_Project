@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 96,47 % (82 von 85 Gewichtspunkten, 35 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 98,82 % (84 von 85 Gewichtspunkten, 36 von 37 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-8-4 – Abschlussprüfung Roadmap v3 (2026-10-07T16:05:39Z). 295 Tests, Browser 19 Seiten × 3 Breiten.
 - task-8-3 – Schlagworte und Dubletten (2026-10-07T16:02:13Z). Filter in drei Listen, Warnung bei Dubletten.
 - task-8-2 – Beziehungspflege (2026-10-07T15:57:21Z). Letzter Kontakt, Funkstille, Wie geht es weiter, zuletzt aktiv automatisch.
 - task-8-1 – Cockpit-Fokus (2026-10-07T15:51:09Z). Fokus, Abhaken, Wochenvorschau.
@@ -52,7 +53,7 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-8-4 – Abschlussprüfung Roadmap v3
+Keine.
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -131,7 +132,7 @@ Keine.
 | task-8-1 | Cockpit-Fokus | ✅ erledigt |  |
 | task-8-2 | Beziehungspflege | ✅ erledigt |  |
 | task-8-3 | Schlagworte und Dubletten | ✅ erledigt |  |
-| task-8-4 | Abschlussprüfung Roadmap v3 | ▶️ startbar | – |
+| task-8-4 | Abschlussprüfung Roadmap v3 | ✅ erledigt |  |
 
 ## Blockiert
 
@@ -157,4 +158,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-Roadmap v3 autonom weiter umsetzen (Saschas Freigabe): task-5-2, dann task-5-3. task-5-6 (Historie) wartet auf Saschas Freigabe für den Force-Push oder darauf, dass der Dozent das Repository auf privat stellt.
+Roadmap v3 ist bis auf task-5-6 umgesetzt. Sascha legt beim nächsten Öffnen der App ein Passwort fest (vorhandene Daten werden dabei verschlüsselt) und erstellt eine erste verschlüsselte Sicherung. Für task-5-6 entscheidet Sascha: Force-Push mit umgeschriebener Historie freigeben oder Repository durch den Dozenten auf privat stellen lassen. Danach gemeinsam durch die App gehen und Anpassungen als neue Tasks aufnehmen.
