@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 85,11 % (40 von 47 Gewichtspunkten, 17 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 89,36 % (42 von 47 Gewichtspunkten, 18 von 21 Tasks).
 
 ## Aktive Phase
 
@@ -10,10 +10,11 @@ CRM und Bewerbungen (phase-3).
 
 ## Aktive Aufgabe
 
-task-3-4 – Bewerbungen und Zielrollen (in_progress seit 2026-10-07T13:42:38Z).
+task-3-5 – Cockpit-Bereich für Kontakte und Bewerbungen (in_progress seit 2026-10-07T13:45:34Z).
 
 ## Zuletzt abgeschlossen
 
+- task-3-4 – Bewerbungen und Zielrollen (Pipeline-Status, Zielrolle, Ansprechpartner, Quelle, Link; drei Zielrollen, keine erfundenen Bewerbungen).
 - task-3-3 – Leads (Statusfilter, optionaler Betrag als „Kein Betrag“, Summe nur über hinterlegte Beträge).
 - task-3-2 – Kommunikationsverlauf und nächste Aktion (Wiedervorlage im Cockpit, Verlauf mit Art/Datum/Projekt, Projektzuordnung).
 - task-3-1 – Kontakte und Unternehmen (Kontext, Herkunft, LinkedIn, Suche/Filter, Unternehmen mit verknüpften Kontakten/Bewerbungen/Leads, Löschen mit Bestätigung).
@@ -68,8 +69,8 @@ Keine.
 | task-3-1 | Kontakte und Unternehmen | ✅ erledigt |  |
 | task-3-2 | Kommunikationsverlauf und nächste Aktion | ✅ erledigt |  |
 | task-3-3 | Leads | ✅ erledigt |  |
-| task-3-4 | Bewerbungen und Zielrollen | 🔨 in Arbeit | – |
-| task-3-5 | Cockpit-Bereich für Kontakte und Bewerbungen | ⏳ geplant | task-3-4 |
+| task-3-4 | Bewerbungen und Zielrollen | ✅ erledigt |  |
+| task-3-5 | Cockpit-Bereich für Kontakte und Bewerbungen | 🔨 in Arbeit | – |
 
 ### Abschluss
 

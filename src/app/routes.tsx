@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
 import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
+import { BewerbungenSeite } from '../features/bewerbungen/BewerbungenSeite.tsx'
+import { ZielrollenSeite } from '../features/bewerbungen/ZielrollenSeite.tsx'
 import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
 import { AutomationenSeite } from '../features/automationen/AutomationenSeite.tsx'
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
@@ -10,12 +12,12 @@ import { LeadsSeite } from '../features/kontakte/LeadsSeite.tsx'
 import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSeite.tsx'
 import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
-import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
+import { NichtGefunden } from '../features/NichtGefunden.tsx'
 import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
 import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
 import { ProjekteSeite } from '../features/projekte/ProjekteSeite.tsx'
 
-/** Alle Routen der App. Platzhalter werden durch die Bereichs-Tasks ersetzt. */
+/** Alle Routen der App: neun Bereiche, Unterseiten und „Seite nicht gefunden“. */
 export function AppRoutes() {
   return (
     <Routes>
@@ -37,11 +39,8 @@ export function AppRoutes() {
           <Route path=":id" element={<KontaktDetailSeite />} />
         </Route>
         <Route path="bewerbungen">
-          <Route
-            index
-            element={<Platzhalter titel="Bewerbungen" inhalt="Hier verfolgst du künftig deine Bewerbungen nach Status." />}
-          />
-          <Route path="zielrollen" element={<Platzhalter titel="Zielrollen" inhalt="Hier erscheinen künftig deine Zielrollen." />} />
+          <Route index element={<BewerbungenSeite />} />
+          <Route path="zielrollen" element={<ZielrollenSeite />} />
         </Route>
         <Route path="einstellungen" element={<EinstellungenSeite />} />
         <Route path="*" element={<NichtGefunden />} />

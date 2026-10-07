@@ -549,7 +549,7 @@
           "description": "Bewerbungen und Zielrollen verwalten; drei bekannte Zielrollen vorbefüllt, keine Bewerbungen erfunden.",
           "order": 4,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-3-1"
           ],
@@ -560,12 +560,17 @@
             "Bewerbungen mit Status (Geplant, Beworben, Im Gespräch, Angebot, Absage, Zurückgezogen), Zielrolle, Ansprechpartner (Kontakt), Quelle, Datum, Link und nächstem Schritt"
           ],
           "startedAt": "2026-10-07T13:42:38Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:45:34Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 176 Tests grün, davon 4 für Bewerbungen und Zielrollen: drei vorbefüllte Zielrollen, keine vorbefüllten Bewerbungen; Bewerbung mit Zielrolle, Status, Datum, Quelle (Vorschläge inkl. Jobsuche-Assistent) und Link anlegen; Standardfilter 'laufend', Filter nach Status und Zielrolle, Statusübersicht; Pflichtfeld- und Linkprüfung; Löschen nach Bestätigung; Zielrollen anlegen und bearbeiten mit Zähler je Rolle. Platzhalter-Komponente entfernt, alle neun Bereiche sind umgesetzt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:45:34Z"
           }
         },
         {
@@ -574,7 +579,7 @@
           "description": "Kompakter Bereich im Arbeitscockpit mit berechneten Angaben zu Kontakten und Bewerbungen.",
           "order": 5,
           "weight": 1,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-3-2",
             "task-3-4"
@@ -584,7 +589,7 @@
             "Leerzustand bei fehlenden Kontakten oder Bewerbungen",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:45:34Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
