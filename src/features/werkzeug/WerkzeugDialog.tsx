@@ -6,10 +6,11 @@ import { FormDialog } from '../../components/ui/FormDialog.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { loeschfolgen } from '../../data/reducer.ts'
-import { leeresWerkzeug, schritteAusText, WERKZEUG_STATUS, WERKZEUG_TYP, werkzeugPlattformen } from '../../domain/selectors/werkzeug.ts'
+import { AVV_STATUS, geheimnisVerdacht, INTEGRATION_ART, leeresWerkzeug, schritteAusText, WERKZEUG_STATUS, WERKZEUG_TYP, werkzeugPlattformen } from '../../domain/selectors/werkzeug.ts'
 import type { Werkzeug, WerkzeugTyp } from '../../domain/types.ts'
 import { listeAusKomma, useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from '../aufgaben/AufgabeDialog.module.css'
+import ws from './Werkzeug.module.css'
 
 interface Werte extends Record<string, unknown> {
   titel: string
@@ -24,11 +25,29 @@ interface Werte extends Record<string, unknown> {
   ausloeser: string
   schritte: string
   werkzeugIds: string[]
+  art: string
+  schluesselOrt: string
+  region: string
+  avv: string
+  /** Bestätigt: Der verdächtige Text ist kein Schlüssel */
+  keinGeheimnis: boolean
+}
+
+/** Alle frei eingegebenen Texte – darin darf kein Schlüssel und kein Passwort landen. */
+const freitexte = (w: Werte) => [w.titel, w.beschreibung, w.plattform, w.inhalt, w.version, w.link, w.schlagworte, w.ausloeser, w.schritte, w.schluesselOrt, w.region]
+
+function verdachtIn(werte: Werte): string | null {
+  for (const t of freitexte(werte)) {
+    const v = geheimnisVerdacht(t)
+    if (v) return v
+  }
+  return null
 }
 
 function validiere(werte: Werte): Fehler<Werte> {
   const fehler: Fehler<Werte> = {}
   if (!werte.titel.trim()) fehler.titel = 'Bitte einen Titel eingeben.'
+  if (verdachtIn(werte) && !werte.keinGeheimnis) fehler.keinGeheimnis = 'Bitte den Schlüssel entfernen und nur seinen Ablageort angeben – oder bestätigen, dass es keiner ist.'
   return fehler
 }
 
@@ -67,10 +86,16 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
       ausloeser: basis.ausloeser,
       schritte: basis.schritte.map((s) => s.text).join('\n'),
       werkzeugIds: basis.werkzeugIds,
+      art: basis.integration?.art ?? 'mcp',
+      schluesselOrt: basis.integration?.schluesselOrt ?? '',
+      region: basis.integration?.region ?? '',
+      avv: basis.integration?.avv ?? '',
+      keinGeheimnis: false,
     },
     validiere,
   )
   const { werte, setze, fehler } = form
+  const verdacht = verdachtIn(werte)
   // Andere Werkzeuge zum Verknüpfen; Integrationen zuerst (Werkzeuge eines Agenten)
   const andere = data.werkzeug
     .filter((w) => w.id !== eintrag?.id)
@@ -92,6 +117,15 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
       ausloeser: info.ausloeser ? g.ausloeser.trim() : basis.ausloeser,
       schritte: info.schritte ? schritteAusText(g.schritte, basis.schritte) : basis.schritte,
       werkzeugIds: g.werkzeugIds.filter((id) => andere.some((w) => w.id === id)),
+      integration:
+        typ === 'integration'
+          ? {
+              art: g.art as NonNullable<Werkzeug['integration']>['art'],
+              schluesselOrt: g.schluesselOrt.trim(),
+              region: g.region.trim(),
+              avv: (g.avv || null) as NonNullable<Werkzeug['integration']>['avv'],
+            }
+          : basis.integration,
     }
     if (eintrag) {
       dispatch({
@@ -153,6 +187,28 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
             }))}
           />
         </div>
+        {typ === 'integration' && (
+          <fieldset className={styles.gruppe}>
+            <legend>Zugang und Datenschutz</legend>
+            <div className={styles.zeile}>
+              <SelectField label="Art" required value={werte.art} onChange={(e) => setze('art', e.target.value)} options={Object.entries(INTEGRATION_ART).map(([value, label]) => ({ value, label }))} />
+              <SelectField
+                label="Auftragsverarbeitung (AVV)"
+                value={werte.avv}
+                onChange={(e) => setze('avv', e.target.value)}
+                placeholder="Noch offen"
+                options={Object.entries(AVV_STATUS).map(([value, label]) => ({ value, label }))}
+              />
+            </div>
+            <TextField
+              label="Ablageort der Zugangsdaten"
+              value={werte.schluesselOrt}
+              onChange={(e) => setze('schluesselOrt', e.target.value)}
+              hint="Nur wo der Schlüssel liegt, z. B. „Passwortmanager › Supabase“ – nie den Schlüssel selbst."
+            />
+            <TextField label="Region der Daten" value={werte.region} onChange={(e) => setze('region', e.target.value)} hint="z. B. EU (Frankfurt), USA" />
+          </fieldset>
+        )}
         <TextAreaField
           label={info.inhalt.label}
           value={werte.inhalt}
@@ -168,6 +224,22 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
           <TextField label="Link" type="url" value={werte.link} onChange={(e) => setze('link', e.target.value)} hint="Doku oder Quelle" />
         </div>
         <TextField label="Schlagworte" value={werte.schlagworte} onChange={(e) => setze('schlagworte', e.target.value)} hint="Mehrere mit Komma trennen." />
+        {verdacht && (
+          <div className={ws.warnung} role="alert">
+            <p>
+              <strong>Achtung: Das sieht aus wie ein {verdacht}.</strong> Zugangsdaten gehören in deinen Passwortmanager. Trag hier nur ein, wo sie liegen.
+            </p>
+            <label className={styles.check}>
+              <input type="checkbox" checked={werte.keinGeheimnis} onChange={(e) => setze('keinGeheimnis', e.target.checked)} aria-describedby={fehler.keinGeheimnis ? `${plattformListe}-geheimnis` : undefined} />
+              Ist kein Schlüssel – trotzdem speichern
+            </label>
+            {fehler.keinGeheimnis && (
+              <p id={`${plattformListe}-geheimnis`} className={ws.fehler}>
+                {fehler.keinGeheimnis}
+              </p>
+            )}
+          </div>
+        )}
         {(data.projekte.length > 0 || andere.length > 0) && (
           <fieldset className={styles.gruppe}>
             <legend>Verknüpfungen</legend>

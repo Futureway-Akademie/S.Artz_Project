@@ -242,3 +242,40 @@ export function schritteAusText(text: string, vorher: Schritt[] = []): Schritt[]
 export function schrittFortschritt(w: Pick<Werkzeug, 'schritte'>): { erledigt: number; gesamt: number } {
   return { erledigt: w.schritte.filter((s) => s.erledigt).length, gesamt: w.schritte.length }
 }
+
+export const INTEGRATION_ART: Record<NonNullable<Werkzeug['integration']>['art'], string> = {
+  mcp: 'MCP-Server',
+  api: 'API',
+  app: 'App',
+  sonstige: 'Sonstige',
+}
+
+export const AVV_STATUS: Record<NonNullable<NonNullable<Werkzeug['integration']>['avv']>, string> = {
+  ja: 'Abgeschlossen',
+  nein: 'Fehlt',
+  nicht_noetig: 'Nicht nötig (keine personenbezogenen Daten)',
+}
+
+/** Typische Formen von Schlüsseln, Tokens und Passwörtern */
+const GEHEIMNIS_MUSTER: Array<[RegExp, string]> = [
+  [/-----BEGIN [A-Z ]*PRIVATE KEY-----/, 'privater Schlüssel'],
+  [/\bsk-(?:ant-|proj-)?[A-Za-z0-9_-]{16,}/, 'API-Schlüssel (sk-…)'],
+  [/\b(?:ghp|gho|ghs|ghu)_[A-Za-z0-9]{20,}|\bgithub_pat_[A-Za-z0-9_]{20,}/, 'GitHub-Token'],
+  [/\bAKIA[0-9A-Z]{16}\b/, 'AWS-Schlüssel'],
+  [/\bAIza[0-9A-Za-z_-]{30,}/, 'Google-API-Schlüssel'],
+  [/\bxox[abprs]-[A-Za-z0-9-]{10,}/, 'Slack-Token'],
+  [/\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/, 'Token (JWT)'],
+  [/\b(?:passwor[dt]|password|pwd|secret|api[_-]?key|token)\s*[:=]\s*\S{6,}/i, 'Passwort oder Schlüssel'],
+]
+
+/**
+ * Prüft, ob ein Text wie ein Schlüssel oder Passwort aussieht. Liefert die Art des Verdachts oder null.
+ * Zusätzlich gelten lange Zeichenfolgen aus Groß-, Kleinbuchstaben und Ziffern ohne Leerzeichen als verdächtig.
+ */
+export function geheimnisVerdacht(text: string): string | null {
+  for (const [muster, art] of GEHEIMNIS_MUSTER) if (muster.test(text)) return art
+  for (const wort of text.split(/[\s"'`,;()<>[\]{}]+/)) {
+    if (wort.length >= 32 && /^[A-Za-z0-9_\-+/=.]+$/.test(wort) && /[a-z]/.test(wort) && /[A-Z]/.test(wort) && /\d/.test(wort) && !/^https?:/.test(wort)) return 'Schlüssel oder Token'
+  }
+  return null
+}

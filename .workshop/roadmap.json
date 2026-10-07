@@ -1551,7 +1551,7 @@
           "description": "Anleitungen zum Installieren oder Implementieren mit abhakbaren Schritten und Fortschritt; Integrationen (MCP-Server, API, App) mit Status, Doku-Link, Ablageort der Zugangsdaten (nie der Schlüssel selbst) und Datenschutz-Angaben.",
           "order": 4,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1561,12 +1561,16 @@
             "Warnung, wenn etwas wie ein Schlüssel oder Passwort eingegeben wird"
           ],
           "startedAt": "2026-10-07T23:23:42Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T23:27:07Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Anleitungen mit abhakbaren Schritten und Fortschrittsbalken; Integrationen mit Art (MCP/API/App), Status, Doku-Link, Ablageort der Zugangsdaten, Region und AVV samt Hinweis. Schlüssel-/Passwort-Erkennung in allen Feldern: Warnung, Speichern erst nach Entfernen oder Bestätigung. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:27:07Z"
           }
         },
         {
@@ -1575,7 +1579,7 @@
           "description": "Modelle und Abos mit Anbieter, Kosten pro Monat, Abrechnung, Verlängerung und Kündigungsfrist; Summe im Dashboard, Kündigungsfristen im Kalender und Cockpit.",
           "order": 5,
           "weight": 2,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1584,7 +1588,7 @@
             "Monatliche Gesamtkosten im Werkzeugkasten und Dashboard",
             "Kündigungsfrist erscheint im Kalender und im Cockpit"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T23:27:07Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

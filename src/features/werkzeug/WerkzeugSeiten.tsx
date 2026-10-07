@@ -13,6 +13,8 @@ import { useStore } from '../../data/storeContext.ts'
 import { formatZeitpunkt } from '../../domain/dates.ts'
 import { alleSchlagworte } from '../../domain/selectors/schlagworte.ts'
 import {
+  AVV_STATUS,
+  INTEGRATION_ART,
   LEERER_WERKZEUG_FILTER,
   MIT_PLATZHALTERN,
   promptPlatzhalter,
@@ -187,6 +189,7 @@ function WerkzeugListe({ typ }: { typ: WerkzeugTyp }) {
                         Kopieren
                       </Button>
                     )}
+                    {w.integration && <Badge>{INTEGRATION_ART[w.integration.art]}</Badge>}
                     <Badge tone={statusTon(w.status)}>{WERKZEUG_STATUS[w.status]}</Badge>
                   </div>
                 </li>
@@ -254,6 +257,23 @@ export function WerkzeugDetailSeite() {
           </Panel>
           {mitPlatzhaltern && <Ausfuellen key={w.inhalt} text={w.inhalt} label={info.inhalt.label} />}
           {info.schritte && <Schritte werkzeug={w} abhaken={info.schritte.abhaken} />}
+          {w.integration && (
+            <Panel titel="Zugang und Datenschutz">
+              <dl className={crm.daten}>
+                <dt>Art</dt>
+                <dd>{INTEGRATION_ART[w.integration.art]}</dd>
+                <dt>Zugangsdaten</dt>
+                <dd>{w.integration.schluesselOrt ? `liegen in: ${w.integration.schluesselOrt}` : 'Ablageort nicht notiert'}</dd>
+                <dt>Region</dt>
+                <dd>{w.integration.region || 'Nicht angegeben'}</dd>
+                <dt>AVV</dt>
+                <dd>{w.integration.avv ? AVV_STATUS[w.integration.avv] : 'Noch offen'}</dd>
+              </dl>
+              {w.integration.avv !== 'ja' && w.integration.avv !== 'nicht_noetig' && (
+                <p className={styles.hinweis}>Ohne Auftragsverarbeitungsvertrag keine personenbezogenen Daten (z. B. Kontakte) über diese Integration verarbeiten.</p>
+              )}
+            </Panel>
+          )}
         </div>
         <div className={crm.spalte}>
           <Panel titel="Angaben">

@@ -2,7 +2,7 @@ import { act, fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { reducer } from '../../data/reducer.ts'
 import { suche } from '../../domain/selectors/suche.ts'
 import { selectVerknuepft } from '../../domain/selectors/verknuepft.ts'
-import { leeresWerkzeug, promptAusfuellen, promptPlatzhalter, schritteAusText, werkzeugListe, werkzeugVerknuepft, werkzeugZaehler } from '../../domain/selectors/werkzeug.ts'
+import { geheimnisVerdacht, leeresWerkzeug, promptAusfuellen, promptPlatzhalter, schritteAusText, werkzeugListe, werkzeugVerknuepft, werkzeugZaehler } from '../../domain/selectors/werkzeug.ts'
 import type { AppData, Werkzeug } from '../../domain/types.ts'
 import { beispielSeed } from '../../test/beispielStart.ts'
 import { createMeta } from '../../test/fakes.ts'
@@ -70,7 +70,45 @@ describe('Werkzeugkasten', () => {
     ])
   })
 
+  it('erkennt Schlüssel und Passwörter, aber keine normalen Texte', () => {
+    expect(geheimnisVerdacht('sk-ant-TESTTESTTESTTESTTEST')).toBe('API-Schlüssel (sk-…)')
+    expect(geheimnisVerdacht('Passwort: Geheim123!')).toBe('Passwort oder Schlüssel')
+    expect(geheimnisVerdacht('Token AbCdEfGh1234567890IjKlMnOpQrStUv')).toBe('Schlüssel oder Token')
+    expect(geheimnisVerdacht('Passwortmanager › Supabase')).toBeNull()
+    expect(geheimnisVerdacht('https://supabase.com/docs/guides/getting-started/mcp?queryGroups=Client123')).toBeNull()
+    expect(geheimnisVerdacht('Fasse {{text}} in drei Punkten zusammen.')).toBeNull()
+    expect(geheimnisVerdacht('3f2a9c1e-5b7d-4e2a-9c1e-5b7d4e2a9c1e')).toBeNull()
+  })
+
   describe('Bedienung', () => {
+    it('speichert Integrationen mit Datenschutz-Angaben und warnt vor Schlüsseln', () => {
+      const { gespeichert } = renderApp('/werkzeug/integrationen')
+      fireEvent.click(screen.getAllByRole('button', { name: 'Neu: Integration' })[0]!)
+      const dialog = screen.getByRole('dialog', { name: 'Neu: Integration' })
+      fireEvent.change(within(dialog).getByLabelText(/^Titel/), { target: { value: 'Supabase MCP' } })
+      fireEvent.change(within(dialog).getByLabelText(/^Art/), { target: { value: 'mcp' } })
+      fireEvent.change(within(dialog).getByLabelText(/^Auftragsverarbeitung/), { target: { value: 'ja' } })
+      fireEvent.change(within(dialog).getByLabelText(/^Region/), { target: { value: 'EU (Frankfurt)' } })
+      fireEvent.change(within(dialog).getByLabelText(/^Ablageort/), { target: { value: 'sk-ant-TESTTESTTESTTESTTEST' } })
+      expect(within(dialog).getByRole('alert')).toHaveTextContent('API-Schlüssel')
+      fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
+      expect(screen.getByRole('dialog', { name: 'Neu: Integration' })).toBeInTheDocument()
+      expect(within(dialog).getByRole('alert')).toHaveTextContent('Bitte den Schlüssel entfernen')
+
+      fireEvent.change(within(dialog).getByLabelText(/^Ablageort/), { target: { value: 'Passwortmanager › Supabase' } })
+      expect(within(dialog).queryByRole('alert')).toBeNull()
+      fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
+      const panel = screen.getByRole('region', { name: 'Zugang und Datenschutz' })
+      expect(panel).toHaveTextContent('liegen in: Passwortmanager › Supabase')
+      expect(panel).toHaveTextContent('Abgeschlossen')
+      act(() => {
+        window.dispatchEvent(new Event('pagehide'))
+      })
+      expect(gespeichert().werkzeug[0]!.integration).toEqual({ art: 'mcp', schluesselOrt: 'Passwortmanager › Supabase', region: 'EU (Frankfurt)', avv: 'ja' })
+      expect(JSON.stringify(gespeichert())).not.toContain('sk-ant-')
+    })
+
+
     it('verknüpft einen Agenten mit einer Integration – sichtbar in beide Richtungen', () => {
       const d = { ...daten(), werkzeug: daten().werkzeug.map((w) => (w.id === 'a1' ? { ...w, werkzeugIds: [] } : w)) }
       renderApp('/werkzeug/agenten/a1', { daten: d })
