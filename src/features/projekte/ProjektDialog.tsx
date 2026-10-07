@@ -5,6 +5,7 @@ import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { KEIN_STATUS, optionen, PROJEKT_STATUS } from '../../domain/labels.ts'
 import { projektKategorien } from '../../domain/selectors/projekte.ts'
+import { projektDublette } from '../../domain/selectors/schlagworte.ts'
 import type { Projekt, ProjektStatus } from '../../domain/types.ts'
 import { listeAusKomma, listeAusZeilen, useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from './ProjektDialog.module.css'
@@ -58,6 +59,7 @@ export function ProjektDialog({ projekt, onSchliessen, onAngelegt }: ProjektDial
     validiereProjekt,
   )
   const { werte, setze, fehler } = form
+  const dublette = projektDublette(data, werte.titel, projekt?.id)
 
   const speichern = () => {
     const gueltig = form.pruefen()
@@ -96,7 +98,14 @@ export function ProjektDialog({ projekt, onSchliessen, onAngelegt }: ProjektDial
       onSpeichern={speichern}
       onSchliessen={onSchliessen}
     >
-      <TextField label="Titel" required value={werte.titel} onChange={(e) => setze('titel', e.target.value)} error={fehler.titel} />
+      <TextField
+        label="Titel"
+        required
+        value={werte.titel}
+        onChange={(e) => setze('titel', e.target.value)}
+        error={fehler.titel}
+        hint={dublette ? `Ein Projekt „${dublette}“ gibt es schon.` : undefined}
+      />
       <div className={styles.zeile}>
         <TextField
           label="Kategorie"

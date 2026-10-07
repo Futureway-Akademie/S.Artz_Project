@@ -1165,7 +1165,7 @@
           "description": "Schlagworte für Kontakte, Unternehmen und Projekte mit Filter; Warnung bei möglichen Dubletten.",
           "order": 3,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-6-2"
           ],
@@ -1173,13 +1173,18 @@
             "Schlagworte erfassen und filtern",
             "Warnung bei gleichem Namen oder gleicher E-Mail"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:57:27Z",
+          "completedAt": "2026-10-07T16:02:12Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Schlagworte für Kontakte, Unternehmen und Projekte mit Erfassung, Anzeige und Filter (schreibweisenunabhängig), Suche über Schlagworte; nicht blockierende Dubletten-Warnung bei Kontakten (Name/E-Mail) und Projekten (Titel). 295 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T16:02:12Z"
           }
         },
         {
@@ -1188,7 +1193,7 @@
           "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px, Doku und Prüfprotokoll aktualisieren.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-8-1",
             "task-8-2",

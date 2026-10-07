@@ -145,3 +145,7 @@
 {"timestamp":"2026-10-07T15:51:15Z","type":"task_started","taskId":"task-8-2","summary":"Task 'Beziehungspflege' gestartet."}
 {"timestamp":"2026-10-07T15:57:21Z","type":"verification_passed","taskId":"task-8-2","summary":"Letzter Kontakt, Funkstille, nächste Aktion nach Gespräch, zuletzt aktiv automatisch; 290 Tests grün."}
 {"timestamp":"2026-10-07T15:57:21Z","type":"task_completed","taskId":"task-8-2","summary":"Task 'Beziehungspflege' abgeschlossen."}
+{"timestamp":"2026-10-07T15:57:27Z","type":"task_started","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' gestartet."}
+{"timestamp":"2026-10-07T16:02:12Z","type":"verification_passed","taskId":"task-8-3","summary":"Schlagworte mit Filter und Dubletten-Warnung; 295 Tests grün."}
+{"timestamp":"2026-10-07T16:02:12Z","type":"task_completed","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' abgeschlossen."}
+{"timestamp":"2026-10-07T16:02:12Z","type":"task_ready","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' ist startbar."}

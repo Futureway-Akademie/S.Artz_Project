@@ -423,3 +423,13 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - **„Zuletzt aktiv“ automatisch:**
   - Wer eine Aufgabe, einen Termin, einen Verlaufseintrag oder einen Lead mit Projektbezug anlegt oder ändert, setzt das Projekt auf heute.
   - Das passiert im Reducer, nie rückwärts, ohne eigenen Protokolleintrag. Der Status des Projekts bleibt manuell.
+
+## 2026-10-07 – Schlagworte und Dubletten (task-8-3)
+
+- **Schlagworte** (Felder seit Schema v5) bei Kontakten, Unternehmen und Projekten:
+  - im Dialog kommagetrennt erfassen; in Listen als `#Badge`, auf Detailseiten als Zeile.
+  - Filter „Schlagwort“ in allen drei Listen, nur sichtbar, wenn es Schlagworte gibt. Groß-/Kleinschreibung spielt keine Rolle.
+  - Die Suche (Strg+K und Listensuche) findet auch Schlagworte.
+- **Dubletten-Warnung:**
+  - Kontakt bei gleichem Namen oder gleicher E-Mail, Projekt bei gleichem Titel; beim Unternehmen gab es sie schon.
+  - Die Warnung blockiert nicht, weil zwei Personen gleich heißen können.

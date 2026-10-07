@@ -157,3 +157,9 @@
 .platzhalter {
   display: contents;
 }
+
+.schlagworte {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}

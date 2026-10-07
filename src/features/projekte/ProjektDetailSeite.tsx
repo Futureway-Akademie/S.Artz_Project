@@ -104,6 +104,8 @@ export function ProjektDetailSeite() {
               hint="Du setzt den Status selbst; er ändert sich nie automatisch."
             />
             <dl className={styles.daten}>
+              <dt>Schlagworte</dt>
+              <dd>{projekt.schlagworte.length > 0 ? projekt.schlagworte.map((s) => `#${s}`).join(' ') : 'Keine'}</dd>
               <dt>Auftraggeber</dt>
               <dd>{auftraggeber ? <Link to={'/kontakte/unternehmen/' + auftraggeber.id}>{auftraggeber.name}</Link> : 'Nicht hinterlegt'}</dd>
               <dt>Zuletzt aktiv</dt>

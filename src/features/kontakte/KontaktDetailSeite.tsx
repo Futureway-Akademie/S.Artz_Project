@@ -101,6 +101,8 @@ export function KontaktDetailSeite() {
                   </>
                 )}
               </dd>
+              <dt>Schlagworte</dt>
+              <dd>{kontakt.schlagworte.length > 0 ? kontakt.schlagworte.map((s) => `#${s}`).join(' ') : 'Keine'}</dd>
               <dt>Herkunft</dt>
               <dd>{kontakt.herkunft || 'Nicht hinterlegt'}</dd>
             </dl>

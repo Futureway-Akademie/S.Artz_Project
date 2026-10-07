@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { alleSchlagworte } from '../../domain/selectors/schlagworte.ts'
 import { Link, useNavigate } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Badge } from '../../components/ui/Badge.tsx'
@@ -28,7 +29,8 @@ export function ProjekteSeite() {
 
   const zeilen = useMemo(() => projektListe(data, filter), [data, filter])
   const zaehler = projektZaehler(data)
-  const gefiltert = filter.suche !== '' || filter.status !== 'alle' || filter.kategorie !== ''
+  const gefiltert = filter.suche !== '' || filter.status !== 'alle' || filter.kategorie !== '' || filter.schlagwort !== ''
+  const schlagworte = alleSchlagworte(data.projekte)
 
   const einleitung =
     zaehler.gesamt === 0
@@ -66,6 +68,16 @@ export function ProjekteSeite() {
             placeholder="Alle"
             options={projektKategorien(data).map((k) => ({ value: k, label: k }))}
           />
+          {schlagworte.length > 0 && (
+            <SelectField
+              label="Schlagwort"
+              optionalKennzeichnen={false}
+              value={filter.schlagwort}
+              onChange={(e) => setFilter({ ...filter, schlagwort: e.target.value })}
+              placeholder="Alle"
+              options={schlagworte.map((s) => ({ value: s, label: s }))}
+            />
+          )}
         </div>
       )}
 

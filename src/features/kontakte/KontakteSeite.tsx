@@ -11,6 +11,7 @@ import { KONTEXT } from '../../domain/labels.ts'
 import { kontaktListe, LEERER_KONTAKT_FILTER, unternehmenName, type KontaktFilter } from '../../domain/selectors/crm.ts'
 import { kontakteMitPruefbedarf, PRUEFUNG_NACH_MONATEN } from '../../domain/selectors/datenschutz.ts'
 import { kontaktpflege, vorTagen } from '../../domain/selectors/beziehung.ts'
+import { alleSchlagworte } from '../../domain/selectors/schlagworte.ts'
 import type { AppData, Kontakt } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import styles from './crm.module.css'
@@ -30,6 +31,7 @@ export function KontakteSeite() {
   const [filter, setFilter] = useState<KontaktFilter>({ ...LEERER_KONTAKT_FILTER, nurFaellig: params.get('faellig') === '1', nurPruefen: params.get('pruefen') === '1' })
   const [anlegen, setAnlegen] = useState(false)
   const kontakte = useMemo(() => kontaktListe(data, filter, now), [data, filter, now])
+  const schlagworte = alleSchlagworte(data.kontakte)
   const pruefbedarf = useMemo(() => kontakteMitPruefbedarf(data, now).length, [data, now])
 
   return (
@@ -65,6 +67,16 @@ export function KontakteSeite() {
               onChange={(e) => setFilter({ ...filter, kontext: e.target.value as KontaktFilter['kontext'] })}
               options={[{ value: 'alle', label: 'Alle' }, ...Object.entries(KONTEXT).map(([value, label]) => ({ value, label }))]}
             />
+            {schlagworte.length > 0 && (
+              <SelectField
+                label="Schlagwort"
+                optionalKennzeichnen={false}
+                value={filter.schlagwort}
+                onChange={(e) => setFilter({ ...filter, schlagwort: e.target.value })}
+                placeholder="Alle"
+                options={schlagworte.map((s) => ({ value: s, label: s }))}
+              />
+            )}
             <label className={styles.check}>
               <input type="checkbox" checked={filter.nurFaellig} onChange={(e) => setFilter({ ...filter, nurFaellig: e.target.checked })} />
               Mit fälliger Aktion
@@ -103,6 +115,13 @@ export function KontakteSeite() {
                       <span className={styles.unter}>{[k.rolle, firma].filter(Boolean).join(' · ') || 'Keine Rolle oder Firma hinterlegt'}</span>
                       {k.naechsteAktion && <span>Nächste Aktion: {k.naechsteAktion.text}</span>}
                       <span className={styles.unter}>{pflegeText(data, k, now)}</span>
+                      {k.schlagworte.length > 0 && (
+                        <span className={styles.schlagworte}>
+                          {k.schlagworte.map((s) => (
+                            <Badge key={s}>#{s}</Badge>
+                          ))}
+                        </span>
+                      )}
                     </div>
                     <div className={styles.meta}>
                       {kontaktpflege(data, k, now).funkstille && <Badge tone="warning">Funkstille</Badge>}

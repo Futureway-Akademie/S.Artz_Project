@@ -83,6 +83,8 @@ export function UnternehmenDetailSeite() {
         <div className={styles.spalte}>
           <Panel titel="Angaben">
             <dl className={styles.daten}>
+              <dt>Schlagworte</dt>
+              <dd>{unternehmen.schlagworte.length > 0 ? unternehmen.schlagworte.map((s) => `#${s}`).join(' ') : 'Keine'}</dd>
               <dt>Branche</dt>
               <dd>{unternehmen.branche || 'Nicht hinterlegt'}</dd>
               <dt>Website</dt>

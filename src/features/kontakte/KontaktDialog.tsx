@@ -3,6 +3,7 @@ import { FormDialog } from '../../components/ui/FormDialog.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { KONTEXT, optionen, RECHTSGRUNDLAGE } from '../../domain/labels.ts'
+import { kontaktDubletten } from '../../domain/selectors/schlagworte.ts'
 import type { Kontakt } from '../../domain/types.ts'
 import { listeAusKomma, useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from '../aufgaben/AufgabeDialog.module.css'
@@ -59,6 +60,7 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
     validiere,
   )
   const { werte, setze, fehler } = form
+  const dubletten = kontaktDubletten(data, { name: werte.name, email: werte.email }, kontakt?.id)
 
   const speichern = () => {
     const g = form.pruefen()
@@ -93,6 +95,12 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
   return (
     <FormDialog offen titel={kontakt ? 'Kontakt bearbeiten' : 'Kontakt anlegen'} geaendert={form.geaendert} onSpeichern={speichern} onSchliessen={onSchliessen}>
       <TextField label="Name" required value={werte.name} onChange={(e) => setze('name', e.target.value)} error={fehler.name} />
+      {dubletten.length > 0 && (
+        <p className={styles.hinweis} role="status">
+          Möglicherweise doppelt:{' '}
+          {dubletten.map((d) => `„${d.name}“ (${d.grund === 'email' ? 'gleiche E-Mail' : 'gleicher Name'})`).join(', ')}
+        </p>
+      )}
       <div className={styles.zeile}>
         <TextField label="Rolle" value={werte.rolle} onChange={(e) => setze('rolle', e.target.value)} hint="z. B. Recruiterin, Dozent" />
         <SelectField

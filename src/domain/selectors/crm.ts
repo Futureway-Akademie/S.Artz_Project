@@ -1,5 +1,6 @@
 import { heute, nachFrist } from '../dates.ts'
 import { kontaktpflege } from './beziehung.ts'
+import { hatSchlagwort } from './schlagworte.ts'
 import { kontakteMitPruefbedarf } from './datenschutz.ts'
 import { BEWERBUNG_STATUS, LEAD_STATUS } from '../labels.ts'
 import { bewerbungenNachStatus } from './bewerbungen.ts'
@@ -16,9 +17,11 @@ export interface KontaktFilter {
   nurPruefen: boolean
   /** Nur Kontakte ohne Verlaufseintrag seit 60 Tagen */
   nurFunkstille: boolean
+  /** Leer = alle */
+  schlagwort: string
 }
 
-export const LEERER_KONTAKT_FILTER: KontaktFilter = { suche: '', kontext: 'alle', nurFaellig: false, nurPruefen: false, nurFunkstille: false }
+export const LEERER_KONTAKT_FILTER: KontaktFilter = { suche: '', kontext: 'alle', nurFaellig: false, nurPruefen: false, nurFunkstille: false, schlagwort: '' }
 
 export function unternehmenName(data: AppData, id: string | null): string | null {
   return id ? (data.unternehmen.find((u) => u.id === id)?.name ?? null) : null
@@ -36,12 +39,13 @@ export function kontaktListe(data: AppData, filter: KontaktFilter, now: Date): K
   return data.kontakte
     .filter((k) => !filter.nurPruefen || pruefen.has(k.id))
     .filter((k) => !filter.nurFunkstille || kontaktpflege(data, k, now).funkstille)
+    .filter((k) => hatSchlagwort(k, filter.schlagwort))
     .filter((k) => filter.kontext === 'alle' || k.kontext === filter.kontext)
     .filter((k) => !filter.nurFaellig || istAktionFaellig(k, now))
     .filter(
       (k) =>
         !suche ||
-        [k.name, k.rolle, k.email, k.herkunft, k.notiz, unternehmenName(data, k.unternehmenId) ?? '', k.naechsteAktion?.text ?? '']
+        [k.name, k.rolle, k.email, k.herkunft, k.notiz, ...k.schlagworte, unternehmenName(data, k.unternehmenId) ?? '', k.naechsteAktion?.text ?? '']
           .join(' ')
           .toLowerCase()
           .includes(suche),
@@ -72,10 +76,11 @@ export function unternehmenVerknuepfungen(data: AppData, id: string): Unternehme
   }
 }
 
-export function unternehmenListe(data: AppData, suche: string): Array<{ unternehmen: Unternehmen } & UnternehmenVerknuepfungen> {
+export function unternehmenListe(data: AppData, suche: string, schlagwort = ''): Array<{ unternehmen: Unternehmen } & UnternehmenVerknuepfungen> {
   const s = suche.trim().toLowerCase()
   return data.unternehmen
-    .filter((u) => !s || `${u.name} ${u.branche} ${u.notiz}`.toLowerCase().includes(s))
+    .filter((u) => !s || `${u.name} ${u.branche} ${u.notiz} ${u.schlagworte.join(' ')}`.toLowerCase().includes(s))
+    .filter((u) => hatSchlagwort(u, schlagwort))
     .sort((a, b) => a.name.localeCompare(b.name, 'de'))
     .map((unternehmen) => ({ unternehmen, ...unternehmenVerknuepfungen(data, unternehmen.id) }))
 }

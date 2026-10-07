@@ -33,12 +33,12 @@ describe('Projekt-Selektoren', () => {
   })
 
   it('filtert nach Suche, Status und Kategorie', () => {
-    expect(projektListe(seed, { suche: 'godot', status: 'alle', kategorie: '' }).map((z) => z.projekt.titel)).toEqual([
+    expect(projektListe(seed, { suche: 'godot', status: 'alle', kategorie: '', schlagwort: '' }).map((z) => z.projekt.titel)).toEqual([
       'Lerntagebuch',
     ])
-    expect(projektListe(seed, { suche: '', status: 'idee', kategorie: '' })).toHaveLength(1)
-    expect(projektListe(seed, { suche: '', status: 'alle', kategorie: 'Karriere' })).toHaveLength(4)
-    expect(projektListe(seed, { suche: 'gibt es nicht', status: 'alle', kategorie: '' })).toEqual([])
+    expect(projektListe(seed, { suche: '', status: 'idee', kategorie: '', schlagwort: '' })).toHaveLength(1)
+    expect(projektListe(seed, { suche: '', status: 'alle', kategorie: 'Karriere', schlagwort: '' })).toHaveLength(4)
+    expect(projektListe(seed, { suche: 'gibt es nicht', status: 'alle', kategorie: '', schlagwort: '' })).toEqual([])
   })
 
   it('sortiert offene Schritte nach Frist, ohne Frist zuletzt', () => {
