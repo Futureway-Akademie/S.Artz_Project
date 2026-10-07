@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 1
+export const SCHEMA_VERSION = 2
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -51,8 +51,12 @@ export const automationProfilSchema = z.object({
 export const projektSchema = z.object({
   ...meta,
   titel: z.string().min(1),
+  /** z. B. Karriere, Weiterbildung, Kundenprojekt; leer, wenn nicht belegt */
+  kategorie: z.string(),
   beschreibung: z.string(),
   status: z.enum(['idee', 'in_arbeit', 'pausiert', 'abgeschlossen']).nullable(),
+  /** Letzter bekannter Arbeitstag am Projekt */
+  zuletztAktiv: datum.nullable(),
   tools: z.array(z.string()),
   bestandteile: z.array(z.string()),
   notizen: z.string(),
@@ -83,6 +87,12 @@ export const kursSchema = z.object({
   ...meta,
   titel: z.string().min(1),
   anbieter: z.string(),
+  beschreibung: z.string(),
+  /** z. B. „Mo–Fr 09:00–16:05“ */
+  unterrichtszeit: z.string(),
+  /** z. B. „800 UE“ */
+  umfang: z.string(),
+  module: z.array(z.string()),
   startMonat: monat,
   endeMonat: monat,
   /** Genaue Daten nur, wenn belegt. */

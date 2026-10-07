@@ -33,3 +33,9 @@
 {"timestamp":"2026-10-07T12:12:43Z","type":"task_ready","taskId":"task-2-5","summary":"Task 'PIKARTZ.AI-Bereich' ist startbar."}
 {"timestamp":"2026-10-07T12:12:43Z","type":"task_ready","taskId":"task-4-1","summary":"Task 'Einstellungen' ist startbar."}
 {"timestamp":"2026-10-07T12:14:35Z","type":"task_started","taskId":"task-2-1","summary":"Task 'Projekte' gestartet."}
+{"timestamp":"2026-10-07T12:22:00Z","type":"roadmap_updated","summary":"Roadmap v2: Saschas Projekt-Übersicht (12 Projekte) ersetzt die 5 angenommenen Projekte als Quelle; neuer task-1-7, task-2-1 hängt davon ab."}
+{"timestamp":"2026-10-07T12:22:00Z","type":"task_blocked","taskId":"task-2-1","summary":"Task 'Projekte' wartet auf task-1-7 (Startdaten-Umstellung); noch keine Implementierung."}
+{"timestamp":"2026-10-07T12:22:00Z","type":"task_started","taskId":"task-1-7","summary":"Task 'Startdaten auf Projekt-Übersicht umstellen' gestartet."}
+{"timestamp":"2026-10-07T12:27:52Z","type":"verification_passed","taskId":"task-1-7","summary":"typecheck, lint, test (93) und build fehlerfrei; Seed gegen Projekt-Übersicht abgeglichen."}
+{"timestamp":"2026-10-07T12:27:52Z","type":"task_completed","taskId":"task-1-7","summary":"Task 'Startdaten auf Projekt-Übersicht umstellen' abgeschlossen."}
+{"timestamp":"2026-10-07T12:27:52Z","type":"task_unblocked","taskId":"task-2-1","summary":"Task 'Projekte' fortgesetzt, Startdaten-Umstellung (task-1-7) abgeschlossen."}

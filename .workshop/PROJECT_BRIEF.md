@@ -64,13 +64,13 @@ Eine lauffähige App mit:
 
 ## Vorbefüllte Inhalte (nur belegt)
 
-- Projekte: n8n Kontaktformular-Klassifikator, n8n Jobsuche-Assistent, Make.com Kontaktformular-Workflow, Digitales Weiterbildungs-Tagebuch, PIKARTZ.AI Präsentations-System – jeweils nur mit den genannten Angaben
-- Weiterbildung „KI Automations Spezialist“, Aug–Dez 2026, Arbeitstage Mo–Fr, ohne eingetragene Aufgaben oder Fortschritte
+- Projekte: die 12 Projekte aus Saschas Projekt-Übersicht (Stand 2026-10-07) mit Kategorie, Status und „zuletzt aktiv“; Beschreibung, Notizen und nächste Schritte ohne Frist nur aus der lokalen, nicht versionierten Datei `src/data/seed.privat.ts` (Roadmap v2, ersetzt die ursprünglich angenommenen 5 Projekte)
+- Weiterbildung „KI Automations Spezialist“ der FutureWay KI Akademie GmbH, 03.08.–18.12.2026, Mo–Fr 09:00–16:05, 800 UE, mit Modulen, ohne eingetragene Kursaufgaben oder Fortschritte
 - Zielrollen: Prompt Engineer, KI-Anwendungsspezialist, Grafikdesigner mit Social-Media- oder E-Commerce-Fokus
 - Designregeln des PIKARTZ.AI Präsentations-Systems
 - keine Kontakte, Unternehmen, Leads, Bewerbungen, Termine oder Aktivitäten
 
-Maßgebliche Quelle für den Arbeitskontext ist Saschas MD-Datei (wird in `docs/sources/` abgelegt).
+Maßgebliche Quelle ist `docs/sources/arbeitskontext.md`. Saschas Projekt-Übersicht selbst bleibt lokal.
 
 ## Definition of Done
 

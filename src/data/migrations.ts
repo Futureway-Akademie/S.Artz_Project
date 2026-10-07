@@ -9,8 +9,17 @@ export type MigrationResult =
  * Schlüssel = Ausgangsversion; jede Migration liefert die nächste Version.
  */
 const migrations: Record<number, (data: Record<string, unknown>) => Record<string, unknown>> = {
-  // Beispiel für künftige Versionen:
-  // 1: (data) => ({ ...data, schemaVersion: 2, neueListe: [] }),
+  // v2: Projekte mit Kategorie und „zuletzt aktiv“, Kurse mit Details
+  1: (data) => ({
+    ...data,
+    schemaVersion: 2,
+    projekte: liste(data.projekte).map((p) => ({ kategorie: '', zuletztAktiv: null, ...p })),
+    kurse: liste(data.kurse).map((k) => ({ beschreibung: '', unterrichtszeit: '', umfang: '', module: [], ...k })),
+  }),
+}
+
+function liste(value: unknown): Array<Record<string, unknown>> {
+  return Array.isArray(value) ? (value as Array<Record<string, unknown>>) : []
 }
 
 export function migrate(raw: unknown): MigrationResult {

@@ -58,6 +58,50 @@ describe('migrate', () => {
     const data = createEmptyData()
     expect(migrate(data)).toEqual({ ok: true, value: data })
   })
+
+  it('hebt Version 1 auf Version 2 an (Projekt-Kategorie, „zuletzt aktiv“, Kursdetails)', () => {
+    const zeit = '2026-10-07T10:00:00.000Z'
+    const v1 = {
+      ...createEmptyData(),
+      schemaVersion: 1,
+      projekte: [
+        {
+          id: 'p1',
+          titel: 'Altes Projekt',
+          beschreibung: '',
+          status: null,
+          tools: [],
+          bestandteile: [],
+          notizen: '',
+          automation: null,
+          erstelltAm: zeit,
+          geaendertAm: zeit,
+        },
+      ],
+      kurse: [
+        {
+          id: 'k1',
+          titel: 'Kurs',
+          anbieter: '',
+          startMonat: '2026-08',
+          endeMonat: '2026-12',
+          startDatum: null,
+          endeDatum: null,
+          arbeitstage: [1, 2, 3, 4, 5],
+          codePraefix: 'KIAutomSpez',
+          erstelltAm: zeit,
+          geaendertAm: zeit,
+        },
+      ],
+    }
+    const ergebnis = parseAppData(JSON.stringify(v1))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status === 'ok') {
+      expect(ergebnis.data.schemaVersion).toBe(2)
+      expect(ergebnis.data.projekte[0]).toMatchObject({ titel: 'Altes Projekt', kategorie: '', zuletztAktiv: null })
+      expect(ergebnis.data.kurse[0]).toMatchObject({ beschreibung: '', unterrichtszeit: '', umfang: '', module: [] })
+    }
+  })
 })
 
 describe('saveAppData', () => {

@@ -1,75 +1,47 @@
-import type { AppData, AutomationProfil, Projekt } from '../domain/types.ts'
+import type { AppData, Aufgabe, Projekt } from '../domain/types.ts'
 import { createEmptyData } from './empty.ts'
 
 /**
  * Ausgangsdaten beim ersten Start und nach „Zurücksetzen“.
  *
- * Enthält ausschließlich Inhalte aus docs/sources/arbeitskontext.md. Alles, was dort
- * als [offen] markiert ist, bleibt leer. Es gibt bewusst keine Fristen, Termine,
- * Kontakte, Bewerbungen, Aktivitäten oder Fortschrittswerte.
+ * Quelle: Saschas Projekt-Übersicht (Stand 2026-10-07), zusammengefasst in
+ * docs/sources/arbeitskontext.md, plus Designregeln und Zielrollen aus dem Projektbrief.
+ *
+ * Das Repository ist öffentlich. Hier stehen je Projekt nur Titel, Kategorie, Status und
+ * „zuletzt aktiv“. Beschreibungen, Tools, Notizen und nächste Schritte liegen lokal in
+ * `seed.privat.ts` (von Git ignoriert) und werden eingebunden, wenn die Datei existiert.
+ * Es gibt bewusst keine Fristen, Termine, Kontakte, Unternehmen, Bewerbungen, Leads oder Aktivitäten.
  */
 
-const leeresProfil = (plattform: AutomationProfil['plattform']): AutomationProfil => ({
-  plattform,
-  modell: null,
-  promptVersion: null,
-  schwelleProzent: null,
-  statuswerte: [],
-  datenquellen: [],
-  pipeline: [],
-  routing: [],
-  routingStatus: null,
-  logikHinweise: [],
-  verbindung: 'nicht_verbunden',
-})
-
 type ProjektDaten = Omit<Projekt, 'erstelltAm' | 'geaendertAm'>
+type ProjektKern = Pick<ProjektDaten, 'id' | 'titel' | 'kategorie' | 'status' | 'zuletztAktiv'>
 
-const projekt = (daten: Partial<ProjektDaten> & Pick<ProjektDaten, 'id' | 'titel'>): ProjektDaten => ({
-  beschreibung: '',
-  status: null,
-  tools: [],
-  bestandteile: [],
-  notizen: '',
-  automation: null,
-  ...daten,
-})
+export interface ProjektQuelle {
+  projekt: Partial<ProjektDaten> & ProjektKern
+  /** Offene Punkte („[ ]“) */
+  offen?: string[]
+  /** Erledigte Punkte („[x]“); ein Erledigungsdatum ist nicht belegt */
+  erledigt?: string[]
+}
 
-const PROJEKTE: ProjektDaten[] = [
-  projekt({
-    id: 'seed-projekt-kontaktformular-klassifikator',
-    titel: 'n8n Kontaktformular-Klassifikator',
-    tools: ['n8n'],
-    automation: {
-      ...leeresProfil('n8n'),
-      routingStatus: 'geplant',
-      logikHinweise: ['Routing geplant, noch nicht umgesetzt: Der Switch-Node ist noch offen.'],
-    },
-  }),
-  projekt({
-    id: 'seed-projekt-jobsuche-assistent',
-    titel: 'n8n Jobsuche-Assistent',
-    tools: ['n8n'],
-    automation: leeresProfil('n8n'),
-  }),
-  projekt({
-    id: 'seed-projekt-make-kontaktformular',
-    titel: 'Make.com Kontaktformular-Workflow',
-    status: 'in_arbeit',
-    tools: ['Make.com'],
-    notizen: 'Kern-Pipeline fertig',
-    automation: leeresProfil('make'),
-  }),
-  projekt({
-    id: 'seed-projekt-weiterbildungs-tagebuch',
-    titel: 'Digitales Weiterbildungs-Tagebuch',
-  }),
-  projekt({
-    id: 'seed-projekt-praesentations-system',
-    titel: 'PIKARTZ.AI Präsentations-System',
-    bestandteile: ['Designregeln', 'Demo-Deck Modul 1, Tag 1'],
-  }),
+const PROJEKTE: ProjektKern[] = [
+  { id: 'seed-projekt-diamond-world', titel: 'Diamond World (Videospiel)', kategorie: 'Privat / Kreativ', status: 'in_arbeit', zuletztAktiv: '2026-10-07' },
+  { id: 'seed-projekt-portfolio-website', titel: 'PikArtz Portfolio-Website', kategorie: 'Karriere', status: 'in_arbeit', zuletztAktiv: '2026-10-01' },
+  { id: 'seed-projekt-kleinanzeigen', titel: 'Kleinanzeigen / Keller-Sammlung', kategorie: 'Privat', status: 'in_arbeit', zuletztAktiv: '2026-09-18' },
+  { id: 'seed-projekt-amazon-gallery', titel: 'Amazon Gallery Generator (Bud Voyage Easy-Grow-Kit)', kategorie: 'E-Commerce', status: 'in_arbeit', zuletztAktiv: '2026-09-07' },
+  { id: 'seed-projekt-weiterbildungs-tagebuch', titel: 'KI-Weiterbildung: Tagebuch → Schulungsplattform', kategorie: 'Weiterbildung', status: 'in_arbeit', zuletztAktiv: '2026-09-07' },
+  { id: 'seed-projekt-lebenslauf', titel: 'Lebenslauf Optimierung', kategorie: 'Karriere', status: 'abgeschlossen', zuletztAktiv: '2026-09-07' },
+  { id: 'seed-projekt-karriere-booster', titel: 'Karriere Booster (LinkedIn)', kategorie: 'Karriere', status: 'in_arbeit', zuletztAktiv: '2026-09-07' },
+  { id: 'seed-projekt-jobsuche', titel: 'Jobsuche Festanstellung', kategorie: 'Karriere', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
+  { id: 'seed-projekt-ci-skills', titel: 'CI-Skills (ci-entwurf / ci-board)', kategorie: 'KI-Agenten', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
+  { id: 'seed-projekt-datenschutz-agent', titel: 'Datenschutz-Agent (DSGVO)', kategorie: 'KI-Agenten', status: 'idee', zuletztAktiv: '2026-08-19' },
+  { id: 'seed-projekt-handwerker-leadmagnet', titel: 'Handwerker-Leadmagnet (navis5)', kategorie: 'Kundenprojekt', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
+  { id: 'seed-projekt-fidelio-homepage', titel: 'Fidelio-Homepage', kategorie: 'Kundenprojekt / Verein', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
 ]
+
+/** Lokale Details, falls `seed.privat.ts` existiert (sonst leer, z. B. im öffentlichen Repository). */
+const privateModule = import.meta.glob<{ PROJEKT_DETAILS: ProjektQuelle[] }>('./seed.privat.ts', { eager: true })
+export const LOKALE_DETAILS: ProjektQuelle[] = Object.values(privateModule)[0]?.PROJEKT_DETAILS ?? []
 
 const DESIGNREGELN: Array<{ titel: string; beschreibung: string }> = [
   { titel: 'Wortmarke', beschreibung: 'Wortmarke „PIKARTZ.AI“; „.AI“ in Blau #2F5CFF' },
@@ -93,22 +65,90 @@ const ZIELROLLEN = [
   'Grafikdesigner mit Social-Media- oder E-Commerce-Fokus',
 ]
 
-export function createSeedData(now: Date = new Date()): AppData {
+function slug(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40)
+}
+
+/**
+ * @param details Projektdetails (Beschreibung, Tools, Notizen, nächste Schritte); Standard: lokale Datei.
+ *   Der Kern (Titel, Kategorie, Status, zuletzt aktiv) kommt immer aus dem Repository.
+ */
+export function createSeedData(now: Date = new Date(), details: ProjektQuelle[] = LOKALE_DETAILS): AppData {
   const zeit = now.toISOString()
   const meta = { erstelltAm: zeit, geaendertAm: zeit }
 
+  const quellen: ProjektQuelle[] = PROJEKTE.map((kern) => {
+    const detail = details.find((d) => d.projekt.id === kern.id)
+    return {
+      projekt: {
+        beschreibung: detail?.projekt.beschreibung ?? '',
+        tools: detail?.projekt.tools ?? [],
+        bestandteile: detail?.projekt.bestandteile ?? [],
+        notizen: detail?.projekt.notizen ?? '',
+        ...kern,
+      },
+      offen: detail?.offen,
+      erledigt: detail?.erledigt,
+    }
+  })
+
+  const projekte: Projekt[] = quellen.map(({ projekt }) => ({
+    beschreibung: '',
+    tools: [],
+    bestandteile: [],
+    notizen: '',
+    automation: null,
+    ...projekt,
+    ...meta,
+  }))
+
+  const aufgaben: Aufgabe[] = quellen.flatMap(({ projekt, offen = [], erledigt = [] }) => {
+    const basis = projekt.id.replace('seed-projekt-', 'seed-aufgabe-')
+    const aufgabe = (titel: string, index: number, istErledigt: boolean): Aufgabe => ({
+      id: `${basis}-${index + 1}-${slug(titel)}`,
+      titel,
+      notiz: '',
+      erledigt: istErledigt,
+      erledigtAm: null,
+      faelligAm: null,
+      bezug: { art: 'projekt', id: projekt.id },
+      ...meta,
+    })
+    return [
+      ...offen.map((titel, i) => aufgabe(titel, i, false)),
+      ...erledigt.map((titel, i) => aufgabe(titel, offen.length + i, true)),
+    ]
+  })
+
   return {
     ...createEmptyData(),
-    projekte: PROJEKTE.map((p) => ({ ...p, ...meta })),
+    projekte,
+    aufgaben,
     kurse: [
       {
         id: 'seed-kurs-ki-automations-spezialist',
         titel: 'KI Automations Spezialist',
-        anbieter: '',
+        anbieter: 'FutureWay KI Akademie GmbH',
+        beschreibung: 'Vollzeit Online-Live',
+        unterrichtszeit: 'Mo–Fr 09:00–16:05',
+        umfang: '800 UE',
+        module: [
+          'KI (Langdock, Claude, Mistral)',
+          'Automatisierung (n8n, Make, Claude Code)',
+          'Software (Supabase, Azure, Vercel, Hetzner)',
+          'Portfolio-Projekt',
+          'Zertifizierungen (Abschlusstest + Microsoft AI-901)',
+          'Karriere-Coaching',
+        ],
         startMonat: '2026-08',
         endeMonat: '2026-12',
-        startDatum: null,
-        endeDatum: null,
+        startDatum: '2026-08-03',
+        endeDatum: '2026-12-18',
         arbeitstage: [1, 2, 3, 4, 5],
         codePraefix: 'KIAutomSpez',
         ...meta,

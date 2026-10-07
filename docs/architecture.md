@@ -171,13 +171,14 @@ Datums-Hilfen in `dates.ts`: `isWorkday`, `nextWorkday`, `countWorkdays`, `relat
 
 ### Seed (nur belegte Inhalte)
 
-- **Projekte**: die 5 Projekte mit den genannten Angaben
-  - Klassifikator: 3 offene Aufgaben ohne Frist; Routing als „geplant“ markiert, weil der Switch-Node noch offen ist
-  - Make.com: Status `in_arbeit` mit Notiz „Kern-Pipeline fertig“
-  - übrige Projekte: Status `null` („Kein Status hinterlegt“)
-- **PIKARTZ.AI**: 10 Designregeln, Demo-Deck Modul 1 / Tag 1
-- **Weiterbildung**: Kurs ohne Aufgaben
+Quelle: `docs/sources/arbeitskontext.md` (Saschas Projekt-Übersicht vom 2026-10-07, Roadmap v2 / task-1-7)
+
+- **Projekte**: 12 Projekte mit Kategorie, Status (🟢/🟡 → `in_arbeit`, ✅ → `abgeschlossen`, Konzeptphase → `idee`), „zuletzt aktiv“; ohne Automationsprofil
+- **Private Details**: Beschreibung, Tools, Bestandteile, Notizen und nächste Schritte stehen nur lokal in `src/data/seed.privat.ts` (von Git ignoriert, Repository ist öffentlich). `seed.ts` bindet die Datei über `import.meta.glob` ein, wenn sie existiert.
+- **Aufgaben** (aus den lokalen Details): offene Punkte als nächste Schritte ohne Frist, [x]-Punkte als erledigt ohne Datum
+- **Weiterbildung**: Kurs mit Anbieter, 03.08.–18.12.2026, Unterrichtszeit, Umfang und Modulen; ohne Kursaufgaben
+- **PIKARTZ.AI**: 7 belegte Designregeln, Demo-Deck Modul 1 / Tag 1
 - **Bewerbungen**: 3 Zielrollen
 - **Einstellungen**: Anzeigename „Sascha“
-- **Leer**: alles andere
-- Diese Annahmen werden in task-1-1 gegen die MD-Datei geprüft.
+- **Leer**: Kontakte, Unternehmen, Leads, Bewerbungen, Termine, Aktivitäten
+- **Schema**: Version 2 (Projekt mit `kategorie` und `zuletztAktiv`, Kurs mit Details); Migration 1 → 2 in `src/data/migrations.ts`

@@ -6,8 +6,10 @@ import { appDataSchema } from './schema.ts'
 
 const projekt: Neu<'projekte'> = {
   titel: 'Make.com Kontaktformular-Workflow',
+  kategorie: '',
   beschreibung: '',
   status: 'in_arbeit',
+  zuletztAktiv: null,
   tools: ['Make.com'],
   bestandteile: [],
   notizen: 'Kern-Pipeline fertig',

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 1,
+  "roadmapVersion": 2,
   "status": "active",
   "phases": [
     {
@@ -197,6 +197,41 @@
             ],
             "checkedAt": "2026-10-07T12:12:43Z"
           }
+        },
+        {
+          "id": "task-1-7",
+          "title": "Startdaten auf Projekt-Übersicht umstellen",
+          "description": "Seed auf Saschas Projekt-Übersicht (lokale Datei projekte-uebersicht.md, Stand 2026-10-07) umstellen: 12 Projekte mit Kategorie, Status, zuletzt aktiv und nächsten Schritten; Weiterbildungsdetails; Schema-Version 2 mit Migration.",
+          "order": 7,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-1-5"
+          ],
+          "definitionOfDone": [
+            "Genau die 12 Projekte der Projekt-Übersicht sind mit Kategorie, Status, zuletzt aktiv, Beschreibung und Notizen angelegt",
+            "Offene Punkte sind nächste Schritte ohne Frist, mit [x] markierte Punkte sind erledigt",
+            "Weiterbildung mit Anbieter, Zeitraum 03.08.–18.12.2026, Unterrichtszeit, Umfang und Modulen hinterlegt",
+            "Schema-Version 2 mit getesteter Migration von Version 1",
+            "Keine Kontakte, Unternehmen, Leads, Bewerbungen, Termine oder Fristen vorbefüllt; die drei bisherigen Zielrollen bleiben",
+            "docs/sources/arbeitskontext.md, PROJECT_BRIEF.md und docs/architecture.md beschreiben die neue Quelle",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T12:22:00Z",
+          "completedAt": "2026-10-07T12:27:52Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 93 Tests grün: Seed-Test (genau 12 Projekte, Titel/Kategorie/Status/zuletzt aktiv gegen Tabelle in docs/sources/arbeitskontext.md, 39 offene und 4 erledigte Schritte ohne Frist, keine Kontakte/Unternehmen/Leads/Bewerbungen/Termine/Aktivitäten/Automationsprofile, 3 Zielrollen, Kursdetails) und Migrationstest v1→v2. Einmaliger Abgleich aller Seed-Texte gegen die lokale projekte-uebersicht.md: wörtlich bis auf 3 Schreibvarianten (JavaScript statt JS, ein Komma, Großschreibung). Browser: nach Zurücksetzen des Speichers lädt die App Schema 2 mit 12 Projekten und 43 Schritten. PROJECT_BRIEF.md, docs/architecture.md und docs/decisions.md aktualisiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "vitest: einmaliger Abgleich Seed gegen C:/Users/Sascha/Downloads/projekte-uebersicht.md (temporär, nicht im Repo)",
+              "Browser: localStorage geprüft"
+            ],
+            "checkedAt": "2026-10-07T12:27:52Z"
+          }
         }
       ]
     },
@@ -206,7 +241,7 @@
       "description": "Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI-Bereich und Arbeitscockpit.",
       "order": 2,
       "weight": 16,
-      "status": "in_progress",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-2-1",
@@ -217,7 +252,8 @@
           "status": "in_progress",
           "dependsOn": [
             "task-1-5",
-            "task-1-6"
+            "task-1-6",
+            "task-1-7"
           ],
           "definitionOfDone": [
             "Projekte können angelegt, bearbeitet und angezeigt werden",

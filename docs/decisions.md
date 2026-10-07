@@ -178,3 +178,37 @@ Ein Schema für Laufzeitprüfung und Typen verhindert Abweichungen. Es wird nich
 - Nach einem Seitenwechsel erhält die h1 (`#seitentitel`) den Fokus. Nach dem Schließen des Menüs per Esc oder Button kehrt der Fokus zum Menü-Button zurück. Nach einer Navigation aus dem Menü bleibt er auf der neuen Überschrift.
 - `StoreGate` zeigt bei unlesbaren Daten eine Fehlerseite mit „Rohdaten exportieren“ und einem zweistufigen „Zurücksetzen“.
 - Der Demo-Hinweis ist dauerhaft sichtbar und nicht schließbar. Speicherfehler und Änderungen in anderen Tabs erscheinen als Hinweis darunter.
+
+## 2026-10-07 – Projekt-Übersicht als Quelle (Roadmap v2, task-1-7)
+
+### Kontext
+
+Sascha hat die eigentliche Projekt-Übersicht geliefert (12 Projekte). Die im Projektbrief angenommenen Automationsprojekte gibt es noch nicht. Das GitHub-Repository ist öffentlich.
+
+### Entscheidung (mit Sascha abgestimmt)
+
+- Vorbefüllt werden nur die 12 Projekte der Übersicht. Die angenommenen 5 Projekte entfallen. task-1-5 bleibt in der Historie, task-1-7 ersetzt dessen Seed.
+- Statuszuordnung:
+  - 🟢 und 🟡 → `in_arbeit`
+  - ✅ → `abgeschlossen`
+  - ⚪ Konzeptphase → `idee`
+- Öffentlich vs. privat:
+  - Im Repository (`src/data/seed.ts`) stehen je Projekt nur Titel, Kategorie, Status und „zuletzt aktiv“.
+  - Beschreibungen, Tools, Bestandteile, Notizen und nächste Schritte liegen in `src/data/seed.privat.ts`. Git ignoriert diese Datei. Die App bindet sie über `import.meta.glob` ein, wenn sie vorhanden ist. Ohne sie haben die Projekte keine Details.
+  - Die Originaldatei der Übersicht bleibt ebenfalls lokal.
+  - Die Tests prüfen das Einbinden mit fiktiven Details.
+- Aus der lokalen Datei gilt:
+  - Offene Punkte werden zu nächsten Schritten ohne Frist, [x]-Punkte zu erledigten Schritten ohne Erledigungsdatum.
+  - Kursaufgaben ohne `KIAutomSpez`-Code bleiben nächste Schritte des Tagebuch-Projekts.
+- Kein Projekt erhält ein Automationsprofil, weil Plattform, Modell und Routing nicht belegt sind.
+- Zielrollen: nur die bisherigen drei.
+- In der Übersicht genannte Personen und Firmen werden nicht als Kontakte oder Unternehmen angelegt. Das CRM startet leer.
+- Schema-Version 2:
+  - Projekt erhält `kategorie` und `zuletztAktiv`.
+  - Kurs erhält `beschreibung`, `unterrichtszeit`, `umfang` und `module`.
+  - Gespeicherte Version-1-Daten werden automatisch migriert. Die neuen Startdaten kommen erst über „Zurücksetzen“.
+- Ein versehentlich öffentlich gepushter Zwischenstand mit allen Details wurde aus der Branch-Historie entfernt (Force-Push).
+
+### Begründung
+
+Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffentlich zu machen. Nichts wird erfunden.

@@ -27,3 +27,6 @@ Desktop.ini
 node_modules/
 dist/
 *.tsbuildinfo
+
+# Private Startdaten (Saschas Projektdetails) – nur lokal, nie committen
+src/data/seed.privat.ts
