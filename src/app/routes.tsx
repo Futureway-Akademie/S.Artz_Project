@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
 import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
+import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
 import { AutomationenSeite } from '../features/automationen/AutomationenSeite.tsx'
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
@@ -14,15 +15,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route element={<AppShell />}>
-        <Route
-          index
-          element={
-            <Platzhalter
-              titel="Arbeitscockpit"
-              inhalt="Hier siehst du künftig deine Tagesübersicht, nächste Schritte, aktuelle Projekte, die Weiterbildung und die letzten Aktivitäten."
-            />
-          }
-        />
+        <Route index element={<CockpitSeite />} />
         <Route path="projekte">
           <Route index element={<ProjekteSeite />} />
           <Route path=":id" element={<ProjektDetailSeite />} />

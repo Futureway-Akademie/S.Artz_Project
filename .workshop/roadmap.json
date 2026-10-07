@@ -241,7 +241,7 @@
       "description": "Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI-Bereich und Arbeitscockpit.",
       "order": 2,
       "weight": 16,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-2-1",
@@ -412,7 +412,7 @@
           "description": "Dashboard mit Begrüßung und Tagesübersicht, nächsten Schritten, aktuellen Projekten, Weiterbildung, anstehenden Aufgaben und Terminen sowie letzten Aktivitäten.",
           "order": 6,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-2-1",
             "task-2-2",
@@ -426,12 +426,18 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T13:31:09Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:33:59Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 157 Tests grün, davon 11 für das Arbeitscockpit: Selektoren für Begrüßung (Tageszeit, Name, Datum de-DE), Tagesübersicht (heute fällig, überfällig inkl. Wiedervorlagen, Termine heute, offene Schritte, Kurstag), nächste Schritte (überfällig → mit Frist → ohne Frist, inkl. Wiedervorlagen), aktuelle Projekte ohne abgeschlossene und ohne Prozent, Anstehendes 7 Tage (Aufgaben, Termine, Kursaufgaben), letzte Aktivitäten; Seite mit Gerätedatum (fixiert 07.10.2026), Leerzustände ohne erfundene Werte, echte Änderung erscheint als Aktivität. Browser (Desktop): Begrüßung mit gespeichertem Anzeigenamen, Kurstag 48 von 100, Kacheln und Listen.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: / (Screenshot Desktop)"
+            ],
+            "checkedAt": "2026-10-07T13:33:59Z"
           }
         }
       ]
@@ -442,7 +448,7 @@
       "description": "Kontakte und Unternehmen, Kommunikationsverlauf, Leads, Bewerbungen mit Zielrollen und Cockpit-Integration.",
       "order": 3,
       "weight": 10,
-      "status": "planned",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-3-1",
@@ -450,7 +456,7 @@
           "description": "Kontakte und Unternehmen anlegen, bearbeiten, suchen und miteinander verknüpfen.",
           "order": 1,
           "weight": 3,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-2-6"
           ],
@@ -460,7 +466,7 @@
             "Kontakte können Unternehmen zugeordnet werden",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:34:00Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

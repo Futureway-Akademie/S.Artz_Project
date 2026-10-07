@@ -1,0 +1,55 @@
+import { fireEvent, screen, within } from '@testing-library/react'
+import { createSeedData } from '../../data/seed.ts'
+import { renderApp } from '../../test/renderApp.tsx'
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] })
+  vi.setSystemTime(new Date(2026, 9, 7, 9, 30)) // Mi., 07.10.2026
+})
+
+afterEach(() => {
+  vi.useRealTimers()
+})
+
+describe('Arbeitscockpit', () => {
+  it('begrüßt mit Name, Datum und Kurstag aus dem Gerätedatum', () => {
+    renderApp('/')
+    expect(screen.getByRole('heading', { level: 1, name: 'Arbeitscockpit' })).toBeInTheDocument()
+    expect(screen.getByText('Guten Morgen, Sascha')).toBeInTheDocument()
+    expect(screen.getByText('Mittwoch, 7. Oktober 2026 · Kurstag 48 von 100')).toBeInTheDocument()
+  })
+
+  it('zeigt ohne Daten Leerzustände statt erfundener Werte', () => {
+    renderApp('/')
+    expect(screen.getByText('Keine offenen Schritte')).toBeInTheDocument()
+    expect(screen.getByText('Nichts in den nächsten 7 Tagen')).toBeInTheDocument()
+    expect(screen.getByText('Noch keine Aktivitäten')).toBeInTheDocument()
+    expect(screen.getByText('Noch kein Fortschritt – es sind keine Kursaufgaben eingetragen.')).toBeInTheDocument()
+    const uebersicht = screen.getByRole('region', { name: 'Tagesübersicht' })
+    expect(within(uebersicht).getAllByText('0')).toHaveLength(4)
+  })
+
+  it('zeigt nächste Schritte mit Frist-Hinweis und aktuelle Projekte ohne Prozentwerte', () => {
+    renderApp('/', {
+      daten: createSeedData(new Date(), [
+        { projekt: { id: 'seed-projekt-ci-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null }, offen: ['Bilder ausgeben'] },
+      ]),
+    })
+    const schritte = screen.getByRole('region', { name: 'Nächste Schritte' })
+    expect(within(schritte).getByText('Bilder ausgeben')).toBeInTheDocument()
+    expect(within(schritte).getByText('Noch keine Frist hinterlegt')).toBeInTheDocument()
+    expect(within(schritte).getByRole('link', { name: 'Alle anzeigen (1)' })).toBeInTheDocument()
+    const projekte = screen.getByRole('region', { name: 'Aktuelle Projekte' })
+    expect(within(projekte).getAllByRole('listitem')).toHaveLength(6)
+    expect(within(projekte).queryByText('Lebenslauf Optimierung')).not.toBeInTheDocument()
+    expect(projekte.textContent).not.toMatch(/\d+\s?%/)
+  })
+
+  it('zeigt echte Änderungen als letzte Aktivitäten', () => {
+    renderApp('/projekte/seed-projekt-ci-skills')
+    fireEvent.change(screen.getByLabelText(/^Status/), { target: { value: 'pausiert' } })
+    fireEvent.click(screen.getAllByRole('link', { name: 'Arbeitscockpit', hidden: true })[0]!)
+    const aktivitaeten = screen.getByRole('region', { name: 'Letzte Aktivitäten' })
+    expect(within(aktivitaeten).getByText('Projekt „CI-Skills (ci-entwurf / ci-board)“ geändert: Status')).toBeInTheDocument()
+  })
+})

@@ -2,18 +2,19 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 63,83 % (30 von 47 Gewichtspunkten, 13 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 70,21 % (33 von 47 Gewichtspunkten, 14 von 21 Tasks).
 
 ## Aktive Phase
 
-Arbeitsbereiche (phase-2).
+CRM und Bewerbungen (phase-3).
 
 ## Aktive Aufgabe
 
-task-2-6 – Arbeitscockpit (in_progress seit 2026-10-07T13:31:09Z).
+task-3-1 – Kontakte und Unternehmen (in_progress seit 2026-10-07T13:34:00Z).
 
 ## Zuletzt abgeschlossen
 
+- task-2-6 – Arbeitscockpit (Begrüßung, Tagesübersicht, nächste Schritte, aktuelle Projekte, Weiterbildung, Anstehendes, letzte Aktivitäten – alles berechnet).
 - task-2-4 – Weiterbildung (Kursdaten, Arbeitstage Mo–Fr nach Gerätedatum, Kursaufgaben im Format KIAutomSpez_X_YY, Fortschritt nur aus Erledigungen).
 - task-2-2 – Aufgaben und Termine (zentrale Liste mit Suche und Filtern nach Status, Frist und Bezug, Gruppen nach Fristlage; Termine mit optionaler Uhrzeit; Tabs).
 - task-2-3 – Automationen (Übersicht nach Plattform oder Projekt, Automation je Projekt erfassen/bearbeiten/entfernen, immer „nicht verbunden“).
@@ -55,13 +56,13 @@ Keine.
 | task-2-3 | Automationen | ✅ erledigt |  |
 | task-2-4 | Weiterbildung | ✅ erledigt |  |
 | task-2-5 | PIKARTZ.AI-Bereich | ✅ erledigt |  |
-| task-2-6 | Arbeitscockpit | 🔨 in Arbeit | – |
+| task-2-6 | Arbeitscockpit | ✅ erledigt |  |
 
 ### CRM und Bewerbungen
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-3-1 | Kontakte und Unternehmen | ⏳ geplant | task-2-6 |
+| task-3-1 | Kontakte und Unternehmen | 🔨 in Arbeit | – |
 | task-3-2 | Kommunikationsverlauf und nächste Aktion | ⏳ geplant | task-3-1 |
 | task-3-3 | Leads | ⏳ geplant | task-3-1 |
 | task-3-4 | Bewerbungen und Zielrollen | ⏳ geplant | task-3-1 |
