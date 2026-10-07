@@ -132,7 +132,9 @@ public/brand/                 Logos unverändert
 | `/weiterbildung` | Kurs, Arbeitstage, Kursaufgaben, Fortschritt |
 | `/pikartz-ai` | Marke, Designregeln, Präsentations-System |
 | `/aufgaben` (`?ansicht=termine`) | Aufgaben (mit Fokus) und Termine |
-| `/wissen`, `/wissen/:id` | Zweites Gehirn: Notizen, Prompts, Tools, Erkenntnisse, Quellen, Lerntagebuch |
+| `/wissen`, `/wissen/:id` | Zweites Gehirn: Notizen, Tools, Erkenntnisse, Quellen, Lerntagebuch |
+| `/werkzeug`, `/werkzeug/:art`, `/werkzeug/:art/:id` | KI-Werkzeugkasten: Übersicht, Liste je Typ (prompts, befehle, agenten, skills, anleitungen, integrationen, workflows, abos), Detail |
+| `/postfach` | Gmail-Postfach: passende Mails abrufen, zuordnen, in den Verlauf übernehmen |
 | `/wiederherstellen#schluessel=…` | Einstieg über den Wiederherstellungslink (vor dem Entsperren) |
 | `/kalender` (`?ansicht=monat\|woche\|liste&datum=…`) | Kalender mit Terminen, Fristen, Wiedervorlagen, Kursaufgaben; .ics-Export |
 | `/kontakte` (`?faellig=1`, `?pruefen=1`), `/kontakte/:id` | Kontakte, Kontaktdetail mit Verlauf, Wiedervorlage, E-Mail, Datenschutz, Gesamtsicht |
@@ -161,6 +163,8 @@ public/brand/                 Logos unverändert
 - Persönliche Startdaten nur lokal (`seed.privat.ts`), Tests mit fiktiven Daten.
 - Tresor Version 2: zufälliger Datenschlüssel, verpackt per Passwort und optional per Wiederherstellungsschlüssel (der nur im #-Teil des Links in Saschas eigener Mail steht).
 - Optional Supabase (Roadmap v4): Login per E-Mail-Link, Ende-zu-Ende-verschlüsselte Synchronisierung; Supabase speichert nur E-Mail-Adresse und Chiffretext.
+- Optional Gmail (Roadmap v6): nur `gmail.readonly`, Anmeldung per Weiterleitung ohne Google-Skript, Token nur im Arbeitsspeicher; CSP öffnet dann genau `gmail.googleapis.com` und `oauth2.googleapis.com`. Einziges Modul mit `fetch`: `src/data/gmail/gmail.ts`.
+- Werkzeugkasten speichert nie Schlüssel: Eingaben, die wie Schlüssel oder Passwörter aussehen, werden erkannt und erst nach Entfernen oder ausdrücklicher Bestätigung gespeichert; bei Integrationen wird nur der Ablageort notiert.
 
 ### Datenmodell (Kern)
 
@@ -190,7 +194,10 @@ public/brand/                 Logos unverändert
 - **Projekt** zusätzlich: Auftraggeber (Unternehmen), Schlagworte, „zuletzt aktiv“ wird automatisch nachgezogen
 - **Einstellungen**: Anzeigename, Zeitpunkt der letzten Sicherung
 - **Wissen** (zweites Gehirn): Typ, Titel, Inhalt, Thema, Quelle, Schlagworte, Datum/Kurstag, Projekte, Kurs, Kursaufgaben
-- **AppData**: `schemaVersion: 7` plus alle Listen; Migrationen 1 → 7 ohne Datenverlust
+- **Werkzeug** (KI-Werkzeugkasten): Typ (`prompt | befehl | agent | skill | anleitung | integration | workflow | abo`), Titel, Wofür, Inhalt, Plattform/Zielmodell/Umgebung/Anbieter, Status, Version, Link, Auslöser, Schritte (mit Erledigt), Integration (Art, Ablageort der Zugangsdaten, Region, AVV), Abo (Kosten, Abrechnung, nächste Verlängerung, Kündigungsfrist), verknüpfte Werkzeuge, Projekte, Schlagworte
+- **Mail** (Postfach): Gmail-ID, Thread, Zeitpunkt, Von, An, Betreff, Auszug, Richtung, Kontakt/Unternehmen/Bewerbung, Status `neu | uebernommen | verworfen`; nach Übernahme oder Verwerfen werden die Inhalte gelöscht
+- **Einstellungen** zusätzlich: Zeitpunkt des letzten Mailabrufs
+- **AppData**: `schemaVersion: 9` plus alle Listen; Migrationen 1 → 9 ohne Datenverlust (v8 übernimmt Wissens-Prompts als Masterprompts mit gleicher ID)
 
 ### Zustand und Speicherung
 
@@ -224,14 +231,17 @@ public/brand/                 Logos unverändert
 | `selectLetzteAktivitaeten` | neueste zuerst; leer → Leerzustand |
 | `selectCrmUebersicht` | fällige Wiedervorlagen, Bewerbungen nach Status, offene Leads |
 | `selectLeadSumme` | Summe nur über Leads mit Betrag; ohne Beträge `null` |
+| `werkzeugListe`, `werkzeugVerknuepft`, `promptPlatzhalter`, `promptAusfuellen`, `geheimnisVerdacht` | Werkzeugkasten: Filter, Verknüpfungen in beide Richtungen, Platzhalter, Schlüsselwarnung |
+| `aboUebersicht`, `aboTermine`, `selectAboFristen` | Monatskosten, fortgeschriebene Verlängerungen und letzte Kündigungstage (Kalender, Cockpit, Dashboard) |
+| `abrufZiele`, `abfragen`, `mailZuordnen`, `kontaktAusMail` | Postfach: Suche nur nach Kontaktadressen und Unternehmensdomains, Zuordnung zu Kontakt, Unternehmen und Bewerbung |
 
 Datums-Hilfen in `dates.ts`: `isWorkday`, `nextWorkday`, `countWorkdays`, `relativeDueLabel` (z. B. „Noch keine Frist hinterlegt“, „Überfällig seit 3 Tagen“, „Heute fällig“) sowie Formatierer über `Intl` mit `de-DE`.
 
 ### Navigation, Layout und Design
 
 - **Breiten**
-  - ≥ 1200 px: dunkle Sidebar (256 px) mit Wortmarke und 9 Punkten; der aktive Punkt hat einen blauen Balken und `aria-current`
-  - 768–1199 px: Icon-Leiste mit kurzem Label
+  - ≥ 1200 px: dunkle Sidebar (256 px) mit Wortmarke und Gruppen (Arbeit, KI-Werkzeugkasten – einklappbar, Lernen, Netzwerk & Karriere, Marke & System); der aktive Punkt hat einen blauen Balken und `aria-current`
+  - 768–1199 px: Icon-Leiste mit kurzem Label; Gruppen durch Linien getrennt, der Werkzeugkasten als ein Punkt
   - < 768 px: dunkle Topbar und Menü als `<dialog>`-Schublade (Fokusfang, Esc schließt, Fokus kehrt zurück)
 - **Immer sichtbar**: Skip-Link; Fokus auf das h1 bei Routenwechsel; Demo-Banner, nicht schließbar
 - **Routen**: `/`, `/projekte(/:id)`, `/automationen`, `/weiterbildung`, `/pikartz-ai`, `/aufgaben`, `/kontakte` (plus `/unternehmen`, `/leads`, `/:id`), `/bewerbungen(/zielrollen)`, `/einstellungen`, NotFound

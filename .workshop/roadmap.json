@@ -1609,7 +1609,7 @@
       "description": "Nur lesender Abruf von Mails aus Gmail direkt aus dem Browser (OAuth), Zuordnung zu Kontakten, Unternehmen und Bewerbungen; Mails verschlüsselt im Tresor.",
       "order": 12,
       "weight": 8,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-12-1",
@@ -1673,7 +1673,7 @@
           "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
           "order": 3,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-11-2",
             "task-11-3",
@@ -1687,12 +1687,16 @@
             "Architektur, Entscheidungen und Prüfprotokoll aktuell"
           ],
           "startedAt": "2026-10-07T23:47:13Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T23:52:32Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Typecheck, Lint, 383 Tests (inkl. axe der neuen Seiten), Build fehlerfrei. Gebaute App auf Port 4173 bei 375/768/1280 px geprüft (Werkzeugkasten, Masterprompt ausfüllen, Abo mit Fristen, Cockpit, Dashboard, Postfach): kein Überlauf, keine Konsolenfehler, nur localhost-Anfragen; abgeschnittene lange Seitentitel gefunden und behoben. Testdaten gelöscht. Architektur, Entscheidungen, Prüfprotokoll, README und Projektbrief aktualisiert.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:52:32Z"
           }
         }
       ]

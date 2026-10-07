@@ -160,3 +160,41 @@ Neu getestet:
 
 - **Supabase:** Projekt anlegen und Werte in `.env.local` eintragen (Anleitung: `docs/supabase-einrichtung.md`). Erst dann sind Login und Synchronisierung echt nutzbar. Bis dahin ist die Funktion ausgeblendet, und es gibt keine Verbindung nach außen.
 - **Git-Historie (task-5-6):** weiterhin blockiert.
+
+---
+
+# Prüfprotokoll Roadmap v6 (task-12-3)
+
+Abschlussprüfung am 2026-10-08 mit der gebauten App (Port 4173, eigener Speicherbereich). Wegwerf-Testpasswort und Testdaten habe ich danach gelöscht; Saschas Daten auf Port 5173 blieben unberührt.
+
+## Automatische Prüfungen
+
+| Befehl | Ergebnis |
+|---|---|
+| `npm run typecheck` | fehlerfrei |
+| `npm run lint` | fehlerfrei |
+| `npm test` | 383 Tests grün |
+| `npm run build` | fehlerfrei; Hinweis von Vite 8: Option `advancedChunks` gilt als veraltet (funktioniert, Umstellung bei Gelegenheit) |
+
+Neu getestet:
+
+- **Migrationen 7 → 8 → 9:** Wissens-Prompts werden Masterprompts, ohne Datenverlust
+- **Werkzeugkasten:** Filter, Platzhalter, Kopieren, Verknüpfungen in beide Richtungen, Schritte mit Fortschritt, Integrationen, Schlüsselwarnung
+- **Abos:** Monatskosten, fortgeschriebene Verlängerungen, Kündigungsfristen in Kalender, Cockpit und Dashboard
+- **Gmail:** Anmeldeadresse, State-Prüfung, Token nur im Speicher, nichts ohne Anmeldung, 401 vergisst den Token, nur Kopfzeilen, Widerruf
+- **Postfach:** Suche nur nach Kontakten und Unternehmensdomains, Zuordnung, Übernahme mit und ohne neuen Kontakt, Löschfolgen
+- **CSP:** mit Client-ID genau Gmail-API und Widerruf zusätzlich; `fetch` nur im Gmail-Modul
+- **axe:** alle neuen Seiten (Werkzeugkasten, Detailseiten, Abos, Anleitungen, Postfach) ohne Verstöße
+
+## Browser
+
+- **Seiten:** Werkzeugkasten, Masterprompts mit Ausfüllen, Abo mit Fristen, Cockpit (Abo-Fristen), Dashboard und Postfach bei 375, 768 und 1280 px; ohne horizontalen Überlauf und ohne Konsolenfehler.
+- **Gefunden und behoben:** Lange Seitentitel (z. B. „Bewerbungsanschreiben“) wurden bei 375 px abgeschnitten; sie brechen jetzt um.
+- **Netzwerk:** nur Anfragen an localhost.
+
+## Offen (braucht Sascha)
+
+- **Gmail:** Google-Cloud-Projekt anlegen und `VITE_GOOGLE_CLIENT_ID` in `.env.local` eintragen (Anleitung: `docs/gmail-einrichtung.md`). Bis dahin ist das Postfach ausgeblendet und es gibt keine Verbindung zu Google.
+- **Supabase:** wie bisher `docs/supabase-einrichtung.md`.
+- **Fernsteuerung per Handy (Remote Control):** von der Organisations-Richtlinie gesperrt; nur ein Admin kann sie freigeben.
+- **Git-Historie (task-5-6):** weiterhin blockiert.

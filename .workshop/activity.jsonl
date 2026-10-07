@@ -211,3 +211,5 @@
 {"timestamp":"2026-10-07T23:47:13Z","type":"task_completed","taskId":"task-12-2","summary":"Task 'Mails abrufen und zuordnen' abgeschlossen."}
 {"timestamp":"2026-10-07T23:47:13Z","type":"task_ready","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' ist startbar."}
 {"timestamp":"2026-10-07T23:47:13Z","type":"task_started","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' gestartet."}
+{"timestamp":"2026-10-07T23:52:32Z","type":"verification_passed","taskId":"task-12-3","summary":"Alle Prüfungen grün, Browserprüfung bei drei Breiten, Doku aktuell."}
+{"timestamp":"2026-10-07T23:52:32Z","type":"task_completed","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' abgeschlossen."}

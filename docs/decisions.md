@@ -519,3 +519,22 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Ohne Daten erscheinen Hinweise statt erfundener Werte.
   - Im Browser bei 375, 768 und 1280 px ohne Überlauf geprüft; axe ohne Verstöße.
 - **Abgrenzung:** Das Cockpit bleibt die Tagesansicht (was ist heute zu tun), das Dashboard ist die Auswertung (wie steht es insgesamt).
+
+## 2026-10-08 – KI-Werkzeugkasten (Roadmap v6, task-11-1 bis task-11-5)
+
+- **Eine Sammlung `werkzeug` mit Typ** statt acht Sammlungen: gemeinsame Felder (Titel, Wofür, Inhalt, Plattform, Status, Version, Link, Schlagworte, Projekte, verknüpfte Werkzeuge) und typbezogene Teile (Schritte, Integration, Abo). Das hält Suche, Verknüpfung und Löschfolgen einheitlich.
+- **Prompts aus dem Wissen umgezogen** (Migration v8): gleiche ID, Quelle wird Link, Thema wird Schlagwort; auch die Aktivitäten zeigen danach auf den Werkzeugkasten. Wissen bleibt für Notizen, Tools, Erkenntnisse, Quellen und Lerntagebuch.
+- **Sidebar in Gruppen**, der Werkzeugkasten ist einklappbar; in der Icon-Leiste nur ein Punkt, damit sie auf dem Tablet nicht zu lang wird.
+- **Platzhalter** `{{…}}` in Prompts, Befehlen, Agenten und Skills werden als Felder angeboten; die eingetragenen Werte werden nicht gespeichert, nur kopiert.
+- **Keine Schlüssel im Cockpit:** Integrationen speichern nur, *wo* der Schlüssel liegt. Eine Erkennung (bekannte Formate wie `sk-…`, `ghp_…`, JWT, private Schlüssel, „Passwort: …“, lange Zufallsfolgen) warnt in allen Feldern und lässt erst nach Entfernen oder Bestätigung speichern.
+- **Abos:** Kosten pro Monat (jährlich geteilt durch 12), Verlängerungen werden ab dem eingetragenen Termin fortgeschrieben (Monatsende begrenzt), der letzte Kündigungstag erscheint im Kalender (neue Art „Abo“), in der Cockpit-Woche und 30 Tage vorher im Panel „Abo-Fristen“; Summe im Dashboard.
+
+## 2026-10-08 – Gmail-Anbindung (Roadmap v6, task-12-1 und task-12-2)
+
+- **Gmail statt IMAP:** Saschas Wahl. Direkt aus dem Browser, ohne eigenen Server.
+- **Anmeldung per Weiterleitung** (OAuth 2.0 für clientseitige Apps, `response_type=token`) statt Google-Skript: Die CSP bleibt für Skripte bei `'self'`. State-Prüfung gegen untergeschobene Rücksprünge; der Token wird sofort aus der Adresse entfernt und nur im Arbeitsspeicher gehalten (keine Speicherung, Ablauf nach etwa einer Stunde). Nach der Rückkehr ist der Tresor gesperrt – bewusst, weil die Seite neu geladen wurde.
+- **Nur `gmail.readonly`** und nur Kopfzeilen plus Gmail-Auszug (`format=metadata`), keine Anhänge, kein Volltext.
+- **Datenminimierung:** Gesucht wird nur nach Adressen der Kontakte und Domains der Unternehmen (Freemail-Domains ausgenommen), ab dem letzten Abruf. Mails, die niemandem zuzuordnen sind, werden nicht gespeichert. Nach Übernahme in den Verlauf oder Verwerfen bleiben nur Gmail-ID und Status, damit nichts doppelt kommt. Löschen eines Kontakts löscht seine Mails.
+- **Protokoll ohne Inhalte Dritter:** Aktivitäten zu Mails nennen nur das Datum, nicht Betreff oder Absender.
+- **Neuer Kontakt aus einer Mail** (z. B. Personalabteilung): Rechtsgrundlage „Vertrag/Anbahnung“ und Zweck werden nur bei einer zugeordneten Bewerbung vorbelegt, sonst bleibt beides offen zur Prüfung.
+- **Einziges Netzwerkmodul** für Google ist `src/data/gmail/gmail.ts`; der Quelltext-Wächter erlaubt `fetch` nur dort und prüft die Zieladressen.

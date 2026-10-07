@@ -24,21 +24,20 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 
 ## Kernfunktionen
 
-1. Arbeitscockpit
-2. Projekte
+1. Arbeitscockpit und Dashboard
+2. Projekte, Aufgaben & Termine, Kalender
 3. Automationen
-4. Weiterbildung
-5. PIKARTZ.AI
-6. Aufgaben
-7. Kontakte & Leads
-8. Bewerbungen
-9. Einstellungen
+4. KI-Werkzeugkasten: Masterprompts, Befehle, Agenten, Skills, Anleitungen, Integrationen, Workflows, Modelle & Abos (Roadmap v6)
+5. Weiterbildung und Wissen (zweites Gehirn)
+6. Kontakte & Leads, Postfach (Gmail, nur lesend, Roadmap v6), Bewerbungen
+7. PIKARTZ.AI
+8. Einstellungen
 
 ## Nicht-Ziele
 
 - kein Mehrbenutzer- oder Login-System
 - kein eigenes Server-Backend; Daten verschlüsselt im Browser, optional Ende-zu-Ende-verschlüsselt über Supabase synchronisiert (Roadmap v4)
-- keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable usw.
+- keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable usw.; einzige Ausnahme ist optional Gmail nur lesend (Roadmap v6), Zugangsdaten werden nie im Cockpit gespeichert
 - keine erfundenen Daten (Kennzahlen, Umsätze, Termine, Kontakte, Fortschritte)
 - keine dekorativen Diagramme oder Animationen ohne Funktion
 
@@ -46,7 +45,7 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 
 Eine lauffähige App mit:
 
-- responsiver Navigation über alle neun Bereiche
+- responsiver Navigation über alle Bereiche (seit Roadmap v6 in Gruppen)
 - berechnetem Arbeitscockpit
 - bearbeitbaren Projekten, Aufgaben und Weiterbildungsaufgaben
 - Automationsübersicht und PIKARTZ.AI-Designregeln
