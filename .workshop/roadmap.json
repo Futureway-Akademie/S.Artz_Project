@@ -762,7 +762,7 @@
             "Test prüft index.html und Quellcode auf externe Abrufe",
             "Externe Links öffnen mit noopener/noreferrer"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T14:36:30Z",
           "completedAt": "2026-10-07T14:40:06Z",
           "verification": {
             "status": "passed",
@@ -783,7 +783,7 @@
           "description": "Daten im Browser nur verschlüsselt (AES-GCM, PBKDF2) speichern; Passwort beim ersten Start festlegen; Sperre nach Inaktivität; Passwort ändern.",
           "order": 3,
           "weight": 3,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-5-1"
           ],
@@ -794,7 +794,7 @@
             "Automatische Sperre nach einstellbarer Inaktivität",
             "Passwort ändern möglich, Hinweis auf fehlende Wiederherstellung"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T14:40:28Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

@@ -101,3 +101,4 @@
 {"timestamp":"2026-10-07T14:36:03Z","type":"task_ready","taskId":"task-5-3","summary":"Task 'Verschlüsselung mit Passwort und automatischer Sperre' ist startbar."}
 {"timestamp":"2026-10-07T14:40:06Z","type":"verification_passed","taskId":"task-5-2","summary":"CSP aktiv, Abruf nach außen im Browser blockiert; 210 Tests grün."}
 {"timestamp":"2026-10-07T14:40:06Z","type":"task_completed","taskId":"task-5-2","summary":"Task 'Keine Verbindung nach außen' abgeschlossen."}
+{"timestamp":"2026-10-07T14:40:28Z","type":"task_started","taskId":"task-5-3","summary":"Task 'Verschlüsselung mit Passwort und automatischer Sperre' gestartet."}
