@@ -32,7 +32,7 @@ function daten(): AppData {
   return {
     ...beispielSeed(now),
     wissen: [
-      eintrag('w1', { typ: 'prompt', titel: 'Klassifizieren mit Begründung', inhalt: 'Ordne die Anfrage einer Kategorie zu …', thema: 'Prompting', schlagworte: ['n8n'], projektIds: ['seed-projekt-ki-skills'] }),
+      eintrag('w1', { typ: 'erkenntnis', titel: 'Klassifizieren mit Begründung', inhalt: 'Ordne die Anfrage einer Kategorie zu …', thema: 'Prompting', schlagworte: ['n8n'], projektIds: ['seed-projekt-ki-skills'] }),
       eintrag('w2', { typ: 'tagebuch', titel: 'Kurstag 47', inhalt: 'Webhooks verstanden', datum: '2026-10-06', kursId: 'seed-kurs-beispiel' }),
       eintrag('w3', { typ: 'tool', titel: 'Werkzeug B', thema: 'prompting' }),
     ],
@@ -43,7 +43,7 @@ describe('Zweites Gehirn', () => {
   it('filtert, kennt Themen ohne Dubletten und findet das Tagebuch je Tag', () => {
     const d = daten()
     expect(wissenThemen(d)).toEqual(['Prompting'])
-    expect(wissenListe(d, { suche: '', typ: 'prompt', thema: '', schlagwort: '' }).map((w) => w.id)).toEqual(['w1'])
+    expect(wissenListe(d, { suche: '', typ: 'erkenntnis', thema: '', schlagwort: '' }).map((w) => w.id)).toEqual(['w1'])
     expect(wissenListe(d, { suche: 'webhooks', typ: '', thema: '', schlagwort: '' }).map((w) => w.id)).toEqual(['w2'])
     expect(wissenListe(d, { suche: '', typ: '', thema: 'PROMPTING', schlagwort: '' }).map((w) => w.id).sort()).toEqual(['w1', 'w3'])
     expect(tagebuchEintrag(d, '2026-10-06')?.id).toBe('w2')
@@ -72,12 +72,12 @@ describe('Zweites Gehirn', () => {
       vi.useRealTimers()
     })
 
-    it('legt einen Prompt mit Thema, Schlagworten und Projekt an und zeigt ihn im Detail', () => {
+    it('legt eine Erkenntnis mit Thema, Schlagworten und Projekt an und zeigt ihn im Detail', () => {
       const { gespeichert } = renderApp('/wissen')
       expect(screen.getByText('Noch kein Wissen festgehalten')).toBeInTheDocument()
       fireEvent.click(screen.getByRole('button', { name: 'Wissen festhalten' }))
       const dialog = screen.getByRole('dialog', { name: 'Wissen festhalten' })
-      fireEvent.change(within(dialog).getByLabelText(/^Art/), { target: { value: 'prompt' } })
+      fireEvent.change(within(dialog).getByLabelText(/^Art/), { target: { value: 'erkenntnis' } })
       fireEvent.change(within(dialog).getByLabelText(/^Titel/), { target: { value: 'Zusammenfassen in 3 Punkten' } })
       fireEvent.change(within(dialog).getByLabelText(/^Thema/), { target: { value: 'Prompting' } })
       fireEvent.change(within(dialog).getByLabelText(/^Inhalt/), { target: { value: 'Fasse den Text in 3 Punkten zusammen.' } })
@@ -92,7 +92,7 @@ describe('Zweites Gehirn', () => {
       act(() => {
         window.dispatchEvent(new Event('pagehide'))
       })
-      expect(gespeichert().wissen[0]).toMatchObject({ typ: 'prompt', thema: 'Prompting', schlagworte: ['Claude', 'Alltag'], projektIds: ['seed-projekt-ki-skills'] })
+      expect(gespeichert().wissen[0]).toMatchObject({ typ: 'erkenntnis', thema: 'Prompting', schlagworte: ['Claude', 'Alltag'], projektIds: ['seed-projekt-ki-skills'] })
     })
 
     it('führt das Lerntagebuch auf der Weiterbildungsseite mit dem heutigen Kurstag', () => {

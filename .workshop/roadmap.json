@@ -1469,7 +1469,7 @@
           "description": "Schema v8 mit Sammlung werkzeug (Typen prompt, befehl, agent, skill, anleitung, integration, workflow, abo), Übernahme der Wissens-Prompts, Sidebar mit Gruppen und eigenem Bereich je Typ, Suche und Verknüpfung mit Projekten.",
           "order": 1,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Schema v8 mit Migration ohne Datenverlust (Prompts aus Wissen übernommen)",
@@ -1477,12 +1477,16 @@
             "Liste, Filter, Detailseite und Dialog je Typ; Suche (Strg+K) findet Einträge"
           ],
           "startedAt": "2026-10-07T18:13:50Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T23:15:57Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Schema v8 mit Sammlung werkzeug und Migration 7→8 (Wissens-Prompts werden Masterprompts, Aktivitäten umgehängt, getestet). Sidebar in Gruppen mit einklappbarem KI-Werkzeugkasten (8 Unterpunkte, Icon-Leiste mit einem Eintrag). Übersicht, Liste mit Filter, Detailseite und Dialog je Typ; Suche, Projekt-Gesamtsicht und Löschfolgen erweitert. tsc, eslint, 346 Tests inkl. axe der neuen Seiten grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:15:57Z"
           }
         },
         {
@@ -1491,7 +1495,7 @@
           "description": "Masterprompts mit Platzhaltern zum Ausfüllen, Vorschau und Kopieren, Zielmodell und Versionsnotiz; Befehle mit Umgebung (Terminal, Claude Code, Git …) und Kopierknopf.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1500,7 +1504,7 @@
             "Ausgefüllter Prompt bzw. Befehl lässt sich kopieren",
             "Zielmodell bzw. Umgebung und Versionsnotiz erfassbar"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T23:15:57Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
@@ -1515,7 +1519,7 @@
           "description": "Agenten mit Rolle, Systemprompt, Plattform, Werkzeugen (verknüpfte Integrationen) und Status; Skills; Workflows (n8n, Make) mit Auslöser, Schritten und Export-Notiz.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1539,7 +1543,7 @@
           "description": "Anleitungen zum Installieren oder Implementieren mit abhakbaren Schritten und Fortschritt; Integrationen (MCP-Server, API, App) mit Status, Doku-Link, Ablageort der Zugangsdaten (nie der Schlüssel selbst) und Datenschutz-Angaben.",
           "order": 4,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1563,7 +1567,7 @@
           "description": "Modelle und Abos mit Anbieter, Kosten pro Monat, Abrechnung, Verlängerung und Kündigungsfrist; Summe im Dashboard, Kündigungsfristen im Kalender und Cockpit.",
           "order": 5,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1589,7 +1593,7 @@
       "description": "Nur lesender Abruf von Mails aus Gmail direkt aus dem Browser (OAuth), Zuordnung zu Kontakten, Unternehmen und Bewerbungen; Mails verschlüsselt im Tresor.",
       "order": 12,
       "weight": 8,
-      "status": "planned",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-12-1",
@@ -1597,7 +1601,7 @@
           "description": "OAuth-Weiterleitung zu Google ohne fremdes Skript, Berechtigung gmail.readonly, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für die Gmail-API bei Konfiguration; Einrichtungsanleitung.",
           "order": 1,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-11-1"
           ],

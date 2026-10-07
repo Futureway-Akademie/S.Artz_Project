@@ -7,6 +7,8 @@ import type {
   bewerbungSchema,
   vorlageSchema,
   wissenSchema,
+  werkzeugSchema,
+  schrittSchema,
   bezugSchema,
   deckSchema,
   designregelSchema,
@@ -45,6 +47,9 @@ export type Zielrolle = z.infer<typeof zielrolleSchema>
 export type Bewerbung = z.infer<typeof bewerbungSchema>
 export type Vorlage = z.infer<typeof vorlageSchema>
 export type Wissen = z.infer<typeof wissenSchema>
+export type Werkzeug = z.infer<typeof werkzeugSchema>
+export type WerkzeugTyp = Werkzeug['typ']
+export type Schritt = z.infer<typeof schrittSchema>
 export type Aktivitaet = z.infer<typeof aktivitaetSchema>
 export type Einstellungen = z.infer<typeof einstellungenSchema>
 export type AppData = z.infer<typeof appDataSchema>

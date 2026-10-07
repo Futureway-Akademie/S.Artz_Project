@@ -3,7 +3,6 @@ import { hatSchlagwort } from './schlagworte.ts'
 
 export const WISSEN_TYP: Record<Wissen['typ'], { label: string; mehrzahl: string; hinweis: string }> = {
   notiz: { label: 'Notiz', mehrzahl: 'Notizen', hinweis: 'Freie Mitschrift' },
-  prompt: { label: 'Prompt', mehrzahl: 'Prompts', hinweis: 'Bewährter Prompt zum Wiederverwenden' },
   tool: { label: 'Tool', mehrzahl: 'Tools', hinweis: 'Werkzeug mit Einsatzzweck und Erfahrungen' },
   erkenntnis: { label: 'Erkenntnis', mehrzahl: 'Erkenntnisse', hinweis: 'Was du gelernt hast – kurz und merkbar' },
   quelle: { label: 'Quelle', mehrzahl: 'Quellen', hinweis: 'Artikel, Video, Doku mit Zusammenfassung' },
@@ -51,7 +50,7 @@ export function letzteTagebuchEintraege(data: AppData, anzahl = 5): Wissen[] {
 
 /** Anzahl je Typ für die Übersicht */
 export function wissenZaehler(data: AppData): Record<Wissen['typ'], number> {
-  const z = { notiz: 0, prompt: 0, tool: 0, erkenntnis: 0, quelle: 0, tagebuch: 0 }
+  const z = { notiz: 0, tool: 0, erkenntnis: 0, quelle: 0, tagebuch: 0 }
   for (const w of data.wissen) z[w.typ]++
   return z
 }

@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 7
+export const SCHEMA_VERSION = 8
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -226,7 +226,7 @@ export const vorlageSchema = z.object({
 /** Zweites Gehirn: Wissen zu KI und Weiterbildung */
 export const wissenSchema = z.object({
   ...meta,
-  typ: z.enum(['notiz', 'prompt', 'tool', 'erkenntnis', 'quelle', 'tagebuch']),
+  typ: z.enum(['notiz', 'tool', 'erkenntnis', 'quelle', 'tagebuch']),
   titel: z.string().min(1),
   inhalt: z.string(),
   /** Freies Thema, z. B. „Prompting“, „n8n“ */
@@ -239,6 +239,59 @@ export const wissenSchema = z.object({
   projektIds: z.array(id),
   kursId: id.nullable(),
   kursAufgabeIds: z.array(id),
+})
+
+export const werkzeugTypen = ['prompt', 'befehl', 'agent', 'skill', 'anleitung', 'integration', 'workflow', 'abo'] as const
+
+export const schrittSchema = z.object({
+  text: z.string().min(1),
+  erledigt: z.boolean(),
+})
+
+/** Nur Angaben, nie Zugangsdaten: wo der Schlüssel liegt, nicht der Schlüssel selbst. */
+export const integrationAngabenSchema = z.object({
+  art: z.enum(['mcp', 'api', 'app', 'sonstige']),
+  /** z. B. „Passwortmanager, Eintrag Supabase“ */
+  schluesselOrt: z.string(),
+  /** Speicher- bzw. Verarbeitungsort, z. B. „EU (Frankfurt)“ */
+  region: z.string(),
+  /** Auftragsverarbeitungsvertrag (Art. 28 DSGVO) */
+  avv: z.enum(['ja', 'nein', 'nicht_noetig']).nullable(),
+})
+
+export const aboAngabenSchema = z.object({
+  kostenEur: z.number().min(0).nullable(),
+  intervall: z.enum(['monatlich', 'jaehrlich', 'nutzung', 'kostenlos']),
+  naechsteVerlaengerung: datum.nullable(),
+  /** Kündigungsfrist in Tagen vor der Verlängerung */
+  kuendigungsfristTage: z.number().int().min(0).nullable(),
+})
+
+/** KI-Werkzeugkasten: Masterprompts, Befehle, Agenten, Skills, Anleitungen, Integrationen, Workflows, Modelle & Abos */
+export const werkzeugSchema = z.object({
+  ...meta,
+  typ: z.enum(werkzeugTypen),
+  titel: z.string().min(1),
+  /** Wofür ist es da? */
+  beschreibung: z.string(),
+  /** Prompt, Befehl, Systemprompt oder freie Notiz */
+  inhalt: z.string(),
+  /** Zielmodell, Umgebung, Plattform oder Anbieter – je nach Typ */
+  plattform: z.string(),
+  status: z.enum(['geplant', 'in_arbeit', 'aktiv', 'archiviert']),
+  /** Versionsnotiz, z. B. „v3 – mit Beispielen“ */
+  version: z.string(),
+  /** Doku- oder Quell-Link */
+  link: z.string(),
+  /** Auslöser bei Workflows, Einsatzfall bei Agenten */
+  ausloeser: z.string(),
+  schritte: z.array(schrittSchema),
+  integration: integrationAngabenSchema.nullable(),
+  abo: aboAngabenSchema.nullable(),
+  /** Verknüpfte Werkzeuge, z. B. Integrationen eines Agenten */
+  werkzeugIds: z.array(id),
+  projektIds: z.array(id),
+  schlagworte: z.array(z.string()),
 })
 
 export const sammlungen = [
@@ -257,6 +310,7 @@ export const sammlungen = [
   'bewerbungen',
   'vorlagen',
   'wissen',
+  'werkzeug',
 ] as const
 
 export const aktivitaetSchema = z.object({
@@ -295,6 +349,7 @@ export const appDataSchema = z.object({
   bewerbungen: z.array(bewerbungSchema),
   vorlagen: z.array(vorlageSchema),
   wissen: z.array(wissenSchema),
+  werkzeug: z.array(werkzeugSchema),
   aktivitaeten: z.array(aktivitaetSchema),
   einstellungen: einstellungenSchema,
 })

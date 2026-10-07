@@ -120,6 +120,24 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
     titel: (w: Eintrag<'wissen'>) => w.titel,
     felder: { ...gemeinsam, typ: 'Typ', inhalt: 'Inhalt', thema: 'Thema', quelle: 'Quelle', datum: 'Datum', projektIds: 'Projekte', kursId: 'Kurs', kursAufgabeIds: 'Kursaufgaben' },
   },
+  werkzeug: {
+    einzahl: 'Werkzeug',
+    titel: (w: Eintrag<'werkzeug'>) => w.titel,
+    felder: {
+      ...gemeinsam,
+      typ: 'Typ',
+      inhalt: 'Inhalt',
+      plattform: 'Plattform',
+      version: 'Version',
+      link: 'Link',
+      ausloeser: 'Auslöser',
+      schritte: 'Schritte',
+      integration: 'Integration',
+      abo: 'Abo',
+      werkzeugIds: 'Verknüpfte Werkzeuge',
+      projektIds: 'Projekte',
+    },
+  },
 }
 
 export function titelVon<S extends Sammlung>(sammlung: S, eintrag: Eintrag<S>): string {

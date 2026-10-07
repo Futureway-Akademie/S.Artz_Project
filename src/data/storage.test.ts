@@ -162,6 +162,29 @@ describe('Migration 6 → 7', () => {
   })
 })
 
+describe('Migration 7 → 8', () => {
+  it('übernimmt Prompts aus dem Wissen als Masterprompts, ohne Daten zu verlieren', () => {
+    const zeit = '2026-10-01T09:00:00.000Z'
+    const prompt = { id: 'w1', typ: 'prompt', titel: 'Klassifizieren', inhalt: 'Ordne zu …', thema: 'Prompting', quelle: 'Kurstag 12', schlagworte: ['n8n'], datum: null, projektIds: ['p1'], kursId: null, kursAufgabeIds: [], erstelltAm: zeit, geaendertAm: zeit }
+    const notiz = { ...prompt, id: 'w2', typ: 'notiz', titel: 'Notiz' }
+    const v7 = {
+      ...createEmptyData(),
+      schemaVersion: 7,
+      wissen: [prompt, notiz],
+      aktivitaeten: [{ id: 'a1', zeitpunkt: zeit, art: 'angelegt', bezug: { sammlung: 'wissen', id: 'w1', titel: 'Klassifizieren' }, zusammenfassung: 'x' }],
+    } as Record<string, unknown>
+    delete v7.werkzeug
+    const ergebnis = parseAppData(JSON.stringify(v7))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status !== 'ok') return
+    expect(ergebnis.data.wissen.map((w) => w.id)).toEqual(['w2'])
+    expect(ergebnis.data.werkzeug).toEqual([
+      expect.objectContaining({ id: 'w1', typ: 'prompt', titel: 'Klassifizieren', inhalt: 'Ordne zu …', link: 'Kurstag 12', schlagworte: ['n8n', 'Prompting'], projektIds: ['p1'], erstelltAm: zeit }),
+    ])
+    expect(ergebnis.data.aktivitaeten[0]!.bezug.sammlung).toBe('werkzeug')
+  })
+})
+
 describe('saveAppData', () => {
   it('speichert als JSON unter dem festen Schlüssel', () => {
     const storage = createFakeStorage()

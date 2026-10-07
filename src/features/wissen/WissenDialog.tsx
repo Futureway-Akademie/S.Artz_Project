@@ -128,7 +128,7 @@ export function WissenDialog({ eintrag, vorgabe = {}, onSchliessen, onGeloescht 
           value={werte.inhalt}
           onChange={(e) => setze('inhalt', e.target.value)}
           rows={10}
-          hint={werte.typ === 'prompt' ? 'Den Prompt so einfügen, wie du ihn wiederverwenden willst.' : 'Absätze und Aufzählungen bleiben erhalten.'}
+          hint="Absätze und Aufzählungen bleiben erhalten. Prompts gehören in den Werkzeugkasten (Masterprompts)."
         />
         <div className={styles.zeile}>
           <TextField label="Quelle" value={werte.quelle} onChange={(e) => setze('quelle', e.target.value)} hint="Link oder Herkunft, z. B. Kurstag 12, Buch, Video" />

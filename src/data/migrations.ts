@@ -49,6 +49,48 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
   }),
   // v7: Zweites Gehirn (Wissen zu KI und Weiterbildung)
   6: (data) => ({ ...data, schemaVersion: 7, wissen: liste(data.wissen) }),
+  // v8: KI-Werkzeugkasten; Prompts aus dem Wissen werden zu Masterprompts (gleiche ID, nichts geht verloren)
+  7: (data) => {
+    const wissen = liste(data.wissen)
+    const prompts = wissen.filter((w) => w.typ === 'prompt')
+    const ids = new Set(prompts.map((w) => w.id))
+    return {
+      ...data,
+      schemaVersion: 8,
+      wissen: wissen.filter((w) => w.typ !== 'prompt'),
+      werkzeug: [...liste(data.werkzeug), ...prompts.map(alsMasterprompt)],
+      aktivitaeten: liste(data.aktivitaeten).map((a) => {
+        const bezug = objekt(a.bezug)
+        return bezug.sammlung === 'wissen' && ids.has(bezug.id as string) ? { ...a, bezug: { ...bezug, sammlung: 'werkzeug' } } : a
+      }),
+    }
+  },
+}
+
+/** Wissens-Prompt → Masterprompt; das Thema wird zum Schlagwort. */
+function alsMasterprompt(w: Record<string, unknown>): Record<string, unknown> {
+  const thema = typeof w.thema === 'string' ? w.thema.trim() : ''
+  const schlagworte = Array.isArray(w.schlagworte) ? (w.schlagworte as string[]) : []
+  return {
+    id: w.id,
+    erstelltAm: w.erstelltAm,
+    geaendertAm: w.geaendertAm,
+    typ: 'prompt',
+    titel: w.titel,
+    beschreibung: '',
+    inhalt: w.inhalt ?? '',
+    plattform: '',
+    status: 'aktiv',
+    version: '',
+    link: w.quelle ?? '',
+    ausloeser: '',
+    schritte: [],
+    integration: null,
+    abo: null,
+    werkzeugIds: [],
+    projektIds: Array.isArray(w.projektIds) ? w.projektIds : [],
+    schlagworte: thema && !schlagworte.some((s) => s.toLowerCase() === thema.toLowerCase()) ? [...schlagworte, thema] : schlagworte,
+  }
 }
 
 function objekt(value: unknown): Record<string, unknown> {

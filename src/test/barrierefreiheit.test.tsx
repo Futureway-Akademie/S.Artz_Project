@@ -3,6 +3,7 @@ import axe from 'axe-core'
 import { beispielSeed } from './beispielStart.ts'
 import type { AppData } from '../domain/types.ts'
 import { renderApp } from './renderApp.tsx'
+import { leeresWerkzeug } from '../domain/selectors/werkzeug.ts'
 
 /**
  * Automatische Barrierefreiheitsprüfung (axe-core, WCAG 2.x A/AA) aller Seiten.
@@ -87,7 +88,11 @@ function beispieldaten(): AppData {
           }
         : p,
     ),
-    wissen: [{ id: 'w1', typ: 'prompt', titel: 'Prompt', inhalt: 'Text', thema: 'Prompting', quelle: 'https://example.org', schlagworte: ['x'], datum: null, projektIds: ['seed-projekt-ki-skills'], kursId: null, kursAufgabeIds: [], ...meta }],
+    wissen: [{ id: 'w1', typ: 'erkenntnis', titel: 'Erkenntnis', inhalt: 'Text', thema: 'Prompting', quelle: 'https://example.org', schlagworte: ['x'], datum: null, projektIds: ['seed-projekt-ki-skills'], kursId: null, kursAufgabeIds: [], ...meta }],
+    werkzeug: [
+      { ...leeresWerkzeug('prompt'), id: 't1', titel: 'Bewerbung anschreiben', inhalt: 'Schreibe an {{firma}}', schlagworte: ['Karriere'], projektIds: ['seed-projekt-ki-skills'], werkzeugIds: ['t2'], ...meta },
+      { ...leeresWerkzeug('integration'), id: 't2', titel: 'Supabase MCP', plattform: 'Supabase', ...meta },
+    ],
     aktivitaeten: [{ id: 'a1', zeitpunkt: zeit, art: 'angelegt', bezug: { sammlung: 'kontakte', id: 'k1', titel: 'Kim Muster' }, zusammenfassung: 'Kontakt „Kim Muster“ angelegt' }],
   }
 }
@@ -105,6 +110,11 @@ const SEITEN = [
   '/kalender?datum=2026-10-07',
   '/wissen',
   '/wissen/w1',
+  '/werkzeug',
+  '/werkzeug/prompts',
+  '/werkzeug/prompts/t1',
+  '/werkzeug/integrationen/t2',
+  '/werkzeug/abos',
   '/kalender?ansicht=woche&datum=2026-10-07',
   '/kalender?ansicht=liste&datum=2026-10-01',
   '/kontakte',

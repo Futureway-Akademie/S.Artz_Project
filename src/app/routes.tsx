@@ -18,13 +18,14 @@ import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
 import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden } from '../features/NichtGefunden.tsx'
+import { WerkzeugDetailSeite, WerkzeugListeSeite, WerkzeugUebersicht } from '../features/werkzeug/WerkzeugSeiten.tsx'
 import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
 import { WissenDetailSeite } from '../features/wissen/WissenDetailSeite.tsx'
 import { WissenSeite } from '../features/wissen/WissenSeite.tsx'
 import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
 import { ProjekteSeite } from '../features/projekte/ProjekteSeite.tsx'
 
-/** Alle Routen der App: neun Bereiche, Unterseiten und „Seite nicht gefunden“. */
+/** Alle Routen der App: Bereiche, Werkzeugkasten, Unterseiten und „Seite nicht gefunden“. */
 export function AppRoutes() {
   return (
     <Routes>
@@ -43,6 +44,11 @@ export function AppRoutes() {
         <Route path="wissen">
           <Route index element={<WissenSeite />} />
           <Route path=":id" element={<WissenDetailSeite />} />
+        </Route>
+        <Route path="werkzeug">
+          <Route index element={<WerkzeugUebersicht />} />
+          <Route path=":art" element={<WerkzeugListeSeite />} />
+          <Route path=":art/:id" element={<WerkzeugDetailSeite />} />
         </Route>
         <Route path="kontakte">
           <Route index element={<KontakteSeite />} />

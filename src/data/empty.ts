@@ -19,6 +19,7 @@ export function createEmptyData(): AppData {
     bewerbungen: [],
     vorlagen: [],
     wissen: [],
+    werkzeug: [],
     aktivitaeten: [],
     einstellungen: { anzeigename: '', letzteSicherungAm: null },
   }

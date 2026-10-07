@@ -41,6 +41,10 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
       add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.projektId === id))
       add('entknuepft', 'leads', data.leads.filter((l) => l.projektId === id))
       add('entknuepft', 'wissen', data.wissen.filter((w) => w.projektIds.includes(id)))
+      add('entknuepft', 'werkzeug', data.werkzeug.filter((w) => w.projektIds.includes(id)))
+      break
+    case 'werkzeug':
+      add('entknuepft', 'werkzeug', data.werkzeug.filter((w) => w.werkzeugIds.includes(id)))
       break
     case 'kurse':
       add('geloescht', 'kursAufgaben', data.kursAufgaben.filter((k) => k.kursId === id))
@@ -103,6 +107,10 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
       next.interaktionen = next.interaktionen.map((i) => (i.projektId === id ? { ...i, projektId: null } : i))
       next.leads = next.leads.map((l) => (l.projektId === id ? { ...l, projektId: null } : l))
       next.wissen = next.wissen.map((w) => (w.projektIds.includes(id) ? { ...w, projektIds: w.projektIds.filter((p) => p !== id) } : w))
+      next.werkzeug = next.werkzeug.map((w) => (w.projektIds.includes(id) ? { ...w, projektIds: w.projektIds.filter((p) => p !== id) } : w))
+      break
+    case 'werkzeug':
+      next.werkzeug = next.werkzeug.map((w) => (w.werkzeugIds.includes(id) ? { ...w, werkzeugIds: w.werkzeugIds.filter((x) => x !== id) } : w))
       break
     case 'kurse':
       next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'weiterbildung'))

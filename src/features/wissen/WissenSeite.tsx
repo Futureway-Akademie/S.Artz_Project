@@ -13,7 +13,7 @@ import type { Wissen } from '../../domain/types.ts'
 import styles from '../kontakte/crm.module.css'
 import { WissenDialog } from './WissenDialog.tsx'
 
-/** Zweites Gehirn: Notizen, Prompts, Tools, Erkenntnisse, Quellen und Lerntagebuch zu KI und Weiterbildung. */
+/** Zweites Gehirn: Notizen, Tools, Erkenntnisse, Quellen und Lerntagebuch zu KI und Weiterbildung. */
 export function WissenSeite() {
   const { data } = useStore()
   const [filter, setFilter] = useState<WissenFilter>(LEERER_WISSEN_FILTER)
@@ -38,7 +38,7 @@ export function WissenSeite() {
     >
       {data.wissen.length === 0 ? (
         <EmptyState title="Noch kein Wissen festgehalten" action={<Button onClick={() => setAnlegen('notiz')}>Ersten Eintrag anlegen</Button>}>
-          Halte Prompts, die funktionieren, Tools mit Erfahrungen, Erkenntnisse aus dem Kurs und Quellen fest – oder führe dein
+          Halte Tools mit Erfahrungen, Erkenntnisse aus dem Kurs und Quellen fest – oder führe dein
           Lerntagebuch je Kurstag.
         </EmptyState>
       ) : (

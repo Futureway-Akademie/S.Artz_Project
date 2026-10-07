@@ -33,11 +33,11 @@ function hauptnavigation() {
 const navLink = (name: string) => within(hauptnavigation()).getByRole('link', { name, hidden: true })
 
 describe('App-Shell', () => {
-  it('erreicht alle zwölf Bereiche über die Navigation', () => {
+  it('erreicht alle Bereiche und Werkzeugkasten-Unterpunkte über die Navigation', () => {
     renderApp()
     const links = within(hauptnavigation()).getAllByRole('link', { hidden: true })
     expect(links.map((l) => l.textContent)).toEqual(NAVIGATION.map((n) => n.label))
-    expect(NAVIGATION).toHaveLength(12)
+    expect(NAVIGATION).toHaveLength(21)
 
     for (const eintrag of NAVIGATION) {
       fireEvent.click(navLink(eintrag.label))
@@ -46,7 +46,7 @@ describe('App-Shell', () => {
       )
       expect(navLink(eintrag.label)).toHaveAttribute('aria-current', 'page')
     }
-  })
+  }, 20_000)
 
   it('setzt den Fokus nach einem Seitenwechsel auf die Überschrift', () => {
     renderApp()

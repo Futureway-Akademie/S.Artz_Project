@@ -1,5 +1,6 @@
 import { formatDatum } from '../dates.ts'
 import type { AppData } from '../types.ts'
+import { WERKZEUG_TYP, werkzeugLink } from './werkzeug.ts'
 
 export interface Treffer {
   /** Eindeutig über alle Bereiche */
@@ -76,6 +77,11 @@ export function suche(data: AppData, eingabe: string, max = 30): Treffer[] {
     add(
       { schluessel: `wissen:${w.id}`, art: w.typ === 'tagebuch' ? 'Lerntagebuch' : 'Wissen', titel: w.titel, unter: [w.thema, w.datum && formatDatum(w.datum)].filter(Boolean).join(' · '), link: `/wissen/${w.id}` },
       [w.inhalt, w.quelle, ...w.schlagworte],
+    )
+  for (const w of data.werkzeug)
+    add(
+      { schluessel: `werkzeug:${w.id}`, art: WERKZEUG_TYP[w.typ].einzahl, titel: w.titel, unter: [w.plattform, w.beschreibung].filter(Boolean).join(' · '), link: werkzeugLink(w) },
+      [w.inhalt, w.version, ...w.schlagworte],
     )
   for (const k of data.kursAufgaben)
     add({ schluessel: `kursaufgabe:${k.id}`, art: 'Kursaufgabe', titel: `${k.code} ${k.titel}`, unter: '', link: '/weiterbildung' }, [k.notiz])

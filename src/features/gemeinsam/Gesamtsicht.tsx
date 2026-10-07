@@ -9,6 +9,7 @@ import { formatDatum } from '../../domain/dates.ts'
 import { BEWERBUNG_STATUS, INTERAKTION_ART, LEAD_STATUS, PROJEKT_STATUS } from '../../domain/labels.ts'
 import { bezugInfo } from '../../domain/selectors/bezug.ts'
 import { selectVerknuepft, type Verknuepft, type Ziel } from '../../domain/selectors/verknuepft.ts'
+import { WERKZEUG_TYP, werkzeugLink } from '../../domain/selectors/werkzeug.ts'
 import { WISSEN_TYP } from '../../domain/selectors/wissen.ts'
 import type { Aufgabe, Termin } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
@@ -16,7 +17,7 @@ import { AufgabeDialog } from '../aufgaben/AufgabeDialog.tsx'
 import { TerminDialog } from '../aufgaben/TerminDialog.tsx'
 import styles from './Gesamtsicht.module.css'
 
-type Abschnitt = keyof Pick<Verknuepft, 'aufgaben' | 'termine' | 'verlauf' | 'kontakte' | 'unternehmen' | 'projekte' | 'bewerbungen' | 'leads' | 'wissen'>
+type Abschnitt = keyof Pick<Verknuepft, 'aufgaben' | 'termine' | 'verlauf' | 'kontakte' | 'unternehmen' | 'projekte' | 'bewerbungen' | 'leads' | 'wissen' | 'werkzeug'>
 
 interface GesamtsichtProps {
   ziel: Ziel
@@ -165,6 +166,13 @@ export function Gesamtsicht({ ziel, ohne = [] }: GesamtsichtProps) {
             id={`${ziel.id}-wissen`}
             titel="Wissen"
             eintraege={v.wissen.map((w) => ({ id: w.id, text: w.titel, link: `/wissen/${w.id}`, zusatz: WISSEN_TYP[w.typ].label }))}
+          />
+        )}
+        {zeigen('werkzeug') && v.werkzeug.length > 0 && (
+          <Liste
+            id={`${ziel.id}-werkzeug`}
+            titel="Werkzeugkasten"
+            eintraege={v.werkzeug.map((w) => ({ id: w.id, text: w.titel, link: werkzeugLink(w), zusatz: WERKZEUG_TYP[w.typ].einzahl }))}
           />
         )}
         {zeigen('leads') && v.leads.length > 0 && (
