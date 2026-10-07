@@ -33,11 +33,11 @@ function hauptnavigation() {
 const navLink = (name: string) => within(hauptnavigation()).getByRole('link', { name, hidden: true })
 
 describe('App-Shell', () => {
-  it('erreicht alle elf Bereiche über die Navigation', () => {
+  it('erreicht alle zwölf Bereiche über die Navigation', () => {
     renderApp()
     const links = within(hauptnavigation()).getAllByRole('link', { hidden: true })
     expect(links.map((l) => l.textContent)).toEqual(NAVIGATION.map((n) => n.label))
-    expect(NAVIGATION).toHaveLength(11)
+    expect(NAVIGATION).toHaveLength(12)
 
     for (const eintrag of NAVIGATION) {
       fireEvent.click(navLink(eintrag.label))

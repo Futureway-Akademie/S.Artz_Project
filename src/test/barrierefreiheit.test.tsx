@@ -94,6 +94,7 @@ function beispieldaten(): AppData {
 
 const SEITEN = [
   '/',
+  '/dashboard',
   '/projekte',
   '/projekte/seed-projekt-ki-skills',
   '/automationen',
@@ -127,7 +128,7 @@ describe('Barrierefreiheit (axe-core)', () => {
     expect(await pruefe(container)).toEqual([])
   })
 
-  it.each(['/', '/projekte', '/kontakte', '/bewerbungen', '/kontakte/leads'])('%s ohne Verstöße – im Leerzustand', async (pfad) => {
+  it.each(['/', '/dashboard', '/projekte', '/kontakte', '/bewerbungen', '/kontakte/leads'])('%s ohne Verstöße – im Leerzustand', async (pfad) => {
     const { container } = renderApp(pfad)
     expect(await pruefe(container)).toEqual([])
   })

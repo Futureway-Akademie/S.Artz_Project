@@ -68,6 +68,11 @@ const PFADE = {
     </>
   ),
   plus: <path d="M12 5v14M5 12h14" />,
+  dashboard: (
+    <>
+      <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
+    </>
+  ),
   wissen: (
     <>
       <path d="M9 18h6M10 21h4" />

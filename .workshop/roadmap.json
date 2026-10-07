@@ -1394,7 +1394,7 @@
       "description": "Grafische Auswertung aller Bereiche – selbst gezeichnete, barrierefreie SVG-Diagramme ohne Fremddienste, berechnet aus den eigenen Daten.",
       "order": 10,
       "weight": 7,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-10-1",
@@ -1428,7 +1428,7 @@
           "description": "Neue Seite /dashboard mit Kennzahlen und allen Diagrammen, Links in die Bereiche, responsiv bei 375/768/1280 px; Prüfung und Doku.",
           "order": 2,
           "weight": 4,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-10-1"
           ],
@@ -1438,13 +1438,19 @@
             "axe ohne Verstöße, Browserprüfung bei drei Breiten",
             "Architektur, Entscheidungen und Prüfprotokoll aktualisiert"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T18:06:19Z",
+          "completedAt": "2026-10-07T18:11:46Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Seite /dashboard (Navigation nach dem Cockpit) mit 8 Kennzahl-Kacheln (verlinkt) und 11 Grafiken: Aufgaben je Woche, Aktivitäts-Heatmap, Projekte nach Status/Kategorie, Bewerbungstrichter und -status, Leads mit Summen, Kontakte nach Kontext, Kontaktpflege, Weiterbildung, Wissen; Leerzustände ohne erfundene Werte; Tabellenansicht je Grafik. Tests (Seite, Leerzustand, axe) grün, 331 Tests insgesamt; im Browser bei 375/768/1280 px ohne Überlauf geprüft; Entscheidungen dokumentiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: /dashboard bei 375/768/1280 px"
+            ],
+            "checkedAt": "2026-10-07T18:11:46Z"
           }
         }
       ]

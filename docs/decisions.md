@@ -502,3 +502,20 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Auf dem Einrichtungsbildschirm: „Schon Daten auf einem anderen Gerät?“ → anmelden → „Daten aus der Cloud laden“ → mit dem Passwort entsperren.
   - Damit nutzen alle Geräte denselben Datenschlüssel, und eine eingerichtete Passwort-Wiederherstellung gilt überall.
 - **Fehler:** Die Daten bleiben lokal sicher. Ein Hinweis bietet „Erneut versuchen“.
+
+## 2026-10-07 – Dashboard (Roadmap v5, task-10-1 und task-10-2)
+
+- **Eigene Diagramme** (`src/components/diagramme/`): Balken, Ring, Wochenverlauf, Fortschritt, Aktivitäts-Heatmap und Kennzahl, als SVG bzw. HTML.
+  - Keine Fremdbibliothek und kein CDN, das passt zur Sicherheitsrichtlinie und spart Paketgröße.
+  - Farben kommen nur aus den Design-Tokens (mindestens 3:1). Die Bedeutung steht immer zusätzlich als Text mit Wert und Anteil daneben.
+  - Jede Grafik ist eine `figure` mit Titel und Zusammenfassung und lässt sich auf eine Tabelle umschalten (`aria-pressed`).
+- **Auswertungen** (`src/domain/selectors/dashboard.ts`, alle getestet):
+  - Projekte nach Status und Kategorie, Aufgaben neu und erledigt je Woche (8 Wochen).
+  - Bewerbungstrichter (erfasst → beworben → Gespräch → Angebot) und Bewerbungen nach Status, Leads je Status mit Summen.
+  - Kontakte nach Kontext und Kontaktpflege (aktiv, Funkstille, ohne Verlauf).
+  - Weiterbildung (Kurstage, Kursaufgaben), Wissen nach Art, Aktivität je Tag (12 Wochen).
+- **Seite `/dashboard`** (in der Navigation nach dem Cockpit):
+  - acht Kennzahl-Kacheln mit Links in die Bereiche, darunter elf Grafiken.
+  - Ohne Daten erscheinen Hinweise statt erfundener Werte.
+  - Im Browser bei 375, 768 und 1280 px ohne Überlauf geprüft; axe ohne Verstöße.
+- **Abgrenzung:** Das Cockpit bleibt die Tagesansicht (was ist heute zu tun), das Dashboard ist die Auswertung (wie steht es insgesamt).

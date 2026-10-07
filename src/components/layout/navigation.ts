@@ -11,6 +11,7 @@ export interface NavEintrag {
 /** Die Bereiche der App, in Navigationsreihenfolge. */
 export const NAVIGATION: NavEintrag[] = [
   { to: '/', label: 'Arbeitscockpit', kurz: 'Cockpit', icon: 'cockpit' },
+  { to: '/dashboard', label: 'Dashboard', kurz: 'Dashboard', icon: 'dashboard' },
   { to: '/projekte', label: 'Projekte', kurz: 'Projekte', icon: 'projekte' },
   { to: '/automationen', label: 'Automationen', kurz: 'Automat.', icon: 'automationen' },
   { to: '/weiterbildung', label: 'Weiterbildung', kurz: 'Kurs', icon: 'weiterbildung' },
