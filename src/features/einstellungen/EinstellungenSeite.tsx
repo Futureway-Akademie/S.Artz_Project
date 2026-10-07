@@ -18,6 +18,7 @@ import { formatZeitpunkt } from '../../domain/dates.ts'
 import { useStore } from '../../data/storeContext.ts'
 import type { AppData } from '../../domain/types.ts'
 import styles from './EinstellungenSeite.module.css'
+import { GmailPanel } from './GmailPanel.tsx'
 import { KontoPanel } from './KontoPanel.tsx'
 import { SicherheitPanel } from './SicherheitPanel.tsx'
 
@@ -136,6 +137,8 @@ export function EinstellungenSeite() {
       <SicherheitPanel />
 
       <KontoPanel />
+
+      <GmailPanel />
 
       <Panel titel="Datenschutz">
         <ul className={styles.punkte}>

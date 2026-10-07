@@ -7,7 +7,7 @@ import { contentSecurityPolicy } from './csp.config.ts'
 process.env.TZ = 'Europe/Berlin'
 
 export default defineConfig(({ mode }) => {
-  // Supabase-Adresse aus .env.local (nicht im Repository); ohne sie bleibt connect-src 'none'
+  // Supabase-Adresse und Google-Client-ID aus .env.local (nicht im Repository); ohne sie bleibt connect-src 'none'
   const env = loadEnv(mode, process.cwd(), 'VITE_')
   return {
     plugins: [
@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
         transformIndexHtml: () => [
           {
             tag: 'meta',
-            attrs: { 'http-equiv': 'Content-Security-Policy', content: contentSecurityPolicy(env.VITE_SUPABASE_URL || undefined) },
+            attrs: { 'http-equiv': 'Content-Security-Policy', content: contentSecurityPolicy(env.VITE_SUPABASE_URL || undefined, { gmail: Boolean(env.VITE_GOOGLE_CLIENT_ID) }) },
             injectTo: 'head-prepend',
           },
         ],

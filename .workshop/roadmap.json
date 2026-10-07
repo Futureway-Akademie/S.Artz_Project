@@ -1617,7 +1617,7 @@
           "description": "OAuth-Weiterleitung zu Google ohne fremdes Skript, Berechtigung gmail.readonly, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für die Gmail-API bei Konfiguration; Einrichtungsanleitung.",
           "order": 1,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1627,12 +1627,16 @@
             "Anleitung zur Einrichtung des Google-Cloud-Projekts"
           ],
           "startedAt": "2026-10-07T23:33:45Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T23:38:46Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Google-Anmeldung per Weiterleitung (OAuth implicit, kein Google-Skript), nur gmail.readonly, State-Prüfung, Token nur im Arbeitsspeicher und sofort aus der Adresse entfernt; Gmail-Modul als einziges Netzwerkmodul (nur Kopfzeilen, Widerruf beim Trennen); CSP-Ausnahme nur für gmail.googleapis.com und oauth2.googleapis.com bei gesetzter Client-ID; Einstellungs-Panel; Anleitung docs/gmail-einrichtung.md. Tests (Ohne Konfiguration keine Verbindung, CSP, Quelltext-Prüfung) grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:38:46Z"
           }
         },
         {
@@ -1641,7 +1645,7 @@
           "description": "Abruf nur passender Mails (Absender oder Empfänger sind Kontakte oder Unternehmensdomains, optional Suchbegriff), Speicherung im Tresor, automatische Zuordnung zu Kontakt und Bewerbung, Posteingang zum Übernehmen in den Verlauf.",
           "order": 2,
           "weight": 3,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-12-1"
           ],
@@ -1650,7 +1654,7 @@
             "Zuordnung zu Kontakt, Unternehmen und Bewerbung",
             "Übernahme als E-Mail-Verlaufseintrag; Mails erscheinen in der Gesamtsicht"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T23:38:46Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

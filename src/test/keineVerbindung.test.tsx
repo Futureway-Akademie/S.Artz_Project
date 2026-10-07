@@ -2,7 +2,7 @@
 import { render, screen } from '@testing-library/react'
 import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
-import { CONTENT_SECURITY_POLICY, contentSecurityPolicy } from '../../csp.config.ts'
+import { CONTENT_SECURITY_POLICY, contentSecurityPolicy, GMAIL_ZIELE } from '../../csp.config.ts'
 import { ExternerLink } from '../components/ui/ExternerLink.tsx'
 import { istWebadresse } from '../domain/url.ts'
 
@@ -10,6 +10,9 @@ import { istWebadresse } from '../domain/url.ts'
 const quellen = execSync('git ls-files --cached --others --exclude-standard src', { encoding: 'utf8' })
   .split('\n')
   .filter((f) => /\.(ts|tsx|css)$/.test(f) && !/\.test\.tsx?$/.test(f) && !f.startsWith('src/test/'))
+
+/** Einziges Modul mit fetch: Gmail nur lesend, nur mit Token */
+const GMAIL_MODUL = 'src/data/gmail/gmail.ts'
 
 describe('Keine Verbindung nach außen', () => {
   it('die Content-Security-Policy erlaubt keine fremden Server und keine Verbindungen', () => {
@@ -34,6 +37,13 @@ describe('Keine Verbindung nach außen', () => {
     expect(() => contentSecurityPolicy('https://*.supabase.co')).toThrow()
   })
 
+  it('mit Gmail kommen genau die Gmail-API und der Token-Widerruf hinzu', () => {
+    expect(contentSecurityPolicy(undefined, { gmail: true })).toContain('connect-src https://gmail.googleapis.com https://oauth2.googleapis.com;')
+    expect(contentSecurityPolicy(undefined, { gmail: false })).toContain("connect-src 'none';")
+    expect(GMAIL_ZIELE).toEqual(['https://gmail.googleapis.com', 'https://oauth2.googleapis.com'])
+    expect(readFileSync('vite.config.ts', 'utf8')).toContain('{ gmail: Boolean(env.VITE_GOOGLE_CLIENT_ID) }')
+  })
+
   it('nur das Supabase-Modul darf Netzwerkcode laden, und ohne Konfiguration ist es abgeschaltet', () => {
     const mitSupabase = quellen.filter((d) => /from '@supabase\//.test(readFileSync(d, 'utf8')))
     expect(mitSupabase).toEqual(['src/data/cloud/supabase.ts'])
@@ -41,9 +51,9 @@ describe('Keine Verbindung nach außen', () => {
     expect(modul).toContain('konfiguriert: () => Boolean(URL_ && KEY)')
   })
 
-  it('der Quellcode nutzt keine Netzwerkzugriffe und lädt nichts von fremden Adressen', () => {
+  it('der Quellcode nutzt keine Netzwerkzugriffe und lädt nichts von fremden Adressen – außer dem Gmail-Modul', () => {
     expect(quellen.length).toBeGreaterThan(50)
-    const funde = quellen.flatMap((datei) => {
+    const funde = quellen.filter((d) => d !== GMAIL_MODUL).flatMap((datei) => {
       const text = readFileSync(datei, 'utf8')
       const treffer = [
         /\bfetch\s*\(/,
@@ -58,6 +68,16 @@ describe('Keine Verbindung nach außen', () => {
       return treffer.map((m) => `${datei}: ${m}`)
     })
     expect(funde).toEqual([])
+  })
+
+  it('das Gmail-Modul spricht nur Google an, nur lesend und nie ohne Anmeldung', () => {
+    const modul = readFileSync(GMAIL_MODUL, 'utf8')
+    const adressen = [...modul.matchAll(/'(https:\/\/[^'/]+)/g)].map((m) => m[1])
+    expect([...new Set(adressen)].sort()).toEqual(GMAIL_ZIELE)
+    expect(modul).toContain('const t = aktuellerToken()\n  if (!t) throw new NichtAngemeldet()')
+    expect(modul).not.toMatch(/method: '(PUT|PATCH|DELETE)'/)
+    expect(modul.match(/method: 'POST'/g)).toHaveLength(1) // nur der Widerruf
+    expect(readFileSync('src/data/gmail/googleAuth.ts', 'utf8')).toContain("export const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'")
   })
 
   it('externe Links öffnen ohne Referrer und ohne Opener; andere Schemata sind kein Link', () => {
