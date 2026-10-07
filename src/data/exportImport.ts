@@ -7,8 +7,8 @@ export function exportJson(data: AppData): string {
 }
 
 /** Bietet Text als Datei zum Herunterladen an. */
-export function herunterladen(text: string, dateiname: string): void {
-  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
+export function herunterladen(text: string, dateiname: string, typ = 'application/json'): void {
+  const url = URL.createObjectURL(new Blob([text], { type: typ }))
   const link = document.createElement('a')
   link.href = url
   link.download = dateiname

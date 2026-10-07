@@ -103,6 +103,24 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
   return next
 }
 
+export const GELOESCHTE_PERSON = 'Gelöschter Kontakt'
+
+/** Entfernt Name und E-Mail einer gelöschten Person aus allen Protokolleinträgen. */
+function anonymisieren(data: AppData, kontaktId: string, merkmale: string[]): AppData {
+  const suchbar = merkmale.map((m) => m.trim()).filter((m) => m.length >= 2)
+  const ersetzen = (text: string) => suchbar.reduce((t, m) => t.split(m).join(GELOESCHTE_PERSON), text)
+  return {
+    ...data,
+    aktivitaeten: data.aktivitaeten.map((a) => {
+      const eigene = a.bezug.sammlung === 'kontakte' && a.bezug.id === kontaktId
+      const titel = ersetzen(a.bezug.titel)
+      const zusammenfassung = ersetzen(a.zusammenfassung)
+      if (!eigene && titel === a.bezug.titel && zusammenfassung === a.zusammenfassung) return a
+      return { ...a, bezug: { ...a.bezug, id: eigene ? null : a.bezug.id, titel: eigene ? GELOESCHTE_PERSON : titel }, zusammenfassung }
+    }),
+  }
+}
+
 /** Art der Aktivität bei einer Änderung: Erledigen/Wiedereröffnen wird eigens benannt. */
 function aenderungsArt(sammlung: Sammlung, felder: string[], nachher: Record<string, unknown>): Aktivitaet['art'] {
   if (sammlung === 'aufgaben' && felder.every((f) => f === 'erledigt' || f === 'erledigtAm') && felder.includes('erledigt')) {
@@ -160,6 +178,16 @@ export function reducer(data: AppData, action: Action, meta: ActionMeta): AppDat
       const titel = titelVon(action.sammlung, alt)
       const folge = loeschfolgen(data, action.sammlung, action.id)
       const zusatz = folge.geloescht.length > 0 ? ` (mit ${folge.geloescht.length} verknüpften Einträgen)` : ''
+      if (action.sammlung === 'kontakte') {
+        // DSGVO Art. 17: Die Person verschwindet vollständig, auch aus dem Aktivitätsprotokoll.
+        const person = alt as Eintrag<'kontakte'>
+        const ohnePerson = anonymisieren(loeschenMitFolgen(data, action.sammlung, action.id), action.id, [person.name, person.email])
+        return mitAktivitaet(ohnePerson, meta, {
+          art: 'geloescht',
+          bezug: { sammlung: 'kontakte', id: null, titel: GELOESCHTE_PERSON },
+          zusammenfassung: `Kontakt gelöscht, personenbezogene Daten entfernt${zusatz}`,
+        })
+      }
       return mitAktivitaet(loeschenMitFolgen(data, action.sammlung, action.id), meta, {
         art: 'geloescht',
         bezug: { sammlung: action.sammlung, id: null, titel },

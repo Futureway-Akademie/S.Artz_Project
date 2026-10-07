@@ -302,3 +302,17 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Das Cockpit erinnert, wenn noch nie oder vor mindestens 7 Tagen gesichert wurde. Die Einstellungen zeigen die letzte Sicherung, und das Protokoll vermerkt „Sicherung erstellt“.
 - **Dauerhafter Speicher:** Beim Entsperren bittet die App den Browser per `navigator.storage.persist()`, die Daten nicht automatisch zu löschen.
 - **Nicht im Browser geprüft:** Ich habe auf Saschas Rechner bewusst keine Datei heruntergeladen. Abgedeckt ist das durch Bedienungstests: Datei verschlüsselt, mit dem Passwort lesbar, Import mit falschem und richtigem Passwort.
+
+## 2026-10-07 – DSGVO-Funktionen für Kontakte (task-5-5)
+
+- **Rechtsgrundlage und Zweck** je Kontakt (Schema v4, Migration 3 → 4 ergänzt `null` bzw. leer).
+  - Zur Auswahl stehen Einwilligung, Vertrag oder Anbahnung und berechtigtes Interesse (Art. 6 Abs. 1 a, b, f), jeweils mit Kurzhinweis.
+  - Fehlende Angaben zeigt die Kontaktseite deutlich an.
+- **Auskunft (Art. 15):** „Auskunft erstellen“ lädt eine Textdatei mit allem herunter, was zur Person gespeichert ist: Stammdaten, Zweck, Rechtsgrundlage, Verlauf, Aufgaben, Termine, Leads, Bewerbungen, Projekte und ihre Rechte. Die Datei ist bewusst unverschlüsselt, weil sie für die betroffene Person bestimmt ist.
+- **Löschen (Art. 17):**
+  - entfernt Name und E-Mail der Person auch aus allen Einträgen im Aktivitätsprotokoll, ersetzt durch „Gelöschter Kontakt“.
+  - Der Löschdialog nennt die verknüpften Einträge, die bleiben, damit Sascha sie auf Personenangaben prüfen kann, und weist auf ältere Sicherungsdateien hin.
+- **Datenminimierung (Art. 5):**
+  - Kontakte ohne Aktivität seit 12 Monaten oder ohne Rechtsgrundlage bzw. Zweck gelten als „Prüfbedarf“.
+  - Die Kontaktliste zeigt dafür einen Hinweis und den Filter „Datenschutz prüfen“ (auch per `?pruefen=1`).
+- **Datenschutzhinweis** in den Einstellungen: was die App tut (lokal, verschlüsselt, keine Verbindung nach außen) und was Sascha als Verantwortlicher beachten sollte, inklusive Informationspflicht nach Art. 13/14.

@@ -41,6 +41,8 @@ const kontakt = (id: string, text: string, faelligAm: string | null): Kontakt =>
   notiz: '',
   projektIds: [],
   naechsteAktion: { text, faelligAm },
+  rechtsgrundlage: null,
+  zweck: '',
   ...meta,
 })
 

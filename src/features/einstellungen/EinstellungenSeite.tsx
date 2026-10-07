@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import { useTresor } from '../../app/tresorContext.ts'
+import { Link } from 'react-router'
+import { kontakteMitPruefbedarf } from '../../domain/selectors/datenschutz.ts'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Button } from '../../components/ui/Button.tsx'
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog.tsx'
@@ -131,6 +133,30 @@ export function EinstellungenSeite() {
       </Panel>
 
       <SicherheitPanel />
+
+      <Panel titel="Datenschutz">
+        <ul className={styles.punkte}>
+          <li>
+            <strong>Nichts verlässt diesen Browser.</strong> Kein Konto, kein Server, keine Cookies, kein Tracking, keine Schriften oder Skripte
+            von fremden Servern. Eine Sicherheitsrichtlinie blockiert jede Verbindung nach außen.
+          </li>
+          <li>
+            <strong>Verschlüsselt.</strong> Die Daten im Browser und jede Sicherungsdatei sind mit deinem Passwort verschlüsselt (AES-256).
+          </li>
+          <li>
+            <strong>Kontakte sind Daten anderer Menschen.</strong> Halte je Kontakt Zweck und Rechtsgrundlage fest (DSGVO Art. 6), erstelle auf
+            Wunsch eine Auskunft (Art. 15) und lösche, was du nicht mehr brauchst (Art. 17). Beim Löschen verschwindet die Person auch aus dem
+            Aktivitätsprotokoll; ältere Sicherungsdateien enthalten sie aber weiterhin – lösche alte Sicherungen, wenn du sie nicht mehr brauchst.
+          </li>
+          <li>
+            <strong>Informieren.</strong> Wer Kontaktdaten beruflich speichert, sollte die Person darüber informieren (Art. 13/14), z. B. mit
+            einem Satz in der E-Mail-Signatur.
+          </li>
+        </ul>
+        <p>
+          <Link to="/kontakte?pruefen=1">Kontakte mit Prüfbedarf anzeigen ({kontakteMitPruefbedarf(data, new Date()).length})</Link>
+        </p>
+      </Panel>
 
       <Panel titel="Anzeigename">
         <AnzeigenameFormular key={data.einstellungen.anzeigename} gespeichert={data.einstellungen.anzeigename} />

@@ -22,6 +22,12 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
     schemaVersion: 3,
     einstellungen: { letzteSicherungAm: null, ...objekt(data.einstellungen) },
   }),
+  // v4: Rechtsgrundlage und Zweck je Kontakt (DSGVO)
+  3: (data) => ({
+    ...data,
+    schemaVersion: 4,
+    kontakte: liste(data.kontakte).map((k) => ({ rechtsgrundlage: null, zweck: '', ...k })),
+  }),
 }
 
 function objekt(value: unknown): Record<string, unknown> {

@@ -9,6 +9,7 @@ import { EmptyState } from '../../components/ui/States.tsx'
 import { useStore } from '../../data/storeContext.ts'
 import { KONTEXT } from '../../domain/labels.ts'
 import { kontaktListe, LEERER_KONTAKT_FILTER, unternehmenName, type KontaktFilter } from '../../domain/selectors/crm.ts'
+import { kontakteMitPruefbedarf, PRUEFUNG_NACH_MONATEN } from '../../domain/selectors/datenschutz.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import styles from './crm.module.css'
 import { KontaktDialog } from './KontaktDialog.tsx'
@@ -19,9 +20,10 @@ export function KontakteSeite() {
   const now = useNow()
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  const [filter, setFilter] = useState<KontaktFilter>({ ...LEERER_KONTAKT_FILTER, nurFaellig: params.get('faellig') === '1' })
+  const [filter, setFilter] = useState<KontaktFilter>({ ...LEERER_KONTAKT_FILTER, nurFaellig: params.get('faellig') === '1', nurPruefen: params.get('pruefen') === '1' })
   const [anlegen, setAnlegen] = useState(false)
   const kontakte = useMemo(() => kontaktListe(data, filter, now), [data, filter, now])
+  const pruefbedarf = useMemo(() => kontakteMitPruefbedarf(data, now).length, [data, now])
 
   return (
     <Seite
@@ -30,6 +32,16 @@ export function KontakteSeite() {
       aktionen={<Button onClick={() => setAnlegen(true)}>Kontakt anlegen</Button>}
     >
       <KontakteNavigation />
+
+      {pruefbedarf > 0 && (
+        <p className={styles.hinweisBox} role="status">
+          <strong>Datenschutz:</strong> {pruefbedarf === 1 ? '1 Kontakt braucht' : `${pruefbedarf} Kontakte brauchen`} eine Prüfung – Rechtsgrundlage oder Zweck fehlt, oder seit{' '}
+          {PRUEFUNG_NACH_MONATEN} Monaten keine Aktivität.{' '}
+          <Button size="sm" variant="ghost" onClick={() => setFilter({ ...LEERER_KONTAKT_FILTER, nurPruefen: true })}>
+            Anzeigen
+          </Button>
+        </p>
+      )}
 
       {data.kontakte.length === 0 ? (
         <EmptyState title="Noch keine Kontakte" action={<Button onClick={() => setAnlegen(true)}>Ersten Kontakt anlegen</Button>}>
@@ -49,6 +61,10 @@ export function KontakteSeite() {
             <label className={styles.check}>
               <input type="checkbox" checked={filter.nurFaellig} onChange={(e) => setFilter({ ...filter, nurFaellig: e.target.checked })} />
               Mit fälliger Aktion
+            </label>
+            <label className={styles.check}>
+              <input type="checkbox" checked={filter.nurPruefen} onChange={(e) => setFilter({ ...filter, nurPruefen: e.target.checked })} />
+              Datenschutz prüfen
             </label>
           </div>
           <p className={styles.treffer} aria-live="polite">

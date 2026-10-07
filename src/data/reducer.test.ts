@@ -124,6 +124,8 @@ describe('reducer: löschen', () => {
           notiz: '',
           projektIds: [projektId],
           naechsteAktion: null,
+          rechtsgrundlage: null,
+          zweck: '',
         },
       },
       meta,

@@ -21,6 +21,8 @@ const kontakt = (id: string, faelligAm: string | null): Kontakt => ({
   notiz: '',
   projektIds: [],
   naechsteAktion: { text: `Aktion ${id}`, faelligAm },
+  rechtsgrundlage: null,
+  zweck: '',
   ...meta,
 })
 

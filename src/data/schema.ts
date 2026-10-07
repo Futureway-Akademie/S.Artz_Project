@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 3
+export const SCHEMA_VERSION = 4
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -154,6 +154,10 @@ export const kontaktSchema = z.object({
   notiz: z.string(),
   projektIds: z.array(id),
   naechsteAktion: naechsteAktionSchema.nullable(),
+  /** DSGVO Art. 6 Abs. 1: a) Einwilligung, b) Vertrag/Anbahnung, f) berechtigtes Interesse; null = noch nicht festgelegt */
+  rechtsgrundlage: z.enum(['einwilligung', 'vertrag', 'berechtigtes_interesse']).nullable(),
+  /** Wozu die Daten gespeichert werden (Zweckbindung) */
+  zweck: z.string(),
 })
 
 export const interaktionSchema = z.object({

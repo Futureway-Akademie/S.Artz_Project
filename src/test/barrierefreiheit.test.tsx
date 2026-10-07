@@ -40,6 +40,8 @@ function beispieldaten(): AppData {
         notiz: '',
         projektIds: ['seed-projekt-ki-skills'],
         naechsteAktion: { text: 'Nachfassen', faelligAm: '2026-10-07' },
+        rechtsgrundlage: 'berechtigtes_interesse',
+        zweck: 'Bewerbung',
         ...meta,
       },
     ],

@@ -107,6 +107,20 @@ describe('migrate', () => {
   })
 })
 
+describe('Migration 3 → 4', () => {
+  it('ergänzt bei Kontakten Rechtsgrundlage und Zweck, ohne Daten zu verlieren', () => {
+    const zeit = '2026-10-07T10:00:00.000Z'
+    const ohneDsgvo = {
+      id: 'k1', name: 'Kim', rolle: '', unternehmenId: null, email: 'kim@example.org', telefon: '', linkedinUrl: '', kontext: 'jobsuche',
+      herkunft: '', notiz: 'bleibt', projektIds: [], naechsteAktion: null, erstelltAm: zeit, geaendertAm: zeit,
+    }
+    const v3 = { ...createEmptyData(), schemaVersion: 3, kontakte: [ohneDsgvo] }
+    const ergebnis = parseAppData(JSON.stringify(v3))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status === 'ok') expect(ergebnis.data.kontakte[0]).toMatchObject({ notiz: 'bleibt', rechtsgrundlage: null, zweck: '' })
+  })
+})
+
 describe('saveAppData', () => {
   it('speichert als JSON unter dem festen Schlüssel', () => {
     const storage = createFakeStorage()

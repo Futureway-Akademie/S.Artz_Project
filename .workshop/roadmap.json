@@ -844,7 +844,7 @@
           "description": "Rechtsgrundlage und Zweck je Kontakt, Auskunft je Person, vollständiges Löschen inkl. Protokoll, Prüfhinweis für ruhende Kontakte, Datenschutzhinweis.",
           "order": 5,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-5-3"
           ],
@@ -855,13 +855,18 @@
             "Hinweis auf Kontakte ohne Aktivität seit 12 Monaten",
             "Datenschutzhinweis in den Einstellungen"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T14:55:27Z",
+          "completedAt": "2026-10-07T15:04:28Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Schema v4: Rechtsgrundlage (Art. 6 Abs. 1 a/b/f) und Zweck je Kontakt mit Migration; Datenschutz-Panel auf der Kontaktseite mit Hinweisen und Auskunft nach Art. 15 als Textdatei; Löschen entfernt Name und E-Mail aus dem Aktivitätsprotokoll; Prüfbedarf (12 Monate ohne Aktivität oder fehlende Angaben) mit Hinweis und Filter; Datenschutzhinweis in den Einstellungen. 240 Tests (inkl. axe), typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:04:28Z"
           }
         },
         {
@@ -895,7 +900,7 @@
       "description": "Jeder Eintrag zeigt alles, was zu ihm gehört; überall schnell erfassen und finden.",
       "order": 6,
       "weight": 9,
-      "status": "planned",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-6-1",
@@ -903,7 +908,7 @@
           "description": "Projekte mit Auftraggeber und Ansprechpartnern; Aufgaben, Termine und Verlauf auch mit Bewerbungen, Leads und Unternehmen verknüpfbar.",
           "order": 1,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-5-5"
           ],

@@ -13,6 +13,7 @@ import { loeschfolgen } from '../../data/reducer.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { KONTEXT } from '../../domain/labels.ts'
 import styles from './crm.module.css'
+import { DatenschutzPanel } from './DatenschutzPanel.tsx'
 import { KontaktDialog } from './KontaktDialog.tsx'
 import { KontaktVerlauf } from './KontaktVerlauf.tsx'
 
@@ -89,6 +90,7 @@ export function KontaktDetailSeite() {
               <p className={styles.text}>{kontakt.notiz}</p>
             </Panel>
           )}
+          <DatenschutzPanel kontakt={kontakt} onBearbeiten={() => setBearbeiten(true)} />
         </div>
       </div>
 
@@ -102,18 +104,32 @@ export function KontaktDetailSeite() {
           onAbbrechen={() => setLoeschen(false)}
           onBestaetigen={() => {
             dispatch({ type: 'loeschen', sammlung: 'kontakte', id: kontakt.id })
-            zeige(`Kontakt „${kontakt.name}“ gelöscht`)
+            zeige('Kontakt vollständig gelöscht')
             navigate('/kontakte')
           }}
         >
-          <p>„{kontakt.name}“ wird endgültig gelöscht.</p>
+          <p>
+            „{kontakt.name}“ wird endgültig gelöscht – mit Verlauf und auch aus dem Aktivitätsprotokoll. Ältere Sicherungsdateien enthalten
+            die Daten weiterhin; erstelle danach eine neue Sicherung.
+          </p>
           {folge.geloescht.length > 0 && (
             <p className={styles.folge}>
               Dabei werden auch {folge.geloescht.length} verknüpfte Einträge gelöscht (
               {[...new Set(folge.geloescht.map((e) => SAMMLUNG_INFO[e.sammlung].einzahl))].join(', ')}).
             </p>
           )}
-          {folge.entknuepft.length > 0 && <p className={styles.folge}>{folge.entknuepft.length} weitere Einträge verlieren die Verknüpfung.</p>}
+          {folge.entknuepft.length > 0 && (
+            <>
+              <p className={styles.folge}>Diese Einträge bleiben, verlieren aber die Verknüpfung. Prüfe, ob sie Angaben zur Person enthalten:</p>
+              <ul>
+                {folge.entknuepft.map((e) => (
+                  <li key={`${e.sammlung}-${e.id}`}>
+                    {SAMMLUNG_INFO[e.sammlung].einzahl}: {e.titel}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </ConfirmDialog>
       )}
     </Seite>

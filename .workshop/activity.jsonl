@@ -109,3 +109,7 @@
 {"timestamp":"2026-10-07T14:49:35Z","type":"task_started","taskId":"task-5-4","summary":"Task 'Verschlüsselte Sicherung und Erinnerung' gestartet."}
 {"timestamp":"2026-10-07T14:55:21Z","type":"verification_passed","taskId":"task-5-4","summary":"Sicherungen verschlüsselt, Import mit Passwort, Erinnerung im Cockpit; 230 Tests grün."}
 {"timestamp":"2026-10-07T14:55:21Z","type":"task_completed","taskId":"task-5-4","summary":"Task 'Verschlüsselte Sicherung und Erinnerung' abgeschlossen."}
+{"timestamp":"2026-10-07T14:55:27Z","type":"task_started","taskId":"task-5-5","summary":"Task 'DSGVO-Funktionen für Kontakte' gestartet."}
+{"timestamp":"2026-10-07T15:04:28Z","type":"verification_passed","taskId":"task-5-5","summary":"Rechtsgrundlage, Auskunft, vollständiges Löschen, Prüfhinweis; 240 Tests grün."}
+{"timestamp":"2026-10-07T15:04:28Z","type":"task_completed","taskId":"task-5-5","summary":"Task 'DSGVO-Funktionen für Kontakte' abgeschlossen."}
+{"timestamp":"2026-10-07T15:04:28Z","type":"task_ready","taskId":"task-6-1","summary":"Task 'Verknüpfungen erweitern' ist startbar."}

@@ -17,6 +17,8 @@ const kim: Kontakt = {
   notiz: '',
   projektIds: [],
   naechsteAktion: null,
+  rechtsgrundlage: null,
+  zweck: '',
   erstelltAm: zeit,
   geaendertAm: zeit,
 }

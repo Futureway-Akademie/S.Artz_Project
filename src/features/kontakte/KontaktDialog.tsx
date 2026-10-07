@@ -2,7 +2,7 @@ import { SelectField, TextAreaField, TextField } from '../../components/ui/Field
 import { FormDialog } from '../../components/ui/FormDialog.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
-import { KONTEXT, optionen } from '../../domain/labels.ts'
+import { KONTEXT, optionen, RECHTSGRUNDLAGE } from '../../domain/labels.ts'
 import type { Kontakt } from '../../domain/types.ts'
 import { useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from '../aufgaben/AufgabeDialog.module.css'
@@ -17,6 +17,8 @@ interface Werte extends Record<string, unknown> {
   kontext: string
   herkunft: string
   notiz: string
+  rechtsgrundlage: string
+  zweck: string
 }
 
 function validiere(werte: Werte): Fehler<Werte> {
@@ -49,6 +51,8 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
       kontext: kontakt?.kontext ?? 'jobsuche',
       herkunft: kontakt?.herkunft ?? '',
       notiz: kontakt?.notiz ?? '',
+      rechtsgrundlage: kontakt?.rechtsgrundlage ?? '',
+      zweck: kontakt?.zweck ?? '',
     },
     validiere,
   )
@@ -67,6 +71,8 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
       kontext: g.kontext as Kontakt['kontext'],
       herkunft: g.herkunft.trim(),
       notiz: g.notiz.trim(),
+      rechtsgrundlage: (g.rechtsgrundlage || null) as Kontakt['rechtsgrundlage'],
+      zweck: g.zweck.trim(),
     }
     if (kontakt) {
       dispatch({ type: 'aendern', sammlung: 'kontakte', id: kontakt.id, aenderung: daten })
@@ -105,6 +111,22 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
       </div>
       <TextField label="LinkedIn-URL" type="url" value={werte.linkedinUrl} onChange={(e) => setze('linkedinUrl', e.target.value)} error={fehler.linkedinUrl} />
       <TextAreaField label="Notiz" value={werte.notiz} onChange={(e) => setze('notiz', e.target.value)} rows={3} />
+      <fieldset className={styles.gruppe}>
+        <legend>Datenschutz</legend>
+        <SelectField
+          label="Rechtsgrundlage"
+          value={werte.rechtsgrundlage}
+          onChange={(e) => setze('rechtsgrundlage', e.target.value)}
+          placeholder="Noch nicht festgelegt"
+          options={optionen(RECHTSGRUNDLAGE)}
+          hint={
+            werte.rechtsgrundlage
+              ? RECHTSGRUNDLAGE[werte.rechtsgrundlage as keyof typeof RECHTSGRUNDLAGE].hinweis
+              : 'Warum darfst du die Daten dieser Person speichern? (DSGVO Art. 6)'
+          }
+        />
+        <TextField label="Zweck" value={werte.zweck} onChange={(e) => setze('zweck', e.target.value)} hint="z. B. Bewerbung bei der Firma, Kundenanfrage, Netzwerk" />
+      </fieldset>
     </FormDialog>
   )
 }
