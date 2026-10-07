@@ -81,6 +81,36 @@ describe('Werkzeugkasten', () => {
   })
 
   describe('Bedienung', () => {
+    it('legt ein Abo mit Kosten und Frist an – Summe, Cockpit und Dashboard zeigen es', () => {
+      vi.useFakeTimers({ toFake: ['Date'] })
+      vi.setSystemTime(now)
+      try {
+        const { unmount } = renderApp('/werkzeug/abos')
+        fireEvent.click(screen.getAllByRole('button', { name: 'Neu: Modell / Abo' })[0]!)
+        const dialog = screen.getByRole('dialog', { name: 'Neu: Modell / Abo' })
+        fireEvent.change(within(dialog).getByLabelText(/^Titel/), { target: { value: 'Claude Pro' } })
+        fireEvent.change(within(dialog).getByLabelText(/^Kosten pro Monat/), { target: { value: 'zwanzig' } })
+        fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
+        expect(within(dialog).getByText('Bitte einen Betrag wie 20 oder 21,42 eingeben.')).toBeInTheDocument()
+        fireEvent.change(within(dialog).getByLabelText(/^Kosten pro Monat/), { target: { value: '21,42' } })
+        fireEvent.change(within(dialog).getByLabelText(/^Nächste Verlängerung/), { target: { value: '2026-10-15' } })
+        fireEvent.change(within(dialog).getByLabelText(/^Kündigungsfrist/), { target: { value: '3' } })
+        fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
+        const panel = screen.getByRole('region', { name: 'Kosten und Fristen' })
+        expect(panel).toHaveTextContent('Kündigen bis')
+        expect(panel).toHaveTextContent('12. Oktober 2026')
+        fireEvent.click(screen.getByRole('link', { name: 'Modelle & Abos' }))
+        expect(screen.getByText(/Laufende Kosten:/)).toHaveTextContent(/Laufende Kosten: 21,42\s€ pro Monat/)
+        fireEvent.click(screen.getAllByRole('link', { name: 'Arbeitscockpit', hidden: true })[0]!)
+        expect(screen.getByRole('region', { name: 'Abo-Fristen' })).toHaveTextContent('Claude Pro: kündigen bis')
+        fireEvent.click(screen.getAllByRole('link', { name: 'Dashboard', hidden: true })[0]!)
+        expect(screen.getByText('KI-Abos pro Monat').parentElement).toHaveTextContent(/21,42\s€/)
+        unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
     it('speichert Integrationen mit Datenschutz-Angaben und warnt vor Schlüsseln', () => {
       const { gespeichert } = renderApp('/werkzeug/integrationen')
       fireEvent.click(screen.getAllByRole('button', { name: 'Neu: Integration' })[0]!)

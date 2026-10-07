@@ -1461,7 +1461,7 @@
       "description": "Eigener Sidebar-Bereich für Masterprompts, Befehle, Agenten und Skills, Anleitungen zum Installieren und Implementieren, Integrationen (MCP, API, Apps), Workflows sowie Modelle und Abos.",
       "order": 11,
       "weight": 12,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-11-1",
@@ -1579,7 +1579,7 @@
           "description": "Modelle und Abos mit Anbieter, Kosten pro Monat, Abrechnung, Verlängerung und Kündigungsfrist; Summe im Dashboard, Kündigungsfristen im Kalender und Cockpit.",
           "order": 5,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1589,12 +1589,16 @@
             "Kündigungsfrist erscheint im Kalender und im Cockpit"
           ],
           "startedAt": "2026-10-07T23:27:07Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T23:33:45Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Modelle & Abos: Kosten, Abrechnung (monatlich/jährlich/Nutzung/kostenlos), nächste Verlängerung (fortgeschrieben, Monatsende begrenzt) und Kündigungsfrist. Monatssumme in Abo-Liste, Werkzeugkasten-Übersicht und Dashboard (Kennzahl + Diagramm je Abo, plus Werkzeugkasten nach Typ). Letzte Kündigungstage und Verlängerungen im Kalender (neue Art Abo) und in der Cockpit-Woche, dazu Panel Abo-Fristen (30 Tage). Tests inkl. axe grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:33:45Z"
           }
         }
       ]
@@ -1605,7 +1609,7 @@
       "description": "Nur lesender Abruf von Mails aus Gmail direkt aus dem Browser (OAuth), Zuordnung zu Kontakten, Unternehmen und Bewerbungen; Mails verschlüsselt im Tresor.",
       "order": 12,
       "weight": 8,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-12-1",
@@ -1613,7 +1617,7 @@
           "description": "OAuth-Weiterleitung zu Google ohne fremdes Skript, Berechtigung gmail.readonly, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für die Gmail-API bei Konfiguration; Einrichtungsanleitung.",
           "order": 1,
           "weight": 3,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1622,7 +1626,7 @@
             "Ohne Konfiguration keine Verbindung (Test)",
             "Anleitung zur Einrichtung des Google-Cloud-Projekts"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T23:33:45Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

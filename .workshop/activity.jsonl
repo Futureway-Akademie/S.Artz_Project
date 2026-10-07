@@ -200,3 +200,6 @@
 {"timestamp":"2026-10-07T23:27:07Z","type":"verification_passed","taskId":"task-11-4","summary":"Integration, Schlüsselwarnung und Anleitungsschritte getestet; alle Tests grün."}
 {"timestamp":"2026-10-07T23:27:07Z","type":"task_completed","taskId":"task-11-4","summary":"Task 'Anleitungen und Integrationen' abgeschlossen."}
 {"timestamp":"2026-10-07T23:27:07Z","type":"task_started","taskId":"task-11-5","summary":"Task 'Modelle und Abos' gestartet."}
+{"timestamp":"2026-10-07T23:33:45Z","type":"verification_passed","taskId":"task-11-5","summary":"Abo-Rechnung, Fristen, Kalender, Cockpit, Dashboard und Dialog getestet; alle Tests grün."}
+{"timestamp":"2026-10-07T23:33:45Z","type":"task_completed","taskId":"task-11-5","summary":"Task 'Modelle und Abos' abgeschlossen."}
+{"timestamp":"2026-10-07T23:33:45Z","type":"task_started","taskId":"task-12-1","summary":"Task 'Google-Anmeldung (nur lesend)' gestartet."}

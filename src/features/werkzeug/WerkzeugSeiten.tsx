@@ -10,7 +10,10 @@ import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
-import { formatZeitpunkt } from '../../domain/dates.ts'
+import { formatDatum, formatZeitpunkt, heute } from '../../domain/dates.ts'
+import { ABO_INTERVALL, aboUebersicht, kuendigenBis, monatsKosten, naechsteVerlaengerung } from '../../domain/selectors/abos.ts'
+import { formatEuro } from '../../domain/selectors/leads.ts'
+import { useNow } from '../../hooks/useNow.ts'
 import { alleSchlagworte } from '../../domain/selectors/schlagworte.ts'
 import {
   AVV_STATUS,
@@ -47,6 +50,7 @@ export function WerkzeugUebersicht() {
   const { data } = useStore()
   const zaehler = werkzeugZaehler(data)
   const zuletzt = zuletztGeaenderteWerkzeuge(data)
+  const abos = aboUebersicht(data)
 
   return (
     <Seite titel="Werkzeugkasten" einleitung="Deine KI-Werkzeuge an einem Ort: Prompts, Befehle, Agenten, Pläne und Abos – verschlüsselt und mit Projekten verknüpft.">
@@ -59,7 +63,7 @@ export function WerkzeugUebersicht() {
                 <span className={styles.kachelTitel}>{WERKZEUG_TYP[t].mehrzahl}</span>
                 <span className={`num ${styles.anzahl}`}>{zaehler[t]}</span>
               </span>
-              <span className={styles.kachelText}>{WERKZEUG_TYP[t].hinweis}</span>
+              <span className={styles.kachelText}>{t === 'abo' && abos.anzahl > 0 ? `${formatEuro(abos.summe)} pro Monat` : WERKZEUG_TYP[t].hinweis}</span>
             </Link>
           </li>
         ))}
@@ -153,6 +157,7 @@ function WerkzeugListe({ typ }: { typ: WerkzeugTyp }) {
               />
             )}
           </div>
+          {typ === 'abo' && <AboSumme />}
           <p className={crm.treffer} aria-live="polite">
             {liste.length} von {alle.length} Einträgen
           </p>
@@ -257,6 +262,7 @@ export function WerkzeugDetailSeite() {
           </Panel>
           {mitPlatzhaltern && <Ausfuellen key={w.inhalt} text={w.inhalt} label={info.inhalt.label} />}
           {info.schritte && <Schritte werkzeug={w} abhaken={info.schritte.abhaken} />}
+          {w.abo && <AboAngaben abo={w.abo} />}
           {w.integration && (
             <Panel titel="Zugang und Datenschutz">
               <dl className={crm.daten}>
@@ -328,5 +334,47 @@ export function WerkzeugDetailSeite() {
       </div>
       {bearbeiten && <WerkzeugDialog typ={w.typ} eintrag={w} onSchliessen={() => setBearbeiten(false)} onGeloescht={() => navigate(`/werkzeug/${info.slug}`)} />}
     </Seite>
+  )
+}
+
+function AboSumme() {
+  const { data } = useStore()
+  const u = aboUebersicht(data)
+  return (
+    <p className={styles.summe}>
+      Laufende Kosten: <strong className="num">{formatEuro(u.summe)}</strong> pro Monat ({formatEuro(Math.round(u.summe * 1200) / 100)} pro Jahr) aus {u.anzahl} {u.anzahl === 1 ? 'Abo' : 'Abos'}
+      {u.ohneBetrag > 0 && ` – ${u.ohneBetrag} ohne Betrag`}
+    </p>
+  )
+}
+
+function AboAngaben({ abo }: { abo: NonNullable<Werkzeug['abo']> }) {
+  const now = useNow()
+  const monat = monatsKosten(abo)
+  const naechste = naechsteVerlaengerung(abo, heute(now))
+  const bis = naechste ? kuendigenBis(naechste, abo) : null
+  return (
+    <Panel titel="Kosten und Fristen">
+      <dl className={crm.daten}>
+        <dt>Abrechnung</dt>
+        <dd>{ABO_INTERVALL[abo.intervall]}</dd>
+        {abo.intervall !== 'kostenlos' && (
+          <>
+            <dt>Kosten</dt>
+            <dd>{abo.kostenEur === null ? 'Kein Betrag' : `${formatEuro(abo.kostenEur)} ${abo.intervall === 'jaehrlich' ? 'pro Jahr' : 'pro Monat'}`}</dd>
+          </>
+        )}
+        {abo.intervall === 'jaehrlich' && monat !== null && (
+          <>
+            <dt>Pro Monat</dt>
+            <dd>{formatEuro(monat)}</dd>
+          </>
+        )}
+        <dt>Nächste Verlängerung</dt>
+        <dd>{naechste ? formatDatum(naechste, 'lang') : 'Nicht eingetragen'}</dd>
+        <dt>Kündigen bis</dt>
+        <dd>{bis ? formatDatum(bis, 'lang') : abo.kuendigungsfristTage === null ? 'Frist nicht eingetragen' : '–'}</dd>
+      </dl>
+    </Panel>
   )
 }

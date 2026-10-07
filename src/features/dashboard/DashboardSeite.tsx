@@ -15,9 +15,11 @@ import {
   leadsNachStatus,
   projekteNachKategorie,
   projekteNachStatus,
+  werkzeugNachTyp,
   wissenNachTyp,
   type Datenpunkt,
 } from '../../domain/selectors/dashboard.ts'
+import { aboUebersicht } from '../../domain/selectors/abos.ts'
 import { formatEuro } from '../../domain/selectors/leads.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import styles from './DashboardSeite.module.css'
@@ -49,6 +51,8 @@ export function DashboardSeite() {
   const pflege = kontaktpflegeUebersicht(data, now)
   const wissen = wissenNachTyp(data)
   const kurs = kursaufgabenNachStatus(data)
+  const werkzeug = werkzeugNachTyp(data)
+  const abos = aboUebersicht(data)
   const aktivitaet = aktivitaetJeTag(data, now, HEATMAP_WOCHEN)
   const aktivitaetSumme = aktivitaet.reduce((s, t) => s + t.anzahl, 0)
   const aktiveTage = aktivitaet.filter((t) => t.anzahl > 0).length
@@ -78,6 +82,9 @@ export function DashboardSeite() {
         </Link>
         <Link to="/wissen" className={styles.kachelLink}>
           <Kennzahl label="Wissenseinträge" wert={String(k.wissen)} />
+        </Link>
+        <Link to="/werkzeug/abos" className={styles.kachelLink}>
+          <Kennzahl label="KI-Abos pro Monat" wert={abos.anzahl ? formatEuro(abos.summe) : '–'} hinweis={abos.anzahl ? `${abos.anzahl} laufend${abos.ohneBetrag ? `, ${abos.ohneBetrag} ohne Betrag` : ''}` : 'keine Abos erfasst'} />
         </Link>
         <Link to="/weiterbildung" className={styles.kachelLink}>
           <Kennzahl label="Weiterbildung" wert={k.kurs ? `${k.kurs.prozent} %` : '–'} hinweis={k.kurs ? `${k.kurs.vergangen} von ${k.kurs.gesamt} Kurstagen` : 'kein Kurs'} />
@@ -174,6 +181,24 @@ export function DashboardSeite() {
 
         <Diagramm titel="Wissen nach Art" zusammenfassung={`${data.wissen.length} Einträge.`} kopfzeilen={['Art', 'Einträge']} zeilen={tabelle(wissen)} aktion={<Link to="/wissen">Wissen</Link>}>
           {wissen.length === 0 ? <Leer>Noch kein Wissen festgehalten.</Leer> : <Balken punkte={wissen} />}
+        </Diagramm>
+
+        <Diagramm titel="Werkzeugkasten" zusammenfassung={`${summe(werkzeug)} Werkzeuge in Gebrauch oder geplant.`} kopfzeilen={['Bereich', 'Einträge']} zeilen={tabelle(werkzeug)} aktion={<Link to="/werkzeug">Werkzeugkasten</Link>}>
+          {werkzeug.length === 0 ? <Leer>Noch keine Werkzeuge erfasst.</Leer> : <Balken punkte={werkzeug} />}
+        </Diagramm>
+
+        <Diagramm
+          titel="KI-Abos: Kosten pro Monat"
+          zusammenfassung={abos.anzahl ? `${formatEuro(abos.summe)} pro Monat aus ${abos.anzahl} laufenden Abos.` : 'Keine laufenden Abos.'}
+          kopfzeilen={['Abo', 'Pro Monat']}
+          zeilen={abos.jeAbo.map((a) => [a.titel, formatEuro(a.monat)])}
+          aktion={<Link to="/werkzeug/abos">Abos</Link>}
+        >
+          {abos.jeAbo.length === 0 ? (
+            <Leer>Noch keine Abos mit Betrag erfasst.</Leer>
+          ) : (
+            <Balken punkte={abos.jeAbo.map((a) => ({ schluessel: a.id, label: a.titel, wert: a.monat }))} format={formatEuro} farbe="var(--color-blue)" />
+          )}
         </Diagramm>
       </div>
     </Seite>

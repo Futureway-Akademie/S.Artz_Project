@@ -128,3 +128,11 @@
   color: var(--color-danger);
   font-weight: var(--font-weight-bold);
 }
+
+.summe {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-blue-soft);
+  color: var(--color-dark);
+}

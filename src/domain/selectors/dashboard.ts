@@ -6,6 +6,7 @@ import { BEWERBUNG_STATUS, KONTEXT, LEAD_STATUS, PROJEKT_STATUS, KURSAUFGABE_STA
 import type { AppData } from '../types.ts'
 import { kontaktpflege } from './beziehung.ts'
 import { selectWeiterbildung } from './weiterbildung.ts'
+import { WERKZEUG_TYP, WERKZEUG_TYPEN } from './werkzeug.ts'
 import { WISSEN_TYP } from './wissen.ts'
 
 /** Ein Wert in einem Diagramm */
@@ -197,4 +198,9 @@ export function dashboardKennzahlen(data: AppData, now: Date): DashboardKennzahl
         }
       : null,
   }
+}
+
+/** Werkzeugkasten nach Typ (ohne Archiviertes), nur belegte Typen */
+export function werkzeugNachTyp(data: AppData): Datenpunkt[] {
+  return WERKZEUG_TYPEN.map((t) => ({ schluessel: t, label: WERKZEUG_TYP[t].mehrzahl, wert: data.werkzeug.filter((w) => w.typ === t && w.status !== 'archiviert').length })).filter((p) => p.wert > 0)
 }

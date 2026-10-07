@@ -92,6 +92,8 @@ function beispieldaten(): AppData {
     werkzeug: [
       { ...leeresWerkzeug('prompt'), id: 't1', titel: 'Bewerbung anschreiben', inhalt: 'Schreibe an {{firma}}', schlagworte: ['Karriere'], projektIds: ['seed-projekt-ki-skills'], werkzeugIds: ['t2'], ...meta },
       { ...leeresWerkzeug('integration'), id: 't2', titel: 'Supabase MCP', plattform: 'Supabase', ...meta },
+      { ...leeresWerkzeug('abo'), id: 't3', titel: 'Claude Pro', abo: { kostenEur: 21.42, intervall: 'monatlich', naechsteVerlaengerung: '2026-10-15', kuendigungsfristTage: 3 }, ...meta },
+      { ...leeresWerkzeug('anleitung'), id: 't4', titel: 'MCP einrichten', schritte: [{ text: 'Installieren', erledigt: true }, { text: 'Testen', erledigt: false }], ...meta },
     ],
     aktivitaeten: [{ id: 'a1', zeitpunkt: zeit, art: 'angelegt', bezug: { sammlung: 'kontakte', id: 'k1', titel: 'Kim Muster' }, zusammenfassung: 'Kontakt „Kim Muster“ angelegt' }],
   }
@@ -115,6 +117,8 @@ const SEITEN = [
   '/werkzeug/prompts/t1',
   '/werkzeug/integrationen/t2',
   '/werkzeug/abos',
+  '/werkzeug/abos/t3',
+  '/werkzeug/anleitungen/t4',
   '/kalender?ansicht=woche&datum=2026-10-07',
   '/kalender?ansicht=liste&datum=2026-10-01',
   '/kontakte',

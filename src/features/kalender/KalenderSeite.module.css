@@ -51,6 +51,10 @@
   --art-farbe: var(--color-success);
 }
 
+.art_abo {
+  --art-farbe: var(--color-danger);
+}
+
 .art_kursaufgabe {
   --art-farbe: var(--text-muted);
 }

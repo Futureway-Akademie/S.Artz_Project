@@ -1,4 +1,5 @@
 import { BEWERBUNG_STATUS, LEAD_STATUS } from '../labels.ts'
+import { aboTermine, type AboTermin } from './abos.ts'
 import { formatDatum, heute, nachFrist, plusTage, tageZwischen } from '../dates.ts'
 import type { Aktivitaet, AppData, Aufgabe, Bezug } from '../types.ts'
 import { kalenderEintraege, type KalenderEintrag } from './kalender.ts'
@@ -116,6 +117,12 @@ export function kurzesDatum(datum: string, now: Date): string {
   if (diff === 0) return 'Heute'
   if (diff === 1) return 'Morgen'
   return formatDatum(datum)
+}
+
+/** Letzte Kündigungstage laufender Abos in den nächsten `tage` Tagen */
+export function selectAboFristen(data: AppData, now: Date, tage = 30): AboTermin[] {
+  const h = heute(now)
+  return aboTermine(data, h, plusTage(h, tage)).filter((t) => t.art === 'kuendigung')
 }
 
 /** Ab so vielen Tagen ohne Sicherung erinnert das Cockpit daran. */

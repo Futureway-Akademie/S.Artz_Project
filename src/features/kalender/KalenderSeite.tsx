@@ -33,7 +33,7 @@ const ANSICHTEN: Array<{ key: Ansicht; label: string }> = [
 ]
 const WOCHENTAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 const LISTE_TAGE = 30
-const ALLE_ARTEN: KalenderArt[] = ['termin', 'aufgabe', 'wiedervorlage', 'kursaufgabe']
+const ALLE_ARTEN: KalenderArt[] = ['termin', 'aufgabe', 'wiedervorlage', 'kursaufgabe', 'abo']
 
 const istDatum = (s: string | null): s is string => s !== null && /^\d{4}-\d{2}-\d{2}$/.test(s)
 

@@ -1,8 +1,11 @@
 import { isoWochentag, isWorkday, parseDatum, plusTage, toDatum } from '../dates.ts'
 import type { AppData } from '../types.ts'
+import { aboTermine, monatsKosten } from './abos.ts'
 import { bezugInfo } from './bezug.ts'
+import { formatEuro } from './leads.ts'
+import { werkzeugLink } from './werkzeug.ts'
 
-export type KalenderArt = 'termin' | 'aufgabe' | 'kursaufgabe' | 'wiedervorlage'
+export type KalenderArt = 'termin' | 'aufgabe' | 'kursaufgabe' | 'wiedervorlage' | 'abo'
 
 export interface KalenderEintrag {
   /** Eindeutig, z. B. `termin:t1` */
@@ -24,6 +27,7 @@ export const KALENDER_ART: Record<KalenderArt, string> = {
   aufgabe: 'Frist',
   kursaufgabe: 'Kursaufgabe',
   wiedervorlage: 'Wiedervorlage',
+  abo: 'Abo',
 }
 
 /** Alle datierten Einträge zwischen `von` und `bis` (jeweils einschließlich), sortiert nach Datum und Uhrzeit. */
@@ -57,6 +61,21 @@ export function kalenderEintraege(data: AppData, von: string, bis: string, opts:
   for (const l of data.leads) {
     if (!drin(l.wiedervorlageAm)) continue
     liste.push({ schluessel: `wv-lead:${l.id}`, art: 'wiedervorlage', id: l.id, datum: l.wiedervorlageAm, uhrzeit: null, titel: l.naechsterSchritt || 'Lead nachfassen', zusatz: `Lead: ${l.titel}`, link: `/kontakte/leads/${l.id}`, erledigt: false })
+  }
+
+  for (const t of aboTermine(data, von, bis)) {
+    const kosten = monatsKosten(t.werkzeug.abo!)
+    liste.push({
+      schluessel: `abo-${t.art}:${t.werkzeug.id}:${t.datum}`,
+      art: 'abo',
+      id: t.werkzeug.id,
+      datum: t.datum,
+      uhrzeit: null,
+      titel: t.art === 'kuendigung' ? `Letzter Kündigungstag: ${t.werkzeug.titel}` : `Verlängerung: ${t.werkzeug.titel}`,
+      zusatz: kosten === null ? null : `${formatEuro(kosten)} pro Monat`,
+      link: werkzeugLink(t.werkzeug),
+      erledigt: false,
+    })
   }
 
   // Termine mit Uhrzeit nach der Uhrzeit, ganztägige Einträge zuerst

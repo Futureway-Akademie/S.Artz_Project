@@ -8,6 +8,8 @@ import { useStore } from '../../data/storeContext.ts'
 import { loeschfolgen } from '../../data/reducer.ts'
 import { AVV_STATUS, geheimnisVerdacht, INTEGRATION_ART, leeresWerkzeug, schritteAusText, WERKZEUG_STATUS, WERKZEUG_TYP, werkzeugPlattformen } from '../../domain/selectors/werkzeug.ts'
 import type { Werkzeug, WerkzeugTyp } from '../../domain/types.ts'
+import { ABO_INTERVALL } from '../../domain/selectors/abos.ts'
+import { parseEuro } from '../../domain/selectors/leads.ts'
 import { listeAusKomma, useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from '../aufgaben/AufgabeDialog.module.css'
 import ws from './Werkzeug.module.css'
@@ -29,6 +31,10 @@ interface Werte extends Record<string, unknown> {
   schluesselOrt: string
   region: string
   avv: string
+  kosten: string
+  intervall: string
+  verlaengerung: string
+  frist: string
   /** Bestätigt: Der verdächtige Text ist kein Schlüssel */
   keinGeheimnis: boolean
 }
@@ -47,6 +53,8 @@ function verdachtIn(werte: Werte): string | null {
 function validiere(werte: Werte): Fehler<Werte> {
   const fehler: Fehler<Werte> = {}
   if (!werte.titel.trim()) fehler.titel = 'Bitte einen Titel eingeben.'
+  if (Number.isNaN(parseEuro(werte.kosten))) fehler.kosten = 'Bitte einen Betrag wie 20 oder 21,42 eingeben.'
+  if (werte.frist.trim() && !/^\d{1,3}$/.test(werte.frist.trim())) fehler.frist = 'Bitte die Anzahl Tage als ganze Zahl eingeben.'
   if (verdachtIn(werte) && !werte.keinGeheimnis) fehler.keinGeheimnis = 'Bitte den Schlüssel entfernen und nur seinen Ablageort angeben – oder bestätigen, dass es keiner ist.'
   return fehler
 }
@@ -90,6 +98,10 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
       schluesselOrt: basis.integration?.schluesselOrt ?? '',
       region: basis.integration?.region ?? '',
       avv: basis.integration?.avv ?? '',
+      kosten: basis.abo?.kostenEur != null ? String(basis.abo.kostenEur).replace('.', ',') : '',
+      intervall: basis.abo?.intervall ?? 'monatlich',
+      verlaengerung: basis.abo?.naechsteVerlaengerung ?? '',
+      frist: basis.abo?.kuendigungsfristTage != null ? String(basis.abo.kuendigungsfristTage) : '',
       keinGeheimnis: false,
     },
     validiere,
@@ -126,6 +138,15 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
               avv: (g.avv || null) as NonNullable<Werkzeug['integration']>['avv'],
             }
           : basis.integration,
+      abo:
+        typ === 'abo'
+          ? {
+              kostenEur: g.intervall === 'kostenlos' ? null : parseEuro(g.kosten),
+              intervall: g.intervall as NonNullable<Werkzeug['abo']>['intervall'],
+              naechsteVerlaengerung: g.verlaengerung || null,
+              kuendigungsfristTage: g.frist.trim() ? Number(g.frist.trim()) : null,
+            }
+          : basis.abo,
     }
     if (eintrag) {
       dispatch({
@@ -187,6 +208,30 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
             }))}
           />
         </div>
+        {typ === 'abo' && (
+          <fieldset className={styles.gruppe}>
+            <legend>Kosten und Fristen</legend>
+            <div className={styles.zeile}>
+              <SelectField label="Abrechnung" required value={werte.intervall} onChange={(e) => setze('intervall', e.target.value)} options={Object.entries(ABO_INTERVALL).map(([value, label]) => ({ value, label }))} />
+              {werte.intervall !== 'kostenlos' && (
+                <TextField
+                  label={werte.intervall === 'jaehrlich' ? 'Kosten pro Jahr (€)' : 'Kosten pro Monat (€)'}
+                  inputMode="decimal"
+                  value={werte.kosten}
+                  onChange={(e) => setze('kosten', e.target.value)}
+                  error={fehler.kosten}
+                  hint="Brutto, z. B. 21,42"
+                />
+              )}
+            </div>
+            {werte.intervall !== 'kostenlos' && (
+              <div className={styles.zeile}>
+                <TextField label="Nächste Verlängerung" type="date" value={werte.verlaengerung} onChange={(e) => setze('verlaengerung', e.target.value)} hint="Weitere Termine werden fortgeschrieben." />
+                <TextField label="Kündigungsfrist (Tage)" inputMode="numeric" value={werte.frist} onChange={(e) => setze('frist', e.target.value)} error={fehler.frist} hint="Wie viele Tage vor der Verlängerung spätestens?" />
+              </div>
+            )}
+          </fieldset>
+        )}
         {typ === 'integration' && (
           <fieldset className={styles.gruppe}>
             <legend>Zugang und Datenschutz</legend>

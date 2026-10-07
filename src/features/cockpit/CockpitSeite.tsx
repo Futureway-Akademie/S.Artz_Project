@@ -11,6 +11,7 @@ import { BEWERBUNG_STATUS, KEIN_STATUS, PROJEKT_STATUS } from '../../domain/labe
 import { bezugInfo } from '../../domain/selectors/bezug.ts'
 import {
   kurzesDatum,
+  selectAboFristen,
   selectAktuelleProjekte,
   selectBegruessung,
   selectFokus,
@@ -23,6 +24,7 @@ import {
 import { selectCrmUebersicht } from '../../domain/selectors/crm.ts'
 import { KALENDER_ART } from '../../domain/selectors/kalender.ts'
 import { formatEuro } from '../../domain/selectors/leads.ts'
+import { werkzeugLink } from '../../domain/selectors/werkzeug.ts'
 import { selectWeiterbildung } from '../../domain/selectors/weiterbildung.ts'
 import { useToast } from '../../components/ui/toastContext.ts'
 import type { Aufgabe } from '../../domain/types.ts'
@@ -44,6 +46,7 @@ export function CockpitSeite() {
   const wb = selectWeiterbildung(data, now)
   const crm = selectCrmUebersicht(data, now)
   const sicherung = selectSicherungHinweis(data, now)
+  const aboFristen = selectAboFristen(data, now)
 
   const abhaken = (a: Aufgabe) => {
     dispatch({ type: 'aendern', sammlung: 'aufgaben', id: a.id, aenderung: { erledigt: true } })
@@ -201,6 +204,18 @@ export function CockpitSeite() {
             </ol>
           )}
         </Panel>
+
+        {aboFristen.length > 0 && (
+          <Panel titel="Abo-Fristen" aktionen={<Link to="/werkzeug/abos">Modelle & Abos</Link>}>
+            <ul className={styles.liste}>
+              {aboFristen.map((t) => (
+                <li key={`${t.werkzeug.id}:${t.datum}`}>
+                  <Link to={werkzeugLink(t.werkzeug)}>{t.werkzeug.titel}</Link>: kündigen bis <strong>{kurzesDatum(t.datum, now)}</strong>, sonst Verlängerung am {formatDatum(t.verlaengerung)}
+                </li>
+              ))}
+            </ul>
+          </Panel>
+        )}
 
         <Panel titel="Aktuelle Projekte" aktionen={<Link to="/projekte">Alle Projekte ({projekte.gesamt})</Link>}>
           {projekte.zeilen.length === 0 ? (
