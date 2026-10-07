@@ -136,3 +136,6 @@
 {"timestamp":"2026-10-07T15:38:28Z","type":"verification_passed","taskId":"task-7-2","summary":"E-Mail-Vorlagen und Entwürfe im eigenen Mailprogramm, Verlauf mit Betreff; 276 Tests grün."}
 {"timestamp":"2026-10-07T15:38:28Z","type":"task_completed","taskId":"task-7-2","summary":"Task 'E-Mails' abgeschlossen."}
 {"timestamp":"2026-10-07T15:38:28Z","type":"task_ready","taskId":"task-8-2","summary":"Task 'Beziehungspflege' ist startbar."}
+{"timestamp":"2026-10-07T15:38:35Z","type":"task_started","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' gestartet."}
+{"timestamp":"2026-10-07T15:46:05Z","type":"verification_passed","taskId":"task-7-3","summary":"Bewerbungs-Pipeline, Kennzahlen, Wiedervorlagen im Cockpit; 282 Tests grün."}
+{"timestamp":"2026-10-07T15:46:05Z","type":"task_completed","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' abgeschlossen."}

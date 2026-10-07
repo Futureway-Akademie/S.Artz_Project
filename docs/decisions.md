@@ -388,3 +388,17 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - „Im Mailprogramm öffnen“ ist ein `mailto:`-Link, und der Entwurf öffnet sich im eigenen Mailprogramm. Die App sendet nichts.
   - Optional (voreingestellt) wird der Entwurf als ausgehende E-Mail im Verlauf festgehalten, verknüpft mit der Bewerbung.
   - Bei sehr langen Texten erscheint ein Hinweis, weil Mailprogramme lange mailto-Links kürzen.
+
+## 2026-10-07 – Bewerbungsübersicht (task-7-3)
+
+- **Kennzahlen** (berechnet, `bewerbungKennzahlen`): laufend, Gespräche (inkl. Angebot), Antwortquote, ohne Rückmeldung, fällige Wiedervorlagen, Absagen.
+  - **Antwortquote:** Gespräch, Angebot oder Absage im Verhältnis zu allen versendeten Bewerbungen (alles außer „geplant“).
+  - **Ohne Rückmeldung:** Status „beworben“ seit mindestens 14 Tagen.
+- **Pipeline-Ansicht** (Tab neben der Liste, `?ansicht=pipeline`):
+  - eine Spalte je Status, fällige Wiedervorlagen zuerst.
+  - Der Status wechselt über ein beschriftetes Auswahlfeld an der Karte. Bewusst ohne Drag & Drop: per Tastatur und Screenreader gleichwertig bedienbar.
+  - Die Spalten stehen untereinander (Mobil), zu zweit, zu dritt oder zu sechst, je nach Breite.
+- **Wiedervorlage mit Datum** (seit Schema v5):
+  - Wiedervorlagen laufender Bewerbungen und offener Leads erscheinen im Cockpit unter „Nächste Schritte“ und im Kalender.
+  - Beendete Bewerbungen (Absage, zurückgezogen) und abgeschlossene Leads erscheinen nicht.
+- **Detailseite** (`/bewerbungen/:id`, seit task-6-2): Status jetzt direkt änderbar.

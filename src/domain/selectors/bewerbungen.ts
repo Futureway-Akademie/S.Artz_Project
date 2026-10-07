@@ -1,3 +1,4 @@
+import { heute, plusTage } from '../dates.ts'
 import { BEWERBUNG_STATUS } from '../labels.ts'
 import type { AppData, Bewerbung, Zielrolle } from '../types.ts'
 
@@ -33,4 +34,50 @@ export function zielrollenZeilen(data: AppData): Array<{ zielrolle: Zielrolle; b
     const zugeordnet = data.bewerbungen.filter((b) => b.zielrolleId === zielrolle.id)
     return { zielrolle, bewerbungen: zugeordnet.length, laufend: zugeordnet.filter((b) => BEWERBUNG_STATUS[b.status].laufend).length }
   })
+}
+
+/** Nach so vielen Tagen ohne Antwort gilt eine Bewerbung als „ohne Rückmeldung“. */
+export const OHNE_ANTWORT_NACH_TAGEN = 14
+
+export interface BewerbungKennzahlen {
+  gesamt: number
+  laufend: number
+  /** Im Gespräch oder mit Angebot */
+  gespraeche: number
+  angebote: number
+  absagen: number
+  /** Anteil der versendeten Bewerbungen mit Rückmeldung (Gespräch, Angebot oder Absage); `null` ohne versendete */
+  antwortquote: number | null
+  /** Beworben, seit mindestens 14 Tagen ohne Statuswechsel */
+  ohneAntwort: number
+  /** Wiedervorlage heute oder überfällig */
+  faelligeWiedervorlagen: number
+}
+
+export function bewerbungKennzahlen(data: AppData, now: Date): BewerbungKennzahlen {
+  const b = data.bewerbungen
+  const h = heute(now)
+  const versendet = b.filter((x) => x.status !== 'geplant')
+  const antworten = b.filter((x) => x.status === 'im_gespraech' || x.status === 'angebot' || x.status === 'absage')
+  const grenze = plusTage(h, -OHNE_ANTWORT_NACH_TAGEN)
+  return {
+    gesamt: b.length,
+    laufend: b.filter((x) => BEWERBUNG_STATUS[x.status].laufend).length,
+    gespraeche: b.filter((x) => x.status === 'im_gespraech' || x.status === 'angebot').length,
+    angebote: b.filter((x) => x.status === 'angebot').length,
+    absagen: b.filter((x) => x.status === 'absage').length,
+    antwortquote: versendet.length === 0 ? null : Math.round((antworten.length / versendet.length) * 100),
+    ohneAntwort: b.filter((x) => x.status === 'beworben' && (x.beworbenAm ?? x.geaendertAm.slice(0, 10)) <= grenze).length,
+    faelligeWiedervorlagen: b.filter((x) => BEWERBUNG_STATUS[x.status].laufend && x.wiedervorlageAm !== null && x.wiedervorlageAm <= h).length,
+  }
+}
+
+/** Spalten der Pipeline in fester Reihenfolge, je Spalte nach Wiedervorlage (fällige zuerst) und Stelle sortiert. */
+export function bewerbungPipeline(data: AppData): Array<{ status: Bewerbung['status']; bewerbungen: Bewerbung[] }> {
+  return REIHENFOLGE.map((status) => ({
+    status,
+    bewerbungen: data.bewerbungen
+      .filter((b) => b.status === status)
+      .sort((a, b) => (a.wiedervorlageAm ?? '9999').localeCompare(b.wiedervorlageAm ?? '9999') || a.stelle.localeCompare(b.stelle, 'de')),
+  }))
 }

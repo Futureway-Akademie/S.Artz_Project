@@ -1,0 +1,140 @@
+.kennzahlen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+}
+
+.kachel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+}
+
+.kachel dd {
+  margin: 0;
+}
+
+.kachelLabel {
+  order: 2;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.zahl {
+  order: 1;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+.kachelHinweis {
+  order: 3;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.warnung .zahl {
+  color: var(--color-warning);
+}
+
+.pipeline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.spalte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.spaltenTitel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-md);
+}
+
+.anzahl {
+  min-width: 1.75rem;
+  padding: 0 var(--space-2);
+  border-radius: 999px;
+  background: var(--color-white);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.karten {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.karte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+}
+
+.stelle {
+  font-weight: var(--font-weight-bold);
+  overflow-wrap: anywhere;
+}
+
+.firma {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.status {
+  min-height: 2.25rem;
+  font-size: var(--font-size-sm);
+}
+
+.leer {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+@media (min-width: 640px) {
+  .kennzahlen {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pipeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .kennzahlen {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .pipeline {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1500px) {
+  .pipeline {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

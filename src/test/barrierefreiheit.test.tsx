@@ -111,6 +111,7 @@ const SEITEN = [
   '/bewerbungen',
   '/bewerbungen/zielrollen',
   '/bewerbungen/b1',
+  '/bewerbungen?ansicht=pipeline',
   '/kontakte/leads/l1',
   '/kontakte/vorlagen',
   '/einstellungen',

@@ -1,3 +1,4 @@
+import { BEWERBUNG_STATUS, LEAD_STATUS } from '../labels.ts'
 import { formatDatum, heute, nachFrist, plusTage, tageZwischen } from '../dates.ts'
 import type { Aktivitaet, AppData, Bezug } from '../types.ts'
 import { projektListe, type ProjektZeile } from './projekte.ts'
@@ -64,7 +65,13 @@ export function selectNaechsteSchritte(data: AppData, limit = 8): { eintraege: N
       faelligAm: k.naechsteAktion!.faelligAm,
       bezug: { art: 'kontakt', id: k.id },
     }))
-  const alle = [...aufgaben, ...wiedervorlagen].sort(nachFrist)
+  const bewerbungen: NaechsterSchritt[] = data.bewerbungen
+    .filter((b) => b.wiedervorlageAm !== null && BEWERBUNG_STATUS[b.status].laufend)
+    .map((b) => ({ art: 'wiedervorlage', id: b.id, titel: b.naechsterSchritt || 'Bewerbung nachfassen', faelligAm: b.wiedervorlageAm, bezug: { art: 'bewerbung', id: b.id } }))
+  const leads: NaechsterSchritt[] = data.leads
+    .filter((l) => l.wiedervorlageAm !== null && LEAD_STATUS[l.status].offen)
+    .map((l) => ({ art: 'wiedervorlage', id: l.id, titel: l.naechsterSchritt || 'Lead nachfassen', faelligAm: l.wiedervorlageAm, bezug: { art: 'lead', id: l.id } }))
+  const alle = [...aufgaben, ...wiedervorlagen, ...bewerbungen, ...leads].sort(nachFrist)
   return { eintraege: alle.slice(0, limit), gesamt: alle.length }
 }
 

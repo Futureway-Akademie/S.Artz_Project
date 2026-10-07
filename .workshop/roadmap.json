@@ -998,7 +998,7 @@
       "description": "Kalender über alles, E-Mail-Verlauf und Vorlagen ohne Postfachanbindung, Übersicht über alle Bewerbungen.",
       "order": 7,
       "weight": 8,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-7-1",
@@ -1067,7 +1067,7 @@
           "description": "Pipeline-Ansicht nach Status, Kennzahlen, Wiedervorlage mit Datum, Detailseite je Bewerbung mit Verlauf und Terminen.",
           "order": 3,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-6-2"
           ],
@@ -1077,13 +1077,18 @@
             "Wiedervorlage mit Datum, im Cockpit und Kalender",
             "Detailseite je Bewerbung mit Verlauf, Terminen und Aufgaben"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:38:35Z",
+          "completedAt": "2026-10-07T15:46:05Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Kennzahlen (laufend, Gespräche, Antwortquote, ohne Rückmeldung seit 14 Tagen, fällige Wiedervorlagen, Absagen), Pipeline-Ansicht je Status mit zugänglichem Statuswechsel an der Karte, Wiedervorlagen laufender Bewerbungen und offener Leads im Cockpit und Kalender, Statuswechsel auf der Detailseite. 282 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:46:05Z"
           }
         }
       ]

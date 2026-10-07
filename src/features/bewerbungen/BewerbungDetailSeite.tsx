@@ -9,7 +9,10 @@ import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useStore } from '../../data/storeContext.ts'
 import { formatDatum } from '../../domain/dates.ts'
-import { BEWERBUNG_STATUS } from '../../domain/labels.ts'
+import { SelectField } from '../../components/ui/Field.tsx'
+import { useToast } from '../../components/ui/toastContext.ts'
+import { BEWERBUNG_STATUS, optionen } from '../../domain/labels.ts'
+import type { Bewerbung } from '../../domain/types.ts'
 import styles from '../kontakte/crm.module.css'
 import { Gesamtsicht } from '../gemeinsam/Gesamtsicht.tsx'
 import { BewerbungDialog } from './BewerbungDialog.tsx'
@@ -17,7 +20,8 @@ import { BewerbungDialog } from './BewerbungDialog.tsx'
 /** Eine Bewerbung mit allen Angaben und allem, was dazugehört (Verlauf, Termine, Aufgaben). */
 export function BewerbungDetailSeite() {
   const { id = '' } = useParams()
-  const { data } = useStore()
+  const { data, dispatch } = useStore()
+  const { zeige } = useToast()
   const navigate = useNavigate()
   const [bearbeiten, setBearbeiten] = useState(false)
   const b = data.bewerbungen.find((x) => x.id === id)
@@ -56,6 +60,16 @@ export function BewerbungDetailSeite() {
         </div>
         <div className={styles.spalte}>
           <Panel titel="Angaben">
+            <SelectField
+              label="Status"
+              optionalKennzeichnen={false}
+              value={b.status}
+              onChange={(e) => {
+                dispatch({ type: 'aendern', sammlung: 'bewerbungen', id: b.id, aenderung: { status: e.target.value as Bewerbung['status'] } })
+                zeige('Status gespeichert')
+              }}
+              options={optionen(BEWERBUNG_STATUS)}
+            />
             <dl className={styles.daten}>
               <dt>Unternehmen</dt>
               <dd>{firma ? <Link to={`/kontakte/unternehmen/${firma.id}`}>{firma.name}</Link> : 'Nicht hinterlegt'}</dd>

@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 85,88 % (73 von 85 Gewichtspunkten, 31 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 89,41 % (76 von 85 Gewichtspunkten, 32 von 37 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-7-3 – Bewerbungsübersicht (2026-10-07T15:46:05Z). Pipeline, Kennzahlen, Wiedervorlagen im Cockpit.
 - task-7-2 – E-Mails (2026-10-07T15:38:28Z). Vorlagen mit Platzhaltern, Entwurf im eigenen Mailprogramm.
 - task-7-1 – Kalender (2026-10-07T15:32:44Z). Monat/Woche/Liste, Wiedervorlagen, .ics-Export.
 - task-6-3 – Globale Suche und Schnellerfassung (2026-10-07T15:26:08Z). Strg+K, Neu anlegen mit Verknüpfung.
@@ -48,7 +49,6 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-7-3 – Bewerbungsübersicht
 - task-8-1 – Cockpit-Fokus
 - task-8-2 – Beziehungspflege
 - task-8-3 – Schlagworte und Dubletten
@@ -121,7 +121,7 @@ Keine.
 |---|---|---|---|
 | task-7-1 | Kalender | ✅ erledigt |  |
 | task-7-2 | E-Mails | ✅ erledigt |  |
-| task-7-3 | Bewerbungsübersicht | ▶️ startbar | – |
+| task-7-3 | Bewerbungsübersicht | ✅ erledigt |  |
 
 ### Fokus und Alltag
 
@@ -130,7 +130,7 @@ Keine.
 | task-8-1 | Cockpit-Fokus | ▶️ startbar | – |
 | task-8-2 | Beziehungspflege | ▶️ startbar | – |
 | task-8-3 | Schlagworte und Dubletten | ▶️ startbar | – |
-| task-8-4 | Abschlussprüfung Roadmap v3 | ⏳ geplant | task-8-1, task-8-2, task-8-3, task-7-3 |
+| task-8-4 | Abschlussprüfung Roadmap v3 | ⏳ geplant | task-8-1, task-8-2, task-8-3 |
 
 ## Blockiert
 
