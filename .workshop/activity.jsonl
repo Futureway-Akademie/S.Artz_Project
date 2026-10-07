@@ -74,3 +74,7 @@
 {"timestamp":"2026-10-07T13:40:31Z","type":"verification_passed","taskId":"task-3-2","summary":"typecheck, lint, test (166) und build fehlerfrei."}
 {"timestamp":"2026-10-07T13:40:31Z","type":"task_completed","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' abgeschlossen."}
 {"timestamp":"2026-10-07T13:40:31Z","type":"task_started","taskId":"task-3-3","summary":"Task 'Leads' gestartet."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"verification_passed","taskId":"task-3-3","summary":"typecheck, lint, test (172) und build fehlerfrei."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"task_completed","taskId":"task-3-3","summary":"Task 'Leads' abgeschlossen."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"task_started","taskId":"task-3-4","summary":"Task 'Bewerbungen und Zielrollen' gestartet."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"roadmap_updated","taskId":"task-3-4","summary":"Definition of Done von 'Bewerbungen und Zielrollen' laut docs/architecture.md ergänzt."}

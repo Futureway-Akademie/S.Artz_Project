@@ -520,7 +520,7 @@
           "description": "Optionale Leadverwaltung mit Status; Geldbetrag optional und leer zulässig.",
           "order": 3,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-3-1"
           ],
@@ -530,12 +530,17 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T13:40:31Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:42:38Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 172 Tests grün, davon 6 für Leads: Statusfilter (offen, alle, einzelner Status) und Sortierung; Summe nur über Leads mit Betrag, ohne Beträge null statt 0; deutsches Zahlenformat lesen/schreiben; leerer Betrag wird als 'Kein Betrag' angezeigt, nie als 0 €; Betragsprüfung mit Fehlermeldung; Bearbeiten und Leeren eines Betrags. Keine Prognosen oder Abschlusswahrscheinlichkeiten.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:42:38Z"
           }
         },
         {
@@ -544,16 +549,17 @@
           "description": "Bewerbungen und Zielrollen verwalten; drei bekannte Zielrollen vorbefüllt, keine Bewerbungen erfunden.",
           "order": 4,
           "weight": 2,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-3-1"
           ],
           "definitionOfDone": [
             "Zielrollen und Bewerbungen können angelegt und bearbeitet werden",
             "Drei Zielrollen vorhanden, keine vorbefüllten Bewerbungen",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "npm run build, lint, typecheck und test laufen fehlerfrei",
+            "Bewerbungen mit Status (Geplant, Beworben, Im Gespräch, Angebot, Absage, Zurückgezogen), Zielrolle, Ansprechpartner (Kontakt), Quelle, Datum, Link und nächstem Schritt"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:42:38Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
