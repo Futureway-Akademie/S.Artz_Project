@@ -37,6 +37,6 @@ describe('Statushinweise der App-Shell', () => {
         </MemoryRouter>
       </StoreProvider>,
     )
-    expect(screen.getByRole('note', { name: 'Demo-Hinweis' })).toHaveTextContent('Änderungen gehen beim Schließen der Seite verloren')
+    expect(screen.getByRole('note', { name: 'Speicherhinweis' })).toHaveTextContent('Änderungen gehen beim Schließen der Seite verloren')
   })
 })

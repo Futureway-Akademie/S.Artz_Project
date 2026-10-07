@@ -42,9 +42,9 @@ describe('Einstellungen', () => {
     URL.revokeObjectURL = vi.fn()
   })
 
-  it('zeigt den Demo-Hinweis und den Datenstand', () => {
+  it('zeigt den Speicherhinweis und den Datenstand', () => {
     renderApp('/einstellungen')
-    expect(within(screen.getByRole('region', { name: 'Demo-Modus' })).getByText(/nicht sicher und nicht dauerhaft/)).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Speicherung' })).getByText(/keine Verbindung nach/)).toBeInTheDocument()
     expect(screen.getByText(/Aktueller Datenstand: 12 Projekte/)).toBeInTheDocument()
   })
 

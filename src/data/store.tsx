@@ -110,8 +110,17 @@ export function StoreProvider({
   }, [intern, speichern, saveDelayMs])
 
   useEffect(() => {
+    const versteckt = () => {
+      if (document.visibilityState === 'hidden') speichern()
+    }
     window.addEventListener('pagehide', speichern)
-    return () => window.removeEventListener('pagehide', speichern)
+    document.addEventListener('visibilitychange', versteckt)
+    return () => {
+      window.removeEventListener('pagehide', speichern)
+      document.removeEventListener('visibilitychange', versteckt)
+      // Beim Abbau (z. B. Sperren) nichts verlieren, was noch in der Entprellung wartet
+      speichern()
+    }
   }, [speichern])
 
   // Änderungen aus anderen Tabs melden, nicht stillschweigend überschreiben

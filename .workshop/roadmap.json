@@ -783,7 +783,7 @@
           "description": "Daten im Browser nur verschlüsselt (AES-GCM, PBKDF2) speichern; Passwort beim ersten Start festlegen; Sperre nach Inaktivität; Passwort ändern.",
           "order": 3,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-5-1"
           ],
@@ -795,12 +795,18 @@
             "Passwort ändern möglich, Hinweis auf fehlende Wiederherstellung"
           ],
           "startedAt": "2026-10-07T14:40:28Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T14:49:23Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "AES-GCM-256 mit PBKDF2-SHA-256 (600 000 Runden) über Web Crypto; VerschluesselterSpeicher schreibt nur verschlüsselt, Klartext nur im Arbeitsspeicher; TresorGate mit Einrichten (inkl. Übernahme vorhandener Klartext-Daten), Entsperren, Passwort vergessen, automatischer Sperre (5/15/30/60 min) und Jetzt sperren; Passwort ändern in den Einstellungen. 15 neue Tests (Krypto, Speicher, Bedienung, axe) grün; insgesamt 226 Tests, typecheck, lint, build fehlerfrei; im Browser (Build) geprüft: localStorage enthält nur den Umschlag, nach Neuladen gesperrt, Entsperren funktioniert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: Passwort festlegen, localStorage prüfen, neu laden, entsperren"
+            ],
+            "checkedAt": "2026-10-07T14:49:23Z"
           }
         },
         {
@@ -809,7 +815,7 @@
           "description": "Export und Import nur verschlüsselt, Erinnerung an regelmäßige Sicherung, dauerhaften Browser-Speicher anfordern.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-5-3"
           ],
@@ -833,7 +839,7 @@
           "description": "Rechtsgrundlage und Zweck je Kontakt, Auskunft je Person, vollständiges Löschen inkl. Protokoll, Prüfhinweis für ruhende Kontakte, Datenschutzhinweis.",
           "order": 5,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-5-3"
           ],

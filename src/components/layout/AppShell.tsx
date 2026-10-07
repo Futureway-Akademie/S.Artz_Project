@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router'
+import { useTresor } from '../../app/tresorContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { Wordmark } from '../brand/Wordmark.tsx'
 import { Button } from '../ui/Button.tsx'
@@ -11,12 +12,29 @@ import { NavList } from './NavList.tsx'
 
 function DemoBanner() {
   const { persistenz } = useStore()
+  const tresor = useTresor()
   return (
-    <div className={styles.demo} role="note" aria-label="Demo-Hinweis">
-      <strong>Demo-Modus.</strong>{' '}
-      {persistenz === 'lokal'
-        ? 'Die Daten werden nur in diesem Browser gespeichert – nicht sicher und nicht dauerhaft. Sichere sie regelmäßig über den Export in den Einstellungen.'
-        : 'Der Browser-Speicher ist nicht verfügbar. Änderungen gehen beim Schließen der Seite verloren.'}
+    <div className={styles.demo} role="note" aria-label="Speicherhinweis">
+      <span>
+        {persistenz !== 'lokal' ? (
+          <>
+            <strong>Nicht gespeichert.</strong> Der Browser-Speicher ist nicht verfügbar. Änderungen gehen beim Schließen der Seite verloren.
+          </>
+        ) : tresor ? (
+          <>
+            <strong>Verschlüsselt.</strong> Die Daten liegen nur in diesem Browser. Sichere sie regelmäßig über den Export in den Einstellungen.
+          </>
+        ) : (
+          <>
+            <strong>Demo-Modus.</strong> Die Daten werden nur in diesem Browser gespeichert. Sichere sie regelmäßig über den Export in den Einstellungen.
+          </>
+        )}
+      </span>
+      {tresor && (
+        <Button size="sm" variant="secondary" onClick={tresor.sperren}>
+          Jetzt sperren
+        </Button>
+      )}
     </div>
   )
 }

@@ -102,3 +102,7 @@
 {"timestamp":"2026-10-07T14:40:06Z","type":"verification_passed","taskId":"task-5-2","summary":"CSP aktiv, Abruf nach außen im Browser blockiert; 210 Tests grün."}
 {"timestamp":"2026-10-07T14:40:06Z","type":"task_completed","taskId":"task-5-2","summary":"Task 'Keine Verbindung nach außen' abgeschlossen."}
 {"timestamp":"2026-10-07T14:40:28Z","type":"task_started","taskId":"task-5-3","summary":"Task 'Verschlüsselung mit Passwort und automatischer Sperre' gestartet."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"verification_passed","taskId":"task-5-3","summary":"Daten nur verschlüsselt gespeichert, Sperre und Passwortwechsel; 226 Tests grün, im Browser geprüft."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"task_completed","taskId":"task-5-3","summary":"Task 'Verschlüsselung mit Passwort und automatischer Sperre' abgeschlossen."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"task_ready","taskId":"task-5-4","summary":"Task 'Verschlüsselte Sicherung und Erinnerung' ist startbar."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"task_ready","taskId":"task-5-5","summary":"Task 'DSGVO-Funktionen für Kontakte' ist startbar."}

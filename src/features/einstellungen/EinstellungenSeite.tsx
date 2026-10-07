@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
+import { useTresor } from '../../app/tresorContext.ts'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Button } from '../../components/ui/Button.tsx'
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog.tsx'
@@ -11,6 +12,7 @@ import { exportDateiname, exportJson, herunterladen, pruefeImport } from '../../
 import { useStore } from '../../data/storeContext.ts'
 import type { AppData } from '../../domain/types.ts'
 import styles from './EinstellungenSeite.module.css'
+import { SicherheitPanel } from './SicherheitPanel.tsx'
 
 function umfang(data: AppData): string {
   const teile: Array<[number, string, string]> = [
@@ -54,6 +56,7 @@ function AnzeigenameFormular({ gespeichert }: { gespeichert: string }) {
 export function EinstellungenSeite() {
   const { data, dispatch, persistenz, zuruecksetzen } = useStore()
   const { zeige } = useToast()
+  const tresor = useTresor()
   const [importDaten, setImportDaten] = useState<{ data: AppData; datei: string } | null>(null)
   const [importFehler, setImportFehler] = useState<{ fehler: string; details?: string } | null>(null)
   const [zuruecksetzenFragen, setZuruecksetzenFragen] = useState(false)
@@ -83,11 +86,12 @@ export function EinstellungenSeite() {
 
   return (
     <Seite titel="Einstellungen">
-      <Panel titel="Demo-Modus">
+      <Panel titel="Speicherung">
         <p>
-          Das Arbeitscockpit speichert alle Daten nur in diesem Browser (localStorage). Es gibt kein Konto und keinen Server. Die
-          Speicherung ist <strong>nicht sicher und nicht dauerhaft</strong>: Browserdaten löschen, ein anderes Gerät oder ein privates
-          Fenster bedeuten leere Daten. Sichere deine Daten regelmäßig über den Export.
+          Das Arbeitscockpit speichert alle Daten nur in diesem Browser. Es gibt kein Konto, keinen Server und keine Verbindung nach
+          außen. {tresor ? 'Die Daten sind mit deinem Passwort verschlüsselt.' : 'Die Daten sind in dieser Ansicht nicht verschlüsselt.'}{' '}
+          Browserdaten löschen, ein anderes Gerät oder ein privates Fenster bedeuten leere Daten. Sichere deine Daten regelmäßig über den
+          Export.
         </p>
         <p className={styles.status}>
           {persistenz === 'lokal'
@@ -96,6 +100,8 @@ export function EinstellungenSeite() {
         </p>
         <p className={styles.hinweis}>Aktueller Datenstand: {umfang(data)}.</p>
       </Panel>
+
+      <SicherheitPanel />
 
       <Panel titel="Anzeigename">
         <AnzeigenameFormular key={data.einstellungen.anzeigename} gespeichert={data.einstellungen.anzeigename} />

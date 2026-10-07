@@ -270,3 +270,22 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Nur `http(s)`-Adressen werden zum Link, damit z. B. ein importiertes `javascript:` nichts ausführt.
 - **Prüfung:** `src/test/keineVerbindung.test.tsx` deckt Richtlinie, Quellcode (kein `fetch`, XHR, WebSocket, Beacon, keine fremden Imports) und Links ab.
 - **Im Browser geprüft:** gebaute App unter `npm run preview` lädt fehlerfrei mit Schriften; ein `fetch` nach außen wird blockiert.
+
+## 2026-10-07 – Verschlüsselung mit Passwort (task-5-3)
+
+- **Verfahren** (Web Crypto, keine Fremdbibliothek): AES-GCM mit 256 Bit; Schlüssel per PBKDF2-SHA-256 mit 600.000 Runden und zufälligem Salt; neues IV bei jedem Speichern. Der Schlüssel ist nicht exportierbar, das Passwort wird nirgends gespeichert. Code: `src/data/krypto.ts`.
+- **Speicher** (`src/data/tresor.ts`):
+  - `VerschluesselterSpeicher` hält den Klartext nur im Arbeitsspeicher und schreibt ausschließlich den verschlüsselten Umschlag in den localStorage.
+  - Der StoreProvider bleibt unverändert und bekommt nur einen anderen Speicher.
+  - Schreibvorgänge laufen asynchron der Reihe nach; geschrieben wird nur der neueste Stand.
+- **TresorGate** (`src/app/TresorGate.tsx`):
+  - zeigt vor der App „Passwort festlegen“, „Daten verschlüsseln“ (bestehende Klartext-Daten werden sofort verschlüsselt übernommen), „Gesperrt“ oder „Passwort vergessen“.
+  - „Passwort vergessen“ bietet nur Löschen und Neubeginn, denn eine Wiederherstellung gibt es bewusst nicht.
+- **Sperre:**
+  - automatisch nach 5, 15 (Standard), 30 oder 60 Minuten ohne Eingabe; geprüft alle 15 Sekunden und beim Zurückkehren in den Tab.
+  - außerdem „Jetzt sperren“ im Hinweisband und in den Einstellungen.
+  - Beim Sperren wird der Speicher abgebaut. Der StoreProvider speichert dabei noch wartende Änderungen, und zusätzlich wird beim Verstecken des Tabs gespeichert.
+- **Passwort ändern:** prüft das bisherige Passwort am gespeicherten Umschlag und verschlüsselt mit neuem Salt.
+- **Nicht verschlüsselt:** nur die Sperrzeit (`…:sicherheit`), weil sie nicht persönlich ist.
+- **Ohne Browser-Speicher** läuft die App wie bisher flüchtig; es wird nichts abgelegt.
+- **Im Browser geprüft** (gebaute App, Port 4173, Testpasswort): im localStorage steht nur der Umschlag. Nach dem Neuladen ist die App gesperrt, Entsperren funktioniert. Die Testdaten sind danach gelöscht.

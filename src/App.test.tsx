@@ -64,7 +64,7 @@ describe('App-Shell', () => {
 
   it('kennzeichnet den Demo-Modus sichtbar', () => {
     renderApp()
-    expect(screen.getByRole('note', { name: 'Demo-Hinweis' })).toHaveTextContent('Demo-Modus.')
+    expect(screen.getByRole('note', { name: 'Speicherhinweis' })).toHaveTextContent('Demo-Modus.')
   })
 
   it('öffnet und schließt das mobile Menü und gibt den Fokus zurück', () => {

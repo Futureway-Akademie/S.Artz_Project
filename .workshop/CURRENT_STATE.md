@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 60 % (51 von 85 Gewichtspunkten, 23 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 63,53 % (54 von 85 Gewichtspunkten, 24 von 37 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-5-3 – Verschlüsselung mit Passwort und automatischer Sperre (2026-10-07T14:49:23Z). AES-256, Sperre, Passwort ändern.
 - task-5-2 – Keine Verbindung nach außen (2026-10-07T14:40:06Z). CSP im Build, sichere externe Links, Test.
 - task-5-1 – Persönliche Daten aus dem Repository entfernen (2026-10-07T14:36:04Z). Startdaten nur lokal, fiktive Testdaten, Wächter-Test.
 - task-4-3 – End-to-End-Prüfung und Dokumentation (14 Seiten × 3 Breiten, docs/pruefprotokoll.md, architecture.md auf Umsetzungsstand, README).
@@ -40,7 +41,8 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-5-3 – Verschlüsselung mit Passwort und automatischer Sperre
+- task-5-4 – Verschlüsselte Sicherung und Erinnerung
+- task-5-5 – DSGVO-Funktionen für Kontakte
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -91,9 +93,9 @@ Keine.
 |---|---|---|---|
 | task-5-1 | Persönliche Daten aus dem Repository entfernen | ✅ erledigt |  |
 | task-5-2 | Keine Verbindung nach außen | ✅ erledigt |  |
-| task-5-3 | Verschlüsselung mit Passwort und automatischer Sperre | ▶️ startbar | – |
-| task-5-4 | Verschlüsselte Sicherung und Erinnerung | ⏳ geplant | task-5-3 |
-| task-5-5 | DSGVO-Funktionen für Kontakte | ⏳ geplant | task-5-3 |
+| task-5-3 | Verschlüsselung mit Passwort und automatischer Sperre | ✅ erledigt |  |
+| task-5-4 | Verschlüsselte Sicherung und Erinnerung | ▶️ startbar | – |
+| task-5-5 | DSGVO-Funktionen für Kontakte | ▶️ startbar | – |
 | task-5-6 | Git-Historie bereinigen | ⛔ blockiert | – |
 
 ### Alles verbinden
