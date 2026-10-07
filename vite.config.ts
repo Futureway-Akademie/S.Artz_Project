@@ -24,6 +24,14 @@ export default defineConfig(({ mode }) => {
         ],
       },
     ],
+    build: {
+      rolldownOptions: {
+        output: {
+          // Bibliotheken (React, zod …) getrennt vom App-Code: kleinere Pakete, besseres Caching
+          advancedChunks: { groups: [{ name: 'bibliotheken', test: /node_modules[\\/](react|react-dom|react-router|scheduler|zod)[\\/]/ }] },
+        },
+      },
+    },
     test: {
       environment: 'jsdom',
       globals: true,

@@ -1261,7 +1261,7 @@
       "description": "Anmeldung und geräteübergreifende Speicherung über Supabase – Ende-zu-Ende-verschlüsselt, Supabase sieht nur Chiffretext; Wissensbereich für KI und Weiterbildung.",
       "order": 9,
       "weight": 12,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-9-1",
@@ -1360,7 +1360,7 @@
           "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
           "order": 4,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-9-1",
             "task-9-2",
@@ -1371,13 +1371,19 @@
             "Neue Seiten bei drei Breiten geprüft",
             "Architektur, Entscheidungen und Prüfprotokoll aktuell"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T17:02:16Z",
+          "completedAt": "2026-10-07T17:05:18Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, 322 Tests (inkl. axe, Datenschutz-Wächter, CSP- und Netzwerkmodul-Test, Zwei-Geräte-Synchronisierung) und build fehlerfrei (Bibliotheken als eigenes Paket, keine Größenwarnung); gebaute App auf 19 Seiten bei 375/768/1280 px ohne Überlauf und Laufzeitfehler, localStorage nur mit verschlüsseltem Umschlag v2; Architektur, Entscheidungen, Constraints, README und Prüfprotokoll aktualisiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: 19 Seiten × 3 Breiten"
+            ],
+            "checkedAt": "2026-10-07T17:05:18Z"
           }
         }
       ]

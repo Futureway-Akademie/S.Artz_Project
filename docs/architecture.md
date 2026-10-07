@@ -83,17 +83,22 @@ Die Felder Kontext-Kategorie, Herkunft, LinkedIn-URL, Ansprechpartner und Quelle
 ### Ordnerstruktur (umgesetzt, Roadmap v3)
 
 ```
-csp.config.ts                 Content-Security-Policy (per Vite-Plugin nur im Build)
+csp.config.ts                 Content-Security-Policy (per Vite-Plugin nur im Build; mit Supabase genau eine Ausnahme)
+supabase/schema.sql           Tabelle tresor mit Row Level Security und Check „nur verschlüsselt“
+.env.example                  Vorlage für .env.local (Supabase-Adresse und anon key)
 src/
-├─ main.tsx, App.tsx          TresorGate → StoreProvider → StoreGate → ToastProvider → BrowserRouter
-├─ app/                       routes.tsx, TresorGate (Passwort, Sperre), tresorContext,
+├─ main.tsx, App.tsx          CloudProvider → TresorGate → CloudSync → StoreProvider → StoreGate → ToastProvider → BrowserRouter
+├─ app/                       routes.tsx, TresorGate (Passwort, Sperre, Wiederherstellung), tresorContext,
+│                             CloudProvider/cloudContext (Login), CloudSync/syncContext (Abgleich),
 │                             StoreGate (Fehlerseite bei defekten Daten)
 ├─ styles/                    tokens.css, fonts.css, base.css, contrast.ts (+ Kontrast-Test)
 ├─ domain/                    types.ts (aus zod abgeleitet), dates.ts, labels.ts, url.ts
 │  └─ selectors/              projekte, aufgaben, bezug, automationen, weiterbildung, cockpit,
 │                             crm, leads, bewerbungen, datenschutz, verknuepft, suche,
-│                             kalender, vorlagen, beziehung, schlagworte
-├─ data/                      schema.ts (zod, Version 6), migrations.ts (1 → 6), storage.ts,
+│                             kalender, vorlagen, beziehung, schlagworte, wissen
+├─ data/                      schema.ts (zod, Version 7), migrations.ts (1 → 7), storage.ts,
+│                             tresorKrypto.ts (Datenschlüssel, Version 2), wiederherstellung.ts,
+│                             cloud/ (cloud.ts Schnittstelle, supabase.ts einziges Netzwerkmodul, sync.ts),
 │                             krypto.ts (AES-GCM/PBKDF2), tresor.ts (verschlüsselter Speicher),
 │                             sicherung.ts (verschlüsselte Sicherung), exportImport.ts,
 │                             empty.ts, seed.ts (+ lokal seed.privat.ts), vorlagen.ts,
@@ -109,7 +114,8 @@ src/
 │                             aufgaben (inkl. FokusKnopf), kalender, kontakte (Unternehmen,
 │                             Leads, Vorlagen, E-Mail, Datenschutz), bewerbungen (Pipeline),
 │                             gemeinsam (Gesamtsicht), suche (Suche, Schnellerfassung),
-│                             einstellungen (Sicherheit), NichtGefunden
+│                             wissen (zweites Gehirn, Lerntagebuch),
+│                             einstellungen (Sicherheit, Wiederherstellung, Konto), NichtGefunden
 └─ test/                      setup, fakes, renderApp, beispielStart (fiktive Startdaten),
                               barrierefreiheit (axe-core), datenschutz (Wächter),
                               keineVerbindung (CSP und Quellcode)
@@ -126,13 +132,15 @@ public/brand/                 Logos unverändert
 | `/weiterbildung` | Kurs, Arbeitstage, Kursaufgaben, Fortschritt |
 | `/pikartz-ai` | Marke, Designregeln, Präsentations-System |
 | `/aufgaben` (`?ansicht=termine`) | Aufgaben (mit Fokus) und Termine |
+| `/wissen`, `/wissen/:id` | Zweites Gehirn: Notizen, Prompts, Tools, Erkenntnisse, Quellen, Lerntagebuch |
+| `/wiederherstellen#schluessel=…` | Einstieg über den Wiederherstellungslink (vor dem Entsperren) |
 | `/kalender` (`?ansicht=monat\|woche\|liste&datum=…`) | Kalender mit Terminen, Fristen, Wiedervorlagen, Kursaufgaben; .ics-Export |
 | `/kontakte` (`?faellig=1`, `?pruefen=1`), `/kontakte/:id` | Kontakte, Kontaktdetail mit Verlauf, Wiedervorlage, E-Mail, Datenschutz, Gesamtsicht |
 | `/kontakte/unternehmen`, `/kontakte/unternehmen/:id` | Unternehmen mit Gesamtsicht |
 | `/kontakte/leads`, `/kontakte/leads/:id` | Leads, Lead-Detail mit Gesamtsicht |
 | `/kontakte/vorlagen` | E-Mail-Vorlagen |
 | `/bewerbungen` (`?ansicht=pipeline`), `/bewerbungen/:id`, `/bewerbungen/zielrollen` | Bewerbungen mit Kennzahlen und Pipeline, Detail, Zielrollen |
-| `/einstellungen` | Speicherung, Sicherheit, Datenschutz, Anzeigename, Sicherung und Import, Zurücksetzen |
+| `/einstellungen` | Speicherung, Sicherheit und Wiederherstellung, Konto und Synchronisierung, Datenschutz, Anzeigename, Sicherung und Import, Zurücksetzen |
 | `*` | Seite nicht gefunden |
 
 ### Qualitätssicherung
@@ -151,6 +159,8 @@ public/brand/                 Logos unverändert
 - Sicherungen nur verschlüsselt; Auskunft (Art. 15) und Kalenderexport bewusst unverschlüsselt mit Hinweis.
 - Kontakte mit Rechtsgrundlage und Zweck; Löschen entfernt die Person auch aus dem Protokoll; Prüfhinweis nach 12 Monaten.
 - Persönliche Startdaten nur lokal (`seed.privat.ts`), Tests mit fiktiven Daten.
+- Tresor Version 2: zufälliger Datenschlüssel, verpackt per Passwort und optional per Wiederherstellungsschlüssel (der nur im #-Teil des Links in Saschas eigener Mail steht).
+- Optional Supabase (Roadmap v4): Login per E-Mail-Link, Ende-zu-Ende-verschlüsselte Synchronisierung; Supabase speichert nur E-Mail-Adresse und Chiffretext.
 
 ### Datenmodell (Kern)
 
@@ -179,7 +189,8 @@ public/brand/                 Logos unverändert
 - **Aktivität**: Zeitpunkt, Art, Bezug mit Titel-Snapshot, deutsche Zusammenfassung
 - **Projekt** zusätzlich: Auftraggeber (Unternehmen), Schlagworte, „zuletzt aktiv“ wird automatisch nachgezogen
 - **Einstellungen**: Anzeigename, Zeitpunkt der letzten Sicherung
-- **AppData**: `schemaVersion: 6` plus alle Listen; Migrationen 1 → 6 ohne Datenverlust
+- **Wissen** (zweites Gehirn): Typ, Titel, Inhalt, Thema, Quelle, Schlagworte, Datum/Kurstag, Projekte, Kurs, Kursaufgaben
+- **AppData**: `schemaVersion: 7` plus alle Listen; Migrationen 1 → 7 ohne Datenverlust
 
 ### Zustand und Speicherung
 

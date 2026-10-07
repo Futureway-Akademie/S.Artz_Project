@@ -122,3 +122,41 @@ Geprüft je Breite: Überschrift (h1), aktiver Navigationspunkt (`aria-current`)
 - **Datei-Abrufe:** Downloads (Sicherung, Auskunft, .ics) habe ich auf Saschas Rechner nicht im Browser ausgelöst, sondern über Tests geprüft.
 - **Git-Historie:** Alte Commits auf GitHub enthalten noch persönliche Begriffe (task-5-6, blockiert). Bereinigen geht nur per Force-Push mit Saschas Freigabe oder indem das Repository privat wird.
 - **Vorhandene Browserdaten:** Ältere Daten auf Port 5173 sind noch unverschlüsselt, bis Sascha beim nächsten Öffnen ein Passwort festlegt. Die App fragt danach automatisch.
+
+---
+
+# Prüfprotokoll Roadmap v4 (task-9-4)
+
+Abschlussprüfung am 2026-10-07 mit der gebauten App (Port 4173). Wegwerf-Testpasswort und Testdaten habe ich danach gelöscht.
+
+## Automatische Prüfungen
+
+| Befehl | Ergebnis |
+|---|---|
+| `npm run typecheck` | fehlerfrei |
+| `npm run lint` | fehlerfrei |
+| `npm test` | 322 Tests grün |
+| `npm run build` | fehlerfrei; Bibliotheken als eigenes Paket, keine Größenwarnung mehr |
+
+Neu getestet:
+
+- **Tresor Version 2:** Datenschlüssel, Umstellung von Version 1, Passwortwechsel
+- **Wiederherstellung per Link:** Schlüssel nur im Fragment, alter Link nach Erneuerung ungültig
+- **Login:** mit Supabase-Ersatz (`createFakeCloud`)
+- **Synchronisierung:**
+  - nur Chiffretext, Klartext wird verweigert
+  - zwei Geräte, Konflikt, fremder Tresor
+- **Zweites Gehirn:** Lerntagebuch, Verknüpfungen, Suche
+- **CSP:** ohne Supabase `connect-src 'none'`, mit Supabase genau die eigene https-Adresse; nur `src/data/cloud/supabase.ts` lädt Netzwerkcode
+
+## Browser
+
+- **Seiten:** alle 19 bei 375, 768 und 1280 px, inklusive `/wissen`, Kalender und Pipeline; ohne Überlauf und ohne Laufzeitfehler.
+- **Wiederherstellung (task-5-7):** einrichten, Link öffnen (Schlüssel verschwindet sofort aus der Adresszeile), neues Passwort setzen; die Daten waren vollständig da.
+- **Speicher:** Im localStorage steht nur der verschlüsselte Umschlag der Version 2.
+- **Build mit Testwerten für Supabase:** Die CSP enthält genau die Testadresse, und die Supabase-Bibliothek liegt in einem eigenen, nur dann geladenen Paket.
+
+## Offen (braucht Sascha)
+
+- **Supabase:** Projekt anlegen und Werte in `.env.local` eintragen (Anleitung: `docs/supabase-einrichtung.md`). Erst dann sind Login und Synchronisierung echt nutzbar. Bis dahin ist die Funktion ausgeblendet, und es gibt keine Verbindung nach außen.
+- **Git-Historie (task-5-6):** weiterhin blockiert.

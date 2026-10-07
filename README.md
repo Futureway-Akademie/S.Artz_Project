@@ -1,8 +1,8 @@
 # PIKARTZ.AI – Arbeitscockpit
 
-Persönliches Arbeitscockpit mit CRM-Funktionen: Projekte, Aufgaben und Termine, Kalender, Automationen, Weiterbildung, PIKARTZ.AI, Kontakte, Leads, E-Mail-Vorlagen und Bewerbungen – alles miteinander verknüpft. Web-App (React, Vite, TypeScript).
+Persönliches Arbeitscockpit mit CRM-Funktionen: Projekte, Aufgaben und Termine, Kalender, Automationen, Weiterbildung, Wissen (zweites Gehirn mit Lerntagebuch), PIKARTZ.AI, Kontakte, Leads, E-Mail-Vorlagen und Bewerbungen – alles miteinander verknüpft. Web-App (React, Vite, TypeScript).
 
-**Datenschutz:** Alle Daten bleiben im Browser, verschlüsselt mit deinem Passwort (AES-256). Es gibt keinen Server, kein Konto und keine Verbindung nach außen. Beim ersten Start legst du ein Passwort fest – vergisst du es, sind die Daten verloren; sichere sie deshalb regelmäßig (verschlüsselte Sicherung in den Einstellungen).
+**Datenschutz:** Alle Daten werden im Browser mit deinem Passwort verschlüsselt (AES-256). Ohne weitere Einrichtung gibt es keinen Server und keine Verbindung nach außen. Optional kommen Login und geräteübergreifende Synchronisierung über Supabase dazu – Ende-zu-Ende-verschlüsselt, Supabase sieht nur Chiffretext (Anleitung: `docs/supabase-einrichtung.md`). Ein vergessenes Passwort lässt sich über den Wiederherstellungslink in deiner eigenen Mail ersetzen (Einstellungen → Sicherheit).
 
 ```bash
 npm install

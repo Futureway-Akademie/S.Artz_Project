@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v4, Fortschritt 97 % (97 von 100 Gewichtspunkten, 40 von 42 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v4, Fortschritt 99 % (99 von 100 Gewichtspunkten, 41 von 42 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-9-4 – Abschlussprüfung Roadmap v4 (2026-10-07T17:05:18Z). 322 Tests, 19 Seiten × 3 Breiten.
 - task-9-2 – Verschlüsselte Synchronisierung (2026-10-07T17:02:09Z). Abgleich, Konflikte, neues Gerät.
 - task-9-1 – Supabase-Anbindung und Login (2026-10-07T16:56:21Z). Login per E-Mail-Link, RLS-Schema, CSP-Ausnahme.
 - task-9-3 – Zweites Gehirn (2026-10-07T16:47:43Z). Wissen, Lerntagebuch, Verknüpfungen.
@@ -57,7 +58,7 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-9-4 – Abschlussprüfung Roadmap v4
+Keine.
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -146,7 +147,7 @@ Keine.
 | task-9-1 | Supabase-Anbindung und Login | ✅ erledigt |  |
 | task-9-2 | Verschlüsselte Synchronisierung | ✅ erledigt |  |
 | task-9-3 | Zweites Gehirn: Wissen zu KI und Weiterbildung | ✅ erledigt |  |
-| task-9-4 | Abschlussprüfung Roadmap v4 | ▶️ startbar | – |
+| task-9-4 | Abschlussprüfung Roadmap v4 | ✅ erledigt |  |
 
 ## Blockiert
 
@@ -172,4 +173,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-Roadmap v3 ist bis auf task-5-6 umgesetzt. Sascha legt beim nächsten Öffnen der App ein Passwort fest (vorhandene Daten werden dabei verschlüsselt) und erstellt eine erste verschlüsselte Sicherung. Für task-5-6 entscheidet Sascha: Force-Push mit umgeschriebener Historie freigeben oder Repository durch den Dozenten auf privat stellen lassen. Danach gemeinsam durch die App gehen und Anpassungen als neue Tasks aufnehmen.
+Roadmap v4 ist bis auf task-5-6 umgesetzt. Sascha: (1) App öffnen, Passwort festlegen, in den Einstellungen die Wiederherstellung per E-Mail einrichten und eine Sicherung erstellen; (2) Supabase-Projekt nach docs/supabase-einrichtung.md anlegen und .env.local füllen, dann anmelden; (3) PR #2 mergen; (4) Entscheidung zu task-5-6. Danach gemeinsam durch die App gehen.
