@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
+import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
 import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
 import { ProjekteSeite } from '../features/projekte/ProjekteSeite.tsx'
@@ -30,10 +31,7 @@ export function AppRoutes() {
           path="weiterbildung"
           element={<Platzhalter titel="Weiterbildung" inhalt="Hier begleitest du künftig die Weiterbildung „KI Automations Spezialist“." />}
         />
-        <Route
-          path="pikartz-ai"
-          element={<Platzhalter titel="PIKARTZ.AI" inhalt="Hier stehen künftig die Marke, die Designregeln und das Präsentations-System." />}
-        />
+        <Route path="pikartz-ai" element={<MarkeSeite />} />
         <Route
           path="aufgaben"
           element={<Platzhalter titel="Aufgaben & Termine" inhalt="Hier verwaltest du künftig Aufgaben und Termine mit optionaler Frist und Bezug." />}

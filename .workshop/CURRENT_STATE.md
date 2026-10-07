@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 38,3 % (18 von 47 Gewichtspunkten, 8 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 42,55 % (20 von 47 Gewichtspunkten, 9 von 21 Tasks).
 
 ## Aktive Phase
 
@@ -10,10 +10,11 @@ Arbeitsbereiche (phase-2).
 
 ## Aktive Aufgabe
 
-Keine.
+task-4-1 – Einstellungen (in_progress seit 2026-10-07T13:13:09Z).
 
 ## Zuletzt abgeschlossen
 
+- task-2-5 – PIKARTZ.AI-Bereich (Marke mit Logos, Wortmarke und Farben; Designregeln bearbeiten, ergänzen, verschieben, löschen; Präsentations-System mit Demo-Deck).
 - task-2-1 – Projekte (2026-10-07T13:02:50Z). Liste mit Suche und Filtern, Detailseite, Anlegen/Bearbeiten/Löschen mit Bestätigung, nächste Schritte mit Frist, manueller Status; gemeinsame Bausteine (Dialoge, Toast, useForm, Datums-Hilfen).
 - task-1-7 – Startdaten auf Projekt-Übersicht umstellen (2026-10-07T12:27:52Z). 12 echte Projekte aus Saschas Projekt-Übersicht mit 43 nächsten Schritten, Weiterbildungsdetails, Schema-Version 2 mit Migration.
 - task-1-6 – App-Shell mit responsiver Navigation (2026-10-07T12:12:43Z). Routing für alle neun Bereiche, Topbar/Icon-Leiste/Sidebar, Skip-Link, Fokus auf h1, Demo-Hinweis, Fehlerseite für defekte Daten. Bereiche zeigen noch Platzhalter.
@@ -28,8 +29,6 @@ Keine.
 - task-2-2 – Aufgaben und Termine
 - task-2-3 – Automationen
 - task-2-4 – Weiterbildung
-- task-2-5 – PIKARTZ.AI-Bereich
-- task-4-1 – Einstellungen
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -53,7 +52,7 @@ Keine.
 | task-2-2 | Aufgaben und Termine | ▶️ startbar | – |
 | task-2-3 | Automationen | ▶️ startbar | – |
 | task-2-4 | Weiterbildung | ▶️ startbar | – |
-| task-2-5 | PIKARTZ.AI-Bereich | ▶️ startbar | – |
+| task-2-5 | PIKARTZ.AI-Bereich | ✅ erledigt |  |
 | task-2-6 | Arbeitscockpit | ⏳ geplant | task-2-2, task-2-4 |
 
 ### CRM und Bewerbungen
@@ -70,7 +69,7 @@ Keine.
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-4-1 | Einstellungen | ▶️ startbar | – |
+| task-4-1 | Einstellungen | 🔨 in Arbeit | – |
 | task-4-2 | Zustände und Barrierefreiheit | ⏳ geplant | task-3-5, task-4-1 |
 | task-4-3 | End-to-End-Prüfung und Dokumentation | ⏳ geplant | task-4-2 |
 

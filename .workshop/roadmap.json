@@ -362,7 +362,7 @@
           "description": "Eigener Bereich für Marke und Präsentations-System mit allen hinterlegten Designregeln und dem Demo-Deck Modul 1, Tag 1.",
           "order": 5,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -373,13 +373,19 @@
             "Wortmarke mit blauem '.AI' korrekt dargestellt",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:10:54Z",
+          "completedAt": "2026-10-07T13:13:08Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 112 Tests grün, davon 4 für den PIKARTZ.AI-Bereich: Wortmarke mit separatem blauen '.AI', beide Logos, drei Markenfarben; alle 7 hinterlegten Designregeln in Reihenfolge; Regeln bearbeiten, ergänzen, verschieben und nach Bestätigung löschen mit Aktivitätsprotokoll; Präsentations-System beschrieben, Demo-Deck Modul 1/Tag 1 ohne erfundenen Inhalt, Deck bearbeitbar mit Zahlenprüfung. Browser bei 399 px: Wortmarke auf dunklem Band, Logos unverzerrt geladen, 7 Regeln, kein horizontaler Überlauf.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /pikartz-ai bei 399 px per Screenshot und Skript"
+            ],
+            "checkedAt": "2026-10-07T13:13:08Z"
           }
         },
         {
@@ -550,7 +556,7 @@
       "description": "Einstellungen, Zustände und Barrierefreiheit, End-to-End- und Responsive-Prüfung, Dokumentation.",
       "order": 4,
       "weight": 6,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-4-1",
@@ -558,7 +564,7 @@
           "description": "Anzeigename, JSON-Export, JSON-Import, Zurücksetzen mit Bestätigung und Demo-Hinweis.",
           "order": 1,
           "weight": 2,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-1-4",
             "task-1-6"
@@ -569,7 +575,7 @@
             "Zurücksetzen erfordert Bestätigung",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:13:09Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
