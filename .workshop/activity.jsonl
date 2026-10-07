@@ -48,3 +48,6 @@
 {"timestamp":"2026-10-07T13:13:09Z","type":"task_started","taskId":"task-4-1","summary":"Task 'Einstellungen' gestartet."}
 {"timestamp":"2026-10-07T13:16:03Z","type":"verification_passed","taskId":"task-4-1","summary":"typecheck, lint, test (120) und build fehlerfrei; Browser-Prüfung Einstellungen."}
 {"timestamp":"2026-10-07T13:16:03Z","type":"task_completed","taskId":"task-4-1","summary":"Task 'Einstellungen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:16:17Z","type":"task_started","taskId":"task-2-3","summary":"Task 'Automationen' gestartet."}
+{"timestamp":"2026-10-07T13:19:49Z","type":"verification_passed","taskId":"task-2-3","summary":"typecheck, lint, test (127) und build fehlerfrei; Browser-Prüfung Automationen."}
+{"timestamp":"2026-10-07T13:19:49Z","type":"task_completed","taskId":"task-2-3","summary":"Task 'Automationen' abgeschlossen."}

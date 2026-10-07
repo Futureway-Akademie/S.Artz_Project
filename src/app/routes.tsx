@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
+import { AutomationenSeite } from '../features/automationen/AutomationenSeite.tsx'
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
@@ -24,10 +25,7 @@ export function AppRoutes() {
           <Route index element={<ProjekteSeite />} />
           <Route path=":id" element={<ProjektDetailSeite />} />
         </Route>
-        <Route
-          path="automationen"
-          element={<Platzhalter titel="Automationen" inhalt="Hier erscheinen künftig deine Automationen nach Plattform und Projekt." />}
-        />
+        <Route path="automationen" element={<AutomationenSeite />} />
         <Route
           path="weiterbildung"
           element={<Platzhalter titel="Weiterbildung" inhalt="Hier begleitest du künftig die Weiterbildung „KI Automations Spezialist“." />}

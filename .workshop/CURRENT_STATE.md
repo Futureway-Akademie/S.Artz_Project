@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 46,81 % (22 von 47 Gewichtspunkten, 10 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 51,06 % (24 von 47 Gewichtspunkten, 11 von 21 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-2-3 – Automationen (Übersicht nach Plattform oder Projekt, Automation je Projekt erfassen/bearbeiten/entfernen, immer „nicht verbunden“).
 - task-4-1 – Einstellungen (Anzeigename, JSON-Export, geprüfter Import mit Bestätigung, Zurücksetzen mit Bestätigung, Demo-Hinweis).
 - task-2-5 – PIKARTZ.AI-Bereich (Marke mit Logos, Wortmarke und Farben; Designregeln bearbeiten, ergänzen, verschieben, löschen; Präsentations-System mit Demo-Deck).
 - task-2-1 – Projekte (2026-10-07T13:02:50Z). Liste mit Suche und Filtern, Detailseite, Anlegen/Bearbeiten/Löschen mit Bestätigung, nächste Schritte mit Frist, manueller Status; gemeinsame Bausteine (Dialoge, Toast, useForm, Datums-Hilfen).
@@ -28,7 +29,6 @@ Keine.
 ## Bereite nächste Aufgaben
 
 - task-2-2 – Aufgaben und Termine
-- task-2-3 – Automationen
 - task-2-4 – Weiterbildung
 
 ## Gesamtplan (aus roadmap.json)
@@ -51,7 +51,7 @@ Keine.
 |---|---|---|---|
 | task-2-1 | Projekte | ✅ erledigt |  |
 | task-2-2 | Aufgaben und Termine | ▶️ startbar | – |
-| task-2-3 | Automationen | ▶️ startbar | – |
+| task-2-3 | Automationen | ✅ erledigt |  |
 | task-2-4 | Weiterbildung | ▶️ startbar | – |
 | task-2-5 | PIKARTZ.AI-Bereich | ✅ erledigt |  |
 | task-2-6 | Arbeitscockpit | ⏳ geplant | task-2-2, task-2-4 |
@@ -93,9 +93,9 @@ Details in `docs/decisions.md`.
 ## Bekannte Probleme
 
 - Offen in der Quelle: 3 der 10 geplanten Designregeln und der Inhalt des Demo-Decks. Browser-Daten älterer Stände übernehmen neue Startdaten nur über „Zurücksetzen“.
-- Keines der 12 Projekte hat ein belegtes Automationsprofil; der Bereich „Automationen“ startet leer.
+- Keines der 12 Projekte hat ein belegtes Automationsprofil; der Bereich „Automationen“ startet leer, Automationen lassen sich dort erfassen.
 - Die Logo-PNGs haben einen weißen, nicht transparenten Hintergrund. Es gibt keine Wortmarke mit „.AI“.
 
 ## Empfohlener nächster Schritt
 
-task-2-2 – Aufgaben und Termine (danach task-2-4 Weiterbildung; beide sind Voraussetzung für das Arbeitscockpit task-2-6).
+task-2-2 – Aufgaben und Termine, dann task-2-4 – Weiterbildung; beide sind Voraussetzung für das Arbeitscockpit (task-2-6).

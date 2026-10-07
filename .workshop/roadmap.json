@@ -310,7 +310,7 @@
           "description": "Übersicht der Automationen nach Plattform und Projekt mit Modell, Datenquellen, Schwellenwerten und Routing-Logik; Verbindungsstatus ehrlich als nicht verbunden.",
           "order": 3,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-2-1"
           ],
@@ -320,13 +320,19 @@
             "Es wird keine aktive externe Verbindung behauptet",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:16:17Z",
+          "completedAt": "2026-10-07T13:19:49Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 127 Tests grün, davon 7 für Automationen: Selektoren gruppieren nach Plattform (feste Reihenfolge n8n, Make.com, Sonstige) und nach Projekt, Routing-Text mit Fallback; ehrlicher Leerzustand ohne erfasste Automation; Erfassen mit Pflicht- und Zahlenprüfung, Anzeige von Modell, Datenquellen, Schwelle, Routing und Routing-Stand, immer 'Nicht verbunden' und nie 'Verbunden'; Umschalten der Gruppierung; Bearbeiten und Entfernen nach Bestätigung; Aktivität 'Projekt … geändert: Automation'. Browser bei 399 px: Leerzustand ohne Überlauf, Erfassen-Dialog im Vollbild mit 12 wählbaren Projekten, ohne zu speichern geschlossen.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /automationen bei 399 px, Dialog öffnen und mit Escape schließen"
+            ],
+            "checkedAt": "2026-10-07T13:19:49Z"
           }
         },
         {
