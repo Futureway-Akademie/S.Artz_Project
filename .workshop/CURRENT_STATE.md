@@ -10,7 +10,7 @@ Phase 2 – Arbeitsbereiche. Phase 1 – Grundlage ist abgeschlossen.
 
 ## Aktive Aufgabe
 
-Keine.
+task-2-1 – Projekte (in_progress seit 2026-10-07T12:14:35Z). Noch keine Implementierung im Repository.
 
 ## Zuletzt abgeschlossen
 
@@ -23,7 +23,6 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-2-1 – Projekte
 - task-2-2 – Aufgaben und Termine
 - task-2-4 – Weiterbildung
 - task-2-5 – PIKARTZ.AI-Bereich
@@ -52,4 +51,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-task-2-1 – Projekte, weil task-2-3 (Automationen) und task-2-6 (Cockpit) davon abhängen.
+task-2-1 – Projekte fertigstellen; danach task-2-3 (Automationen) und die übrigen Bereiche.
