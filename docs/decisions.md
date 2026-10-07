@@ -289,3 +289,16 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - **Nicht verschlüsselt:** nur die Sperrzeit (`…:sicherheit`), weil sie nicht persönlich ist.
 - **Ohne Browser-Speicher** läuft die App wie bisher flüchtig; es wird nichts abgelegt.
 - **Im Browser geprüft** (gebaute App, Port 4173, Testpasswort): im localStorage steht nur der Umschlag. Nach dem Neuladen ist die App gesperrt, Entsperren funktioniert. Die Testdaten sind danach gelöscht.
+
+## 2026-10-07 – Verschlüsselte Sicherung und Erinnerung (task-5-4)
+
+- **Export:** gibt es nur noch als verschlüsselte Sicherung (`src/data/sicherung.ts`). Das Verfahren ist dasselbe wie im Browser-Speicher, aber die Sicherung hat ein eigenes Passwort, das auch dem App-Passwort entsprechen darf. Der Schlüssel der App ist nicht exportierbar, deshalb wird das Passwort abgefragt.
+- **Import:**
+  - erkennt verschlüsselte Dateien und fragt nach deren Passwort; danach folgen dieselbe Prüfung und Bestätigung wie bisher.
+  - Ältere, unverschlüsselte Exporte lassen sich weiter importieren, da Lesen nichts nach außen gibt.
+- **Fehlerseite:** Auch „Rohdaten sichern“ lädt nur noch verschlüsselt herunter.
+- **Erinnerung:**
+  - Schema v3 speichert `einstellungen.letzteSicherungAm`; die Migration 2 → 3 ergänzt `null`.
+  - Das Cockpit erinnert, wenn noch nie oder vor mindestens 7 Tagen gesichert wurde. Die Einstellungen zeigen die letzte Sicherung, und das Protokoll vermerkt „Sicherung erstellt“.
+- **Dauerhafter Speicher:** Beim Entsperren bittet die App den Browser per `navigator.storage.persist()`, die Daten nicht automatisch zu löschen.
+- **Nicht im Browser geprüft:** Ich habe auf Saschas Rechner bewusst keine Datei heruntergeladen. Abgedeckt ist das durch Bedienungstests: Datei verschlüsselt, mit dem Passwort lesbar, Import mit falschem und richtigem Passwort.

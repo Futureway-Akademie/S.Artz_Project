@@ -8,6 +8,7 @@ import {
   selectBegruessung,
   selectLetzteAktivitaeten,
   selectNaechsteSchritte,
+  selectSicherungHinweis,
   selectTagesuebersicht,
 } from './cockpit.ts'
 
@@ -131,5 +132,16 @@ describe('Cockpit-Selektoren', () => {
     expect(kurzesDatum('2026-10-07', now)).toBe('Heute')
     expect(kurzesDatum('2026-10-08', now)).toBe('Morgen')
     expect(kurzesDatum('2026-10-12', now)).toBe('Mo., 12.10.2026')
+  })
+})
+
+describe('Sicherungshinweis', () => {
+  const jetzt = new Date('2026-10-20T10:00:00.000Z')
+  const mit = (letzteSicherungAm: string | null) => ({ ...beispielSeed(jetzt), einstellungen: { anzeigename: '', letzteSicherungAm } })
+
+  it('ist fällig ohne Sicherung und ab 7 Tagen', () => {
+    expect(selectSicherungHinweis(mit(null), jetzt)).toEqual({ faellig: true, tage: null })
+    expect(selectSicherungHinweis(mit('2026-10-14T10:00:00.000Z'), jetzt)).toEqual({ faellig: false, tage: 6 })
+    expect(selectSicherungHinweis(mit('2026-10-13T10:00:00.000Z'), jetzt)).toEqual({ faellig: true, tage: 7 })
   })
 })

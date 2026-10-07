@@ -114,3 +114,14 @@ export function kurzesDatum(datum: string, now: Date): string {
   if (diff === 1) return 'Morgen'
   return formatDatum(datum)
 }
+
+/** Ab so vielen Tagen ohne Sicherung erinnert das Cockpit daran. */
+export const SICHERUNG_FAELLIG_NACH_TAGEN = 7
+
+/** Erinnerung an die verschlüsselte Sicherung; `tage` ist `null`, wenn noch nie gesichert wurde. */
+export function selectSicherungHinweis(data: AppData, now: Date): { faellig: boolean; tage: number | null } {
+  const iso = data.einstellungen.letzteSicherungAm
+  if (!iso) return { faellig: true, tage: null }
+  const tage = Math.max(0, Math.floor((now.getTime() - new Date(iso).getTime()) / 86_400_000))
+  return { faellig: tage >= SICHERUNG_FAELLIG_NACH_TAGEN, tage }
+}

@@ -1,3 +1,4 @@
+import { SCHEMA_VERSION } from './schema.ts'
 import { createFakeStorage } from '../test/fakes.ts'
 import { createEmptyData } from './empty.ts'
 import { migrate } from './migrations.ts'
@@ -59,11 +60,12 @@ describe('migrate', () => {
     expect(migrate(data)).toEqual({ ok: true, value: data })
   })
 
-  it('hebt Version 1 auf Version 2 an (Projekt-Kategorie, „zuletzt aktiv“, Kursdetails)', () => {
+  it('hebt Version 1 schrittweise auf die aktuelle Version an (Projekt-Kategorie, Kursdetails, letzte Sicherung)', () => {
     const zeit = '2026-10-07T10:00:00.000Z'
     const v1 = {
       ...createEmptyData(),
       schemaVersion: 1,
+      einstellungen: { anzeigename: 'Alt' },
       projekte: [
         {
           id: 'p1',
@@ -97,7 +99,8 @@ describe('migrate', () => {
     const ergebnis = parseAppData(JSON.stringify(v1))
     expect(ergebnis.status).toBe('ok')
     if (ergebnis.status === 'ok') {
-      expect(ergebnis.data.schemaVersion).toBe(2)
+      expect(ergebnis.data.schemaVersion).toBe(SCHEMA_VERSION)
+      expect(ergebnis.data.einstellungen).toEqual({ anzeigename: 'Alt', letzteSicherungAm: null })
       expect(ergebnis.data.projekte[0]).toMatchObject({ titel: 'Altes Projekt', kategorie: '', zuletztAktiv: null })
       expect(ergebnis.data.kurse[0]).toMatchObject({ beschreibung: '', unterrichtszeit: '', umfang: '', module: [] })
     }

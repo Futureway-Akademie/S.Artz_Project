@@ -16,6 +16,7 @@ import {
   selectBegruessung,
   selectLetzteAktivitaeten,
   selectNaechsteSchritte,
+  selectSicherungHinweis,
   selectTagesuebersicht,
 } from '../../domain/selectors/cockpit.ts'
 import { selectCrmUebersicht } from '../../domain/selectors/crm.ts'
@@ -37,6 +38,7 @@ export function CockpitSeite() {
   const aktivitaeten = selectLetzteAktivitaeten(data)
   const wb = selectWeiterbildung(data, now)
   const crm = selectCrmUebersicht(data, now)
+  const sicherung = selectSicherungHinweis(data, now)
 
   const kacheln = [
     { label: 'Heute fällig', wert: tag.heuteFaellig },
@@ -60,6 +62,17 @@ export function CockpitSeite() {
         </div>
         <Diamond size={36} className={styles.diamant} />
       </div>
+
+      {sicherung.faellig && (
+        <div className={styles.sicherung} role="status">
+          <span>
+            <strong>Sicherung fällig.</strong>{' '}
+            {sicherung.tage === null ? 'Du hast noch keine Sicherung erstellt.' : `Die letzte Sicherung ist ${sicherung.tage} Tage alt.`} Ohne
+            Sicherung gehen die Daten verloren, wenn der Browser sie löscht.
+          </span>
+          <Link to="/einstellungen">Jetzt sichern</Link>
+        </div>
+      )}
 
       <section aria-label="Tagesübersicht" className={styles.kacheln}>
         {kacheln.map((k) => (

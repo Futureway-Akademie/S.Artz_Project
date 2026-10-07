@@ -1,10 +1,5 @@
-import { toDatum } from '../domain/dates.ts'
 import type { AppData } from '../domain/types.ts'
 import { LADEFEHLER_TEXT, parseAppData } from './storage.ts'
-
-export function exportDateiname(now: Date, art: 'export' | 'rohdaten' = 'export'): string {
-  return `pikartz-cockpit-${art}-${toDatum(now)}.json`
-}
 
 /** Alle Daten als formatiertes JSON (gleiches Format wie im Speicher, also wieder importierbar). */
 export function exportJson(data: AppData): string {

@@ -8,7 +8,11 @@ import { TextField } from '../../components/ui/Field.tsx'
 import { Panel } from '../../components/ui/Panel.tsx'
 import { ErrorState } from '../../components/ui/States.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
-import { exportDateiname, exportJson, herunterladen, pruefeImport } from '../../data/exportImport.ts'
+import { PasswortDialog } from '../../components/ui/PasswortDialog.tsx'
+import { exportJson, herunterladen, pruefeImport } from '../../data/exportImport.ts'
+import { FalschesPasswort } from '../../data/krypto.ts'
+import { istVerschluesselt, sicherungDateiname, sicherungErstellen, sicherungLesen } from '../../data/sicherung.ts'
+import { formatZeitpunkt } from '../../domain/dates.ts'
 import { useStore } from '../../data/storeContext.ts'
 import type { AppData } from '../../domain/types.ts'
 import styles from './EinstellungenSeite.module.css'
@@ -59,12 +63,37 @@ export function EinstellungenSeite() {
   const tresor = useTresor()
   const [importDaten, setImportDaten] = useState<{ data: AppData; datei: string } | null>(null)
   const [importFehler, setImportFehler] = useState<{ fehler: string; details?: string } | null>(null)
+  const [verschluesselterImport, setVerschluesselterImport] = useState<{ text: string; datei: string } | null>(null)
+  const [sicherungFragen, setSicherungFragen] = useState(false)
   const [zuruecksetzenFragen, setZuruecksetzenFragen] = useState(false)
   const dateiInput = useRef<HTMLInputElement>(null)
 
-  const exportieren = () => {
-    herunterladen(exportJson(data), exportDateiname(new Date()))
-    zeige('Export erstellt')
+  const sicherungSpeichern = async (passwort: string) => {
+    const jetzt = new Date()
+    herunterladen(await sicherungErstellen(exportJson(data), passwort), sicherungDateiname(jetzt))
+    dispatch({ type: 'einstellungen', aenderung: { letzteSicherungAm: jetzt.toISOString() } })
+    setSicherungFragen(false)
+    zeige('Verschlüsselte Sicherung erstellt')
+    return null
+  }
+
+  const importPruefen = (text: string, datei: string) => {
+    const ergebnis = pruefeImport(text)
+    if (ergebnis.ok) setImportDaten({ data: ergebnis.data, datei })
+    else setImportFehler({ fehler: ergebnis.fehler, details: ergebnis.details })
+  }
+
+  const verschluesseltOeffnen = async (passwort: string) => {
+    if (!verschluesselterImport) return null
+    try {
+      const text = await sicherungLesen(verschluesselterImport.text, passwort)
+      setVerschluesselterImport(null)
+      importPruefen(text, verschluesselterImport.datei)
+      return null
+    } catch (error) {
+      if (error instanceof FalschesPasswort) return 'Das Passwort ist falsch oder die Datei ist beschädigt.'
+      throw error
+    }
   }
 
   const dateiGewaehlt = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -72,9 +101,9 @@ export function EinstellungenSeite() {
     event.target.value = '' // dieselbe Datei erneut wählbar
     if (!datei) return
     setImportFehler(null)
-    const ergebnis = pruefeImport(await datei.text())
-    if (ergebnis.ok) setImportDaten({ data: ergebnis.data, datei: datei.name })
-    else setImportFehler({ fehler: ergebnis.fehler, details: ergebnis.details })
+    const text = await datei.text()
+    if (istVerschluesselt(text)) setVerschluesselterImport({ text, datei: datei.name })
+    else importPruefen(text, datei.name)
   }
 
   const importieren = () => {
@@ -109,18 +138,26 @@ export function EinstellungenSeite() {
 
       <Panel titel="Daten sichern und übertragen">
         <div className={styles.block}>
-          <h3 className={styles.unter}>Export</h3>
-          <p className={styles.hinweis}>Lädt alle Daten als JSON-Datei herunter. Diese Datei kannst du später wieder importieren.</p>
+          <h3 className={styles.unter}>Sicherung</h3>
+          <p className={styles.hinweis}>
+            Lädt alle Daten als verschlüsselte Datei herunter. Ohne das Passwort der Sicherung kann niemand sie lesen – auch du nicht.
+            Bewahre die Datei an einem sicheren Ort auf, z. B. auf einem USB-Stick.
+          </p>
+          <p className={styles.status}>
+            Letzte Sicherung:{' '}
+            {data.einstellungen.letzteSicherungAm ? formatZeitpunkt(data.einstellungen.letzteSicherungAm) : 'noch keine'}
+          </p>
           <div>
-            <Button variant="secondary" onClick={exportieren}>
-              Daten exportieren
+            <Button variant="secondary" onClick={() => setSicherungFragen(true)}>
+              Verschlüsselte Sicherung erstellen
             </Button>
           </div>
         </div>
         <div className={styles.block}>
           <h3 className={styles.unter}>Import</h3>
           <p className={styles.hinweis}>
-            Ersetzt alle aktuellen Daten durch den Inhalt einer Exportdatei. Die Datei wird vorher geprüft.
+            Ersetzt alle aktuellen Daten durch den Inhalt einer Sicherung. Verschlüsselte Sicherungen fragen nach ihrem Passwort; die
+            Datei wird vorher geprüft.
           </p>
           <div>
             <Button variant="secondary" onClick={() => dateiInput.current?.click()}>
@@ -157,6 +194,28 @@ export function EinstellungenSeite() {
         </div>
       </Panel>
 
+      {sicherungFragen && (
+        <PasswortDialog
+          titel="Verschlüsselte Sicherung erstellen"
+          neu
+          bestaetigenLabel="Sicherung herunterladen"
+          onAbsenden={sicherungSpeichern}
+          onSchliessen={() => setSicherungFragen(false)}
+        >
+          <p>Vergibst du ein anderes Passwort als für die App, notiere es sicher. Ohne Passwort lässt sich die Sicherung nicht öffnen.</p>
+        </PasswortDialog>
+      )}
+      {verschluesselterImport && (
+        <PasswortDialog
+          titel="Sicherung öffnen"
+          neu={false}
+          bestaetigenLabel="Öffnen und prüfen"
+          onAbsenden={verschluesseltOeffnen}
+          onSchliessen={() => setVerschluesselterImport(null)}
+        >
+          <p>„{verschluesselterImport.datei}“ ist verschlüsselt.</p>
+        </PasswortDialog>
+      )}
       {importDaten && (
         <ConfirmDialog
           offen

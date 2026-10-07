@@ -121,6 +121,8 @@ export function TresorGate({ basis, children, iterationen = STANDARD_ITERATIONEN
 
   const oeffnen = (speicher: VerschluesselterSpeicher) => {
     setSchreibFehler(null)
+    // Browser bitten, die Daten nicht bei Speicherknappheit automatisch zu löschen
+    void navigator.storage?.persist?.().catch(() => false)
     setPhase({ art: 'offen', speicher })
   }
 

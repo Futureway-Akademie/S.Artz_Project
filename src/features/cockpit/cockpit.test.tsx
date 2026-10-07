@@ -53,3 +53,18 @@ describe('Arbeitscockpit', () => {
     expect(within(aktivitaeten).getByText('Projekt „KI-Skills“ geändert: Status')).toBeInTheDocument()
   })
 })
+
+describe('Erinnerung an die Sicherung', () => {
+  it('erinnert ohne Sicherung und verlinkt in die Einstellungen', () => {
+    renderApp('/')
+    const hinweis = screen.getByText('Sicherung fällig.').closest('[role="status"]') as HTMLElement
+    expect(hinweis).toHaveTextContent('Du hast noch keine Sicherung erstellt.')
+    fireEvent.click(within(hinweis).getByRole('link', { name: 'Jetzt sichern' }))
+    expect(screen.getByRole('heading', { level: 1, name: 'Einstellungen' })).toBeInTheDocument()
+  })
+
+  it('schweigt nach einer frischen Sicherung', () => {
+    renderApp('/', { daten: { ...beispielSeed(), einstellungen: { anzeigename: '', letzteSicherungAm: new Date().toISOString() } } })
+    expect(screen.queryByText('Sicherung fällig.')).toBeNull()
+  })
+})

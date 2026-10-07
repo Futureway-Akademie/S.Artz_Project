@@ -173,7 +173,7 @@ export function reducer(data: AppData, action: Action, meta: ActionMeta): AppDat
       return mitAktivitaet({ ...data, einstellungen: neu }, meta, {
         art: 'einstellungen',
         bezug: { sammlung: null, id: null, titel: 'Einstellungen' },
-        zusammenfassung: 'Einstellungen geändert',
+        zusammenfassung: geaenderteFelder(data.einstellungen, neu).every((f) => f === 'letzteSicherungAm') ? 'Sicherung erstellt' : 'Einstellungen geändert',
       })
     }
 

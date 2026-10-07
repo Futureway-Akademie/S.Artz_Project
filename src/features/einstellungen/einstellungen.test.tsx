@@ -1,6 +1,7 @@
 import { act, fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { createEmptyData } from '../../data/empty.ts'
 import { exportJson, pruefeImport } from '../../data/exportImport.ts'
+import { sicherungErstellen, sicherungLesen } from '../../data/sicherung.ts'
 import { beispielSeed } from '../../test/beispielStart.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
@@ -59,23 +60,54 @@ describe('Einstellungen', () => {
     expect(gespeichert().aktivitaeten[0]!.zusammenfassung).toBe('Einstellungen geändert')
   })
 
-  it('erzeugt beim Export eine JSON-Datei mit allen Daten', async () => {
-    renderApp('/einstellungen')
+  it('erstellt eine verschlüsselte Sicherung und merkt sich den Zeitpunkt', async () => {
+    const { gespeichert } = renderApp('/einstellungen')
+    expect(screen.getByText(/Letzte Sicherung: noch keine/)).toBeInTheDocument()
     const klick = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
-    fireEvent.click(screen.getByRole('button', { name: 'Daten exportieren' }))
-    expect(klick).toHaveBeenCalledOnce()
+    fireEvent.click(screen.getByRole('button', { name: 'Verschlüsselte Sicherung erstellen' }))
+    const dialog = screen.getByRole('dialog', { name: 'Verschlüsselte Sicherung erstellen' })
+    fireEvent.change(within(dialog).getByLabelText(/^Passwort für die Sicherung/), { target: { value: 'kurz' } })
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Sicherung herunterladen' }))
+    expect(await within(dialog).findByText(/mindestens 10 Zeichen/)).toBeInTheDocument()
+
+    fireEvent.change(within(dialog).getByLabelText(/^Passwort für die Sicherung/), { target: { value: 'sicherung-passwort' } })
+    fireEvent.change(within(dialog).getByLabelText(/^Passwort wiederholen/), { target: { value: 'sicherung-passwort' } })
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Sicherung herunterladen' }))
+    await waitFor(() => expect(klick).toHaveBeenCalledOnce(), { timeout: 5000 })
     const anker = klick.mock.contexts[0] as HTMLAnchorElement
-    expect(anker.download).toMatch(/^pikartz-cockpit-export-\d{4}-\d{2}-\d{2}\.json$/)
-    const blob = vi.mocked(URL.createObjectURL).mock.calls[0]![0] as Blob
-    const inhalt = JSON.parse(await blob.text())
-    expect(inhalt.schemaVersion).toBe(2)
+    expect(anker.download).toMatch(/^pikartz-cockpit-sicherung-\d{4}-\d{2}-\d{2}\.json$/)
+    const text = await (vi.mocked(URL.createObjectURL).mock.calls[0]![0] as Blob).text()
+    expect(text).not.toContain('Lernspiel')
+    const inhalt = JSON.parse(await sicherungLesen(text, 'sicherung-passwort'))
     expect(inhalt.projekte).toHaveLength(12)
+    expect(await screen.findByText('Verschlüsselte Sicherung erstellt')).toBeInTheDocument()
+    expect(screen.queryByText(/Letzte Sicherung: noch keine/)).toBeNull()
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(gespeichert().einstellungen.letzteSicherungAm).not.toBeNull()
+    expect(gespeichert().aktivitaeten[0]!.zusammenfassung).toBe('Sicherung erstellt')
     klick.mockRestore()
+  }, 15000)
+
+  it('öffnet eine verschlüsselte Sicherung nur mit ihrem Passwort', async () => {
+    renderApp('/einstellungen')
+    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Aus Sicherung', letzteSicherungAm: null } }
+    waehleDatei(datei(await sicherungErstellen(JSON.stringify(neu), 'sicherung-passwort', 1000)))
+    const dialog = await screen.findByRole('dialog', { name: 'Sicherung öffnen' })
+    fireEvent.change(within(dialog).getByLabelText(/^Passwort der Sicherung/), { target: { value: 'falsches-passwort' } })
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Öffnen und prüfen' }))
+    expect(await within(dialog).findByText(/Passwort ist falsch/)).toBeInTheDocument()
+    fireEvent.change(within(dialog).getByLabelText(/^Passwort der Sicherung/), { target: { value: 'sicherung-passwort' } })
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Öffnen und prüfen' }))
+    const bestaetigen = await screen.findByRole('dialog', { name: 'Daten importieren?' })
+    fireEvent.click(within(bestaetigen).getByRole('button', { name: 'Importieren und ersetzen' }))
+    expect(screen.getByLabelText('Name für die Begrüßung')).toHaveValue('Aus Sicherung')
   })
 
   it('importiert nach Prüfung und Bestätigung', async () => {
     const { gespeichert } = renderApp('/einstellungen')
-    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Importiert' } }
+    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Importiert', letzteSicherungAm: null } }
     waehleDatei(datei(JSON.stringify(neu)))
     const dialog = await screen.findByRole('dialog', { name: 'Daten importieren?' })
     expect(within(dialog).getByText(/enthält: 0 Projekte/)).toBeInTheDocument()
@@ -98,7 +130,7 @@ describe('Einstellungen', () => {
   })
 
   it('setzt erst nach Bestätigung zurück', () => {
-    renderApp('/einstellungen', { daten: { ...createEmptyData(), einstellungen: { anzeigename: 'Vorher' } } })
+    renderApp('/einstellungen', { daten: { ...createEmptyData(), einstellungen: { anzeigename: 'Vorher', letzteSicherungAm: null } } })
     expect(screen.getByText(/Aktueller Datenstand: 0 Projekte/)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Daten zurücksetzen' }))
     const dialog = screen.getByRole('dialog', { name: 'Daten zurücksetzen?' })

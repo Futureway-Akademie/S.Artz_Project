@@ -815,7 +815,7 @@
           "description": "Export und Import nur verschlüsselt, Erinnerung an regelmäßige Sicherung, dauerhaften Browser-Speicher anfordern.",
           "order": 4,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-5-3"
           ],
@@ -824,13 +824,18 @@
             "Import fragt nach dem Passwort der Sicherung",
             "Cockpit erinnert an fällige Sicherung"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T14:49:35Z",
+          "completedAt": "2026-10-07T14:55:21Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Sicherung nur verschlüsselt (eigenes Passwort, AES-GCM/PBKDF2), Import erkennt verschlüsselte Dateien und fragt nach dem Passwort, Rohdaten-Sicherung auf der Fehlerseite verschlüsselt; Schema v3 mit letzteSicherungAm (Migration 2→3), Cockpit-Erinnerung ohne Sicherung oder ab 7 Tagen, navigator.storage.persist beim Entsperren. 230 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T14:55:21Z"
           }
         },
         {

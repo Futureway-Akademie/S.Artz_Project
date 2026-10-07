@@ -122,6 +122,6 @@ export function createSeedData(now: Date = new Date(), start: StartDaten = LOKAL
       notiz: '',
       ...meta,
     })),
-    einstellungen: { anzeigename: start.anzeigename },
+    einstellungen: { anzeigename: start.anzeigename, letzteSicherungAm: null },
   }
 }

@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 2
+export const SCHEMA_VERSION = 3
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -227,6 +227,8 @@ export const aktivitaetSchema = z.object({
 
 export const einstellungenSchema = z.object({
   anzeigename: z.string(),
+  /** Zeitpunkt der letzten verschlüsselten Sicherung (Export) */
+  letzteSicherungAm: z.iso.datetime().nullable(),
 })
 
 export const appDataSchema = z.object({

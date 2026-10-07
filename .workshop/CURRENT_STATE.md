@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 63,53 % (54 von 85 Gewichtspunkten, 24 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 65,88 % (56 von 85 Gewichtspunkten, 25 von 37 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-5-4 – Verschlüsselte Sicherung und Erinnerung (2026-10-07T14:55:21Z). Export nur verschlüsselt, Import mit Passwort, Cockpit-Erinnerung.
 - task-5-3 – Verschlüsselung mit Passwort und automatischer Sperre (2026-10-07T14:49:23Z). AES-256, Sperre, Passwort ändern.
 - task-5-2 – Keine Verbindung nach außen (2026-10-07T14:40:06Z). CSP im Build, sichere externe Links, Test.
 - task-5-1 – Persönliche Daten aus dem Repository entfernen (2026-10-07T14:36:04Z). Startdaten nur lokal, fiktive Testdaten, Wächter-Test.
@@ -41,7 +42,6 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-5-4 – Verschlüsselte Sicherung und Erinnerung
 - task-5-5 – DSGVO-Funktionen für Kontakte
 
 ## Gesamtplan (aus roadmap.json)
@@ -94,7 +94,7 @@ Keine.
 | task-5-1 | Persönliche Daten aus dem Repository entfernen | ✅ erledigt |  |
 | task-5-2 | Keine Verbindung nach außen | ✅ erledigt |  |
 | task-5-3 | Verschlüsselung mit Passwort und automatischer Sperre | ✅ erledigt |  |
-| task-5-4 | Verschlüsselte Sicherung und Erinnerung | ▶️ startbar | – |
+| task-5-4 | Verschlüsselte Sicherung und Erinnerung | ✅ erledigt |  |
 | task-5-5 | DSGVO-Funktionen für Kontakte | ▶️ startbar | – |
 | task-5-6 | Git-Historie bereinigen | ⛔ blockiert | – |
 
@@ -121,7 +121,7 @@ Keine.
 | task-8-1 | Cockpit-Fokus | ⏳ geplant | task-7-1 |
 | task-8-2 | Beziehungspflege | ⏳ geplant | task-7-2 |
 | task-8-3 | Schlagworte und Dubletten | ⏳ geplant | task-6-2 |
-| task-8-4 | Abschlussprüfung Roadmap v3 | ⏳ geplant | task-8-1, task-8-2, task-8-3, task-7-3, task-5-4 |
+| task-8-4 | Abschlussprüfung Roadmap v3 | ⏳ geplant | task-8-1, task-8-2, task-8-3, task-7-3 |
 
 ## Blockiert
 

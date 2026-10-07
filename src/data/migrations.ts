@@ -16,6 +16,16 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
     projekte: liste(data.projekte).map((p) => ({ kategorie: '', zuletztAktiv: null, ...p })),
     kurse: liste(data.kurse).map((k) => ({ beschreibung: '', unterrichtszeit: '', umfang: '', module: [], ...k })),
   }),
+  // v3: Zeitpunkt der letzten Sicherung
+  2: (data) => ({
+    ...data,
+    schemaVersion: 3,
+    einstellungen: { letzteSicherungAm: null, ...objekt(data.einstellungen) },
+  }),
+}
+
+function objekt(value: unknown): Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value) ? (value as Record<string, unknown>) : {}
 }
 
 function liste(value: unknown): Array<Record<string, unknown>> {

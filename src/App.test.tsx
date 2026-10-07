@@ -98,7 +98,7 @@ describe('StoreGate', () => {
     const storage = createFakeStorage({ [STORAGE_KEY]: '{kaputt' })
     renderApp('/', storage)
     expect(screen.getByRole('heading', { level: 1, name: 'Daten konnten nicht geladen werden' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Rohdaten exportieren' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Rohdaten verschlüsselt sichern' })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Zurücksetzen' }))
     fireEvent.click(screen.getByRole('button', { name: 'Ja, Daten zurücksetzen' }))

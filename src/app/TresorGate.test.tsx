@@ -66,7 +66,7 @@ describe('Passwortschutz', () => {
   })
 
   it('verschlüsselt vorhandene unverschlüsselte Daten beim Festlegen', async () => {
-    const basis = createFakeStorage({ [STORAGE_KEY]: JSON.stringify({ ...beispielSeed(), einstellungen: { anzeigename: 'Bestand' } }) })
+    const basis = createFakeStorage({ [STORAGE_KEY]: JSON.stringify({ ...beispielSeed(), einstellungen: { anzeigename: 'Bestand', letzteSicherungAm: null } }) })
     renderTresor(basis)
     expect(screen.getByRole('heading', { name: 'Daten verschlüsseln' })).toBeInTheDocument()
     await einrichten()
@@ -77,7 +77,7 @@ describe('Passwortschutz', () => {
 
   it('entsperrt nur mit dem richtigen Passwort', async () => {
     const schluessel = await schluesselAbleiten(PASSWORT, undefined, ITER)
-    const umschlag = await verschluesseln(schluessel, JSON.stringify({ ...beispielSeed(), einstellungen: { anzeigename: 'Geheim' } }))
+    const umschlag = await verschluesseln(schluessel, JSON.stringify({ ...beispielSeed(), einstellungen: { anzeigename: 'Geheim', letzteSicherungAm: null } }))
     renderTresor(createFakeStorage({ [STORAGE_KEY]: JSON.stringify(umschlag) }))
     expect(screen.getByRole('heading', { name: 'Gesperrt' })).toBeInTheDocument()
 
