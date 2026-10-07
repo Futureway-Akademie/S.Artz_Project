@@ -51,3 +51,7 @@
 {"timestamp":"2026-10-07T13:16:17Z","type":"task_started","taskId":"task-2-3","summary":"Task 'Automationen' gestartet."}
 {"timestamp":"2026-10-07T13:19:49Z","type":"verification_passed","taskId":"task-2-3","summary":"typecheck, lint, test (127) und build fehlerfrei; Browser-Prüfung Automationen."}
 {"timestamp":"2026-10-07T13:19:49Z","type":"task_completed","taskId":"task-2-3","summary":"Task 'Automationen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:24:28Z","type":"task_started","taskId":"task-2-2","summary":"Task 'Aufgaben und Termine' gestartet."}
+{"timestamp":"2026-10-07T13:27:52Z","type":"verification_passed","taskId":"task-2-2","summary":"typecheck, lint, test (136) und build fehlerfrei; Browser-Prüfung Aufgaben & Termine."}
+{"timestamp":"2026-10-07T13:27:52Z","type":"task_completed","taskId":"task-2-2","summary":"Task 'Aufgaben und Termine' abgeschlossen."}
+{"timestamp":"2026-10-07T13:27:52Z","type":"task_started","taskId":"task-2-4","summary":"Task 'Weiterbildung' gestartet."}

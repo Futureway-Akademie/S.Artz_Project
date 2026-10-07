@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
+import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
 import { AutomationenSeite } from '../features/automationen/AutomationenSeite.tsx'
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
@@ -31,10 +32,7 @@ export function AppRoutes() {
           element={<Platzhalter titel="Weiterbildung" inhalt="Hier begleitest du künftig die Weiterbildung „KI Automations Spezialist“." />}
         />
         <Route path="pikartz-ai" element={<MarkeSeite />} />
-        <Route
-          path="aufgaben"
-          element={<Platzhalter titel="Aufgaben & Termine" inhalt="Hier verwaltest du künftig Aufgaben und Termine mit optionaler Frist und Bezug." />}
-        />
+        <Route path="aufgaben" element={<AufgabenSeite />} />
         <Route path="kontakte">
           <Route
             index

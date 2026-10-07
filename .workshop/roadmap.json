@@ -283,7 +283,7 @@
           "description": "Zentrale Aufgaben- und Terminverwaltung mit Anlegen, Bearbeiten, Erledigen, Suche, Filter, optionaler Frist und Bezug zu Projekt oder Weiterbildung.",
           "order": 2,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -295,13 +295,19 @@
             "Bezug zu Projekt oder Weiterbildung ist wählbar",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:24:28Z",
+          "completedAt": "2026-10-07T13:27:52Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 136 Tests grün, davon 9 für Aufgaben & Termine: Filter nach Status, Fristlage (überfällig, heute, 7 Tage, ohne), Bezug (Projekt, Weiterbildung, Kontakt, einzelnes Projekt) und Suche; Gruppierung nach Fristlage; Aufgabe mit Frist und Weiterbildungsbezug anlegen, erledigen, Aktivitäten; 'Noch keine Frist hinterlegt' bei fehlender Frist; Termine mit Pflichtdatum und optionaler Uhrzeit anlegen, bearbeiten, nach Bestätigung löschen; Tabs per Pfeiltaste. Browser bei 1622 px: 39 offene Aufgaben in Gruppe 'Ohne Frist', Tabs korrekt, kein Überlauf.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /aufgaben per Skript"
+            ],
+            "checkedAt": "2026-10-07T13:27:52Z"
           }
         },
         {
@@ -341,7 +347,7 @@
           "description": "Bereich für 'KI Automations Spezialist' (Aug–Dez 2026) mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
           "order": 4,
           "weight": 3,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -353,7 +359,7 @@
             "Fortschritt ergibt sich nur aus eingetragenen Erledigungen, sonst Leerzustand",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:27:52Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

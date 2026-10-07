@@ -5,6 +5,7 @@ import { SelectField, TextAreaField, TextField } from '../../components/ui/Field
 import { FormDialog } from '../../components/ui/FormDialog.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
+import { bezugAlsText, bezugAusText, bezugOptionen as alleBezugOptionen } from '../../domain/selectors/bezug.ts'
 import type { Aufgabe, Bezug } from '../../domain/types.ts'
 import { useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from './AufgabeDialog.module.css'
@@ -16,14 +17,6 @@ interface Werte extends Record<string, unknown> {
   /** `ohne` | `projekt:<id>` | `weiterbildung:<id>` | `kontakt:<id>` */
   bezug: string
   erledigt: boolean
-}
-
-const bezugAlsText = (bezug: Bezug) => (bezug.art === 'ohne' ? 'ohne' : `${bezug.art}:${bezug.id}`)
-
-function bezugAusText(text: string): Bezug {
-  if (text === 'ohne') return { art: 'ohne', id: null }
-  const [art, ...rest] = text.split(':')
-  return { art: art as Bezug['art'], id: rest.join(':') }
 }
 
 function validiereAufgabe(werte: Werte): Fehler<Werte> {
@@ -86,11 +79,7 @@ export function AufgabeDialog({ aufgabe, vorgabeBezug = { art: 'ohne', id: null 
     onSchliessen()
   }
 
-  const bezugOptionen = [
-    ...data.projekte.map((p) => ({ value: `projekt:${p.id}`, label: `Projekt: ${p.titel}` })),
-    ...data.kurse.map((k) => ({ value: `weiterbildung:${k.id}`, label: `Weiterbildung: ${k.titel}` })),
-    ...data.kontakte.map((k) => ({ value: `kontakt:${k.id}`, label: `Kontakt: ${k.name}` })),
-  ]
+  const bezugOptionen = alleBezugOptionen(data)
   // Bezug auf inzwischen gelöschte Einträge trotzdem anzeigen
   if (werte.bezug !== 'ohne' && !bezugOptionen.some((o) => o.value === werte.bezug)) {
     bezugOptionen.unshift({ value: werte.bezug, label: 'Nicht mehr vorhandener Bezug' })
