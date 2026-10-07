@@ -18,6 +18,7 @@ import { formatZeitpunkt } from '../../domain/dates.ts'
 import { useStore } from '../../data/storeContext.ts'
 import type { AppData } from '../../domain/types.ts'
 import styles from './EinstellungenSeite.module.css'
+import { KontoPanel } from './KontoPanel.tsx'
 import { SicherheitPanel } from './SicherheitPanel.tsx'
 
 function umfang(data: AppData): string {
@@ -133,6 +134,8 @@ export function EinstellungenSeite() {
       </Panel>
 
       <SicherheitPanel />
+
+      <KontoPanel />
 
       <Panel titel="Datenschutz">
         <ul className={styles.punkte}>

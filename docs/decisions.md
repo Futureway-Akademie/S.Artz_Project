@@ -469,3 +469,19 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Die Projekt-Gesamtsicht zeigt verknüpftes Wissen, und die Suche (Strg+K) findet Wissen und Tagebuch.
   - Löschen von Projekt, Kurs oder Kursaufgabe löst nur die Verknüpfung.
 - **Speicherung:** im verschlüsselten Tresor wie alle anderen Daten. Mit Phase 9 wird es Ende-zu-Ende-verschlüsselt zwischen Geräten synchronisiert.
+
+## 2026-10-07 – Supabase-Anbindung und Login (task-9-1)
+
+- **Werkzeuge:** Supabase gehört zu Saschas vereinbarten Werkzeugen (Claude Pro/Code/Design, Lovable, Git, GitHub, Supabase). Die frühere Festlegung „kein Backend“ ist damit überholt.
+- **Datenschutz bleibt Grundbedingung:**
+  - Supabase speichert nur E-Mail-Adresse und den Ende-zu-Ende-verschlüsselten Umschlag.
+  - Eine Tabellenregel (`check`) lässt nur verschlüsselte Umschläge zu; Row Level Security schützt jeden Datensatz.
+  - Region EU, Vertrag zur Auftragsverarbeitung (Anleitung: `docs/supabase-einrichtung.md`, SQL: `supabase/schema.sql`).
+- **Konfiguration:**
+  - Die Werte stehen in `.env.local` (ignoriert; Vorlage `.env.example`).
+  - Ohne Werte ist die Cloud abgeschaltet, und die Sicherheitsrichtlinie bleibt bei `connect-src 'none'`.
+  - Mit Werten erlaubt die Richtlinie genau die eigene https-Adresse (`contentSecurityPolicy(url)`).
+- **Netzwerkcode** liegt nur in `src/data/cloud/supabase.ts` und wird per Test erzwungen. Der Rest der App nutzt die Schnittstelle `CloudDienst`, in Tests ersetzt durch `createFakeCloud`.
+- **Login:**
+  - per E-Mail-Link (Magic Link), ohne zweites Passwort. Die Sitzung liegt im Browser unter `…:anmeldung`.
+  - Der Bereich „Konto und Synchronisierung“ in den Einstellungen bietet Anmelden, Status und Abmelden.

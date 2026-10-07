@@ -2,7 +2,7 @@
 import { render, screen } from '@testing-library/react'
 import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
-import { CONTENT_SECURITY_POLICY } from '../../csp.config.ts'
+import { CONTENT_SECURITY_POLICY, contentSecurityPolicy } from '../../csp.config.ts'
 import { ExternerLink } from '../components/ui/ExternerLink.tsx'
 import { istWebadresse } from '../domain/url.ts'
 
@@ -22,8 +22,23 @@ describe('Keine Verbindung nach außen', () => {
   })
 
   it('der Build schreibt die Richtlinie in index.html, die Seite sendet keinen Referrer', () => {
-    expect(readFileSync('vite.config.ts', 'utf8')).toMatch(/Content-Security-Policy[\s\S]*CONTENT_SECURITY_POLICY/)
+    expect(readFileSync('vite.config.ts', 'utf8')).toMatch(/Content-Security-Policy[\s\S]*contentSecurityPolicy\(env\.VITE_SUPABASE_URL/)
     expect(readFileSync('index.html', 'utf8')).toContain('<meta name="referrer" content="no-referrer" />')
+  })
+
+  it('mit Supabase erlaubt die Richtlinie genau die eigene https-Adresse, sonst nichts', () => {
+    const mit = contentSecurityPolicy('https://abcdefgh.supabase.co')
+    expect(mit).toContain('connect-src https://abcdefgh.supabase.co;')
+    expect(mit.match(/https:/g)).toHaveLength(1)
+    expect(() => contentSecurityPolicy('http://abcdefgh.supabase.co')).toThrow()
+    expect(() => contentSecurityPolicy('https://*.supabase.co')).toThrow()
+  })
+
+  it('nur das Supabase-Modul darf Netzwerkcode laden, und ohne Konfiguration ist es abgeschaltet', () => {
+    const mitSupabase = quellen.filter((d) => /from '@supabase\//.test(readFileSync(d, 'utf8')))
+    expect(mitSupabase).toEqual(['src/data/cloud/supabase.ts'])
+    const modul = readFileSync('src/data/cloud/supabase.ts', 'utf8')
+    expect(modul).toContain('konfiguriert: () => Boolean(URL_ && KEY)')
   })
 
   it('der Quellcode nutzt keine Netzwerkzugriffe und lädt nichts von fremden Adressen', () => {

@@ -1269,7 +1269,7 @@
           "description": "Supabase-Client mit Konfiguration über .env.local, Login per E-Mail-Link (ohne zweites Passwort), Abmelden, SQL-Schema mit Row Level Security im Repository, CSP-Ausnahme nur für die eigene Supabase-Adresse; ohne Konfiguration bleibt die App lokal und ohne Verbindung.",
           "order": 1,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-5-7"
           ],
@@ -1279,13 +1279,19 @@
             "CSP erlaubt nur die konfigurierte Supabase-Adresse, ohne Konfiguration keine Verbindung (Test)",
             "Anleitung zur Einrichtung in docs/"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T16:47:49Z",
+          "completedAt": "2026-10-07T16:56:21Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Supabase-Anbindung über CloudDienst-Schnittstelle (einziges Netzwerkmodul src/data/cloud/supabase.ts, Bibliothek nur bei Konfiguration nachgeladen), Login per E-Mail-Link mit Abmelden in Einstellungen, SQL-Schema mit Row Level Security und Check-Constraint nur für verschlüsselte Umschläge (supabase/schema.sql), CSP: ohne Konfiguration connect-src 'none', mit Konfiguration nur die eigene https-Adresse (Build mit Testwerten geprüft), Anleitung docs/supabase-einrichtung.md, .env.example. 315 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "VITE_SUPABASE_URL=… vite build (CSP und Chunk geprüft)"
+            ],
+            "checkedAt": "2026-10-07T16:56:21Z"
           }
         },
         {
@@ -1294,7 +1300,7 @@
           "description": "Der verschlüsselte Umschlag wird nach Änderungen zu Supabase hochgeladen und beim Entsperren abgeglichen; Konflikte zwischen Geräten werden erkannt und angezeigt; Supabase speichert nur Chiffretext.",
           "order": 2,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-9-1"
           ],
