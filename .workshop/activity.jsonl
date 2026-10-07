@@ -191,3 +191,6 @@
 {"timestamp":"2026-10-07T23:15:57Z","type":"task_ready","taskId":"task-11-5","summary":"Task 'Modelle und Abos' ist startbar."}
 {"timestamp":"2026-10-07T23:15:57Z","type":"task_ready","taskId":"task-12-1","summary":"Task 'Google-Anmeldung (nur lesend)' ist startbar."}
 {"timestamp":"2026-10-07T23:15:57Z","type":"task_started","taskId":"task-11-2","summary":"Task 'Masterprompts und Befehle' gestartet."}
+{"timestamp":"2026-10-07T23:19:56Z","type":"verification_passed","taskId":"task-11-2","summary":"Platzhalter, Vorschau und Kopieren getestet; alle Tests grün."}
+{"timestamp":"2026-10-07T23:19:56Z","type":"task_completed","taskId":"task-11-2","summary":"Task 'Masterprompts und Befehle' abgeschlossen."}
+{"timestamp":"2026-10-07T23:19:56Z","type":"task_started","taskId":"task-11-3","summary":"Task 'Agenten, Skills und Workflows' gestartet."}

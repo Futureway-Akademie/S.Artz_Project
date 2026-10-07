@@ -14,6 +14,8 @@ import { formatZeitpunkt } from '../../domain/dates.ts'
 import { alleSchlagworte } from '../../domain/selectors/schlagworte.ts'
 import {
   LEERER_WERKZEUG_FILTER,
+  MIT_PLATZHALTERN,
+  promptPlatzhalter,
   typAusSlug,
   WERKZEUG_STATUS,
   WERKZEUG_TYP,
@@ -31,7 +33,9 @@ import { istWebadresse } from '../../domain/url.ts'
 import { NichtGefunden } from '../NichtGefunden.tsx'
 import crm from '../kontakte/crm.module.css'
 import styles from './Werkzeug.module.css'
+import { Ausfuellen } from './Ausfuellen.tsx'
 import { WerkzeugDialog } from './WerkzeugDialog.tsx'
+import { inZwischenablage } from './zwischenablage.ts'
 
 const statusTon = (s: Werkzeug['status']) => (s === 'aktiv' ? 'blue' : 'neutral')
 
@@ -87,6 +91,7 @@ export function WerkzeugListeSeite() {
 
 function WerkzeugListe({ typ }: { typ: WerkzeugTyp }) {
   const { data } = useStore()
+  const { zeige } = useToast()
   const navigate = useNavigate()
   const info = WERKZEUG_TYP[typ]
   const [filter, setFilter] = useState<WerkzeugFilter>(LEERER_WERKZEUG_FILTER)
@@ -176,6 +181,11 @@ function WerkzeugListe({ typ }: { typ: WerkzeugTyp }) {
                     )}
                   </div>
                   <div className={crm.meta}>
+                    {MIT_PLATZHALTERN.includes(w.typ) && w.inhalt && (
+                      <Button variant="ghost" size="sm" aria-label={`${w.titel} kopieren`} onClick={() => inZwischenablage(w.inhalt, zeige)}>
+                        Kopieren
+                      </Button>
+                    )}
                     <Badge tone={statusTon(w.status)}>{WERKZEUG_STATUS[w.status]}</Badge>
                   </div>
                 </li>
@@ -211,14 +221,7 @@ export function WerkzeugDetailSeite() {
   const projekte = data.projekte.filter((p) => w.projektIds.includes(p.id))
   const verknuepft = werkzeugVerknuepft(data, w)
 
-  const kopieren = async () => {
-    try {
-      await navigator.clipboard.writeText(w.inhalt)
-      zeige('In die Zwischenablage kopiert')
-    } catch {
-      zeige('Kopieren nicht möglich – bitte von Hand markieren')
-    }
-  }
+  const mitPlatzhaltern = MIT_PLATZHALTERN.includes(w.typ) && promptPlatzhalter(w.inhalt).length > 0
 
   return (
     <Seite
@@ -233,7 +236,7 @@ export function WerkzeugDetailSeite() {
       aktionen={
         <>
           {w.inhalt && (
-            <Button variant="secondary" onClick={kopieren}>
+            <Button variant="secondary" onClick={() => inZwischenablage(w.inhalt, zeige)}>
               {info.inhalt.label} kopieren
             </Button>
           )}
@@ -248,6 +251,7 @@ export function WerkzeugDetailSeite() {
           <Panel titel={info.inhalt.label}>
             {w.inhalt ? <pre className={styles.inhalt}>{w.inhalt}</pre> : <p className={crm.leer}>Noch nichts eingetragen.</p>}
           </Panel>
+          {mitPlatzhaltern && <Ausfuellen key={w.inhalt} text={w.inhalt} label={info.inhalt.label} />}
         </div>
         <div className={crm.spalte}>
           <Panel titel="Angaben">

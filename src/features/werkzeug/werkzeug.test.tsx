@@ -1,8 +1,8 @@
-import { act, fireEvent, screen, within } from '@testing-library/react'
+import { act, fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { reducer } from '../../data/reducer.ts'
 import { suche } from '../../domain/selectors/suche.ts'
 import { selectVerknuepft } from '../../domain/selectors/verknuepft.ts'
-import { leeresWerkzeug, werkzeugListe, werkzeugVerknuepft, werkzeugZaehler } from '../../domain/selectors/werkzeug.ts'
+import { leeresWerkzeug, promptAusfuellen, promptPlatzhalter, werkzeugListe, werkzeugVerknuepft, werkzeugZaehler } from '../../domain/selectors/werkzeug.ts'
 import type { AppData, Werkzeug } from '../../domain/types.ts'
 import { beispielSeed } from '../../test/beispielStart.ts'
 import { createMeta } from '../../test/fakes.ts'
@@ -56,7 +56,35 @@ describe('Werkzeugkasten', () => {
     expect(d.werkzeug.find((w) => w.id === 'a1')!.werkzeugIds).toEqual([])
   })
 
+  it('erkennt Platzhalter ohne Dubletten und füllt nur ausgefüllte ein', () => {
+    const text = 'Schreibe an {{Firma}} für {{ Stelle }} – {{firma}} {{leer}}'
+    expect(promptPlatzhalter(text)).toEqual(['Firma', 'Stelle', 'leer'])
+    expect(promptAusfuellen(text, { firma: 'ACME', Stelle: 'KI-Trainer', leer: '' })).toBe('Schreibe an ACME für KI-Trainer – ACME {{leer}}')
+  })
+
   describe('Bedienung', () => {
+    it('füllt Platzhalter eines Masterprompts aus und kopiert das Ergebnis', async () => {
+      const schreiben = vi.fn().mockResolvedValue(undefined)
+      Object.defineProperty(navigator, 'clipboard', { value: { writeText: schreiben }, configurable: true })
+      renderApp('/werkzeug/prompts/p1', { daten: daten() })
+      const panel = screen.getByRole('region', { name: 'Ausfüllen und kopieren' })
+      expect(panel).toHaveTextContent('0 von 1 Platzhaltern')
+      fireEvent.change(within(panel).getByLabelText('firma'), { target: { value: 'ACME GmbH' } })
+      expect(within(panel).getByLabelText('Prompt ausgefüllt')).toHaveTextContent('Schreibe an ACME GmbH')
+      fireEvent.click(within(panel).getByRole('button', { name: 'Ausgefüllt kopieren' }))
+      await waitFor(() => expect(schreiben).toHaveBeenCalledWith('Schreibe an ACME GmbH'))
+      expect(await screen.findByText('In die Zwischenablage kopiert')).toBeInTheDocument()
+    })
+
+    it('kopiert einen Befehl direkt aus der Liste', async () => {
+      const schreiben = vi.fn().mockResolvedValue(undefined)
+      Object.defineProperty(navigator, 'clipboard', { value: { writeText: schreiben }, configurable: true })
+      renderApp('/werkzeug/befehle', { daten: { ...daten(), werkzeug: [werkzeug('b1', 'befehl', { titel: 'Tests', plattform: 'Terminal', inhalt: 'npx vitest run' })] } })
+      fireEvent.click(screen.getByRole('button', { name: 'Tests kopieren' }))
+      await waitFor(() => expect(schreiben).toHaveBeenCalledWith('npx vitest run'))
+    })
+
+
     it('legt einen Masterprompt an und zeigt ihn im Detail', () => {
       const { gespeichert } = renderApp('/werkzeug/prompts')
       expect(screen.getByRole('heading', { level: 1, name: 'Masterprompts' })).toBeInTheDocument()
@@ -68,7 +96,8 @@ describe('Werkzeugkasten', () => {
       fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
 
       expect(screen.getByRole('heading', { level: 1, name: 'Zusammenfassen' })).toBeInTheDocument()
-      expect(screen.getByText('Fasse {{text}} zusammen.')).toBeInTheDocument()
+      expect(screen.getByRole('region', { name: 'Prompt' })).toHaveTextContent('Fasse {{text}} zusammen.')
+      expect(screen.getByRole('region', { name: 'Ausfüllen und kopieren' })).toHaveTextContent('0 von 1 Platzhaltern')
       act(() => {
         window.dispatchEvent(new Event('pagehide'))
       })

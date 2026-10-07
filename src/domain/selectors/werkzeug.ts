@@ -196,3 +196,22 @@ export function leeresWerkzeug(typ: WerkzeugTyp): Omit<Werkzeug, 'id' | 'erstell
     schlagworte: [],
   }
 }
+
+const PLATZHALTER = /\{\{\s*([^{}]+?)\s*\}\}/g
+const schluessel = (name: string) => name.trim().toLowerCase()
+
+/** Platzhalter wie {{Zielgruppe}} in Reihenfolge des ersten Vorkommens, ohne Dubletten (Groß-/Kleinschreibung egal). */
+export function promptPlatzhalter(text: string): string[] {
+  const m = new Map<string, string>()
+  for (const [, name] of text.matchAll(PLATZHALTER)) if (!m.has(schluessel(name!))) m.set(schluessel(name!), name!.trim())
+  return [...m.values()]
+}
+
+/** Setzt ausgefüllte Platzhalter ein; leere bleiben als {{…}} sichtbar. */
+export function promptAusfuellen(text: string, werte: Record<string, string>): string {
+  const normiert = new Map(Object.entries(werte).map(([k, v]) => [schluessel(k), v]))
+  return text.replace(PLATZHALTER, (ganz, name: string) => normiert.get(schluessel(name)) || ganz)
+}
+
+/** Typen, deren Inhalt kopiert und ausgefüllt wird */
+export const MIT_PLATZHALTERN: readonly WerkzeugTyp[] = ['prompt', 'befehl', 'agent', 'skill']
