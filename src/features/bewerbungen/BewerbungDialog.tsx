@@ -34,7 +34,7 @@ function validiere(werte: Werte): Fehler<Werte> {
   return fehler
 }
 
-export function BewerbungDialog({ bewerbung, onSchliessen }: { bewerbung?: Bewerbung; onSchliessen: () => void }) {
+export function BewerbungDialog({ bewerbung, onSchliessen, onGeloescht }: { bewerbung?: Bewerbung; onSchliessen: () => void; onGeloescht?: () => void }) {
   const { data, dispatch } = useStore()
   const { zeige } = useToast()
   const quellenListe = useId()
@@ -159,6 +159,7 @@ export function BewerbungDialog({ bewerbung, onSchliessen }: { bewerbung?: Bewer
             dispatch({ type: 'loeschen', sammlung: 'bewerbungen', id: bewerbung.id })
             zeige('Bewerbung gelöscht')
             onSchliessen()
+            onGeloescht?.()
           }}
         >
           <p>„{bewerbung.stelle}“ wird endgültig gelöscht.</p>

@@ -29,11 +29,11 @@ export function bezugInfo(data: AppData, bezug: Bezug): BezugInfo | null {
     }
     case 'lead': {
       const l = data.leads.find((x) => x.id === bezug.id)
-      return l ? { text: `Lead: ${l.titel}`, link: '/kontakte/leads' } : { text: 'Gelöschter Lead', link: null }
+      return l ? { text: `Lead: ${l.titel}`, link: `/kontakte/leads/${l.id}` } : { text: 'Gelöschter Lead', link: null }
     }
     case 'bewerbung': {
       const b = data.bewerbungen.find((x) => x.id === bezug.id)
-      return b ? { text: `Bewerbung: ${b.stelle}`, link: '/bewerbungen' } : { text: 'Gelöschte Bewerbung', link: null }
+      return b ? { text: `Bewerbung: ${b.stelle}`, link: `/bewerbungen/${b.id}` } : { text: 'Gelöschte Bewerbung', link: null }
     }
   }
 }

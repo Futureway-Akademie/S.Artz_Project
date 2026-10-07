@@ -205,12 +205,12 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
                   </Link>
                 )}
                 {bewerbung && (
-                  <Link to="/bewerbungen" className={styles.projekt}>
+                  <Link to={`/bewerbungen/${bewerbung.id}`} className={styles.projekt}>
                     Bewerbung: {bewerbung.stelle}
                   </Link>
                 )}
                 {lead && (
-                  <Link to="/kontakte/leads" className={styles.projekt}>
+                  <Link to={`/kontakte/leads/${lead.id}`} className={styles.projekt}>
                     Lead: {lead.titel}
                   </Link>
                 )}

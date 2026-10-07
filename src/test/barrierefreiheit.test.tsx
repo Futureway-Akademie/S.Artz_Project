@@ -107,6 +107,8 @@ const SEITEN = [
   '/kontakte/leads',
   '/bewerbungen',
   '/bewerbungen/zielrollen',
+  '/bewerbungen/b1',
+  '/kontakte/leads/l1',
   '/einstellungen',
   '/gibt-es-nicht',
 ]

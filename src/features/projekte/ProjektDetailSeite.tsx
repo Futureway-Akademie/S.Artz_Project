@@ -14,6 +14,7 @@ import { useStore } from '../../data/storeContext.ts'
 import { formatDatum, formatZeitpunkt } from '../../domain/dates.ts'
 import { KEIN_STATUS, optionen, PLATTFORM, PROJEKT_STATUS } from '../../domain/labels.ts'
 import type { ProjektStatus } from '../../domain/types.ts'
+import { Gesamtsicht } from '../gemeinsam/Gesamtsicht.tsx'
 import { NaechsteSchritte } from './NaechsteSchritte.tsx'
 import { ProjektDialog } from './ProjektDialog.tsx'
 import styles from './ProjektDetailSeite.module.css'
@@ -83,6 +84,7 @@ export function ProjektDetailSeite() {
           <Panel titel="Nächste Schritte">
             <NaechsteSchritte projektId={projekt.id} />
           </Panel>
+          <Gesamtsicht ziel={{ art: 'projekt', id: projekt.id }} ohne={['aufgaben', 'kontakte', 'unternehmen']} />
           {projekt.notizen && (
             <Panel titel="Notizen">
               <p className={styles.text}>{projekt.notizen}</p>

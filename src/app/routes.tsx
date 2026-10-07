@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
 import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
+import { BewerbungDetailSeite } from '../features/bewerbungen/BewerbungDetailSeite.tsx'
 import { BewerbungenSeite } from '../features/bewerbungen/BewerbungenSeite.tsx'
 import { ZielrollenSeite } from '../features/bewerbungen/ZielrollenSeite.tsx'
 import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
@@ -8,6 +9,7 @@ import { AutomationenSeite } from '../features/automationen/AutomationenSeite.ts
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
 import { KontaktDetailSeite } from '../features/kontakte/KontaktDetailSeite.tsx'
 import { KontakteSeite } from '../features/kontakte/KontakteSeite.tsx'
+import { LeadDetailSeite } from '../features/kontakte/LeadDetailSeite.tsx'
 import { LeadsSeite } from '../features/kontakte/LeadsSeite.tsx'
 import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSeite.tsx'
 import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
@@ -36,11 +38,13 @@ export function AppRoutes() {
           <Route path="unternehmen" element={<UnternehmenSeite />} />
           <Route path="unternehmen/:id" element={<UnternehmenDetailSeite />} />
           <Route path="leads" element={<LeadsSeite />} />
+          <Route path="leads/:id" element={<LeadDetailSeite />} />
           <Route path=":id" element={<KontaktDetailSeite />} />
         </Route>
         <Route path="bewerbungen">
           <Route index element={<BewerbungenSeite />} />
           <Route path="zielrollen" element={<ZielrollenSeite />} />
+          <Route path=":id" element={<BewerbungDetailSeite />} />
         </Route>
         <Route path="einstellungen" element={<EinstellungenSeite />} />
         <Route path="*" element={<NichtGefunden />} />

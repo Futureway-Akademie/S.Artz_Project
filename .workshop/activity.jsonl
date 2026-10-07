@@ -120,3 +120,8 @@
 {"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-6-3","summary":"Task 'Globale Suche und Schnellerfassung' ist startbar."}
 {"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-7-1","summary":"Task 'Kalender' ist startbar."}
 {"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-7-2","summary":"Task 'E-Mails' ist startbar."}
+{"timestamp":"2026-10-07T15:13:10Z","type":"task_started","taskId":"task-6-2","summary":"Task 'Gesamtsicht auf jeder Detailseite' gestartet."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"verification_passed","taskId":"task-6-2","summary":"Jede Detailseite zeigt alles Zugehörige; Bewerbungs- und Lead-Detailseiten; 252 Tests grün."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"task_completed","taskId":"task-6-2","summary":"Task 'Gesamtsicht auf jeder Detailseite' abgeschlossen."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"task_ready","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' ist startbar."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"task_ready","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' ist startbar."}

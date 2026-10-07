@@ -31,7 +31,7 @@ function validiere(werte: Werte): Fehler<Werte> {
 }
 
 /** Lead für PIKARTZ.AI-Anfragen (Schulung, Automation); Betrag optional. */
-export function LeadDialog({ lead, onSchliessen }: { lead?: Lead; onSchliessen: () => void }) {
+export function LeadDialog({ lead, onSchliessen, onGeloescht }: { lead?: Lead; onSchliessen: () => void; onGeloescht?: () => void }) {
   const { data, dispatch } = useStore()
   const { zeige } = useToast()
   const [loeschenFragen, setLoeschenFragen] = useState(false)
@@ -143,6 +143,7 @@ export function LeadDialog({ lead, onSchliessen }: { lead?: Lead; onSchliessen: 
             dispatch({ type: 'loeschen', sammlung: 'leads', id: lead.id })
             zeige('Lead gelöscht')
             onSchliessen()
+            onGeloescht?.()
           }}
         >
           <p>„{lead.titel}“ wird endgültig gelöscht.</p>

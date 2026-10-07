@@ -938,7 +938,7 @@
           "description": "Kontakt, Unternehmen und Projekt zeigen alle zugehörigen Aufgaben, Termine, Verlaufseinträge, Bewerbungen, Leads und Projekte.",
           "order": 2,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-6-1"
           ],
@@ -946,13 +946,18 @@
             "Detailseiten zeigen alle verknüpften Einträge mit Links",
             "Neue verknüpfte Einträge direkt von der Detailseite anlegen"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:13:10Z",
+          "completedAt": "2026-10-07T15:18:48Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Gesamtsicht (selectVerknuepft + Gesamtsicht-Komponente) auf Kontakt-, Unternehmens-, Projekt-, Bewerbungs- und Lead-Seiten mit offenen Aufgaben, Terminen, Verlauf und verknüpften Einträgen inkl. indirekter Verknüpfungen; Schnellanlage von Aufgabe und Termin mit Bezug; neue Detailseiten /bewerbungen/:id und /kontakte/leads/:id; axe auf allen Seiten ohne Verstöße. 252 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:18:48Z"
           }
         },
         {
@@ -1045,7 +1050,7 @@
           "description": "Pipeline-Ansicht nach Status, Kennzahlen, Wiedervorlage mit Datum, Detailseite je Bewerbung mit Verlauf und Terminen.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-6-2"
           ],
@@ -1072,7 +1077,7 @@
       "description": "Cockpit für den Tag, Beziehungspflege, Ordnung und Abschlussprüfung.",
       "order": 8,
       "weight": 8,
-      "status": "planned",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-8-1",
@@ -1128,7 +1133,7 @@
           "description": "Schlagworte für Kontakte, Unternehmen und Projekte mit Filter; Warnung bei möglichen Dubletten.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-6-2"
           ],

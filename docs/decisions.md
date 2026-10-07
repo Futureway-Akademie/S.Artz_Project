@@ -332,3 +332,15 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Verlauf: „Gehört zu“ (Projekt, Bewerbung oder Lead, die eigenen der Person zuerst). Bei E-Mails gibt es Betreff und Richtung.
   - Aufgaben und Termine lassen sich allen Bereichen zuordnen.
   - Kontakt- und Unternehmensdialog: Schlagworte.
+
+## 2026-10-07 – Gesamtsicht auf jeder Detailseite (task-6-2)
+
+- **„Alles dazu“** (`src/features/gemeinsam/Gesamtsicht.tsx`, Selektor `selectVerknuepft`) zeigt zu einem Kontakt, Unternehmen, Projekt, einer Bewerbung oder einem Lead:
+  - offene Aufgaben, kommende Termine und den Verlauf
+  - die verknüpften Kontakte, Unternehmen, Projekte, Bewerbungen und Leads
+- **Indirekte Verknüpfungen zählen mit:** Beim Unternehmen erscheinen auch Aufgaben seiner Kontakte, Bewerbungen, Leads und beauftragten Projekte. Die Herkunft steht jeweils dabei.
+- **Schnellanlage:** „+ Aufgabe“ und „+ Termin“ legen direkt mit dem passenden Bezug an. Ein Klick auf eine Aufgabe oder einen Termin öffnet sie zum Bearbeiten.
+- **Neue Detailseiten:**
+  - `/bewerbungen/:id` und `/kontakte/leads/:id` mit Angaben und Gesamtsicht.
+  - Die Listen verlinken dorthin, und Bezug, Verlauf und Gesamtsicht verlinken direkt auf die Detailseite.
+- **Keine doppelten Abschnitte:** Eine Seite blendet aus, was sie schon selbst zeigt, z. B. Verlauf und Projekte beim Kontakt, nächste Schritte und Ansprechpartner beim Projekt.

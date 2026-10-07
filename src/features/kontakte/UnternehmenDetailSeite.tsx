@@ -2,17 +2,16 @@ import { useState } from 'react'
 import { ExternerLink } from '../../components/ui/ExternerLink.tsx'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
-import { Badge } from '../../components/ui/Badge.tsx'
 import { Button } from '../../components/ui/Button.tsx'
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog.tsx'
 import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
-import { BEWERBUNG_STATUS, LEAD_STATUS } from '../../domain/labels.ts'
 import { unternehmenVerknuepfungen } from '../../domain/selectors/crm.ts'
 import styles from './crm.module.css'
 import { KontaktDialog } from './KontaktDialog.tsx'
+import { Gesamtsicht } from '../gemeinsam/Gesamtsicht.tsx'
 import { UnternehmenDialog } from './UnternehmenDialog.tsx'
 
 export function UnternehmenDetailSeite() {
@@ -79,32 +78,7 @@ export function UnternehmenDetailSeite() {
               </ul>
             )}
           </Panel>
-          <Panel titel={`Bewerbungen (${bewerbungen.length})`}>
-            {bewerbungen.length === 0 ? (
-              <p className={styles.leer}>Keine Bewerbung bei diesem Unternehmen.</p>
-            ) : (
-              <ul className={styles.einfach}>
-                {bewerbungen.map((b) => (
-                  <li key={b.id} className={styles.meta}>
-                    <Link to="/bewerbungen">{b.stelle}</Link> <Badge tone={BEWERBUNG_STATUS[b.status].ton}>{BEWERBUNG_STATUS[b.status].label}</Badge>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Panel>
-          <Panel titel={`Leads (${leads.length})`}>
-            {leads.length === 0 ? (
-              <p className={styles.leer}>Keine Leads bei diesem Unternehmen.</p>
-            ) : (
-              <ul className={styles.einfach}>
-                {leads.map((l) => (
-                  <li key={l.id} className={styles.meta}>
-                    <Link to="/kontakte/leads">{l.titel}</Link> <Badge tone={LEAD_STATUS[l.status].ton}>{LEAD_STATUS[l.status].label}</Badge>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Panel>
+          <Gesamtsicht ziel={{ art: 'unternehmen', id: unternehmen.id }} ohne={['kontakte']} />
         </div>
         <div className={styles.spalte}>
           <Panel titel="Angaben">

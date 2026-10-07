@@ -78,7 +78,9 @@ export function BewerbungenSeite() {
                 return (
                   <li key={b.id} className={styles.zeile}>
                     <div className={styles.haupt}>
-                      <span className={styles.name}>{b.stelle}</span>
+                      <Link to={`/bewerbungen/${b.id}`} className={styles.name}>
+                        {b.stelle}
+                      </Link>
                       <span className={styles.unter}>
                         {firma ? <Link to={`/kontakte/unternehmen/${firma.id}`}>{firma.name}</Link> : 'Ohne Unternehmen'}
                         {rolle && ` · ${rolle.titel}`}

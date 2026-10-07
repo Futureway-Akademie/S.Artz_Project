@@ -13,6 +13,7 @@ import { loeschfolgen } from '../../data/reducer.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { KONTEXT } from '../../domain/labels.ts'
 import styles from './crm.module.css'
+import { Gesamtsicht } from '../gemeinsam/Gesamtsicht.tsx'
 import { DatenschutzPanel } from './DatenschutzPanel.tsx'
 import { KontaktDialog } from './KontaktDialog.tsx'
 import { KontaktVerlauf } from './KontaktVerlauf.tsx'
@@ -61,6 +62,7 @@ export function KontaktDetailSeite() {
       <div className={styles.raster}>
         <div className={styles.spalte}>
           <KontaktVerlauf kontakt={kontakt} />
+          <Gesamtsicht ziel={{ art: 'kontakt', id: kontakt.id }} ohne={['verlauf', 'projekte', 'unternehmen']} />
         </div>
         <div className={styles.spalte}>
           <Panel titel="Kontaktdaten">

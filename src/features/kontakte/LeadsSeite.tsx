@@ -59,7 +59,9 @@ export function LeadsSeite() {
                 return (
                   <li key={l.id} className={styles.zeile}>
                     <div className={styles.haupt}>
-                      <span className={styles.name}>{l.titel}</span>
+                      <Link to={`/kontakte/leads/${l.id}`} className={styles.name}>
+                        {l.titel}
+                      </Link>
                       <span className={styles.unter}>
                         {kontakt && <Link to={`/kontakte/${kontakt.id}`}>{kontakt.name}</Link>}
                         {kontakt && firma && ' · '}
