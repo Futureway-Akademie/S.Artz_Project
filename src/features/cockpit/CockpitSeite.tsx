@@ -12,33 +12,43 @@ import { bezugInfo } from '../../domain/selectors/bezug.ts'
 import {
   kurzesDatum,
   selectAktuelleProjekte,
-  selectAnstehend,
   selectBegruessung,
+  selectFokus,
   selectLetzteAktivitaeten,
   selectNaechsteSchritte,
   selectSicherungHinweis,
   selectTagesuebersicht,
+  selectWoche,
 } from '../../domain/selectors/cockpit.ts'
 import { selectCrmUebersicht } from '../../domain/selectors/crm.ts'
+import { KALENDER_ART } from '../../domain/selectors/kalender.ts'
 import { formatEuro } from '../../domain/selectors/leads.ts'
 import { selectWeiterbildung } from '../../domain/selectors/weiterbildung.ts'
+import { useToast } from '../../components/ui/toastContext.ts'
+import type { Aufgabe } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
+import { FokusKnopf } from '../aufgaben/FokusKnopf.tsx'
 import styles from './CockpitSeite.module.css'
 
-const ANSTEHEND_ART = { aufgabe: 'Aufgabe', termin: 'Termin', kursaufgabe: 'Kursaufgabe' } as const
-
 export function CockpitSeite() {
-  const { data } = useStore()
+  const { data, dispatch } = useStore()
+  const { zeige } = useToast()
   const now = useNow()
   const b = selectBegruessung(data, now)
   const tag = selectTagesuebersicht(data, now)
   const schritte = selectNaechsteSchritte(data)
   const projekte = selectAktuelleProjekte(data)
-  const anstehend = selectAnstehend(data, now)
+  const woche = selectWoche(data, now)
+  const fokus = selectFokus(data, now)
   const aktivitaeten = selectLetzteAktivitaeten(data)
   const wb = selectWeiterbildung(data, now)
   const crm = selectCrmUebersicht(data, now)
   const sicherung = selectSicherungHinweis(data, now)
+
+  const abhaken = (a: Aufgabe) => {
+    dispatch({ type: 'aendern', sammlung: 'aufgaben', id: a.id, aenderung: { erledigt: true } })
+    zeige(`„${a.titel}“ erledigt`)
+  }
 
   const kacheln = [
     { label: 'Heute fällig', wert: tag.heuteFaellig },
@@ -83,6 +93,52 @@ export function CockpitSeite() {
         ))}
       </section>
 
+      <Panel titel="Heute im Fokus" aktionen={<Link to="/aufgaben">Aufgaben</Link>}>
+        {fokus.fokus.length === 0 ? (
+          <div className={styles.fokusLeer}>
+            <p>Noch nichts im Fokus. Markiere bei Aufgaben „☆ Fokus“ – oder nimm einen Vorschlag:</p>
+            {fokus.vorschlaege.length === 0 ? (
+              <p className={styles.art}>Keine überfälligen oder heute fälligen Aufgaben.</p>
+            ) : (
+              <ul className={styles.liste}>
+                {fokus.vorschlaege.map((a) => (
+                  <li key={a.id} className={styles.eintrag}>
+                    <span className={styles.titel}>{a.titel}</span>
+                    <span className={styles.meta}>
+                      <DueLabel faelligAm={a.faelligAm} />
+                      <FokusKnopf aufgabe={a} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ) : (
+          <ul className={styles.liste} aria-label="Aufgaben im Fokus">
+            {fokus.fokus.map((a) => {
+              const info = bezugInfo(data, a.bezug)
+              return (
+                <li key={a.id} className={styles.eintrag}>
+                  <label className={styles.abhaken}>
+                    <input type="checkbox" checked={false} onChange={() => abhaken(a)} />
+                    <span className={styles.titel}>{a.titel}</span>
+                  </label>
+                  <span className={styles.meta}>
+                    {info?.link && (
+                      <Link to={info.link} className={styles.bezug}>
+                        {info.text}
+                      </Link>
+                    )}
+                    <DueLabel faelligAm={a.faelligAm} />
+                    <FokusKnopf aufgabe={a} />
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </Panel>
+
       <div className={styles.raster}>
         <Panel titel="Nächste Schritte" aktionen={schritte.gesamt > 0 && <Link to="/aufgaben">Alle anzeigen ({schritte.gesamt})</Link>}>
           {schritte.eintraege.length === 0 ? (
@@ -93,10 +149,17 @@ export function CockpitSeite() {
                 const info = bezugInfo(data, s.bezug)
                 return (
                   <li key={`${s.art}-${s.id}`} className={styles.eintrag}>
-                    <span className={styles.titel}>
-                      {s.art === 'wiedervorlage' && <span className={styles.art}>Wiedervorlage · </span>}
-                      {s.titel}
-                    </span>
+                    {s.art === 'aufgabe' ? (
+                      <label className={styles.abhaken}>
+                        <input type="checkbox" checked={false} onChange={() => abhaken(data.aufgaben.find((a) => a.id === s.id)!)} />
+                        <span className={styles.titel}>{s.titel}</span>
+                      </label>
+                    ) : (
+                      <span className={styles.titel}>
+                        <span className={styles.art}>Wiedervorlage · </span>
+                        {s.titel}
+                      </span>
+                    )}
                     <span className={styles.meta}>
                       {info?.link && (
                         <Link to={info.link} className={styles.bezug}>
@@ -112,24 +175,30 @@ export function CockpitSeite() {
           )}
         </Panel>
 
-        <Panel titel="Anstehend (7 Tage)">
-          {anstehend.length === 0 ? (
-            <EmptyState title="Nichts in den nächsten 7 Tagen">Aufgaben mit Frist, Termine und Kursaufgaben erscheinen hier.</EmptyState>
+        <Panel titel="Diese Woche" aktionen={<Link to="/kalender?ansicht=woche">Kalender</Link>}>
+          {woche.every((tag) => tag.eintraege.length === 0) ? (
+            <EmptyState title="Nichts in den nächsten 7 Tagen">Termine, Fristen und Wiedervorlagen erscheinen hier.</EmptyState>
           ) : (
-            <ul className={styles.liste}>
-              {anstehend.map((e) => (
-                <li key={`${e.art}-${e.id}`} className={styles.eintrag}>
-                  <span className={`label ${styles.wann}`}>
-                    {kurzesDatum(e.datum, now)}
-                    {e.uhrzeit && `, ${e.uhrzeit}`}
-                  </span>
-                  <Link to={e.link} className={styles.titel}>
-                    {e.titel}
-                  </Link>
-                  <span className={styles.art}>{ANSTEHEND_ART[e.art]}</span>
+            <ol className={styles.woche}>
+              {woche.map((tag) => (
+                <li key={tag.datum} className={styles.wochentag}>
+                  <span className={`label ${styles.wann}`}>{kurzesDatum(tag.datum, now)}</span>
+                  {tag.eintraege.length === 0 ? (
+                    <span className={styles.art}>frei</span>
+                  ) : (
+                    <ul className={styles.tagEintraege}>
+                      {tag.eintraege.map((e) => (
+                        <li key={e.schluessel}>
+                          <span className={styles.art}>{KALENDER_ART[e.art]}</span>{' '}
+                          {e.uhrzeit && <span className="num">{e.uhrzeit} </span>}
+                          {e.link ? <Link to={e.link}>{e.titel}</Link> : e.titel}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
-            </ul>
+            </ol>
           )}
         </Panel>
 

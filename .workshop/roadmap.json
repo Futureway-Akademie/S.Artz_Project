@@ -1099,7 +1099,7 @@
       "description": "Cockpit für den Tag, Beziehungspflege, Ordnung und Abschlussprüfung.",
       "order": 8,
       "weight": 8,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-8-1",
@@ -1107,7 +1107,7 @@
           "description": "Fokus-Markierung für Aufgaben, Abhaken direkt im Cockpit, Wochenvorschau.",
           "order": 1,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-7-1"
           ],
@@ -1116,13 +1116,18 @@
             "Abhaken im Cockpit",
             "Wochenvorschau der nächsten 7 Tage"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:46:11Z",
+          "completedAt": "2026-10-07T15:51:08Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Heute im Fokus (Fokus-Markierung mit aria-pressed in Aufgabenliste und Cockpit, Vorschläge aus Überfälligem und heute Fälligem), Abhaken direkt im Cockpit (Fokus und Nächste Schritte), Wochenvorschau Diese Woche aus denselben Kalenderdaten. 286 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:51:08Z"
           }
         },
         {

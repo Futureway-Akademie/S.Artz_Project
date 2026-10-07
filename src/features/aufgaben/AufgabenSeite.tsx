@@ -22,6 +22,7 @@ import { bezugInfo, bezugOptionen } from '../../domain/selectors/bezug.ts'
 import type { Aufgabe, Termin } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import { AufgabeDialog } from './AufgabeDialog.tsx'
+import { FokusKnopf } from './FokusKnopf.tsx'
 import styles from './AufgabenSeite.module.css'
 import { TerminDialog } from './TerminDialog.tsx'
 
@@ -135,6 +136,7 @@ function AufgabenListe({ onBearbeiten }: { onBearbeiten: (a: Aufgabe) => void })
                   <div className={styles.meta}>
                     <BezugLink aufgabe={a} />
                     {!a.erledigt && <DueLabel faelligAm={a.faelligAm} />}
+                    {!a.erledigt && <FokusKnopf aufgabe={a} />}
                     <Button size="sm" variant="ghost" onClick={() => onBearbeiten(a)} aria-label={`„${a.titel}“ bearbeiten`}>
                       Bearbeiten
                     </Button>

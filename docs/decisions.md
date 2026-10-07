@@ -402,3 +402,13 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Wiedervorlagen laufender Bewerbungen und offener Leads erscheinen im Cockpit unter „Nächste Schritte“ und im Kalender.
   - Beendete Bewerbungen (Absage, zurückgezogen) und abgeschlossene Leads erscheinen nicht.
 - **Detailseite** (`/bewerbungen/:id`, seit task-6-2): Status jetzt direkt änderbar.
+
+## 2026-10-07 – Cockpit-Fokus (task-8-1)
+
+- **„Heute im Fokus“** steht ganz oben im Cockpit: offene Aufgaben mit `fokus = true`, nach Frist sortiert, mit Häkchen zum Erledigen.
+  - Ist nichts im Fokus, schlägt das Cockpit bis zu drei überfällige oder heute fällige Aufgaben vor.
+  - Ein- und ausgeschaltet wird über „☆ Fokus“ (`aria-pressed`) in der Aufgabenliste, im Fokusbereich und bei den Vorschlägen.
+- **Abhaken im Cockpit:** Aufgaben unter „Nächste Schritte“ haben ein Häkchen; Wiedervorlagen bleiben Links.
+- **Wochenvorschau:**
+  - „Diese Woche“ ersetzt „Anstehend (7 Tage)“: sieben Tage ab heute, je Tag Termine, Fristen, Wiedervorlagen und Kursaufgaben, freie Tage sind als „frei“ markiert.
+  - Die Daten kommen aus derselben Quelle wie der Kalender (`selectWoche` nutzt `kalenderEintraege`); `selectAnstehend` entfällt.

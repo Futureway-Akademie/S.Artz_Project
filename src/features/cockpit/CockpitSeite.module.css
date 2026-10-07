@@ -181,3 +181,55 @@
   background: var(--color-white);
   box-shadow: var(--shadow-raised);
 }
+
+.abhaken {
+  display: inline-flex;
+  flex: 1 1 12rem;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  cursor: pointer;
+}
+
+.abhaken input {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-blue);
+}
+
+.fokusLeer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.woche {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wochentag {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.wochentag:last-child {
+  border-bottom: none;
+}
+
+.tagEintraege {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-wrap: anywhere;
+}

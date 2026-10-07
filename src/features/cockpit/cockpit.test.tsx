@@ -1,4 +1,4 @@
-import { fireEvent, screen, within } from '@testing-library/react'
+import { act, fireEvent, screen, within } from '@testing-library/react'
 import { beispielSeed } from '../../test/beispielStart.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
@@ -66,5 +66,50 @@ describe('Erinnerung an die Sicherung', () => {
   it('schweigt nach einer frischen Sicherung', () => {
     renderApp('/', { daten: { ...beispielSeed(), einstellungen: { anzeigename: '', letzteSicherungAm: new Date().toISOString() } } })
     expect(screen.queryByText('Sicherung fällig.')).toBeNull()
+  })
+})
+
+describe('Fokus, Abhaken und Woche im Cockpit', () => {
+  const zeit = '2026-10-01T10:00:00.000Z'
+  const aufgabe = (id: string, faelligAm: string | null, fokus = false) => ({
+    id,
+    titel: `Aufgabe ${id}`,
+    notiz: '',
+    erledigt: false,
+    fokus,
+    erledigtAm: null,
+    faelligAm,
+    bezug: { art: 'projekt' as const, id: 'seed-projekt-ki-skills' },
+    erstelltAm: zeit,
+    geaendertAm: zeit,
+  })
+
+  it('schlägt Fälliges für den Fokus vor und nimmt es auf', () => {
+    renderApp('/', { daten: { ...beispielSeed(), aufgaben: [aufgabe('ueberfaellig', '2026-10-05'), aufgabe('spaeter', '2026-10-20')] } })
+    const fokus = screen.getByRole('region', { name: 'Heute im Fokus' })
+    expect(within(fokus).getByText('Aufgabe ueberfaellig')).toBeInTheDocument()
+    expect(within(fokus).queryByText('Aufgabe spaeter')).toBeNull()
+    fireEvent.click(within(fokus).getByRole('button', { name: '„Aufgabe ueberfaellig“ im Fokus' }))
+    expect(within(screen.getByRole('list', { name: 'Aufgaben im Fokus' })).getByText('Aufgabe ueberfaellig')).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Heute im Fokus' })).getByRole('button', { name: '„Aufgabe ueberfaellig“ im Fokus' })).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('hakt Aufgaben im Fokus und in den nächsten Schritten direkt ab', () => {
+    const { gespeichert } = renderApp('/', { daten: { ...beispielSeed(), aufgaben: [aufgabe('f', '2026-10-08', true), aufgabe('n', null)] } })
+    fireEvent.click(within(screen.getByRole('list', { name: 'Aufgaben im Fokus' })).getByRole('checkbox', { name: 'Aufgabe f' }))
+    fireEvent.click(within(screen.getByRole('region', { name: 'Nächste Schritte' })).getByRole('checkbox', { name: 'Aufgabe n' }))
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(gespeichert().aufgaben.every((a) => a.erledigt)).toBe(true)
+    expect(screen.getByText(/Noch nichts im Fokus/)).toBeInTheDocument()
+  })
+
+  it('zeigt die nächsten 7 Tage mit Einträgen und freien Tagen', () => {
+    renderApp('/', { daten: { ...beispielSeed(), aufgaben: [aufgabe('morgen', '2026-10-08')] } })
+    const woche = screen.getByRole('region', { name: 'Diese Woche' })
+    expect(within(woche).getAllByRole('listitem').filter((li) => li.parentElement?.tagName === 'OL')).toHaveLength(7)
+    expect(within(woche).getByText('Morgen').closest('li')).toHaveTextContent('Frist')
+    expect(within(woche).getAllByText('frei').length).toBe(6)
   })
 })

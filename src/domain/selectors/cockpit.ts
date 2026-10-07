@@ -1,6 +1,7 @@
 import { BEWERBUNG_STATUS, LEAD_STATUS } from '../labels.ts'
 import { formatDatum, heute, nachFrist, plusTage, tageZwischen } from '../dates.ts'
-import type { Aktivitaet, AppData, Bezug } from '../types.ts'
+import type { Aktivitaet, AppData, Aufgabe, Bezug } from '../types.ts'
+import { kalenderEintraege, type KalenderEintrag } from './kalender.ts'
 import { projektListe, type ProjektZeile } from './projekte.ts'
 import { selectWeiterbildung } from './weiterbildung.ts'
 
@@ -81,32 +82,27 @@ export function selectAktuelleProjekte(data: AppData, limit = 6): { zeilen: Proj
   return { zeilen: aktuell.slice(0, limit), gesamt: aktuell.length }
 }
 
-export interface AnstehenderEintrag {
-  art: 'aufgabe' | 'termin' | 'kursaufgabe'
-  id: string
-  titel: string
-  datum: string
-  uhrzeit: string | null
-  link: string
+/** Die nächsten 7 Tage ab heute mit Terminen, Fristen, Wiedervorlagen und Kursaufgaben (wie im Kalender). */
+export function selectWoche(data: AppData, now: Date): Array<{ datum: string; eintraege: KalenderEintrag[] }> {
+  const h = heute(now)
+  const eintraege = kalenderEintraege(data, h, plusTage(h, 6))
+  return Array.from({ length: 7 }, (_, i) => {
+    const datum = plusTage(h, i)
+    return { datum, eintraege: eintraege.filter((e) => e.datum === datum) }
+  })
 }
 
-/** Aufgaben, Termine und Kursaufgaben von heute bis heute + `tage`, nach Datum. */
-export function selectAnstehend(data: AppData, now: Date, tage = 7): AnstehenderEintrag[] {
+/** Aufgaben im Fokus (offen, nach Frist) und Vorschläge: überfällige oder heute fällige, die noch nicht im Fokus sind. */
+export function selectFokus(data: AppData, now: Date, vorschlaege = 3): { fokus: Aufgabe[]; vorschlaege: Aufgabe[] } {
   const h = heute(now)
-  const bis = plusTage(h, tage)
-  const imZeitraum = (d: string | null): d is string => d !== null && d >= h && d <= bis
-  const eintraege: AnstehenderEintrag[] = [
-    ...data.aufgaben
-      .filter((a) => !a.erledigt && imZeitraum(a.faelligAm))
-      .map((a) => ({ art: 'aufgabe' as const, id: a.id, titel: a.titel, datum: a.faelligAm!, uhrzeit: null, link: '/aufgaben' })),
-    ...data.termine
-      .filter((t) => imZeitraum(t.datum))
-      .map((t) => ({ art: 'termin' as const, id: t.id, titel: t.titel, datum: t.datum, uhrzeit: t.uhrzeit, link: '/aufgaben?ansicht=termine' })),
-    ...data.kursAufgaben
-      .filter((k) => k.status !== 'erledigt' && imZeitraum(k.faelligAm))
-      .map((k) => ({ art: 'kursaufgabe' as const, id: k.id, titel: `${k.code} ${k.titel}`, datum: k.faelligAm!, uhrzeit: null, link: '/weiterbildung' })),
-  ]
-  return eintraege.sort((a, b) => a.datum.localeCompare(b.datum) || (a.uhrzeit ?? '').localeCompare(b.uhrzeit ?? ''))
+  const offen = data.aufgaben.filter((a) => !a.erledigt)
+  return {
+    fokus: offen.filter((a) => a.fokus).sort(nachFrist),
+    vorschlaege: offen
+      .filter((a) => !a.fokus && a.faelligAm !== null && a.faelligAm <= h)
+      .sort(nachFrist)
+      .slice(0, vorschlaege),
+  }
 }
 
 /** Neueste Aktivitäten zuerst; das Protokoll enthält nur echte Änderungen. */

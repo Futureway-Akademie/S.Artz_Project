@@ -4,12 +4,13 @@ import type { Aktivitaet, AppData, Aufgabe, Kontakt, KursAufgabe, Termin } from 
 import {
   kurzesDatum,
   selectAktuelleProjekte,
-  selectAnstehend,
   selectBegruessung,
+  selectFokus,
   selectLetzteAktivitaeten,
   selectNaechsteSchritte,
   selectSicherungHinweis,
   selectTagesuebersicht,
+  selectWoche,
 } from './cockpit.ts'
 
 const now = new Date(2026, 9, 7, 9, 0) // Mi., 07.10.2026, 9 Uhr
@@ -108,15 +109,26 @@ describe('Cockpit-Selektoren', () => {
     expect(zeilen.every((z) => z.projekt.status !== 'abgeschlossen')).toBe(true)
   })
 
-  it('listet Anstehendes der nächsten 7 Tage nach Datum', () => {
-    expect(selectAnstehend(data, now).map((e) => `${e.art}:${e.id}`)).toEqual([
+  it('zeigt die Woche ab heute mit allen datierten Einträgen je Tag', () => {
+    const woche = selectWoche(data, now)
+    expect(woche).toHaveLength(7)
+    expect(woche[0]!.datum).toBe('2026-10-07')
+    expect(woche.flatMap((t) => t.eintraege.map((e) => `${e.art}:${e.id}`))).toEqual([
       'aufgabe:heute',
       'termin:termin-heute',
-      'aufgabe:ohne-projekt',
       'kursaufgabe:kurs-morgen',
+      'aufgabe:ohne-projekt',
       'termin:termin-in-3',
       'aufgabe:naechste-woche',
     ])
+  })
+
+  it('liefert Fokus-Aufgaben und Vorschläge aus Überfälligem und heute Fälligem', () => {
+    const mitFokus = { ...data, aufgaben: data.aufgaben.map((a) => (a.id === 'naechste-woche' ? { ...a, fokus: true } : a)) }
+    const { fokus, vorschlaege } = selectFokus(mitFokus, now)
+    expect(fokus.map((a) => a.id)).toEqual(['naechste-woche'])
+    expect(vorschlaege.every((a) => a.faelligAm !== null && a.faelligAm <= '2026-10-07' && !a.erledigt)).toBe(true)
+    expect(vorschlaege.length).toBeGreaterThan(0)
   })
 
   it('zeigt die letzten Aktivitäten, neueste zuerst, und ist ohne Daten leer', () => {

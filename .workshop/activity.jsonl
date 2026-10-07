@@ -139,3 +139,6 @@
 {"timestamp":"2026-10-07T15:38:35Z","type":"task_started","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' gestartet."}
 {"timestamp":"2026-10-07T15:46:05Z","type":"verification_passed","taskId":"task-7-3","summary":"Bewerbungs-Pipeline, Kennzahlen, Wiedervorlagen im Cockpit; 282 Tests grün."}
 {"timestamp":"2026-10-07T15:46:05Z","type":"task_completed","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' abgeschlossen."}
+{"timestamp":"2026-10-07T15:46:11Z","type":"task_started","taskId":"task-8-1","summary":"Task 'Cockpit-Fokus' gestartet."}
+{"timestamp":"2026-10-07T15:51:08Z","type":"verification_passed","taskId":"task-8-1","summary":"Fokus, Abhaken und Wochenvorschau im Cockpit; 286 Tests grün."}
+{"timestamp":"2026-10-07T15:51:08Z","type":"task_completed","taskId":"task-8-1","summary":"Task 'Cockpit-Fokus' abgeschlossen."}
