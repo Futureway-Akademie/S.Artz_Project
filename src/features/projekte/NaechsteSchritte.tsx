@@ -57,6 +57,7 @@ export function NaechsteSchritte({ projektId }: { projektId: string }) {
         titel: titel.trim(),
         notiz: '',
         erledigt: false,
+        fokus: false,
         erledigtAm: null,
         faelligAm: frist || null,
         bezug: { art: 'projekt', id: projektId },

@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 69,41 % (59 von 85 Gewichtspunkten, 26 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 72,94 % (62 von 85 Gewichtspunkten, 27 von 37 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-6-1 – Verknüpfungen erweitern (2026-10-07T15:13:03Z). Schema v5, Auftraggeber, Bezüge auf Bewerbung/Lead/Unternehmen.
 - task-5-5 – DSGVO-Funktionen für Kontakte (2026-10-07T15:04:28Z). Rechtsgrundlage, Auskunft, vollständiges Löschen, Prüfhinweis.
 - task-5-4 – Verschlüsselte Sicherung und Erinnerung (2026-10-07T14:55:21Z). Export nur verschlüsselt, Import mit Passwort, Cockpit-Erinnerung.
 - task-5-3 – Verschlüsselung mit Passwort und automatischer Sperre (2026-10-07T14:49:23Z). AES-256, Sperre, Passwort ändern.
@@ -43,7 +44,10 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-6-1 – Verknüpfungen erweitern
+- task-6-2 – Gesamtsicht auf jeder Detailseite
+- task-6-3 – Globale Suche und Schnellerfassung
+- task-7-1 – Kalender
+- task-7-2 – E-Mails
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -103,16 +107,16 @@ Keine.
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-6-1 | Verknüpfungen erweitern | ▶️ startbar | – |
-| task-6-2 | Gesamtsicht auf jeder Detailseite | ⏳ geplant | task-6-1 |
-| task-6-3 | Globale Suche und Schnellerfassung | ⏳ geplant | task-6-1 |
+| task-6-1 | Verknüpfungen erweitern | ✅ erledigt |  |
+| task-6-2 | Gesamtsicht auf jeder Detailseite | ▶️ startbar | – |
+| task-6-3 | Globale Suche und Schnellerfassung | ▶️ startbar | – |
 
 ### Kalender, Mails und Bewerbungen
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-7-1 | Kalender | ⏳ geplant | task-6-1 |
-| task-7-2 | E-Mails | ⏳ geplant | task-6-1 |
+| task-7-1 | Kalender | ▶️ startbar | – |
+| task-7-2 | E-Mails | ▶️ startbar | – |
 | task-7-3 | Bewerbungsübersicht | ⏳ geplant | task-6-2 |
 
 ### Fokus und Alltag

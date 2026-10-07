@@ -900,7 +900,7 @@
       "description": "Jeder Eintrag zeigt alles, was zu ihm gehört; überall schnell erfassen und finden.",
       "order": 6,
       "weight": 9,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-6-1",
@@ -908,7 +908,7 @@
           "description": "Projekte mit Auftraggeber und Ansprechpartnern; Aufgaben, Termine und Verlauf auch mit Bewerbungen, Leads und Unternehmen verknüpfbar.",
           "order": 1,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-5-5"
           ],
@@ -918,13 +918,18 @@
             "Verlaufseinträge können Bewerbung oder Lead zugeordnet werden",
             "Datenmigration ohne Datenverlust"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:04:35Z",
+          "completedAt": "2026-10-07T15:13:03Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Schema v5 mit Migration 4→5: Projekt-Auftraggeber, Bezug unternehmen/lead/bewerbung für Aufgaben und Termine, Verlauf mit Bewerbung/Lead und E-Mail-Betreff/Richtung, Lead mit Projekt und Wiedervorlage, Bewerbung mit Wiedervorlage, Fokus und Schlagworte vorbereitet. Löschen löst die neuen Verknüpfungen. Dialoge und Projektseite angepasst. 245 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:13:03Z"
           }
         },
         {
@@ -933,7 +938,7 @@
           "description": "Kontakt, Unternehmen und Projekt zeigen alle zugehörigen Aufgaben, Termine, Verlaufseinträge, Bewerbungen, Leads und Projekte.",
           "order": 2,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-6-1"
           ],
@@ -956,7 +961,7 @@
           "description": "Suche über alle Bereiche (Strg+K) und Schnellerfassung von Aufgabe, Termin und Kontakt an jeder Stelle.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-6-1"
           ],
@@ -982,7 +987,7 @@
       "description": "Kalender über alles, E-Mail-Verlauf und Vorlagen ohne Postfachanbindung, Übersicht über alle Bewerbungen.",
       "order": 7,
       "weight": 8,
-      "status": "planned",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-7-1",
@@ -990,7 +995,7 @@
           "description": "Monats-, Wochen- und Listenansicht mit Terminen, Fristen, Wiedervorlagen und Kurstagen; Export als .ics-Datei.",
           "order": 1,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-6-1"
           ],
@@ -1015,7 +1020,7 @@
           "description": "E-Mails als Verlaufseinträge mit Betreff, Vorlagen mit Platzhaltern, Entwurf im eigenen Mailprogramm öffnen; keine Postfachanbindung.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-6-1"
           ],

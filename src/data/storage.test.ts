@@ -121,6 +121,26 @@ describe('Migration 3 → 4', () => {
   })
 })
 
+describe('Migration 4 → 5', () => {
+  it('ergänzt Verknüpfungen, Wiedervorlagen, E-Mail-Felder, Fokus und Schlagworte', () => {
+    const zeit = '2026-10-07T10:00:00.000Z'
+    const m = { erstelltAm: zeit, geaendertAm: zeit }
+    const v4 = {
+      ...createEmptyData(),
+      schemaVersion: 4,
+      aufgaben: [{ id: 'a1', titel: 'A', notiz: '', erledigt: false, erledigtAm: null, faelligAm: null, bezug: { art: 'ohne', id: null }, ...m }],
+      interaktionen: [{ id: 'i1', kontaktId: 'k1', art: 'notiz', datum: '2026-10-01', text: 'bleibt', projektId: null, ...m }],
+      leads: [{ id: 'l1', titel: 'L', kontaktId: null, unternehmenId: null, status: 'neu', betragEur: 5, naechsterSchritt: '', notiz: '', ...m }],
+    }
+    const ergebnis = parseAppData(JSON.stringify(v4))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status !== 'ok') return
+    expect(ergebnis.data.aufgaben[0]!.fokus).toBe(false)
+    expect(ergebnis.data.interaktionen[0]).toMatchObject({ text: 'bleibt', bewerbungId: null, leadId: null, betreff: '', richtung: null })
+    expect(ergebnis.data.leads[0]).toMatchObject({ betragEur: 5, projektId: null, wiedervorlageAm: null })
+  })
+})
+
 describe('saveAppData', () => {
   it('speichert als JSON unter dem festen Schlüssel', () => {
     const storage = createFakeStorage()

@@ -73,6 +73,8 @@ export function createSeedData(now: Date = new Date(), start: StartDaten = LOKAL
     bestandteile: [],
     notizen: '',
     automation: null,
+    auftraggeberId: null,
+    schlagworte: [],
     ...projekt,
     ...meta,
   }))
@@ -84,6 +86,7 @@ export function createSeedData(now: Date = new Date(), start: StartDaten = LOKAL
       titel,
       notiz: '',
       erledigt: istErledigt,
+      fokus: false,
       erledigtAm: null,
       faelligAm: null,
       bezug: { art: 'projekt', id: projekt.id },

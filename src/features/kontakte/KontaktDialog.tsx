@@ -4,7 +4,7 @@ import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { KONTEXT, optionen, RECHTSGRUNDLAGE } from '../../domain/labels.ts'
 import type { Kontakt } from '../../domain/types.ts'
-import { useForm, type Fehler } from '../../hooks/useForm.ts'
+import { listeAusKomma, useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from '../aufgaben/AufgabeDialog.module.css'
 
 interface Werte extends Record<string, unknown> {
@@ -19,6 +19,7 @@ interface Werte extends Record<string, unknown> {
   notiz: string
   rechtsgrundlage: string
   zweck: string
+  schlagworte: string
 }
 
 function validiere(werte: Werte): Fehler<Werte> {
@@ -53,6 +54,7 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
       notiz: kontakt?.notiz ?? '',
       rechtsgrundlage: kontakt?.rechtsgrundlage ?? '',
       zweck: kontakt?.zweck ?? '',
+      schlagworte: kontakt?.schlagworte.join(', ') ?? '',
     },
     validiere,
   )
@@ -73,6 +75,7 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
       notiz: g.notiz.trim(),
       rechtsgrundlage: (g.rechtsgrundlage || null) as Kontakt['rechtsgrundlage'],
       zweck: g.zweck.trim(),
+      schlagworte: listeAusKomma(g.schlagworte),
     }
     if (kontakt) {
       dispatch({ type: 'aendern', sammlung: 'kontakte', id: kontakt.id, aenderung: daten })
@@ -111,6 +114,7 @@ export function KontaktDialog({ kontakt, vorgabeUnternehmenId, onSchliessen, onA
       </div>
       <TextField label="LinkedIn-URL" type="url" value={werte.linkedinUrl} onChange={(e) => setze('linkedinUrl', e.target.value)} error={fehler.linkedinUrl} />
       <TextAreaField label="Notiz" value={werte.notiz} onChange={(e) => setze('notiz', e.target.value)} rows={3} />
+      <TextField label="Schlagworte" value={werte.schlagworte} onChange={(e) => setze('schlagworte', e.target.value)} hint="Mehrere mit Komma trennen, z. B. Recruiter, Köln" />
       <fieldset className={styles.gruppe}>
         <legend>Datenschutz</legend>
         <SelectField

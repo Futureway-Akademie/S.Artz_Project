@@ -113,3 +113,10 @@
 {"timestamp":"2026-10-07T15:04:28Z","type":"verification_passed","taskId":"task-5-5","summary":"Rechtsgrundlage, Auskunft, vollständiges Löschen, Prüfhinweis; 240 Tests grün."}
 {"timestamp":"2026-10-07T15:04:28Z","type":"task_completed","taskId":"task-5-5","summary":"Task 'DSGVO-Funktionen für Kontakte' abgeschlossen."}
 {"timestamp":"2026-10-07T15:04:28Z","type":"task_ready","taskId":"task-6-1","summary":"Task 'Verknüpfungen erweitern' ist startbar."}
+{"timestamp":"2026-10-07T15:04:35Z","type":"task_started","taskId":"task-6-1","summary":"Task 'Verknüpfungen erweitern' gestartet."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"verification_passed","taskId":"task-6-1","summary":"Alle Bereiche untereinander verknüpfbar, Migration ohne Datenverlust; 245 Tests grün."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_completed","taskId":"task-6-1","summary":"Task 'Verknüpfungen erweitern' abgeschlossen."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-6-2","summary":"Task 'Gesamtsicht auf jeder Detailseite' ist startbar."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-6-3","summary":"Task 'Globale Suche und Schnellerfassung' ist startbar."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-7-1","summary":"Task 'Kalender' ist startbar."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-7-2","summary":"Task 'E-Mails' ist startbar."}

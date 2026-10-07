@@ -38,6 +38,7 @@ export function ProjektDetailSeite() {
 
   const status = projekt.status ? PROJEKT_STATUS[projekt.status] : null
   const folge = loeschfolgen(data, 'projekte', projekt.id)
+  const auftraggeber = data.unternehmen.find((u) => u.id === projekt.auftraggeberId)
   const kontakte = data.kontakte.filter((k) => k.projektIds.includes(projekt.id)).sort((a, b) => a.name.localeCompare(b.name, 'de'))
 
   const statusAendern = (wert: string) => {
@@ -101,6 +102,8 @@ export function ProjektDetailSeite() {
               hint="Du setzt den Status selbst; er ändert sich nie automatisch."
             />
             <dl className={styles.daten}>
+              <dt>Auftraggeber</dt>
+              <dd>{auftraggeber ? <Link to={'/kontakte/unternehmen/' + auftraggeber.id}>{auftraggeber.name}</Link> : 'Nicht hinterlegt'}</dd>
               <dt>Zuletzt aktiv</dt>
               <dd>{projekt.zuletztAktiv ? formatDatum(projekt.zuletztAktiv) : 'Nicht hinterlegt'}</dd>
               <dt>Zuletzt geändert</dt>
@@ -121,7 +124,7 @@ export function ProjektDetailSeite() {
             )}
           </Panel>
           {kontakte.length > 0 && (
-            <Panel titel="Kontakte">
+            <Panel titel="Ansprechpartner">
               <ul className={styles.liste}>
                 {kontakte.map((k) => (
                   <li key={k.id}>

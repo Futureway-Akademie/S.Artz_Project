@@ -161,3 +161,17 @@ describe('Projekte', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Projekt nicht gefunden' })).toBeInTheDocument()
   })
 })
+
+describe('Auftraggeber', () => {
+  it('verknüpft ein Projekt mit einem Unternehmen und zeigt es auf der Detailseite', () => {
+    const zeit = '2026-10-01T10:00:00.000Z'
+    renderApp('/projekte/seed-projekt-kundenformular', {
+      daten: { ...beispielSeed(), unternehmen: [{ id: 'u1', name: 'Kunde GmbH', branche: '', website: '', notiz: '', schlagworte: [], erstelltAm: zeit, geaendertAm: zeit }] },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Bearbeiten' }))
+    const dialog = screen.getByRole('dialog', { name: 'Projekt bearbeiten' })
+    fireEvent.change(within(dialog).getByLabelText(/^Auftraggeber/), { target: { value: 'u1' } })
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
+    expect(screen.getByRole('link', { name: 'Kunde GmbH' })).toHaveAttribute('href', '/kontakte/unternehmen/u1')
+  })
+})

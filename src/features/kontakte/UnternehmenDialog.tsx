@@ -3,13 +3,14 @@ import { FormDialog } from '../../components/ui/FormDialog.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import type { Unternehmen } from '../../domain/types.ts'
-import { useForm, type Fehler } from '../../hooks/useForm.ts'
+import { listeAusKomma, useForm, type Fehler } from '../../hooks/useForm.ts'
 
 interface Werte extends Record<string, unknown> {
   name: string
   branche: string
   website: string
   notiz: string
+  schlagworte: string
 }
 
 function validiere(werte: Werte): Fehler<Werte> {
@@ -28,6 +29,7 @@ export function UnternehmenDialog({ unternehmen, onSchliessen }: { unternehmen?:
       branche: unternehmen?.branche ?? '',
       website: unternehmen?.website ?? '',
       notiz: unternehmen?.notiz ?? '',
+      schlagworte: unternehmen?.schlagworte.join(', ') ?? '',
     },
     validiere,
   )
@@ -37,7 +39,7 @@ export function UnternehmenDialog({ unternehmen, onSchliessen }: { unternehmen?:
   const speichern = () => {
     const g = form.pruefen()
     if (!g) return
-    const daten = { name: g.name.trim(), branche: g.branche.trim(), website: g.website.trim(), notiz: g.notiz.trim() }
+    const daten = { name: g.name.trim(), branche: g.branche.trim(), website: g.website.trim(), notiz: g.notiz.trim(), schlagworte: listeAusKomma(g.schlagworte) }
     if (unternehmen) {
       dispatch({ type: 'aendern', sammlung: 'unternehmen', id: unternehmen.id, aenderung: daten })
       zeige('Unternehmen gespeichert')
@@ -61,6 +63,7 @@ export function UnternehmenDialog({ unternehmen, onSchliessen }: { unternehmen?:
       <TextField label="Branche" value={werte.branche} onChange={(e) => setze('branche', e.target.value)} />
       <TextField label="Website" type="url" value={werte.website} onChange={(e) => setze('website', e.target.value)} error={fehler.website} />
       <TextAreaField label="Notiz" value={werte.notiz} onChange={(e) => setze('notiz', e.target.value)} rows={3} />
+      <TextField label="Schlagworte" value={werte.schlagworte} onChange={(e) => setze('schlagworte', e.target.value)} hint="Mehrere mit Komma trennen." />
     </FormDialog>
   )
 }

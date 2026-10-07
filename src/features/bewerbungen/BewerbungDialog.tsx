@@ -21,6 +21,7 @@ interface Werte extends Record<string, unknown> {
   link: string
   naechsterSchritt: string
   notiz: string
+  wiedervorlageAm: string
 }
 
 /** Vorschläge für das Feld „Quelle“; freie Eingabe bleibt möglich. */
@@ -50,6 +51,7 @@ export function BewerbungDialog({ bewerbung, onSchliessen }: { bewerbung?: Bewer
       link: bewerbung?.link ?? '',
       naechsterSchritt: bewerbung?.naechsterSchritt ?? '',
       notiz: bewerbung?.notiz ?? '',
+      wiedervorlageAm: bewerbung?.wiedervorlageAm ?? '',
     },
     validiere,
   )
@@ -69,6 +71,7 @@ export function BewerbungDialog({ bewerbung, onSchliessen }: { bewerbung?: Bewer
       link: g.link.trim(),
       naechsterSchritt: g.naechsterSchritt.trim(),
       notiz: g.notiz.trim(),
+      wiedervorlageAm: g.wiedervorlageAm || null,
     }
     if (bewerbung) {
       dispatch({ type: 'aendern', sammlung: 'bewerbungen', id: bewerbung.id, aenderung: daten })
@@ -133,7 +136,16 @@ export function BewerbungDialog({ bewerbung, onSchliessen }: { bewerbung?: Bewer
           </datalist>
         </div>
         <TextField label="Link zur Ausschreibung" type="url" value={werte.link} onChange={(e) => setze('link', e.target.value)} error={fehler.link} />
-        <TextField label="Nächster Schritt" value={werte.naechsterSchritt} onChange={(e) => setze('naechsterSchritt', e.target.value)} />
+        <div className={styles.zeile}>
+          <TextField label="Nächster Schritt" value={werte.naechsterSchritt} onChange={(e) => setze('naechsterSchritt', e.target.value)} />
+          <TextField
+            label="Wiedervorlage am"
+            type="date"
+            value={werte.wiedervorlageAm}
+            onChange={(e) => setze('wiedervorlageAm', e.target.value)}
+            hint="Erscheint im Cockpit und im Kalender."
+          />
+        </div>
         <TextAreaField label="Notiz" value={werte.notiz} onChange={(e) => setze('notiz', e.target.value)} rows={3} />
       </FormDialog>
       {loeschenFragen && bewerbung && (

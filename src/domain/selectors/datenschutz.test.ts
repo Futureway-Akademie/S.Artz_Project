@@ -22,6 +22,7 @@ const kontakt = (id: string, extra: Partial<Kontakt> = {}): Kontakt => ({
   naechsteAktion: null,
   rechtsgrundlage: 'berechtigtes_interesse',
   zweck: 'Bewerbung',
+  schlagworte: [],
   ...meta,
   ...extra,
 })
@@ -30,8 +31,8 @@ function daten(): AppData {
   return {
     ...createEmptyData(),
     kontakte: [kontakt('alt'), kontakt('aktiv'), kontakt('ohne', { rechtsgrundlage: null, geaendertAm: '2026-10-01T10:00:00.000Z' })],
-    interaktionen: [{ id: 'i1', kontaktId: 'aktiv', art: 'telefonat', datum: '2026-09-01', text: 'Rückruf vereinbart', projektId: null, ...meta }],
-    leads: [{ id: 'l1', titel: 'Workshop', kontaktId: 'aktiv', unternehmenId: null, status: 'angebot', betragEur: null, naechsterSchritt: '', notiz: '', ...meta }],
+    interaktionen: [{ id: 'i1', kontaktId: 'aktiv', art: 'telefonat', datum: '2026-09-01', text: 'Rückruf vereinbart', projektId: null, bewerbungId: null, leadId: null, betreff: '', richtung: null, ...meta }],
+    leads: [{ id: 'l1', titel: 'Workshop', kontaktId: 'aktiv', unternehmenId: null, status: 'angebot', betragEur: null, naechsterSchritt: '', notiz: '', projektId: null, wiedervorlageAm: null, ...meta }],
   }
 }
 
@@ -67,7 +68,7 @@ describe('Löschen nach Art. 17', () => {
     const m = createMeta()
     let d = reducer(createEmptyData(), { type: 'anlegen', sammlung: 'kontakte', id: 'k1', daten: { ...kontakt('k1'), name: 'Kim Muster', email: 'kim@example.org' } }, m)
     d = reducer(d, { type: 'aendern', sammlung: 'kontakte', id: 'k1', aenderung: { rolle: 'Recruiterin' } }, m)
-    d = reducer(d, { type: 'anlegen', sammlung: 'interaktionen', daten: { kontaktId: 'k1', art: 'email', datum: '2026-10-01', text: 'Mail an kim@example.org', projektId: null } }, m)
+    d = reducer(d, { type: 'anlegen', sammlung: 'interaktionen', daten: { kontaktId: 'k1', art: 'email', datum: '2026-10-01', text: 'Mail an kim@example.org', projektId: null, bewerbungId: null, leadId: null, betreff: '', richtung: null } }, m)
     expect(JSON.stringify(d.aktivitaeten)).toContain('Kim Muster')
 
     d = reducer(d, { type: 'loeschen', sammlung: 'kontakte', id: 'k1' }, m)

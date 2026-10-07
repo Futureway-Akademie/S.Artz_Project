@@ -38,6 +38,7 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
       add('geloescht', 'termine', data.termine.filter(bezogen('projekt')))
       add('entknuepft', 'kontakte', data.kontakte.filter((k) => k.projektIds.includes(id)))
       add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.projektId === id))
+      add('entknuepft', 'leads', data.leads.filter((l) => l.projektId === id))
       break
     case 'kurse':
       add('geloescht', 'kursAufgaben', data.kursAufgaben.filter((k) => k.kursId === id))
@@ -55,9 +56,22 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
       add('entknuepft', 'kontakte', data.kontakte.filter((k) => k.unternehmenId === id))
       add('entknuepft', 'leads', data.leads.filter((l) => l.unternehmenId === id))
       add('entknuepft', 'bewerbungen', data.bewerbungen.filter((b) => b.unternehmenId === id))
+      add('entknuepft', 'projekte', data.projekte.filter((p) => p.auftraggeberId === id))
+      add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('unternehmen')))
+      add('entknuepft', 'termine', data.termine.filter(bezogen('unternehmen')))
       break
     case 'zielrollen':
       add('entknuepft', 'bewerbungen', data.bewerbungen.filter((b) => b.zielrolleId === id))
+      break
+    case 'leads':
+      add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.leadId === id))
+      add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('lead')))
+      add('entknuepft', 'termine', data.termine.filter(bezogen('lead')))
+      break
+    case 'bewerbungen':
+      add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.bewerbungId === id))
+      add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('bewerbung')))
+      add('entknuepft', 'termine', data.termine.filter(bezogen('bewerbung')))
       break
   }
   return folge
@@ -81,6 +95,7 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
         k.projektIds.includes(id) ? { ...k, projektIds: k.projektIds.filter((p) => p !== id) } : k,
       )
       next.interaktionen = next.interaktionen.map((i) => (i.projektId === id ? { ...i, projektId: null } : i))
+      next.leads = next.leads.map((l) => (l.projektId === id ? { ...l, projektId: null } : l))
       break
     case 'kurse':
       next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'weiterbildung'))
@@ -95,9 +110,22 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
       next.kontakte = next.kontakte.map((k) => (k.unternehmenId === id ? { ...k, unternehmenId: null } : k))
       next.leads = next.leads.map((l) => (l.unternehmenId === id ? { ...l, unternehmenId: null } : l))
       next.bewerbungen = next.bewerbungen.map((b) => (b.unternehmenId === id ? { ...b, unternehmenId: null } : b))
+      next.projekte = next.projekte.map((p) => (p.auftraggeberId === id ? { ...p, auftraggeberId: null } : p))
+      next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'unternehmen'))
+      next.termine = next.termine.map((t) => ohneBezug(t, 'unternehmen'))
       break
     case 'zielrollen':
       next.bewerbungen = next.bewerbungen.map((b) => (b.zielrolleId === id ? { ...b, zielrolleId: null } : b))
+      break
+    case 'leads':
+      next.interaktionen = next.interaktionen.map((i) => (i.leadId === id ? { ...i, leadId: null } : i))
+      next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'lead'))
+      next.termine = next.termine.map((t) => ohneBezug(t, 'lead'))
+      break
+    case 'bewerbungen':
+      next.interaktionen = next.interaktionen.map((i) => (i.bewerbungId === id ? { ...i, bewerbungId: null } : i))
+      next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'bewerbung'))
+      next.termine = next.termine.map((t) => ohneBezug(t, 'bewerbung'))
       break
   }
   return next

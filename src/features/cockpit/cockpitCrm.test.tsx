@@ -23,6 +23,7 @@ const kontakt = (id: string, faelligAm: string | null): Kontakt => ({
   naechsteAktion: { text: `Aktion ${id}`, faelligAm },
   rechtsgrundlage: null,
   zweck: '',
+  schlagworte: [],
   ...meta,
 })
 
@@ -38,6 +39,7 @@ const bewerbung = (id: string, status: Bewerbung['status']): Bewerbung => ({
   link: '',
   naechsterSchritt: '',
   notiz: '',
+  wiedervorlageAm: null,
   ...meta,
 })
 
@@ -50,6 +52,8 @@ const lead = (id: string, status: Lead['status'], betragEur: number | null): Lea
   betragEur,
   naechsterSchritt: '',
   notiz: '',
+  projektId: null,
+  wiedervorlageAm: null,
   ...meta,
 })
 

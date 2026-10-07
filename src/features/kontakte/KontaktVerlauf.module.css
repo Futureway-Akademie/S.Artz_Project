@@ -96,3 +96,7 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.betreff {
+  font-weight: var(--font-weight-bold);
+}

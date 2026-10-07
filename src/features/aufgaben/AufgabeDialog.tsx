@@ -65,7 +65,7 @@ export function AufgabeDialog({ aufgabe, vorgabeBezug = { art: 'ohne', id: null 
       dispatch({ type: 'aendern', sammlung: 'aufgaben', id: aufgabe.id, aenderung: daten })
       zeige('Aufgabe gespeichert')
     } else {
-      dispatch({ type: 'anlegen', sammlung: 'aufgaben', daten: { ...daten, erledigtAm: null } })
+      dispatch({ type: 'anlegen', sammlung: 'aufgaben', daten: { ...daten, erledigtAm: null, fokus: false } })
       zeige('Aufgabe angelegt')
     }
     onSchliessen()

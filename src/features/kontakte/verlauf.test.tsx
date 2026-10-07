@@ -19,6 +19,7 @@ const kim: Kontakt = {
   naechsteAktion: null,
   rechtsgrundlage: null,
   zweck: '',
+  schlagworte: [],
   erstelltAm: zeit,
   geaendertAm: zeit,
 }
@@ -74,7 +75,7 @@ describe('Kommunikationsverlauf und nächste Aktion', () => {
     expect(within(form).getByLabelText(/^Datum/)).toHaveValue('2026-10-07')
     fireEvent.change(within(form).getByLabelText(/^Art/), { target: { value: 'telefonat' } })
     fireEvent.change(within(form).getByLabelText(/^Inhalt/), { target: { value: 'Erstgespräch, Unterlagen schicken.' } })
-    fireEvent.change(within(form).getByLabelText(/^Projekt/), { target: { value: 'seed-projekt-stellensuche' } })
+    fireEvent.change(within(form).getByLabelText(/^Gehört zu/), { target: { value: 'projekt:seed-projekt-stellensuche' } })
     fireEvent.click(within(form).getByRole('button', { name: 'Eintrag hinzufügen' }))
 
     const verlauf = screen.getByRole('list', { name: 'Verlauf' })
@@ -94,7 +95,7 @@ describe('Kommunikationsverlauf und nächste Aktion', () => {
     expect(screen.getByRole('region', { name: 'Projekte (1)' })).toBeInTheDocument()
     fireEvent.click(screen.getAllByRole('link', { name: 'Projekte', hidden: true })[0]!)
     fireEvent.click(screen.getByRole('link', { name: 'Vereinsseite' }))
-    const kontakte = screen.getByRole('region', { name: 'Kontakte' })
+    const kontakte = screen.getByRole('region', { name: 'Ansprechpartner' })
     expect(within(kontakte).getByRole('link', { name: 'Kim Muster' })).toBeInTheDocument()
   })
 

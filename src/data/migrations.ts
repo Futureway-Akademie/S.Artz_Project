@@ -28,6 +28,18 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
     schemaVersion: 4,
     kontakte: liste(data.kontakte).map((k) => ({ rechtsgrundlage: null, zweck: '', ...k })),
   }),
+  // v5: Verknüpfungen (Auftraggeber, Verlauf zu Bewerbung/Lead), Wiedervorlagen, E-Mail-Felder, Fokus, Schlagworte
+  4: (data) => ({
+    ...data,
+    schemaVersion: 5,
+    projekte: liste(data.projekte).map((p) => ({ auftraggeberId: null, schlagworte: [], ...p })),
+    aufgaben: liste(data.aufgaben).map((a) => ({ fokus: false, ...a })),
+    unternehmen: liste(data.unternehmen).map((u) => ({ schlagworte: [], ...u })),
+    kontakte: liste(data.kontakte).map((k) => ({ schlagworte: [], ...k })),
+    interaktionen: liste(data.interaktionen).map((i) => ({ bewerbungId: null, leadId: null, betreff: '', richtung: null, ...i })),
+    leads: liste(data.leads).map((l) => ({ projektId: null, wiedervorlageAm: null, ...l })),
+    bewerbungen: liste(data.bewerbungen).map((b) => ({ wiedervorlageAm: null, ...b })),
+  }),
 }
 
 function objekt(value: unknown): Record<string, unknown> {

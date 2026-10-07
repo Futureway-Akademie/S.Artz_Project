@@ -20,6 +20,7 @@ const kontakt = (id: string, name: string, extra: Partial<Kontakt> = {}): Kontak
   naechsteAktion: null,
   rechtsgrundlage: null,
   zweck: '',
+  schlagworte: [],
   ...alt,
   ...extra,
 })
@@ -91,7 +92,7 @@ describe('Datenschutz bei Kontakten', () => {
       daten: {
         ...d,
         bewerbungen: [
-          { id: 'b1', stelle: 'Teamleitung', unternehmenId: null, zielrolleId: null, kontaktId: 'k1', status: 'beworben', quelle: '', beworbenAm: null, link: '', naechsterSchritt: '', notiz: '', ...alt },
+          { id: 'b1', stelle: 'Teamleitung', unternehmenId: null, zielrolleId: null, kontaktId: 'k1', status: 'beworben', quelle: '', beworbenAm: null, link: '', naechsterSchritt: '', notiz: '', wiedervorlageAm: null, ...alt },
         ],
         aktivitaeten: [{ id: 'a1', zeitpunkt: alt.erstelltAm, art: 'angelegt', bezug: { sammlung: 'kontakte', id: 'k1', titel: 'Kim Muster' }, zusammenfassung: 'Kontakt „Kim Muster“ angelegt' }],
       },

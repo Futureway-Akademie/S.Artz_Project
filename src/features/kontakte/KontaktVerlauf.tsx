@@ -11,7 +11,7 @@ import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { formatDatum, heute } from '../../domain/dates.ts'
 import { INTERAKTION_ART, optionen } from '../../domain/labels.ts'
-import type { Interaktion, Kontakt } from '../../domain/types.ts'
+import type { AppData, Interaktion, Kontakt } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import styles from './KontaktVerlauf.module.css'
 
@@ -78,6 +78,19 @@ function NaechsteAktion({ kontakt }: { kontakt: Kontakt }) {
   )
 }
 
+/** Auswahl für „Gehört zu“: zuerst Bewerbungen und Leads dieser Person, dann ihre Projekte, dann alle übrigen Projekte. */
+function zuordnungen(data: AppData, kontakt: Kontakt) {
+  const eigeneProjekte = data.projekte.filter((p) => kontakt.projektIds.includes(p.id))
+  const andereProjekte = data.projekte.filter((p) => !kontakt.projektIds.includes(p.id))
+  return [
+    ...data.bewerbungen.filter((b) => b.kontaktId === kontakt.id).map((b) => ({ value: `bewerbung:${b.id}`, label: `Bewerbung: ${b.stelle}` })),
+    ...data.leads.filter((l) => l.kontaktId === kontakt.id).map((l) => ({ value: `lead:${l.id}`, label: `Lead: ${l.titel}` })),
+    ...[...eigeneProjekte, ...andereProjekte].map((p) => ({ value: `projekt:${p.id}`, label: `Projekt: ${p.titel}` })),
+    ...data.bewerbungen.filter((b) => b.kontaktId !== kontakt.id).map((b) => ({ value: `bewerbung:${b.id}`, label: `Bewerbung: ${b.stelle}` })),
+    ...data.leads.filter((l) => l.kontaktId !== kontakt.id).map((l) => ({ value: `lead:${l.id}`, label: `Lead: ${l.titel}` })),
+  ]
+}
+
 /** Kommunikationsverlauf: kurze Einträge mit Art, Datum und optionalem Projektbezug. */
 function Verlauf({ kontakt }: { kontakt: Kontakt }) {
   const { data, dispatch } = useStore()
@@ -86,7 +99,9 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
   const [art, setArt] = useState<Interaktion['art']>('notiz')
   const [datum, setDatum] = useState(() => heute(now))
   const [text, setText] = useState('')
-  const [projektId, setProjektId] = useState('')
+  const [zuordnung, setZuordnung] = useState('')
+  const [betreff, setBetreff] = useState('')
+  const [richtung, setRichtung] = useState<'eingang' | 'ausgang'>('ausgang')
   const [fehler, setFehler] = useState<string>()
   const [loeschen, setLoeschen] = useState<Interaktion | null>(null)
 
@@ -100,9 +115,25 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
       setFehler('Bitte kurz festhalten, worum es ging.')
       return
     }
-    dispatch({ type: 'anlegen', sammlung: 'interaktionen', daten: { kontaktId: kontakt.id, art, datum, text: text.trim(), projektId: projektId || null } })
+    const [zArt, zId = null] = zuordnung ? zuordnung.split(':') : []
+    dispatch({
+      type: 'anlegen',
+      sammlung: 'interaktionen',
+      daten: {
+        kontaktId: kontakt.id,
+        art,
+        datum,
+        text: text.trim(),
+        projektId: zArt === 'projekt' ? zId : null,
+        bewerbungId: zArt === 'bewerbung' ? zId : null,
+        leadId: zArt === 'lead' ? zId : null,
+        betreff: art === 'email' ? betreff.trim() : '',
+        richtung: art === 'email' ? richtung : null,
+      },
+    })
     zeige('Verlaufseintrag hinzugefügt')
     setText('')
+    setBetreff('')
     setFehler(undefined)
   }
 
@@ -113,13 +144,29 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
           <SelectField label="Art" required value={art} onChange={(e) => setArt(e.target.value as Interaktion['art'])} options={optionen(INTERAKTION_ART)} />
           <TextField label="Datum" type="date" required value={datum} onChange={(e) => setDatum(e.target.value)} />
         </div>
+        {art === 'email' && (
+          <div className={styles.zeile}>
+            <TextField label="Betreff" value={betreff} onChange={(e) => setBetreff(e.target.value)} />
+            <SelectField
+              label="Richtung"
+              required
+              value={richtung}
+              onChange={(e) => setRichtung(e.target.value as 'eingang' | 'ausgang')}
+              options={[
+                { value: 'ausgang', label: 'Gesendet' },
+                { value: 'eingang', label: 'Empfangen' },
+              ]}
+            />
+          </div>
+        )}
         <TextAreaField label="Inhalt" required value={text} onChange={(e) => setText(e.target.value)} rows={2} error={fehler} hint="1–3 Sätze genügen." />
         <SelectField
-          label="Projekt"
-          value={projektId}
-          onChange={(e) => setProjektId(e.target.value)}
-          placeholder="Kein Projektbezug"
-          options={data.projekte.map((p) => ({ value: p.id, label: p.titel }))}
+          label="Gehört zu"
+          value={zuordnung}
+          onChange={(e) => setZuordnung(e.target.value)}
+          placeholder="Keine Zuordnung"
+          options={zuordnungen(data, kontakt)}
+          hint="Projekt, Bewerbung oder Lead – der Eintrag erscheint dann auch dort."
         />
         <div>
           <Button type="submit" size="sm">
@@ -134,6 +181,8 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
         <ol className={styles.verlauf} aria-label="Verlauf">
           {eintraege.map((i) => {
             const projekt = data.projekte.find((p) => p.id === i.projektId)
+            const bewerbung = data.bewerbungen.find((b) => b.id === i.bewerbungId)
+            const lead = data.leads.find((l) => l.id === i.leadId)
             return (
               <li key={i.id} className={styles.eintrag}>
                 <div className={styles.eintragKopf}>
@@ -144,10 +193,25 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
                     Löschen
                   </Button>
                 </div>
+                {i.betreff && (
+                  <p className={styles.betreff}>
+                    {i.richtung === 'eingang' ? 'Empfangen' : 'Gesendet'}: {i.betreff}
+                  </p>
+                )}
                 <p className={styles.text}>{i.text}</p>
                 {projekt && (
                   <Link to={`/projekte/${projekt.id}`} className={styles.projekt}>
                     {projekt.titel}
+                  </Link>
+                )}
+                {bewerbung && (
+                  <Link to="/bewerbungen" className={styles.projekt}>
+                    Bewerbung: {bewerbung.stelle}
+                  </Link>
+                )}
+                {lead && (
+                  <Link to="/kontakte/leads" className={styles.projekt}>
+                    Lead: {lead.titel}
                   </Link>
                 )}
               </li>

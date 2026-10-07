@@ -316,3 +316,19 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Kontakte ohne Aktivität seit 12 Monaten oder ohne Rechtsgrundlage bzw. Zweck gelten als „Prüfbedarf“.
   - Die Kontaktliste zeigt dafür einen Hinweis und den Filter „Datenschutz prüfen“ (auch per `?pruefen=1`).
 - **Datenschutzhinweis** in den Einstellungen: was die App tut (lokal, verschlüsselt, keine Verbindung nach außen) und was Sascha als Verantwortlicher beachten sollte, inklusive Informationspflicht nach Art. 13/14.
+
+## 2026-10-07 – Verknüpfungen erweitern (task-6-1)
+
+- **Schema v5** (Migration 4 → 5 ohne Datenverlust):
+  - Projekt: `auftraggeberId` (Unternehmen). Ansprechpartner bleiben Kontakte mit dem Projekt in `projektIds`.
+  - Bezug von Aufgaben und Terminen: zusätzlich `unternehmen`, `lead` und `bewerbung`.
+  - Verlauf: `bewerbungId`, `leadId`, für E-Mails `betreff` und `richtung`.
+  - Lead: `projektId` und `wiedervorlageAm`; Bewerbung: `wiedervorlageAm`.
+  - Fokus bei Aufgaben und Schlagworte bei Projekten, Kontakten und Unternehmen sind schon angelegt, damit spätere Tasks keine weitere Migration brauchen.
+- **Löschen löst die neuen Verknüpfungen,** ohne Einträge mitzulöschen: Unternehmen → Auftraggeber, Aufgaben und Termine; Lead oder Bewerbung → Verlauf, Aufgaben und Termine; Projekt → Lead.
+- **Bedienung:**
+  - Projektdialog: Auftraggeber und Schlagworte; die Projektseite zeigt den Auftraggeber und die Ansprechpartner.
+  - Leaddialog: Projekt und Wiedervorlage; Bewerbungsdialog: Wiedervorlage.
+  - Verlauf: „Gehört zu“ (Projekt, Bewerbung oder Lead, die eigenen der Person zuerst). Bei E-Mails gibt es Betreff und Richtung.
+  - Aufgaben und Termine lassen sich allen Bereichen zuordnen.
+  - Kontakt- und Unternehmensdialog: Schlagworte.

@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 4
+export const SCHEMA_VERSION = 5
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -23,7 +23,7 @@ const meta = {
 }
 
 export const bezugSchema = z.object({
-  art: z.enum(['ohne', 'projekt', 'weiterbildung', 'kontakt']),
+  art: z.enum(['ohne', 'projekt', 'weiterbildung', 'kontakt', 'unternehmen', 'lead', 'bewerbung']),
   id: id.nullable(),
 })
 
@@ -61,6 +61,9 @@ export const projektSchema = z.object({
   bestandteile: z.array(z.string()),
   notizen: z.string(),
   automation: automationProfilSchema.nullable(),
+  /** Auftraggeber (Unternehmen); Ansprechpartner sind Kontakte mit diesem Projekt in `projektIds` */
+  auftraggeberId: id.nullable(),
+  schlagworte: z.array(z.string()),
 })
 
 export const aufgabeSchema = z.object({
@@ -71,6 +74,8 @@ export const aufgabeSchema = z.object({
   erledigtAm: zeitpunkt.nullable(),
   faelligAm: datum.nullable(),
   bezug: bezugSchema,
+  /** Für heute im Fokus */
+  fokus: z.boolean(),
 })
 
 export const terminSchema = z.object({
@@ -134,6 +139,7 @@ export const unternehmenSchema = z.object({
   branche: z.string(),
   website: z.string(),
   notiz: z.string(),
+  schlagworte: z.array(z.string()),
 })
 
 export const naechsteAktionSchema = z.object({
@@ -158,6 +164,7 @@ export const kontaktSchema = z.object({
   rechtsgrundlage: z.enum(['einwilligung', 'vertrag', 'berechtigtes_interesse']).nullable(),
   /** Wozu die Daten gespeichert werden (Zweckbindung) */
   zweck: z.string(),
+  schlagworte: z.array(z.string()),
 })
 
 export const interaktionSchema = z.object({
@@ -167,6 +174,11 @@ export const interaktionSchema = z.object({
   datum,
   text: z.string().min(1),
   projektId: id.nullable(),
+  bewerbungId: id.nullable(),
+  leadId: id.nullable(),
+  /** Nur bei E-Mails: Betreff und Richtung */
+  betreff: z.string(),
+  richtung: z.enum(['eingang', 'ausgang']).nullable(),
 })
 
 export const leadSchema = z.object({
@@ -178,6 +190,8 @@ export const leadSchema = z.object({
   betragEur: z.number().min(0).nullable(),
   naechsterSchritt: z.string(),
   notiz: z.string(),
+  projektId: id.nullable(),
+  wiedervorlageAm: datum.nullable(),
 })
 
 export const zielrolleSchema = z.object({
@@ -198,6 +212,7 @@ export const bewerbungSchema = z.object({
   link: z.string(),
   naechsterSchritt: z.string(),
   notiz: z.string(),
+  wiedervorlageAm: datum.nullable(),
 })
 
 export const sammlungen = [

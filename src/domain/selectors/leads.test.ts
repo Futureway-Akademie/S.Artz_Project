@@ -12,6 +12,8 @@ const lead = (id: string, status: Lead['status'], betragEur: number | null): Lea
   betragEur,
   naechsterSchritt: '',
   notiz: '',
+  projektId: null,
+  wiedervorlageAm: null,
   erstelltAm: zeit,
   geaendertAm: zeit,
 })

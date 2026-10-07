@@ -21,6 +21,7 @@ const aufgabe = (id: string, faelligAm: string | null, teil: Partial<Aufgabe> = 
   titel: id,
   notiz: '',
   erledigt: false,
+  fokus: false,
   erledigtAm: null,
   faelligAm,
   bezug: { art: 'projekt', id: 'seed-projekt-ki-skills' },
@@ -43,6 +44,7 @@ const kontakt = (id: string, text: string, faelligAm: string | null): Kontakt =>
   naechsteAktion: { text, faelligAm },
   rechtsgrundlage: null,
   zweck: '',
+  schlagworte: [],
   ...meta,
 })
 

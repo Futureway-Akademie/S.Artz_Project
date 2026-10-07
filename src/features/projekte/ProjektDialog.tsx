@@ -18,6 +18,8 @@ interface Werte extends Record<string, unknown> {
   tools: string
   bestandteile: string
   notizen: string
+  auftraggeberId: string
+  schlagworte: string
 }
 
 function validiereProjekt(werte: Werte): Fehler<Werte> {
@@ -50,6 +52,8 @@ export function ProjektDialog({ projekt, onSchliessen, onAngelegt }: ProjektDial
       tools: projekt?.tools.join(', ') ?? '',
       bestandteile: projekt?.bestandteile.join('\n') ?? '',
       notizen: projekt?.notizen ?? '',
+      auftraggeberId: projekt?.auftraggeberId ?? '',
+      schlagworte: projekt?.schlagworte.join(', ') ?? '',
     },
     validiereProjekt,
   )
@@ -68,6 +72,8 @@ export function ProjektDialog({ projekt, onSchliessen, onAngelegt }: ProjektDial
       tools: listeAusKomma(gueltig.tools),
       bestandteile: listeAusZeilen(gueltig.bestandteile),
       notizen: gueltig.notizen.trim(),
+      auftraggeberId: gueltig.auftraggeberId || null,
+      schlagworte: listeAusKomma(gueltig.schlagworte),
     }
     if (projekt) {
       dispatch({ type: 'aendern', sammlung: 'projekte', id: projekt.id, aenderung: daten })
@@ -113,13 +119,23 @@ export function ProjektDialog({ projekt, onSchliessen, onAngelegt }: ProjektDial
           hint="Wird nie automatisch geändert."
         />
       </div>
-      <TextField
-        label="Zuletzt aktiv"
-        type="date"
-        value={werte.zuletztAktiv}
-        onChange={(e) => setze('zuletztAktiv', e.target.value)}
-        error={fehler.zuletztAktiv}
-      />
+      <div className={styles.zeile}>
+        <SelectField
+          label="Auftraggeber"
+          value={werte.auftraggeberId}
+          onChange={(e) => setze('auftraggeberId', e.target.value)}
+          placeholder="Kein Auftraggeber"
+          options={[...data.unternehmen].sort((a, b) => a.name.localeCompare(b.name, 'de')).map((u) => ({ value: u.id, label: u.name }))}
+          hint={data.unternehmen.length === 0 ? 'Unternehmen legst du unter „Kontakte“ an.' : 'Ansprechpartner verknüpfst du beim Kontakt.'}
+        />
+        <TextField
+          label="Zuletzt aktiv"
+          type="date"
+          value={werte.zuletztAktiv}
+          onChange={(e) => setze('zuletztAktiv', e.target.value)}
+          error={fehler.zuletztAktiv}
+        />
+      </div>
       <TextAreaField label="Beschreibung" value={werte.beschreibung} onChange={(e) => setze('beschreibung', e.target.value)} rows={3} />
       <TextField
         label="Tools"
@@ -135,6 +151,7 @@ export function ProjektDialog({ projekt, onSchliessen, onAngelegt }: ProjektDial
         hint="Ein Bestandteil pro Zeile."
       />
       <TextAreaField label="Notizen" value={werte.notizen} onChange={(e) => setze('notizen', e.target.value)} rows={4} />
+      <TextField label="Schlagworte" value={werte.schlagworte} onChange={(e) => setze('schlagworte', e.target.value)} hint="Mehrere mit Komma trennen." />
     </FormDialog>
   )
 }

@@ -23,15 +23,35 @@ export function bezugInfo(data: AppData, bezug: Bezug): BezugInfo | null {
       const k = data.kontakte.find((x) => x.id === bezug.id)
       return k ? { text: k.name, link: `/kontakte/${k.id}` } : { text: 'Gelöschter Kontakt', link: null }
     }
+    case 'unternehmen': {
+      const u = data.unternehmen.find((x) => x.id === bezug.id)
+      return u ? { text: u.name, link: `/kontakte/unternehmen/${u.id}` } : { text: 'Gelöschtes Unternehmen', link: null }
+    }
+    case 'lead': {
+      const l = data.leads.find((x) => x.id === bezug.id)
+      return l ? { text: `Lead: ${l.titel}`, link: '/kontakte/leads' } : { text: 'Gelöschter Lead', link: null }
+    }
+    case 'bewerbung': {
+      const b = data.bewerbungen.find((x) => x.id === bezug.id)
+      return b ? { text: `Bewerbung: ${b.stelle}`, link: '/bewerbungen' } : { text: 'Gelöschte Bewerbung', link: null }
+    }
   }
 }
 
+const sortiert = <T,>(liste: T[], name: (e: T) => string) => [...liste].sort((a, b) => name(a).localeCompare(name(b), 'de'))
+
 /** Optionen für ein Bezug-Auswahlfeld; Wert `art:id`. */
-export function bezugOptionen(data: AppData, arten: Array<Bezug['art']> = ['projekt', 'weiterbildung', 'kontakt']) {
+export function bezugOptionen(
+  data: AppData,
+  arten: Array<Bezug['art']> = ['projekt', 'weiterbildung', 'kontakt', 'unternehmen', 'bewerbung', 'lead'],
+) {
   return [
-    ...(arten.includes('projekt') ? data.projekte.map((p) => ({ value: `projekt:${p.id}`, label: `Projekt: ${p.titel}` })) : []),
+    ...(arten.includes('projekt') ? sortiert(data.projekte, (p) => p.titel).map((p) => ({ value: `projekt:${p.id}`, label: `Projekt: ${p.titel}` })) : []),
     ...(arten.includes('weiterbildung') ? data.kurse.map((k) => ({ value: `weiterbildung:${k.id}`, label: `Weiterbildung: ${k.titel}` })) : []),
-    ...(arten.includes('kontakt') ? data.kontakte.map((k) => ({ value: `kontakt:${k.id}`, label: `Kontakt: ${k.name}` })) : []),
+    ...(arten.includes('kontakt') ? sortiert(data.kontakte, (k) => k.name).map((k) => ({ value: `kontakt:${k.id}`, label: `Kontakt: ${k.name}` })) : []),
+    ...(arten.includes('unternehmen') ? sortiert(data.unternehmen, (u) => u.name).map((u) => ({ value: `unternehmen:${u.id}`, label: `Unternehmen: ${u.name}` })) : []),
+    ...(arten.includes('bewerbung') ? sortiert(data.bewerbungen, (b) => b.stelle).map((b) => ({ value: `bewerbung:${b.id}`, label: `Bewerbung: ${b.stelle}` })) : []),
+    ...(arten.includes('lead') ? sortiert(data.leads, (l) => l.titel).map((l) => ({ value: `lead:${l.id}`, label: `Lead: ${l.titel}` })) : []),
   ]
 }
 

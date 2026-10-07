@@ -25,7 +25,7 @@ function beispieldaten(): AppData {
   ])
   return {
     ...seed,
-    unternehmen: [{ id: 'u1', name: 'Beispiel GmbH', branche: 'Handel', website: 'https://example.org', notiz: '', ...meta }],
+    unternehmen: [{ id: 'u1', name: 'Beispiel GmbH', branche: 'Handel', website: 'https://example.org', notiz: '', schlagworte: [], ...meta }],
     kontakte: [
       {
         id: 'k1',
@@ -42,13 +42,14 @@ function beispieldaten(): AppData {
         naechsteAktion: { text: 'Nachfassen', faelligAm: '2026-10-07' },
         rechtsgrundlage: 'berechtigtes_interesse',
         zweck: 'Bewerbung',
+        schlagworte: [],
         ...meta,
       },
     ],
-    interaktionen: [{ id: 'i1', kontaktId: 'k1', art: 'telefonat', datum: '2026-10-05', text: 'Erstgespräch', projektId: null, ...meta }],
+    interaktionen: [{ id: 'i1', kontaktId: 'k1', art: 'telefonat', datum: '2026-10-05', text: 'Erstgespräch', projektId: null, bewerbungId: null, leadId: null, betreff: '', richtung: null, ...meta }],
     termine: [{ id: 't1', titel: 'Coaching', datum: '2030-01-10', uhrzeit: '10:00', ort: 'Online', notiz: '', bezug: { art: 'ohne', id: null }, ...meta }],
     kursAufgaben: [{ id: 'ka1', kursId: 'seed-kurs-beispiel', code: 'KURS_1_01', titel: 'Übung', status: 'erledigt', faelligAm: null, notiz: '', ...meta }],
-    leads: [{ id: 'l1', titel: 'Schulung', kontaktId: 'k1', unternehmenId: 'u1', status: 'neu', betragEur: null, naechsterSchritt: '', notiz: '', ...meta }],
+    leads: [{ id: 'l1', titel: 'Schulung', kontaktId: 'k1', unternehmenId: 'u1', status: 'neu', betragEur: null, naechsterSchritt: '', notiz: '', projektId: null, wiedervorlageAm: null, ...meta }],
     bewerbungen: [
       {
         id: 'b1',
@@ -62,6 +63,7 @@ function beispieldaten(): AppData {
         link: 'https://example.org/job',
         naechsterSchritt: '',
         notiz: '',
+        wiedervorlageAm: '2026-10-09',
         ...meta,
       },
     ],

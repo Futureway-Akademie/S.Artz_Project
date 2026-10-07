@@ -12,6 +12,7 @@ function aufgabe(id: string, teil: Partial<Aufgabe> = {}): Aufgabe {
     titel: id,
     notiz: '',
     erledigt: false,
+    fokus: false,
     erledigtAm: null,
     faelligAm: null,
     bezug: { art: 'ohne', id: null },
