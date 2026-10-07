@@ -564,7 +564,7 @@
           "description": "Anzeigename, JSON-Export, JSON-Import, Zurücksetzen mit Bestätigung und Demo-Hinweis.",
           "order": 1,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-1-4",
             "task-1-6"
@@ -576,12 +576,18 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T13:13:09Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:16:03Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 120 Tests grün, davon 8 für Einstellungen: Export/Import-Rundlauf ohne Datenverlust; verständliche Fehler für leere Datei, kein JSON, fehlende Version, neuere Version, falsches Format (mit Details); Demo-Hinweis und Datenstand; Anzeigename speichern mit Aktivität; Export erzeugt JSON-Datei mit allen Daten (Dateiname pikartz-cockpit-export-JJJJ-MM-TT.json); Import erst nach Prüfung und Bestätigung; ungültige Datei ändert nichts; Zurücksetzen erst nach Bestätigung, danach Ausgangsdaten und Name. Browser bei 399 px: vier Abschnitte ohne Überlauf, Zurücksetzen-Dialog nennt den Datenstand, Abbrechen schließt und gibt den Fokus zurück. Export im Browser nicht ausgelöst (würde eine Datei herunterladen), per Test abgedeckt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /einstellungen bei 399 px, Zurücksetzen-Dialog öffnen und abbrechen"
+            ],
+            "checkedAt": "2026-10-07T13:16:03Z"
           }
         },
         {

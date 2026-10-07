@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 42,55 % (20 von 47 Gewichtspunkten, 9 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 46,81 % (22 von 47 Gewichtspunkten, 10 von 21 Tasks).
 
 ## Aktive Phase
 
@@ -10,10 +10,11 @@ Arbeitsbereiche (phase-2).
 
 ## Aktive Aufgabe
 
-task-4-1 – Einstellungen (in_progress seit 2026-10-07T13:13:09Z).
+Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-4-1 – Einstellungen (Anzeigename, JSON-Export, geprüfter Import mit Bestätigung, Zurücksetzen mit Bestätigung, Demo-Hinweis).
 - task-2-5 – PIKARTZ.AI-Bereich (Marke mit Logos, Wortmarke und Farben; Designregeln bearbeiten, ergänzen, verschieben, löschen; Präsentations-System mit Demo-Deck).
 - task-2-1 – Projekte (2026-10-07T13:02:50Z). Liste mit Suche und Filtern, Detailseite, Anlegen/Bearbeiten/Löschen mit Bestätigung, nächste Schritte mit Frist, manueller Status; gemeinsame Bausteine (Dialoge, Toast, useForm, Datums-Hilfen).
 - task-1-7 – Startdaten auf Projekt-Übersicht umstellen (2026-10-07T12:27:52Z). 12 echte Projekte aus Saschas Projekt-Übersicht mit 43 nächsten Schritten, Weiterbildungsdetails, Schema-Version 2 mit Migration.
@@ -69,8 +70,8 @@ task-4-1 – Einstellungen (in_progress seit 2026-10-07T13:13:09Z).
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-4-1 | Einstellungen | 🔨 in Arbeit | – |
-| task-4-2 | Zustände und Barrierefreiheit | ⏳ geplant | task-3-5, task-4-1 |
+| task-4-1 | Einstellungen | ✅ erledigt |  |
+| task-4-2 | Zustände und Barrierefreiheit | ⏳ geplant | task-3-5 |
 | task-4-3 | End-to-End-Prüfung und Dokumentation | ⏳ geplant | task-4-2 |
 
 ## Blockiert

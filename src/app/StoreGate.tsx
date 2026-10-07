@@ -3,19 +3,10 @@ import type { ReactNode } from 'react'
 import { Wordmark } from '../components/brand/Wordmark.tsx'
 import { Button } from '../components/ui/Button.tsx'
 import { ErrorState } from '../components/ui/States.tsx'
+import { exportDateiname, herunterladen } from '../data/exportImport.ts'
 import { LADEFEHLER_TEXT } from '../data/storage.ts'
 import { useStore } from '../data/storeContext.ts'
 import styles from './StoreGate.module.css'
-
-function rohdatenHerunterladen(rohdaten: string) {
-  const blob = new Blob([rohdaten], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `pikartz-rohdaten-${new Date().toISOString().slice(0, 10)}.json`
-  link.click()
-  URL.revokeObjectURL(url)
-}
 
 /** Zeigt bei unlesbaren Daten einen Fehlerzustand statt der App. */
 export function StoreGate({ children }: { children: ReactNode }) {
@@ -32,7 +23,7 @@ export function StoreGate({ children }: { children: ReactNode }) {
         title={LADEFEHLER_TEXT[zustand.grund]}
         action={
           <div className={styles.aktionen}>
-            <Button variant="secondary" onClick={() => rohdatenHerunterladen(zustand.rohdaten)}>
+            <Button variant="secondary" onClick={() => herunterladen(zustand.rohdaten, exportDateiname(new Date(), 'rohdaten'))}>
               Rohdaten exportieren
             </Button>
             {bestaetigen ? (

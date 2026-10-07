@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
+import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
 import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
@@ -52,10 +53,7 @@ export function AppRoutes() {
           />
           <Route path="zielrollen" element={<Platzhalter titel="Zielrollen" inhalt="Hier erscheinen künftig deine Zielrollen." />} />
         </Route>
-        <Route
-          path="einstellungen"
-          element={<Platzhalter titel="Einstellungen" inhalt="Hier kannst du künftig deinen Namen ändern sowie Daten exportieren, importieren und zurücksetzen." />}
-        />
+        <Route path="einstellungen" element={<EinstellungenSeite />} />
         <Route path="*" element={<NichtGefunden />} />
       </Route>
     </Routes>
