@@ -90,3 +90,5 @@
 {"timestamp":"2026-10-07T13:50:37Z","type":"task_completed","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' abgeschlossen."}
 {"timestamp":"2026-10-07T13:50:37Z","type":"task_ready","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' ist startbar."}
 {"timestamp":"2026-10-07T13:50:37Z","type":"task_started","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' gestartet."}
+{"timestamp":"2026-10-07T13:53:39Z","type":"verification_passed","taskId":"task-4-3","summary":"typecheck, lint, test (206) und build fehlerfrei; alle Seiten bei 375/768/1280 px geprüft."}
+{"timestamp":"2026-10-07T13:53:39Z","type":"task_completed","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' abgeschlossen."}

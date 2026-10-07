@@ -1,6 +1,6 @@
 # Architektur
 
-Status: geplant und von Sascha freigegeben (2026-10-07). Noch nicht umgesetzt. Die Umsetzung erfolgt Task für Task laut `.workshop/roadmap.json`.
+Status: von Sascha freigegeben und vollständig umgesetzt (2026-10-07, Roadmap v2, alle 21 Tasks). Abweichungen und Präzisierungen stehen in `docs/decisions.md`, das Prüfprotokoll in `docs/pruefprotokoll.md`.
 
 ## Teil A – CRM-Konzept: Was ergibt für Sascha Sinn?
 
@@ -18,7 +18,7 @@ Saschas Kontakte kommen aus drei Lebensbereichen:
 
 Im CRM sind **keine dieser Kontakte vorbefüllt**. Die Tabelle beschreibt nur, wofür das CRM gebaut wird.
 
-### Was sinnvoll ist (wird gebaut)
+### Was sinnvoll ist (umgesetzt)
 
 1. **Kontakte mit Kontext** (task-3-1)
    - Felder: Name, Rolle, Unternehmen, E-Mail, Telefon, LinkedIn-URL, Notiz
@@ -80,26 +80,58 @@ Die Felder Kontext-Kategorie, Herkunft, LinkedIn-URL, Ansprechpartner und Quelle
 - Vitest + Testing Library + jsdom, Zeitzone `TZ=Europe/Berlin` in den Tests
 - Datumsfelder als `YYYY-MM-DD` (lokal geparst), Zeitpunkte als ISO; `now` wird an Reducer und Selektoren übergeben
 
-### Ordnerstruktur
+### Ordnerstruktur (umgesetzt)
 
 ```
 src/
-├─ main.tsx, App.tsx          Router, StoreProvider, StoreGate (laden/Fehler)
-├─ styles/                    tokens.css, fonts.css, base.css
-├─ domain/                    types.ts, labels.ts, dates.ts, kurs.ts, format.ts,
-│                             selectors/{cockpit,projekte,aufgaben,weiterbildung,
-│                             automationen,crm,aktivitaeten}.ts (+ Tests)
-├─ data/                      schema.ts (zod), migrations.ts, storage.ts, seed.ts,
-│                             actions.ts, reducer.ts, activity.ts, store.tsx
-├─ hooks/                     useNow, usePageHeading, useForm
-├─ components/layout|brand|ui AppShell, Sidebar, NavDrawer, SkipLink, DemoBanner,
-│                             Wordmark, Logo (Platzhalter), Diamond, Button, Field*,
-│                             Dialog, ConfirmDialog, Toast, EmptyState, ErrorState,
-│                             LoadingState, SearchFilterBar, Tabs, DueLabel, TagInput
-└─ features/                  cockpit, projekte, automationen, weiterbildung, marke,
-                              aufgaben, kontakte, bewerbungen, einstellungen
-public/brand/ (Logos unverändert), public/fonts/ (nur wenn bereitgestellt), docs/sources/ (MD)
+├─ main.tsx, App.tsx          StoreProvider → StoreGate → ToastProvider → BrowserRouter
+├─ app/                       routes.tsx (alle Routen), StoreGate (Fehlerseite bei defekten Daten)
+├─ styles/                    tokens.css, fonts.css, base.css, contrast.ts (+ Kontrast-Test)
+├─ domain/                    types.ts (aus zod abgeleitet), dates.ts, labels.ts,
+│  └─ selectors/              projekte, aufgaben, bezug, automationen, weiterbildung,
+│                             cockpit, crm, leads, bewerbungen (alle mit Tests)
+├─ data/                      schema.ts (zod, Version 2), migrations.ts, storage.ts,
+│                             exportImport.ts, empty.ts, seed.ts (+ lokal seed.privat.ts),
+│                             actions.ts, reducer.ts, activity.ts, store.tsx, storeContext.ts
+├─ hooks/                     useForm, useNow
+├─ components/
+│  ├─ layout/                 AppShell, NavList, NavDrawer, Seite, navigation.ts
+│  ├─ brand/                  Wordmark, Logo (mit Platzhalter), Diamond
+│  └─ ui/                     Button, Field (Text/Textarea/Select), Badge, Panel, Tabs,
+│                             Dialog, FormDialog, ConfirmDialog, Toast, DueLabel, Icon,
+│                             States (Empty/Error/Loading)
+├─ features/                  cockpit, projekte, automationen, weiterbildung, marke,
+│                             aufgaben, kontakte (inkl. Unternehmen, Leads), bewerbungen,
+│                             einstellungen, NichtGefunden
+└─ test/                      setup, fakes, renderApp, barrierefreiheit (axe-core)
+public/brand/                 Logos unverändert
+docs/sources/                 arbeitskontext.md (öffentliche Zusammenfassung der Quelle)
 ```
+
+### Routen
+
+| Pfad | Seite |
+|---|---|
+| `/` | Arbeitscockpit |
+| `/projekte`, `/projekte/:id` | Projektliste, Projektdetail mit nächsten Schritten |
+| `/automationen` | Automationen nach Plattform oder Projekt |
+| `/weiterbildung` | Kurs, Arbeitstage, Kursaufgaben, Fortschritt |
+| `/pikartz-ai` | Marke, Designregeln, Präsentations-System |
+| `/aufgaben` (`?ansicht=termine`) | Aufgaben und Termine |
+| `/kontakte` (`?faellig=1`), `/kontakte/:id` | Kontakte, Kontaktdetail mit Verlauf und Wiedervorlage |
+| `/kontakte/unternehmen`, `/kontakte/unternehmen/:id` | Unternehmen mit Verknüpfungen |
+| `/kontakte/leads` | Leads |
+| `/bewerbungen`, `/bewerbungen/zielrollen` | Bewerbungen, Zielrollen |
+| `/einstellungen` | Anzeigename, Export, Import, Zurücksetzen |
+| `*` | Seite nicht gefunden |
+
+### Qualitätssicherung
+
+- `npm test`: Vitest mit jsdom (Zeitzone Europe/Berlin)
+  - Unit-Tests für Reducer, Speicherschicht, Migration, Seed, Datums-Hilfen und alle Selektoren
+  - Bedienungstests je Bereich (Testing Library)
+  - axe-core-Prüfung aller Seiten
+- `npm run lint` (ESLint 9 mit jsx-a11y und react-hooks), `npm run typecheck`, `npm run build`
 
 ### Datenmodell (Kern)
 

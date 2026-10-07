@@ -2,18 +2,19 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 95,74 % (45 von 47 Gewichtspunkten, 20 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 100 % (47 von 47 Gewichtspunkten, 21 von 21 Tasks).
 
 ## Aktive Phase
 
-Abschluss (phase-4).
+Alle Phasen abgeschlossen.
 
 ## Aktive Aufgabe
 
-task-4-3 – End-to-End-Prüfung und Dokumentation (in_progress seit 2026-10-07T13:50:37Z).
+Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-4-3 – End-to-End-Prüfung und Dokumentation (14 Seiten × 3 Breiten, docs/pruefprotokoll.md, architecture.md auf Umsetzungsstand, README).
 - task-4-2 – Zustände und Barrierefreiheit (axe-core-Prüfung aller Seiten ohne Verstöße, Fokusring überall, Hinweise für Speicherfehler/andere Tabs/flüchtigen Betrieb getestet).
 - task-3-5 – Cockpit-Bereich für Kontakte und Bewerbungen (fällige Wiedervorlagen, laufende Bewerbungen nach Status, offene Leads; gefilterte Links; Leerzustand).
 - task-3-4 – Bewerbungen und Zielrollen (Pipeline-Status, Zielrolle, Ansprechpartner, Quelle, Link; drei Zielrollen, keine erfundenen Bewerbungen).
@@ -80,7 +81,7 @@ Keine.
 |---|---|---|---|
 | task-4-1 | Einstellungen | ✅ erledigt |  |
 | task-4-2 | Zustände und Barrierefreiheit | ✅ erledigt |  |
-| task-4-3 | End-to-End-Prüfung und Dokumentation | 🔨 in Arbeit | – |
+| task-4-3 | End-to-End-Prüfung und Dokumentation | ✅ erledigt |  |
 
 ## Blockiert
 
@@ -106,4 +107,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-task-2-2 – Aufgaben und Termine, dann task-2-4 – Weiterbildung; beide sind Voraussetzung für das Arbeitscockpit (task-2-6).
+Alle 21 Tasks der Roadmap v2 sind abgeschlossen. Als Nächstes gemeinsam mit Sascha durch die App gehen und Anpassungswünsche als neue Tasks (Roadmap v3) aufnehmen.

@@ -611,7 +611,7 @@
       "description": "Einstellungen, Zustände und Barrierefreiheit, End-to-End- und Responsive-Prüfung, Dokumentation.",
       "order": 4,
       "weight": 6,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-4-1",
@@ -684,7 +684,7 @@
           "description": "Alle Bereiche bei mobilen, Tablet- und Desktop-Breiten prüfen; docs/architecture.md und docs/decisions.md aktualisieren.",
           "order": 3,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-4-2"
           ],
@@ -694,12 +694,18 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T13:50:37Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:53:39Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 206 Tests grün. Browser-Prüfung aller 14 Seiten (alle neun Bereiche plus Unterseiten) bei 375, 768 und 1280 px: korrekte Überschrift, passende Navigation (Topbar/Icon-Leiste/Sidebar), aktiver Bereich markiert, kein horizontaler Überlauf, keine Laufzeit- oder Konsolenfehler; Cockpit-Screenshot bei 375 px. Ergebnisse in docs/pruefprotokoll.md dokumentiert. docs/architecture.md beschreibt die umgesetzte Architektur (Ordnerstruktur, Routen, Qualitätssicherung), README mit Startanleitung.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: 14 Seiten × 3 Breiten per Skript, Screenshot Cockpit 375 px, Konsolenprüfung"
+            ],
+            "checkedAt": "2026-10-07T13:53:39Z"
           }
         }
       ]

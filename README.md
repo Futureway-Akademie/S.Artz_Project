@@ -1,3 +1,22 @@
+# PIKARTZ.AI – Arbeitscockpit
+
+Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz: Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI, Kontakte und Leads, Bewerbungen. Web-App (React, Vite, TypeScript). Die Daten liegen im Demo-Modus nur im Browser (localStorage).
+
+```bash
+npm install
+npm run dev
+```
+
+Danach läuft die App unter http://localhost:5173. Weitere Befehle: `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`.
+
+- Projektstand und Plan: `.workshop/CURRENT_STATE.md`
+- Architektur: `docs/architecture.md`
+- Entscheidungen: `docs/decisions.md`
+- Prüfprotokoll: `docs/pruefprotokoll.md`
+- Private Projektdetails (optional, nicht im Repository): `src/data/seed.privat.ts`
+
+---
+
 # Futureway Workshop Repository Template
 
 Dieses Repository ist das technologie- und KI-anbieterunabhängige Master-Template für einen geführten Futureway-Workshop. Die konkrete Projektidee wird erst nach dem Klonen in einem daraus erzeugten Teilnehmer-Repository definiert.
