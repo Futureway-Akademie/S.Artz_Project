@@ -227,3 +227,21 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - Der Projektstatus ändert sich nur manuell, über die Detailseite oder den Bearbeiten-Dialog. Erledigte Schritte ändern ihn nie.
 - Die Projektliste zeigt Zähler (offen/erledigt) statt Prozentwerten.
 - Such- und Filterfelder zeigen kein „(optional)“ (`optionalKennzeichnen={false}`).
+
+## 2026-10-07 – Zustände und Barrierefreiheit (task-4-2)
+
+### Entscheidung
+
+- `src/test/barrierefreiheit.test.tsx` prüft alle Seiten automatisch mit axe-core (WCAG 2.1 A/AA und Best Practices), mit Beispieldaten, im Leerzustand, mit offenem Formulardialog samt Fehlermeldungen und auf der Fehlerseite. Farbkontraste prüft `src/styles/contrast.test.ts`, weil jsdom kein Layout berechnet.
+- Zustände:
+  - Leerzustände: in jeder Liste und jedem Bereich
+  - Fehlerzustände: Ladefehler (StoreGate), Speicherfehler (Hinweis mit Export-Verweis), Importfehler, Feldfehler in allen Formularen
+  - Bestätigungen: vor jedem Löschen, Zurücksetzen und Import sowie „Änderungen verwerfen?“
+  - Toasts nach jeder gespeicherten Aktion
+- Ein Ladezustand ist nicht nötig: Die Daten werden synchron aus localStorage gelesen. `LoadingState` steht für spätere asynchrone Vorgänge bereit.
+- Tastatur:
+  - überall sichtbarer Fokusring (`:focus-visible`)
+  - Skip-Link
+  - Fokus auf die h1 nach Seitenwechsel
+  - Dialoge mit Fokusfang, Esc und Fokusrückgabe
+  - Tabs mit Pfeiltasten

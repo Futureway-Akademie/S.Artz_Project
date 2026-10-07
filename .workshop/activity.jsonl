@@ -86,3 +86,7 @@
 {"timestamp":"2026-10-07T13:48:02Z","type":"task_completed","taskId":"task-3-5","summary":"Task 'Cockpit-Bereich für Kontakte und Bewerbungen' abgeschlossen."}
 {"timestamp":"2026-10-07T13:48:02Z","type":"task_ready","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' ist startbar."}
 {"timestamp":"2026-10-07T13:48:03Z","type":"task_started","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' gestartet."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"verification_passed","taskId":"task-4-2","summary":"typecheck, lint, test (206, inkl. axe-core auf allen Seiten) und build fehlerfrei; Fokusprüfung im Browser."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"task_completed","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' abgeschlossen."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"task_ready","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' ist startbar."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"task_started","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' gestartet."}

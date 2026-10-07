@@ -651,7 +651,7 @@
           "description": "Bestätigungen und Toasts, Fehler beim Speichern, Tastaturbedienung, Fokusführung und Kontraste prüfen und ergänzen.",
           "order": 2,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-3-5",
             "task-4-1"
@@ -663,12 +663,19 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T13:48:03Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:50:37Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 206 Tests grün. Neu: axe-core-Prüfung (WCAG 2.1 A/AA, Best Practices) aller 17 Seiten mit Beispieldaten, 5 Seiten im Leerzustand, Formulardialog mit Fehlern und Fehlerseite – 0 Verstöße; Gegenprobe bestätigt, dass axe Fehler erkennt. Kontraste über Token-Kontrasttest (WCAG AA); keine festen Textfarben außerhalb der Tokens. Jede Löschaktion hat einen Bestätigungsdialog (Code-Suche). Tests für Speicherfehler-Hinweis, Änderung in anderem Tab und flüchtigen Betrieb. Browser: auf /, /projekte, /aufgaben, /kontakte, /einstellungen, /weiterbildung haben alle 234 fokussierbaren Elemente bei Tastaturfokus einen sichtbaren Fokusring. Ladezustand entfällt, da synchron geladen wird (dokumentiert).",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "grep: Farben außerhalb tokens.css, Löschaktionen ohne ConfirmDialog",
+              "Browser: Fokusring-Prüfung per Skript nach Tab-Taste auf 6 Seiten"
+            ],
+            "checkedAt": "2026-10-07T13:50:37Z"
           }
         },
         {
@@ -677,7 +684,7 @@
           "description": "Alle Bereiche bei mobilen, Tablet- und Desktop-Breiten prüfen; docs/architecture.md und docs/decisions.md aktualisieren.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-4-2"
           ],
@@ -686,7 +693,7 @@
             "docs/architecture.md beschreibt die umgesetzte Architektur",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:50:37Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

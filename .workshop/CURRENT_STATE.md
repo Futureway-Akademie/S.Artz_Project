@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 91,49 % (43 von 47 Gewichtspunkten, 19 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 95,74 % (45 von 47 Gewichtspunkten, 20 von 21 Tasks).
 
 ## Aktive Phase
 
@@ -10,10 +10,11 @@ Abschluss (phase-4).
 
 ## Aktive Aufgabe
 
-task-4-2 – Zustände und Barrierefreiheit (in_progress seit 2026-10-07T13:48:03Z).
+task-4-3 – End-to-End-Prüfung und Dokumentation (in_progress seit 2026-10-07T13:50:37Z).
 
 ## Zuletzt abgeschlossen
 
+- task-4-2 – Zustände und Barrierefreiheit (axe-core-Prüfung aller Seiten ohne Verstöße, Fokusring überall, Hinweise für Speicherfehler/andere Tabs/flüchtigen Betrieb getestet).
 - task-3-5 – Cockpit-Bereich für Kontakte und Bewerbungen (fällige Wiedervorlagen, laufende Bewerbungen nach Status, offene Leads; gefilterte Links; Leerzustand).
 - task-3-4 – Bewerbungen und Zielrollen (Pipeline-Status, Zielrolle, Ansprechpartner, Quelle, Link; drei Zielrollen, keine erfundenen Bewerbungen).
 - task-3-3 – Leads (Statusfilter, optionaler Betrag als „Kein Betrag“, Summe nur über hinterlegte Beträge).
@@ -78,8 +79,8 @@ Keine.
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
 | task-4-1 | Einstellungen | ✅ erledigt |  |
-| task-4-2 | Zustände und Barrierefreiheit | 🔨 in Arbeit | – |
-| task-4-3 | End-to-End-Prüfung und Dokumentation | ⏳ geplant | task-4-2 |
+| task-4-2 | Zustände und Barrierefreiheit | ✅ erledigt |  |
+| task-4-3 | End-to-End-Prüfung und Dokumentation | 🔨 in Arbeit | – |
 
 ## Blockiert
 
