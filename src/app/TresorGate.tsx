@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import { Wordmark } from '../components/brand/Wordmark.tsx'
 import { Button } from '../components/ui/Button.tsx'
@@ -18,6 +18,8 @@ import {
   type TresorUmschlag,
 } from '../data/tresorKrypto.ts'
 import { geheimnisAusLink, WIEDERHERSTELLUNG_PFAD, wiederherstellungsLink } from '../data/wiederherstellung.ts'
+import { lokalGeaendert } from '../data/cloud/sync.ts'
+import { CloudEinstieg, CloudSync } from './CloudSync.tsx'
 import { TresorContext, type TresorValue } from './tresorContext.ts'
 import styles from './TresorGate.module.css'
 
@@ -65,6 +67,9 @@ export function TresorGate({ basis, children, iterationen = STANDARD_ITERATIONEN
   const [sperreMinuten, setSperreMinutenState] = useState(() => ladeSperreMinuten(basis))
   const [schreibFehler, setSchreibFehler] = useState<string | null>(null)
   const [wiederherstellungEmail, setWiederherstellungEmail] = useState<string | null>(null)
+  // Für die Synchronisierung: Anzahl lokaler Schreibvorgänge und Neuaufbau des Stores nach Übernahme aus der Cloud
+  const [schreibZaehler, setSchreibZaehler] = useState(0)
+  const [generation, setGeneration] = useState(0)
 
   const sperren = useCallback(() => {
     setPhase((alt) => (alt.art === 'offen' ? { art: 'gesperrt' } : alt))
@@ -142,7 +147,15 @@ export function TresorGate({ basis, children, iterationen = STANDARD_ITERATIONEN
             <strong>Speichern fehlgeschlagen.</strong> {schreibFehler}
           </div>
         )}
-        {children(phase.speicher)}
+        <CloudSync
+          basis={basis}
+          speicher={phase.speicher}
+          schreibZaehler={schreibZaehler}
+          onUebernommen={() => setGeneration((g) => g + 1)}
+          onTresorErsetzen={(geoeffnet) => void oeffnen(geoeffnet)}
+        >
+          <Fragment key={generation}>{children(phase.speicher)}</Fragment>
+        </CloudSync>
       </TresorContext.Provider>
     )
   }
@@ -154,7 +167,12 @@ export function TresorGate({ basis, children, iterationen = STANDARD_ITERATIONEN
     setWiederherstellungEmail(geoeffnet.schluessel.kopf.wiederherstellung?.email ?? null)
     // Browser bitten, die Daten nicht bei Speicherknappheit automatisch zu löschen
     void navigator.storage?.persist?.().catch(() => false)
-    setPhase({ art: 'offen', speicher: new VerschluesselterSpeicher(basis, geoeffnet.schluessel, geoeffnet.klartext, setSchreibFehler) })
+    const neu = new VerschluesselterSpeicher(basis, geoeffnet.schluessel, geoeffnet.klartext, setSchreibFehler, () => {
+      lokalGeaendert(basis)
+      setSchreibZaehler((z) => z + 1)
+    })
+    setGeneration((g) => g + 1)
+    setPhase({ art: 'offen', speicher: neu })
   }
 
   const umschlag = aktuellerUmschlag(basis)
@@ -171,6 +189,7 @@ export function TresorGate({ basis, children, iterationen = STANDARD_ITERATIONEN
           }}
         />
       )}
+      {phase.art === 'einrichten' && !phase.klartextVorhanden && <CloudEinstieg basis={basis} onGeholt={() => setPhase({ art: 'gesperrt' })} />}
       {phase.art === 'gesperrt' && (
         <Entsperren
           onEntsperren={async (passwort) => {

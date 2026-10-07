@@ -60,3 +60,16 @@
   border-radius: var(--radius-md);
   background: var(--color-blue-soft);
 }
+
+.konflikt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-warning-soft);
+  color: var(--color-dark);
+}
+
+.untertitel {
+  font-size: var(--font-size-lg);
+}

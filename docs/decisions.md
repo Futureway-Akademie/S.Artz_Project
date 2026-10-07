@@ -485,3 +485,20 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - **Login:**
   - per E-Mail-Link (Magic Link), ohne zweites Passwort. Die Sitzung liegt im Browser unter `…:anmeldung`.
   - Der Bereich „Konto und Synchronisierung“ in den Einstellungen bietet Anmelden, Status und Abmelden.
+
+## 2026-10-07 – Verschlüsselte Synchronisierung (task-9-2)
+
+- **Nur Chiffretext verlässt das Gerät:**
+  - Synchronisiert wird ausschließlich der verschlüsselte Umschlag (Version 2).
+  - Vor jedem Upload prüft `istVerschluesselterUmschlag` den Inhalt. Zusätzlich lässt die Datenbank per `check` nur verschlüsselte Umschläge zu.
+- **Abgleich** (`src/data/cloud/sync.ts`, Revisionsnummer als optimistische Sperre, Metadaten unter `…:sync`):
+  - Server leer → hochladen.
+  - Gleiche Revision → lokale Änderungen hochladen.
+  - Server neuer, lokal unverändert → übernehmen. Das gelingt nur mit demselben Datenschlüssel; danach wird der Store neu aufgebaut.
+  - Beide geändert → **Konflikt**: Sascha wählt „Stand aus der Cloud übernehmen“ oder „Diesen Stand behalten und hochladen“. Nichts wird stillschweigend überschrieben.
+  - Anderer Tresor in der Cloud (anderer Datenschlüssel) → „Cloud-Daten öffnen“ mit deren Passwort oder überschreiben.
+- **Wann abgeglichen wird:** nach dem Entsperren bzw. Anmelden, zwei Sekunden nach jeder lokalen Änderung, wenn der Tab wieder sichtbar wird, und auf Knopfdruck („Jetzt synchronisieren“ in den Einstellungen mit Status und letzter Synchronisierung).
+- **Neues Gerät:**
+  - Auf dem Einrichtungsbildschirm: „Schon Daten auf einem anderen Gerät?“ → anmelden → „Daten aus der Cloud laden“ → mit dem Passwort entsperren.
+  - Damit nutzen alle Geräte denselben Datenschlüssel, und eine eingerichtete Passwort-Wiederherstellung gilt überall.
+- **Fehler:** Die Daten bleiben lokal sicher. Ein Hinweis bietet „Erneut versuchen“.

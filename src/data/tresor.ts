@@ -34,12 +34,27 @@ export class VerschluesselterSpeicher implements KeyValueStorage {
   private schluessel: Tresorschluessel
   private readonly basis: KeyValueStorage
   private readonly onFehler: (fehler: string) => void
+  private readonly onGeschrieben: () => void
 
-  constructor(basis: KeyValueStorage, schluessel: Tresorschluessel, klartext: string | null, onFehler: (fehler: string) => void = () => {}) {
+  constructor(
+    basis: KeyValueStorage,
+    schluessel: Tresorschluessel,
+    klartext: string | null,
+    onFehler: (fehler: string) => void = () => {},
+    /** Nach jedem erfolgreichen verschlüsselten Schreiben, z. B. um die Synchronisierung anzustoßen */
+    onGeschrieben: () => void = () => {},
+  ) {
     this.basis = basis
     this.schluessel = schluessel
     this.klartext = klartext
     this.onFehler = onFehler
+    this.onGeschrieben = onGeschrieben
+  }
+
+  /** Stand aus der Cloud übernehmen (bereits entschlüsselt und im Browser-Speicher abgelegt) */
+  uebernehmen(klartext: string, schluessel: Tresorschluessel): void {
+    this.klartext = klartext
+    this.schluessel = schluessel
   }
 
   getItem(key: string): string | null {
@@ -65,6 +80,7 @@ export class VerschluesselterSpeicher implements KeyValueStorage {
         const umschlag = await tresorVerschluesseln(schluessel, value)
         if (this.klartext !== value) return
         this.basis.setItem(STORAGE_KEY, JSON.stringify(umschlag))
+        this.onGeschrieben()
       } catch (error) {
         const voll = error instanceof DOMException && (error.name === 'QuotaExceededError' || error.code === 22)
         this.onFehler(voll ? 'Der Browser-Speicher ist voll.' : 'Die Daten konnten nicht verschlüsselt gespeichert werden.')

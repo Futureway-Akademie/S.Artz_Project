@@ -166,3 +166,7 @@
 {"timestamp":"2026-10-07T16:56:21Z","type":"verification_passed","taskId":"task-9-1","summary":"Supabase-Login per E-Mail-Link, RLS-Schema, CSP-Ausnahme nur bei Konfiguration; 315 Tests grün."}
 {"timestamp":"2026-10-07T16:56:21Z","type":"task_completed","taskId":"task-9-1","summary":"Task 'Supabase-Anbindung und Login' abgeschlossen."}
 {"timestamp":"2026-10-07T16:56:21Z","type":"task_ready","taskId":"task-9-2","summary":"Task 'Verschlüsselte Synchronisierung' ist startbar."}
+{"timestamp":"2026-10-07T16:56:28Z","type":"task_started","taskId":"task-9-2","summary":"Task 'Verschlüsselte Synchronisierung' gestartet."}
+{"timestamp":"2026-10-07T17:02:09Z","type":"verification_passed","taskId":"task-9-2","summary":"Ende-zu-Ende-verschlüsselte Synchronisierung mit Konfliktauswahl; 322 Tests grün."}
+{"timestamp":"2026-10-07T17:02:09Z","type":"task_completed","taskId":"task-9-2","summary":"Task 'Verschlüsselte Synchronisierung' abgeschlossen."}
+{"timestamp":"2026-10-07T17:02:09Z","type":"task_ready","taskId":"task-9-4","summary":"Task 'Abschlussprüfung Roadmap v4' ist startbar."}

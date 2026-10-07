@@ -1300,7 +1300,7 @@
           "description": "Der verschlüsselte Umschlag wird nach Änderungen zu Supabase hochgeladen und beim Entsperren abgeglichen; Konflikte zwischen Geräten werden erkannt und angezeigt; Supabase speichert nur Chiffretext.",
           "order": 2,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-9-1"
           ],
@@ -1310,13 +1310,18 @@
             "Konflikt (beide Seiten geändert) wird angezeigt, nichts geht stillschweigend verloren",
             "Test: Upload enthält keinen Klartext"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T16:56:28Z",
+          "completedAt": "2026-10-07T17:02:09Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Abgleich mit Revisionsnummer (Hochladen, Übernehmen, Konflikt mit Auswahl, fremder Tresor mit Passwort öffnen oder überschreiben), Upload nur des verschlüsselten Umschlags mit Prüfung, automatisch nach Entsperren/Anmelden, nach Änderungen und bei Sichtbarkeit, manuell in den Einstellungen mit Status; neues Gerät: anmelden, Daten aus der Cloud laden, mit Passwort entsperren. Tests: Logik (5) und Zwei-Geräte-Ablauf inkl. Konflikt (2); 322 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T17:02:09Z"
           }
         },
         {
@@ -1355,7 +1360,7 @@
           "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-9-1",
             "task-9-2",

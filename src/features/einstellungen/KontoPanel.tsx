@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import { useCloud } from '../../app/cloudContext.ts'
+import { useSync, type SyncStatus } from '../../app/syncContext.ts'
+import { formatZeitpunkt } from '../../domain/dates.ts'
 import { Button } from '../../components/ui/Button.tsx'
 import { TextField } from '../../components/ui/Field.tsx'
 import { Panel } from '../../components/ui/Panel.tsx'
@@ -9,9 +11,19 @@ import styles from './EinstellungenSeite.module.css'
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+const SYNC_TEXT: Record<SyncStatus, string> = {
+  aus: 'Synchronisierung startet nach dem Entsperren.',
+  laeuft: 'Wird synchronisiert …',
+  ok: 'Synchronisiert – verschlüsselt gespeichert.',
+  fehler: 'Synchronisierung fehlgeschlagen.',
+  konflikt: 'Konflikt: bitte oben entscheiden.',
+  fremd: 'In der Cloud liegen Daten mit anderem Passwort: bitte oben entscheiden.',
+}
+
 /** Login für die Ende-zu-Ende-verschlüsselte Synchronisierung (Supabase, Anmeldung per E-Mail-Link). */
 export function KontoPanel({ children }: { children?: ReactNode }) {
   const cloud = useCloud()
+  const sync = useSync()
   const { zeige } = useToast()
   const [email, setEmail] = useState('')
   const [fehler, setFehler] = useState<string | null>(null)
@@ -58,6 +70,19 @@ export function KontoPanel({ children }: { children?: ReactNode }) {
       ) : cloud.nutzer ? (
         <div className={styles.block}>
           <p className={styles.status}>Angemeldet als {cloud.nutzer.email}</p>
+          {sync && (
+            <p className={styles.hinweis} role="status">
+              {SYNC_TEXT[sync.status]}
+              {sync.letzteSync && ` · zuletzt ${formatZeitpunkt(sync.letzteSync)}`}
+            </p>
+          )}
+          {sync && (
+            <div>
+              <Button size="sm" variant="secondary" onClick={sync.jetztAbgleichen} disabled={sync.status === 'laeuft'}>
+                Jetzt synchronisieren
+              </Button>
+            </div>
+          )}
           {children}
           <div>
             <Button
