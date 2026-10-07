@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 5,
+  "roadmapVersion": 6,
   "status": "active",
   "phases": [
     {
@@ -1451,6 +1451,220 @@
               "npm run preview + Browser: /dashboard bei 375/768/1280 px"
             ],
             "checkedAt": "2026-10-07T18:11:46Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-11",
+      "title": "KI-Werkzeugkasten",
+      "description": "Eigener Sidebar-Bereich für Masterprompts, Befehle, Agenten und Skills, Anleitungen zum Installieren und Implementieren, Integrationen (MCP, API, Apps), Workflows sowie Modelle und Abos.",
+      "order": 11,
+      "weight": 12,
+      "status": "in_progress",
+      "tasks": [
+        {
+          "id": "task-11-1",
+          "title": "Werkzeugkasten: Datenmodell und Navigation",
+          "description": "Schema v8 mit Sammlung werkzeug (Typen prompt, befehl, agent, skill, anleitung, integration, workflow, abo), Übernahme der Wissens-Prompts, Sidebar mit Gruppen und eigenem Bereich je Typ, Suche und Verknüpfung mit Projekten.",
+          "order": 1,
+          "weight": 3,
+          "status": "in_progress",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Schema v8 mit Migration ohne Datenverlust (Prompts aus Wissen übernommen)",
+            "Sidebar gegliedert in Gruppen, Werkzeugkasten mit Unterpunkten",
+            "Liste, Filter, Detailseite und Dialog je Typ; Suche (Strg+K) findet Einträge"
+          ],
+          "startedAt": "2026-10-07T18:13:50Z",
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-11-2",
+          "title": "Masterprompts und Befehle",
+          "description": "Masterprompts mit Platzhaltern zum Ausfüllen, Vorschau und Kopieren, Zielmodell und Versionsnotiz; Befehle mit Umgebung (Terminal, Claude Code, Git …) und Kopierknopf.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Platzhalter {{…}} werden erkannt und als Felder zum Ausfüllen angeboten",
+            "Ausgefüllter Prompt bzw. Befehl lässt sich kopieren",
+            "Zielmodell bzw. Umgebung und Versionsnotiz erfassbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-11-3",
+          "title": "Agenten, Skills und Workflows",
+          "description": "Agenten mit Rolle, Systemprompt, Plattform, Werkzeugen (verknüpfte Integrationen) und Status; Skills; Workflows (n8n, Make) mit Auslöser, Schritten und Export-Notiz.",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Agent mit Rolle, Systemprompt, Plattform, Status und verknüpften Integrationen",
+            "Skills und Workflows mit Plattform, Auslöser und Schritten",
+            "Verknüpfungen in beide Richtungen sichtbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-11-4",
+          "title": "Anleitungen und Integrationen",
+          "description": "Anleitungen zum Installieren oder Implementieren mit abhakbaren Schritten und Fortschritt; Integrationen (MCP-Server, API, App) mit Status, Doku-Link, Ablageort der Zugangsdaten (nie der Schlüssel selbst) und Datenschutz-Angaben.",
+          "order": 4,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Anleitung mit Schritten zum Abhaken und Fortschrittsanzeige",
+            "Integration mit Art, Status, Doku-Link, Datenschutz (Region, AVV) und Hinweis, wo der Schlüssel liegt",
+            "Warnung, wenn etwas wie ein Schlüssel oder Passwort eingegeben wird"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-11-5",
+          "title": "Modelle und Abos",
+          "description": "Modelle und Abos mit Anbieter, Kosten pro Monat, Abrechnung, Verlängerung und Kündigungsfrist; Summe im Dashboard, Kündigungsfristen im Kalender und Cockpit.",
+          "order": 5,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Abo mit Kosten, Intervall, nächster Verlängerung und Kündigungsfrist",
+            "Monatliche Gesamtkosten im Werkzeugkasten und Dashboard",
+            "Kündigungsfrist erscheint im Kalender und im Cockpit"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-12",
+      "title": "Gmail-Anbindung",
+      "description": "Nur lesender Abruf von Mails aus Gmail direkt aus dem Browser (OAuth), Zuordnung zu Kontakten, Unternehmen und Bewerbungen; Mails verschlüsselt im Tresor.",
+      "order": 12,
+      "weight": 8,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-12-1",
+          "title": "Google-Anmeldung (nur lesend)",
+          "description": "OAuth-Weiterleitung zu Google ohne fremdes Skript, Berechtigung gmail.readonly, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für die Gmail-API bei Konfiguration; Einrichtungsanleitung.",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Anmeldung bei Google per Weiterleitung, nur Leseberechtigung",
+            "Ohne Konfiguration keine Verbindung (Test)",
+            "Anleitung zur Einrichtung des Google-Cloud-Projekts"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-12-2",
+          "title": "Mails abrufen und zuordnen",
+          "description": "Abruf nur passender Mails (Absender oder Empfänger sind Kontakte oder Unternehmensdomains, optional Suchbegriff), Speicherung im Tresor, automatische Zuordnung zu Kontakt und Bewerbung, Posteingang zum Übernehmen in den Verlauf.",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-12-1"
+          ],
+          "definitionOfDone": [
+            "Abruf nur passender Mails (Datenminimierung)",
+            "Zuordnung zu Kontakt, Unternehmen und Bewerbung",
+            "Übernahme als E-Mail-Verlaufseintrag; Mails erscheinen in der Gesamtsicht"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-12-3",
+          "title": "Abschlussprüfung Roadmap v6",
+          "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-11-2",
+            "task-11-3",
+            "task-11-4",
+            "task-11-5",
+            "task-12-2"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Neue Seiten bei drei Breiten geprüft",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
           }
         }
       ]

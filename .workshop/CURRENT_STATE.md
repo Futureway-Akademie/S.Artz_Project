@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v5, Fortschritt 99,07 % (106 von 107 Gewichtspunkten, 43 von 44 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v6, Fortschritt 83,46 % (106 von 127 Gewichtspunkten, 43 von 52 Tasks).
 
 ## Aktive Phase
 
@@ -10,7 +10,7 @@ Datenschutz und Sicherheit (phase-5).
 
 ## Aktive Aufgabe
 
-Keine.
+task-11-1 – Werkzeugkasten: Datenmodell und Navigation (in_progress seit 2026-10-07T18:13:50Z).
 
 ## Zuletzt abgeschlossen
 
@@ -157,6 +157,24 @@ Keine.
 |---|---|---|---|
 | task-10-1 | Diagramm-Bausteine und Auswertungen | ✅ erledigt |  |
 | task-10-2 | Dashboard-Seite | ✅ erledigt |  |
+
+### KI-Werkzeugkasten
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-11-1 | Werkzeugkasten: Datenmodell und Navigation | 🔨 in Arbeit | – |
+| task-11-2 | Masterprompts und Befehle | ⏳ geplant | task-11-1 |
+| task-11-3 | Agenten, Skills und Workflows | ⏳ geplant | task-11-1 |
+| task-11-4 | Anleitungen und Integrationen | ⏳ geplant | task-11-1 |
+| task-11-5 | Modelle und Abos | ⏳ geplant | task-11-1 |
+
+### Gmail-Anbindung
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-12-1 | Google-Anmeldung (nur lesend) | ⏳ geplant | task-11-1 |
+| task-12-2 | Mails abrufen und zuordnen | ⏳ geplant | task-12-1 |
+| task-12-3 | Abschlussprüfung Roadmap v6 | ⏳ geplant | task-11-2, task-11-3, task-11-4, task-11-5, task-12-2 |
 
 ## Blockiert
 

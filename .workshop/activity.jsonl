@@ -181,3 +181,5 @@
 {"timestamp":"2026-10-07T18:06:19Z","type":"task_started","taskId":"task-10-2","summary":"Task 'Dashboard-Seite' gestartet."}
 {"timestamp":"2026-10-07T18:11:46Z","type":"verification_passed","taskId":"task-10-2","summary":"Dashboard mit 11 Grafiken und Kennzahlen; 331 Tests grün, im Browser geprüft."}
 {"timestamp":"2026-10-07T18:11:46Z","type":"task_completed","taskId":"task-10-2","summary":"Task 'Dashboard-Seite' abgeschlossen."}
+{"timestamp":"2026-10-07T18:13:50Z","type":"roadmap_updated","summary":"Roadmap v6: Phase 11 KI-Werkzeugkasten und Phase 12 Gmail-Anbindung nach Saschas Entscheidung (alle Punkte, Gmail) ergänzt."}
+{"timestamp":"2026-10-07T18:13:50Z","type":"task_started","taskId":"task-11-1","summary":"Task 'Werkzeugkasten: Datenmodell und Navigation' gestartet."}
