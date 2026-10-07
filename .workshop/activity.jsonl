@@ -1,0 +1,5 @@
+{"timestamp":"2026-10-07T10:03:22Z","type":"project_initialized","summary":"Projekt 'PIKARTZ.AI – Arbeitscockpit' initialisiert; Projektbrief festgelegt."}
+{"timestamp":"2026-10-07T10:03:22Z","type":"roadmap_created","summary":"Roadmap v1 mit 4 Phasen und 20 Tasks (Gesamtgewicht 45) erstellt."}
+{"timestamp":"2026-10-07T10:03:22Z","type":"decision_recorded","summary":"Stack React + Vite + TypeScript; Speicherung im Browser (localStorage) als gekennzeichneter Demo-Modus."}
+{"timestamp":"2026-10-07T10:03:22Z","type":"task_ready","taskId":"task-1-1","summary":"Task 'Quellen und Marken-Assets übernehmen' ist startbar."}
+{"timestamp":"2026-10-07T10:03:22Z","type":"task_ready","taskId":"task-1-2","summary":"Task 'Projekt-Setup mit Vite, React und TypeScript' ist startbar."}
