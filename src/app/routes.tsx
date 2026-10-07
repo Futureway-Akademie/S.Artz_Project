@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
 import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
+import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
+import { ProjekteSeite } from '../features/projekte/ProjekteSeite.tsx'
 
 /** Alle Routen der App. Platzhalter werden durch die Bereichs-Tasks ersetzt. */
 export function AppRoutes() {
@@ -17,11 +19,8 @@ export function AppRoutes() {
           }
         />
         <Route path="projekte">
-          <Route
-            index
-            element={<Platzhalter titel="Projekte" inhalt="Hier verwaltest du künftig deine Projekte mit Tools, Notizen, nächsten Schritten und Status." />}
-          />
-          <Route path=":id" element={<Platzhalter titel="Projekt" inhalt="Hier erscheinen künftig die Details eines Projekts." />} />
+          <Route index element={<ProjekteSeite />} />
+          <Route path=":id" element={<ProjektDetailSeite />} />
         </Route>
         <Route
           path="automationen"

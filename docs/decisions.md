@@ -212,3 +212,18 @@ Sascha hat die eigentliche Projekt-Übersicht geliefert (12 Projekte). Die im Pr
 ### Begründung
 
 Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffentlich zu machen. Nichts wird erfunden.
+
+## 2026-10-07 – Projekte und gemeinsame UI-Bausteine (task-2-1)
+
+### Entscheidung
+
+- Dialoge: `Dialog` nutzt `<dialog>` mit `showModal()`. Das bringt Fokusfang und Esc; beim Schließen kehrt der Fokus zum Auslöser zurück (Layout-Effekt vor dem Entfernen aus dem DOM).
+- `FormDialog` fragt bei ungespeicherten Eingaben „Änderungen verwerfen?“.
+- `ConfirmDialog` steht vor jedem Löschen und nennt die Löschfolgen aus `loeschfolgen()`.
+- `ToastProvider` zeigt kurze Bestätigungen in einer Live-Region (`role="status"`).
+- Formulare: `useForm` mit reiner Validierungsfunktion; Fehler erscheinen erst nach dem ersten Absenden.
+- Nächste Schritte eines Projekts sind Aufgaben mit Projektbezug. Den Dialog `AufgabeDialog` nutzt auch task-2-2.
+- Beim Anlegen darf der Aufrufer die ID vorgeben (`anlegen` mit `id`), damit die App direkt zur Detailseite springen kann.
+- Der Projektstatus ändert sich nur manuell, über die Detailseite oder den Bearbeiten-Dialog. Erledigte Schritte ändern ihn nie.
+- Die Projektliste zeigt Zähler (offen/erledigt) statt Prozentwerten.
+- Such- und Filterfelder zeigen kein „(optional)“ (`optionalKennzeichnen={false}`).

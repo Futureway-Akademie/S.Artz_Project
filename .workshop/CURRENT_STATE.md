@@ -2,18 +2,19 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 31,91 % (15 von 47 Gewichtspunkten, 7 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 38,3 % (18 von 47 Gewichtspunkten, 8 von 21 Tasks).
 
 ## Aktive Phase
 
-Phase 2 – Arbeitsbereiche. Phase 1 – Grundlage ist abgeschlossen.
+Arbeitsbereiche (phase-2).
 
 ## Aktive Aufgabe
 
-task-2-1 – Projekte (in_progress seit 2026-10-07T12:14:35Z, wegen task-1-7 kurz blockiert). Gemeinsame Bausteine (Datums-Hilfen, Labels) angelegt; Projektseiten folgen.
+Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-2-1 – Projekte (2026-10-07T13:02:50Z). Liste mit Suche und Filtern, Detailseite, Anlegen/Bearbeiten/Löschen mit Bestätigung, nächste Schritte mit Frist, manueller Status; gemeinsame Bausteine (Dialoge, Toast, useForm, Datums-Hilfen).
 - task-1-7 – Startdaten auf Projekt-Übersicht umstellen (2026-10-07T12:27:52Z). 12 echte Projekte aus Saschas Projekt-Übersicht mit 43 nächsten Schritten, Weiterbildungsdetails, Schema-Version 2 mit Migration.
 - task-1-6 – App-Shell mit responsiver Navigation (2026-10-07T12:12:43Z). Routing für alle neun Bereiche, Topbar/Icon-Leiste/Sidebar, Skip-Link, Fokus auf h1, Demo-Hinweis, Fehlerseite für defekte Daten. Bereiche zeigen noch Platzhalter.
 - task-1-5 – Seed-Daten aus belegten Inhalten (2026-10-07T12:07:05Z). Nur Inhalte aus `docs/sources/arbeitskontext.md`; Seed-Test grün.
@@ -25,6 +26,7 @@ task-2-1 – Projekte (in_progress seit 2026-10-07T12:14:35Z, wegen task-1-7 kur
 ## Bereite nächste Aufgaben
 
 - task-2-2 – Aufgaben und Termine
+- task-2-3 – Automationen
 - task-2-4 – Weiterbildung
 - task-2-5 – PIKARTZ.AI-Bereich
 - task-4-1 – Einstellungen
@@ -47,12 +49,12 @@ task-2-1 – Projekte (in_progress seit 2026-10-07T12:14:35Z, wegen task-1-7 kur
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-2-1 | Projekte | 🔨 in Arbeit | – |
+| task-2-1 | Projekte | ✅ erledigt |  |
 | task-2-2 | Aufgaben und Termine | ▶️ startbar | – |
-| task-2-3 | Automationen | ⏳ geplant | task-2-1 |
+| task-2-3 | Automationen | ▶️ startbar | – |
 | task-2-4 | Weiterbildung | ▶️ startbar | – |
 | task-2-5 | PIKARTZ.AI-Bereich | ▶️ startbar | – |
-| task-2-6 | Arbeitscockpit | ⏳ geplant | task-2-1, task-2-2, task-2-4 |
+| task-2-6 | Arbeitscockpit | ⏳ geplant | task-2-2, task-2-4 |
 
 ### CRM und Bewerbungen
 
@@ -96,4 +98,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-task-2-1 – Projekte fertigstellen; danach task-2-3 (Automationen) und die übrigen Bereiche.
+task-2-2 – Aufgaben und Termine (danach task-2-4 Weiterbildung; beide sind Voraussetzung für das Arbeitscockpit task-2-6).

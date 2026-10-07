@@ -7,6 +7,8 @@ interface FieldShellProps {
   hint?: string
   error?: string
   required?: boolean
+  /** „(optional)“ anzeigen, wenn nicht Pflicht; bei Such- und Filterfeldern abschalten */
+  optionalKennzeichnen?: boolean
 }
 
 interface ShellRenderProps {
@@ -20,6 +22,7 @@ function FieldShell({
   hint,
   error,
   required,
+  optionalKennzeichnen = true,
   children,
 }: FieldShellProps & { children: (props: ShellRenderProps) => ReactNode }) {
   const id = useId()
@@ -36,7 +39,7 @@ function FieldShell({
             *
           </span>
         ) : (
-          <span className={styles.optional}>(optional)</span>
+          optionalKennzeichnen && <span className={styles.optional}>(optional)</span>
         )}
       </label>
       {hint && (
@@ -56,9 +59,9 @@ function FieldShell({
 
 type TextFieldProps = FieldShellProps & Omit<InputHTMLAttributes<HTMLInputElement>, 'id'>
 
-export function TextField({ label, hint, error, required, className, ...rest }: TextFieldProps) {
+export function TextField({ label, hint, error, required, optionalKennzeichnen, className, ...rest }: TextFieldProps) {
   return (
-    <FieldShell label={label} hint={hint} error={error} required={required}>
+    <FieldShell label={label} hint={hint} error={error} required={required} optionalKennzeichnen={optionalKennzeichnen}>
       {({ id, describedBy, invalid }) => (
         <input
           id={id}
@@ -75,9 +78,9 @@ export function TextField({ label, hint, error, required, className, ...rest }: 
 
 type TextAreaFieldProps = FieldShellProps & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'id'>
 
-export function TextAreaField({ label, hint, error, required, className, rows = 4, ...rest }: TextAreaFieldProps) {
+export function TextAreaField({ label, hint, error, required, optionalKennzeichnen, className, rows = 4, ...rest }: TextAreaFieldProps) {
   return (
-    <FieldShell label={label} hint={hint} error={error} required={required}>
+    <FieldShell label={label} hint={hint} error={error} required={required} optionalKennzeichnen={optionalKennzeichnen}>
       {({ id, describedBy, invalid }) => (
         <textarea
           id={id}
@@ -110,13 +113,14 @@ export function SelectField({
   hint,
   error,
   required,
+  optionalKennzeichnen,
   options,
   placeholder,
   className,
   ...rest
 }: SelectFieldProps) {
   return (
-    <FieldShell label={label} hint={hint} error={error} required={required}>
+    <FieldShell label={label} hint={hint} error={error} required={required} optionalKennzeichnen={optionalKennzeichnen}>
       {({ id, describedBy, invalid }) => (
         <select
           id={id}

@@ -241,7 +241,7 @@
       "description": "Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI-Bereich und Arbeitscockpit.",
       "order": 2,
       "weight": 16,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-2-1",
@@ -249,7 +249,7 @@
           "description": "Projektliste und -detail mit Bearbeiten, Tools, Notizen, nächsten Schritten (offen/erledigt) und manuellem Projektstatus.",
           "order": 1,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6",
@@ -263,12 +263,18 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T12:14:35Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:02:50Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 108 Tests grün, davon 9 Bedienungstests der Projektseiten: Liste mit Status/Kategorie/Zählern ohne Prozent, Suche/Status-/Kategorie-Filter mit Zurücksetzen, Anlegen mit Pflichtfeldprüfung und Sprung zur Detailseite, Rückfrage 'Änderungen verwerfen?', nächste Schritte hinzufügen/erledigen/wieder öffnen/bearbeiten mit Frist, Status bleibt dabei unverändert, manuelle Statusänderung, Bearbeiten ohne Änderung erzeugt keine Aktivität, Löschen nur nach Bestätigung mit genannten Folgen, unbekanntes Projekt. Aktivitätsprotokoll in den Tests geprüft. Browser: Liste bei 399 px, Detailseite zweispaltig bei 1280 px ohne Überlauf, Dialog modal mit Fokus, Esc schließt und gibt Fokus zurück, Rückfrage bei Änderungen; keine Konsolenfehler nach Neuladen.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /projekte und Detailseite bei 399 und 1280 px, Tastatur (Escape) und Skriptprüfung"
+            ],
+            "checkedAt": "2026-10-07T13:02:50Z"
           }
         },
         {
@@ -304,7 +310,7 @@
           "description": "Übersicht der Automationen nach Plattform und Projekt mit Modell, Datenquellen, Schwellenwerten und Routing-Logik; Verbindungsstatus ehrlich als nicht verbunden.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-2-1"
           ],

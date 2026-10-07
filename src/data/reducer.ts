@@ -118,7 +118,7 @@ export function reducer(data: AppData, action: Action, meta: ActionMeta): AppDat
   switch (action.type) {
     case 'anlegen': {
       const zeit = meta.now.toISOString()
-      const eintrag = { ...action.daten, id: meta.newId(), erstelltAm: zeit, geaendertAm: zeit } as Eintrag<typeof action.sammlung>
+      const eintrag = { ...action.daten, id: action.id ?? meta.newId(), erstelltAm: zeit, geaendertAm: zeit } as Eintrag<typeof action.sammlung>
       const next = { ...data, [action.sammlung]: [...liste(data, action.sammlung), eintrag] }
       const titel = titelVon(action.sammlung, eintrag)
       return mitAktivitaet(next, meta, {

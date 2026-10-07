@@ -6,15 +6,18 @@ import { NAVIGATION } from './components/layout/navigation.ts'
 import { createSeedData } from './data/seed.ts'
 import { STORAGE_KEY } from './data/storage.ts'
 import { StoreProvider } from './data/store.tsx'
+import { ToastProvider } from './components/ui/Toast.tsx'
 import { createFakeStorage } from './test/fakes.ts'
 
 function renderApp(pfad = '/', storage = createFakeStorage()) {
   return render(
     <StoreProvider storage={storage} createInitialData={() => createSeedData()}>
       <StoreGate>
-        <MemoryRouter initialEntries={[pfad]}>
-          <AppRoutes />
-        </MemoryRouter>
+        <ToastProvider>
+          <MemoryRouter initialEntries={[pfad]}>
+            <AppRoutes />
+          </MemoryRouter>
+        </ToastProvider>
       </StoreGate>
     </StoreProvider>,
   )

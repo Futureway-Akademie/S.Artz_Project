@@ -39,3 +39,6 @@
 {"timestamp":"2026-10-07T12:27:52Z","type":"verification_passed","taskId":"task-1-7","summary":"typecheck, lint, test (93) und build fehlerfrei; Seed gegen Projekt-Übersicht abgeglichen."}
 {"timestamp":"2026-10-07T12:27:52Z","type":"task_completed","taskId":"task-1-7","summary":"Task 'Startdaten auf Projekt-Übersicht umstellen' abgeschlossen."}
 {"timestamp":"2026-10-07T12:27:52Z","type":"task_unblocked","taskId":"task-2-1","summary":"Task 'Projekte' fortgesetzt, Startdaten-Umstellung (task-1-7) abgeschlossen."}
+{"timestamp":"2026-10-07T13:02:50Z","type":"verification_passed","taskId":"task-2-1","summary":"typecheck, lint, test (108) und build fehlerfrei; Browser-Prüfung der Projektseiten."}
+{"timestamp":"2026-10-07T13:02:50Z","type":"task_completed","taskId":"task-2-1","summary":"Task 'Projekte' abgeschlossen."}
+{"timestamp":"2026-10-07T13:02:50Z","type":"task_ready","taskId":"task-2-3","summary":"Task 'Automationen' ist startbar."}
