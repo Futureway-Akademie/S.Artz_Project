@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 4,
+  "roadmapVersion": 5,
   "status": "active",
   "phases": [
     {
@@ -1384,6 +1384,67 @@
               "npm run preview + Browser: 19 Seiten × 3 Breiten"
             ],
             "checkedAt": "2026-10-07T17:05:18Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-10",
+      "title": "Dashboard",
+      "description": "Grafische Auswertung aller Bereiche – selbst gezeichnete, barrierefreie SVG-Diagramme ohne Fremddienste, berechnet aus den eigenen Daten.",
+      "order": 10,
+      "weight": 7,
+      "status": "in_progress",
+      "tasks": [
+        {
+          "id": "task-10-1",
+          "title": "Diagramm-Bausteine und Auswertungen",
+          "description": "SVG-Diagramme (Balken, Ring, Wochenverlauf, Fortschritt, Aktivitäts-Heatmap) mit Legende, Werten und Tabellenansicht; reine Auswertungs-Selektoren für alle Bereiche.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Diagramme ohne Fremdbibliothek, nur mit Farben aus den Design-Tokens",
+            "Jedes Diagramm mit Titel, Legende mit Werten und umschaltbarer Tabellenansicht",
+            "Auswertungs-Selektoren mit Tests (Projekte, Aufgaben je Woche, Bewerbungen, Leads, Weiterbildung, Kontakte, Wissen, Aktivität)"
+          ],
+          "startedAt": "2026-10-07T18:01:29Z",
+          "completedAt": "2026-10-07T18:06:13Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Eigene SVG-/HTML-Diagramme ohne Fremdbibliothek (Balken, Ring, Wochenverlauf, Fortschritt, Heatmap, Kennzahl) mit Farben aus den Tokens, Titel, Legende mit Werten und Anteilen und umschaltbarer Tabellenansicht; Auswertungs-Selektoren für Projekte, Aufgaben je Woche, Bewerbungstrichter, Leads mit Summen, Kontakte, Kontaktpflege, Wissen, Kursaufgaben, Aktivität je Tag und Kennzahlen. 7 neue Tests inkl. axe; 329 Tests grün, typecheck und lint fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test"
+            ],
+            "checkedAt": "2026-10-07T18:06:13Z"
+          }
+        },
+        {
+          "id": "task-10-2",
+          "title": "Dashboard-Seite",
+          "description": "Neue Seite /dashboard mit Kennzahlen und allen Diagrammen, Links in die Bereiche, responsiv bei 375/768/1280 px; Prüfung und Doku.",
+          "order": 2,
+          "weight": 4,
+          "status": "ready",
+          "dependsOn": [
+            "task-10-1"
+          ],
+          "definitionOfDone": [
+            "Dashboard in der Navigation, Kennzahlen und Diagramme aller Bereiche",
+            "Leerzustände ohne Daten, keine erfundenen Werte",
+            "axe ohne Verstöße, Browserprüfung bei drei Breiten",
+            "Architektur, Entscheidungen und Prüfprotokoll aktualisiert"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
           }
         }
       ]

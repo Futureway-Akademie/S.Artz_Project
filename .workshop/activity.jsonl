@@ -173,3 +173,8 @@
 {"timestamp":"2026-10-07T17:02:16Z","type":"task_started","taskId":"task-9-4","summary":"Task 'Abschlussprüfung Roadmap v4' gestartet."}
 {"timestamp":"2026-10-07T17:05:18Z","type":"verification_passed","taskId":"task-9-4","summary":"Abschlussprüfung v4 bestanden: 322 Tests, 19 Seiten × 3 Breiten."}
 {"timestamp":"2026-10-07T17:05:18Z","type":"task_completed","taskId":"task-9-4","summary":"Task 'Abschlussprüfung Roadmap v4' abgeschlossen."}
+{"timestamp":"2026-10-07T18:01:29Z","type":"roadmap_updated","summary":"Roadmap v5: Phase 10 Dashboard (grafische Auswertung) auf Saschas Wunsch ergänzt."}
+{"timestamp":"2026-10-07T18:01:29Z","type":"task_started","taskId":"task-10-1","summary":"Task 'Diagramm-Bausteine und Auswertungen' gestartet."}
+{"timestamp":"2026-10-07T18:06:13Z","type":"verification_passed","taskId":"task-10-1","summary":"Diagramm-Bausteine und Auswertungen; 329 Tests grün."}
+{"timestamp":"2026-10-07T18:06:13Z","type":"task_completed","taskId":"task-10-1","summary":"Task 'Diagramm-Bausteine und Auswertungen' abgeschlossen."}
+{"timestamp":"2026-10-07T18:06:13Z","type":"task_ready","taskId":"task-10-2","summary":"Task 'Dashboard-Seite' ist startbar."}
