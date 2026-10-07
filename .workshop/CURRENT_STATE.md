@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 58,82 % (50 von 85 Gewichtspunkten, 22 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 60 % (51 von 85 Gewichtspunkten, 23 von 37 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-5-2 – Keine Verbindung nach außen (2026-10-07T14:40:06Z). CSP im Build, sichere externe Links, Test.
 - task-5-1 – Persönliche Daten aus dem Repository entfernen (2026-10-07T14:36:04Z). Startdaten nur lokal, fiktive Testdaten, Wächter-Test.
 - task-4-3 – End-to-End-Prüfung und Dokumentation (14 Seiten × 3 Breiten, docs/pruefprotokoll.md, architecture.md auf Umsetzungsstand, README).
 - task-4-2 – Zustände und Barrierefreiheit (axe-core-Prüfung aller Seiten ohne Verstöße, Fokusring überall, Hinweise für Speicherfehler/andere Tabs/flüchtigen Betrieb getestet).
@@ -39,7 +40,6 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-5-2 – Keine Verbindung nach außen
 - task-5-3 – Verschlüsselung mit Passwort und automatischer Sperre
 
 ## Gesamtplan (aus roadmap.json)
@@ -90,7 +90,7 @@ Keine.
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
 | task-5-1 | Persönliche Daten aus dem Repository entfernen | ✅ erledigt |  |
-| task-5-2 | Keine Verbindung nach außen | ▶️ startbar | – |
+| task-5-2 | Keine Verbindung nach außen | ✅ erledigt |  |
 | task-5-3 | Verschlüsselung mit Passwort und automatischer Sperre | ▶️ startbar | – |
 | task-5-4 | Verschlüsselte Sicherung und Erinnerung | ⏳ geplant | task-5-3 |
 | task-5-5 | DSGVO-Funktionen für Kontakte | ⏳ geplant | task-5-3 |

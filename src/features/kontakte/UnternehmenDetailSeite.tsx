@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ExternerLink } from '../../components/ui/ExternerLink.tsx'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Badge } from '../../components/ui/Badge.tsx'
@@ -113,9 +114,9 @@ export function UnternehmenDetailSeite() {
               <dt>Website</dt>
               <dd>
                 {unternehmen.website ? (
-                  <a href={unternehmen.website} target="_blank" rel="noreferrer noopener">
+                  <ExternerLink href={unternehmen.website}>
                     {unternehmen.website.replace(/^https?:\/\//, '')}
-                  </a>
+                  </ExternerLink>
                 ) : (
                   'Nicht hinterlegt'
                 )}

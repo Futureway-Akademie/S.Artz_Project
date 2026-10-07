@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ExternerLink } from '../../components/ui/ExternerLink.tsx'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Badge } from '../../components/ui/Badge.tsx'
@@ -72,9 +73,9 @@ export function KontaktDetailSeite() {
               <dt>LinkedIn</dt>
               <dd>
                 {kontakt.linkedinUrl ? (
-                  <a href={kontakt.linkedinUrl} target="_blank" rel="noreferrer noopener">
+                  <ExternerLink href={kontakt.linkedinUrl}>
                     Profil öffnen
-                  </a>
+                  </ExternerLink>
                 ) : (
                   'Nicht hinterlegt'
                 )}

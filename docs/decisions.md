@@ -259,3 +259,14 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Kopien, die GitHub in geschlossenen Pull Requests aufbewahrt, kann nur der GitHub-Support löschen. Der Text dafür liegt Sascha vor.
 - **Verschlüsselung:** wird Pflicht (Saschas Entscheidung). Ein vergessenes Passwort bedeutet Datenverlust; die verschlüsselte Sicherung ist das Backup.
 - **E-Mails:** keine Anbindung an ein Postfach, denn das wäre eine Verbindung nach außen. Mails werden im Verlauf erfasst, und Entwürfe öffnen sich im eigenen Mailprogramm.
+
+## 2026-10-07 – Keine Verbindung nach außen (task-5-2)
+
+- **Content-Security-Policy:** `csp.config.ts` legt die Richtlinie fest. Ein Vite-Plugin schreibt sie beim Build in `index.html`.
+  - Erlaubt ist nur der eigene Ursprung, `connect-src 'none'` verbietet alle Netzwerkabrufe.
+  - Im Dev-Server ist sie nicht aktiv, weil Vite dort Inline-Skripte und einen Websocket braucht.
+- **Referrer:** `index.html` setzt `referrer=no-referrer`.
+- **Externe Links:** laufen über `ExternerLink`, mit `noopener noreferrer`.
+  - Nur `http(s)`-Adressen werden zum Link, damit z. B. ein importiertes `javascript:` nichts ausführt.
+- **Prüfung:** `src/test/keineVerbindung.test.tsx` deckt Richtlinie, Quellcode (kein `fetch`, XHR, WebSocket, Beacon, keine fremden Imports) und Links ab.
+- **Im Browser geprüft:** gebaute App unter `npm run preview` lädt fehlerfrei mit Schriften; ein `fetch` nach außen wird blockiert.

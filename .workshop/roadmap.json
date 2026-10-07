@@ -753,7 +753,7 @@
           "description": "Content-Security-Policy ohne externe Ziele, kein Referrer, externe Links ohne Opener; per Test belegt.",
           "order": 2,
           "weight": 1,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-5-1"
           ],
@@ -763,12 +763,18 @@
             "Externe Links öffnen mit noopener/noreferrer"
           ],
           "startedAt": null,
-          "completedAt": null,
+          "completedAt": "2026-10-07T14:40:06Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "CSP (csp.config.ts) per Vite-Plugin im Build: default-src/script-src 'self', connect-src 'none', form-action 'none', keine fremden Hosts; Referrer no-referrer; ExternerLink mit noopener/noreferrer und nur http(s). Test keineVerbindung.test.tsx (5 Tests) grün; gebaute App im Browser geprüft: lädt fehlerfrei, fetch nach außen blockiert. 210 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: fetch('https://example.org') → blockiert"
+            ],
+            "checkedAt": "2026-10-07T14:40:06Z"
           }
         },
         {

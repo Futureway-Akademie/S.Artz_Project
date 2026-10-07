@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ExternerLink } from '../../components/ui/ExternerLink.tsx'
 import { Link } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Badge } from '../../components/ui/Badge.tsx'
@@ -93,9 +94,9 @@ export function BewerbungenSeite() {
                     </div>
                     <div className={styles.meta}>
                       {b.link && (
-                        <a href={b.link} target="_blank" rel="noreferrer noopener" aria-label={`Ausschreibung „${b.stelle}“ öffnen`}>
+                        <ExternerLink href={b.link} aria-label={`Ausschreibung „${b.stelle}“ öffnen`}>
                           Ausschreibung
-                        </a>
+                        </ExternerLink>
                       )}
                       <Badge tone={BEWERBUNG_STATUS[b.status].ton}>{BEWERBUNG_STATUS[b.status].label}</Badge>
                       <Button size="sm" variant="ghost" onClick={() => setDialog(b)} aria-label={`Bewerbung „${b.stelle}“ bearbeiten`}>
