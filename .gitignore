@@ -22,3 +22,11 @@ Desktop.ini
 !.vscode/extensions.json
 !.vscode/settings.json
 
+
+# Build und Abhängigkeiten
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Private Startdaten (Saschas Projektdetails) – nur lokal, nie committen
+src/data/seed.privat.ts

@@ -1,7 +1,628 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 0,
-  "status": "not_initialized",
-  "phases": []
+  "roadmapVersion": 2,
+  "status": "active",
+  "phases": [
+    {
+      "id": "phase-1",
+      "title": "Grundlage",
+      "description": "Quellen, Projekt-Setup, Design-Tokens, Datenmodell, Seed-Daten und App-Shell.",
+      "order": 1,
+      "weight": 13,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-1-1",
+          "title": "Quellen und Marken-Assets übernehmen",
+          "description": "Saschas MD-Datei nach docs/sources/ und die Logo-Dateien unverändert nach public/brand/ übernehmen; die geplanten Seed-Inhalte gegen die MD-Datei abgleichen.",
+          "order": 1,
+          "weight": 1,
+          "status": "completed",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "MD-Datei liegt unter docs/sources/",
+            "Logo-Dateien liegen unverändert unter public/brand/",
+            "Abgleich Seed-Inhalte gegen MD-Datei ist in docs/decisions.md dokumentiert",
+            "Fehlende Assets sind als offener Punkt dokumentiert statt nachgezeichnet"
+          ],
+          "startedAt": "2026-10-07T11:34:36Z",
+          "completedAt": "2026-10-07T11:44:14Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Geprüft: docs/sources/arbeitskontext.md vorhanden (aus belegten Repository-Angaben, offene Stellen markiert); beide Logo-Dateien unverändert unter public/brand/ (von Sascha abgelegt, Bild visuell gesichtet); Abgleich Seed gegen Quelle und fehlende Logo-Varianten in docs/decisions.md dokumentiert.",
+            "commands": [
+              "Test-Path docs/sources/arbeitskontext.md",
+              "Get-ChildItem public/brand",
+              "Select-String -Path docs/decisions.md -Pattern task-1-1",
+              "Select-String -Path docs/decisions.md -Pattern 'Fehlende Assets'"
+            ],
+            "checkedAt": "2026-10-07T11:44:14Z"
+          }
+        },
+        {
+          "id": "task-1-2",
+          "title": "Projekt-Setup mit Vite, React und TypeScript",
+          "description": "Vite-Projekt im Repository-Root mit React, TypeScript, ESLint, Typecheck und Vitest aufsetzen; Spezialisierungsdateien STACK, QUALITY_GATE und CONSTRAINTS füllen.",
+          "order": 2,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "npm run dev startet die App lokal",
+            "Skripte dev, build, preview, lint, typecheck und test sind vorhanden",
+            "Ein Beispieltest läuft mit Vitest grün",
+            "STACK.md, QUALITY_GATE.md und CONSTRAINTS.md sind projektspezifisch gefüllt"
+          ],
+          "startedAt": "2026-10-07T11:48:58Z",
+          "completedAt": "2026-10-07T11:52:08Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, test (2 Tests grün) und build fehlerfrei; npm run dev gestartet und Seite unter http://localhost:5173 im Browser geprüft (Überschrift sichtbar); STACK.md, QUALITY_GATE.md und CONSTRAINTS.md projektspezifisch gefüllt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run dev"
+            ],
+            "checkedAt": "2026-10-07T11:52:08Z"
+          }
+        },
+        {
+          "id": "task-1-3",
+          "title": "Design-Tokens, Typografie und Basis-Komponenten",
+          "description": "Farben, Abstände und Liberation-Sans-Typografie als Tokens; Basis-Komponenten Logo mit Platzhalter, Buttons, Formularfelder, Badges sowie Leer-, Fehler- und Ladezustand.",
+          "order": 3,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-1-1",
+            "task-1-2"
+          ],
+          "definitionOfDone": [
+            "Markenfarben #2F5CFF, #0A0A0B, #4E525C als CSS-Tokens definiert",
+            "Liberation Sans mit Fallback eingebunden, Bold für Überschriften, Zahlen und Labels",
+            "Logo-Komponente zeigt Asset unverzerrt oder dezenten Platzhalter",
+            "Basis-Komponenten erfüllen WCAG-AA-Kontrast",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T11:53:46Z",
+          "completedAt": "2026-10-07T11:57:51Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 36 Tests grün (u. a. Kontrast-Test aller Token-Paare, Logo inkl. Platzhalter, Formularfeld-Barrierefreiheit). Im Browser geprüft: Liberation Sans 400/700 geladen, beide Logos unverzerrt (96x96, 169x32), kein horizontaler Überlauf bei 399, 768 und 1280 px, Fokusring bei Tab-Navigation sichtbar.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: Font-/Logo-/Overflow-Prüfung per Skript bei 399, 768, 1280 px",
+              "Browser: Tab-Taste, Fokusring geprüft"
+            ],
+            "checkedAt": "2026-10-07T11:57:51Z"
+          }
+        },
+        {
+          "id": "task-1-4",
+          "title": "Datenmodell, Speicherschicht und Aktivitätsprotokoll",
+          "description": "TypeScript-Typen für alle Entitäten, versioniertes localStorage-Repository mit Fehlerbehandlung, Store mit Aktivitätseinträgen nur bei echten Änderungen, Demo-Kennzeichnung.",
+          "order": 4,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-1-2"
+          ],
+          "definitionOfDone": [
+            "Typen für alle geplanten Entitäten vorhanden",
+            "Speicherschicht versioniert und fängt defekte oder fehlende Daten mit Fehlerzustand ab",
+            "Aktivitäten werden nur bei echten Änderungen erzeugt",
+            "Tests für Speicherschicht und Store sind grün",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T12:00:38Z",
+          "completedAt": "2026-10-07T12:05:13Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 67 Tests grün, davon 31 neu: Speicherschicht (leer, ok, defektes JSON, ungültiges Schema, neuere/unbekannte Version, nicht verfügbar, Speicher voll), Reducer (Aktivität nur bei echter Änderung, Feld-Diff, Erledigen/Wiedereröffnen, Löschfolgen, Begrenzung) und Store (Seed bei leerem Speicher, entprelltes Speichern, pagehide, Fehlerzustand ohne Überschreiben, flüchtiger Modus, Speicherfehler, Änderung in anderem Tab). Demo-Kennzeichnung als demo/persistenz im Store; sichtbarer Hinweis folgt in task-1-6.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T12:05:13Z"
+          }
+        },
+        {
+          "id": "task-1-5",
+          "title": "Seed-Daten aus belegten Inhalten",
+          "description": "Die fünf bekannten Projekte, die Weiterbildung, drei Zielrollen und die Designregeln ausschließlich mit belegten Inhalten anlegen.",
+          "order": 5,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-1-1",
+            "task-1-4"
+          ],
+          "definitionOfDone": [
+            "Genau die fünf genannten Projekte sind angelegt",
+            "Keine Fristen, Aktivitäten, Kontakte, Bewerbungen, Termine oder Fortschrittswerte erfunden",
+            "Zielrollen sind als Zielrollen, nicht als Bewerbungen hinterlegt",
+            "Seed-Test prüft diese Regeln und ist grün",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T12:05:21Z",
+          "completedAt": "2026-10-07T12:07:05Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 77 Tests grün, davon 10 Seed-Tests: Schema gültig, genau 5 Projekte, Titel/Zielrollen/Designregeln gegen docs/sources/arbeitskontext.md abgeglichen, nur belegter Status, keine Fristen/Aktivitäten/Kontakte/Bewerbungen/Termine/Fortschritte, Zielrollen statt Bewerbungen, Kurs ohne erfundene Daten, stabile IDs.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T12:07:05Z"
+          }
+        },
+        {
+          "id": "task-1-6",
+          "title": "App-Shell mit responsiver Navigation",
+          "description": "Layout mit Navigation über alle neun Bereiche für Desktop, Tablet und Smartphone, Routing, Skip-Link und sichtbarer Demo-Hinweis.",
+          "order": 6,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-1-3",
+            "task-1-4"
+          ],
+          "definitionOfDone": [
+            "Alle neun Bereiche sind über die Navigation erreichbar",
+            "Navigation funktioniert bei 375 px, 768 px und 1280 px Breite",
+            "Navigation ist vollständig per Tastatur bedienbar, Skip-Link vorhanden",
+            "Demo-Modus ist sichtbar gekennzeichnet",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T12:07:05Z",
+          "completedAt": "2026-10-07T12:12:43Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 83 Tests grün (u. a. alle neun Bereiche erreichbar mit aria-current, Fokus auf h1 nach Seitenwechsel, Skip-Link, Demo-Hinweis, mobiles Menü mit Fokusrückgabe, Unterseiten, NotFound, Fehlerseite mit Export/Zurücksetzen). Im Browser geprüft: 375 px Topbar + Menü (Esc schließt, Fokus zurück auf Menü-Button; Navigation aus Menü fokussiert h1), 768 px Icon-Leiste (88 px) mit aktivem Bereich, 1280 px Sidebar 256 px mit Wortmarke und blauem Aktiv-Balken; kein horizontaler Überlauf; Skip-Link erscheint beim ersten Tab; Seed in localStorage gespeichert; nach Neuladen keine Konsolenfehler.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: 375/768/1280 px per Skript und Tastatur (Tab, Escape) geprüft"
+            ],
+            "checkedAt": "2026-10-07T12:12:43Z"
+          }
+        },
+        {
+          "id": "task-1-7",
+          "title": "Startdaten auf Projekt-Übersicht umstellen",
+          "description": "Seed auf Saschas Projekt-Übersicht (lokale Datei projekte-uebersicht.md, Stand 2026-10-07) umstellen: 12 Projekte mit Kategorie, Status, zuletzt aktiv und nächsten Schritten; Weiterbildungsdetails; Schema-Version 2 mit Migration.",
+          "order": 7,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-1-5"
+          ],
+          "definitionOfDone": [
+            "Genau die 12 Projekte der Projekt-Übersicht sind mit Kategorie, Status, zuletzt aktiv, Beschreibung und Notizen angelegt",
+            "Offene Punkte sind nächste Schritte ohne Frist, mit [x] markierte Punkte sind erledigt",
+            "Weiterbildung mit Anbieter, Zeitraum 03.08.–18.12.2026, Unterrichtszeit, Umfang und Modulen hinterlegt",
+            "Schema-Version 2 mit getesteter Migration von Version 1",
+            "Keine Kontakte, Unternehmen, Leads, Bewerbungen, Termine oder Fristen vorbefüllt; die drei bisherigen Zielrollen bleiben",
+            "docs/sources/arbeitskontext.md, PROJECT_BRIEF.md und docs/architecture.md beschreiben die neue Quelle",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T12:22:00Z",
+          "completedAt": "2026-10-07T12:27:52Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 93 Tests grün: Seed-Test (genau 12 Projekte, Titel/Kategorie/Status/zuletzt aktiv gegen Tabelle in docs/sources/arbeitskontext.md, 39 offene und 4 erledigte Schritte ohne Frist, keine Kontakte/Unternehmen/Leads/Bewerbungen/Termine/Aktivitäten/Automationsprofile, 3 Zielrollen, Kursdetails) und Migrationstest v1→v2. Einmaliger Abgleich aller Seed-Texte gegen die lokale projekte-uebersicht.md: wörtlich bis auf 3 Schreibvarianten (JavaScript statt JS, ein Komma, Großschreibung). Browser: nach Zurücksetzen des Speichers lädt die App Schema 2 mit 12 Projekten und 43 Schritten. PROJECT_BRIEF.md, docs/architecture.md und docs/decisions.md aktualisiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "vitest: einmaliger Abgleich Seed gegen C:/Users/Sascha/Downloads/projekte-uebersicht.md (temporär, nicht im Repo)",
+              "Browser: localStorage geprüft"
+            ],
+            "checkedAt": "2026-10-07T12:27:52Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "title": "Arbeitsbereiche",
+      "description": "Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI-Bereich und Arbeitscockpit.",
+      "order": 2,
+      "weight": 16,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-2-1",
+          "title": "Projekte",
+          "description": "Projektliste und -detail mit Bearbeiten, Tools, Notizen, nächsten Schritten (offen/erledigt) und manuellem Projektstatus.",
+          "order": 1,
+          "weight": 3,
+          "status": "in_progress",
+          "dependsOn": [
+            "task-1-5",
+            "task-1-6",
+            "task-1-7"
+          ],
+          "definitionOfDone": [
+            "Projekte können angelegt, bearbeitet und angezeigt werden",
+            "Nächste Schritte können hinzugefügt, bearbeitet und als erledigt markiert werden",
+            "Projektstatus wird nie automatisch auf abgeschlossen gesetzt",
+            "Änderungen erscheinen im Aktivitätsprotokoll",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T12:14:35Z",
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-2-2",
+          "title": "Aufgaben und Termine",
+          "description": "Zentrale Aufgaben- und Terminverwaltung mit Anlegen, Bearbeiten, Erledigen, Suche, Filter, optionaler Frist und Bezug zu Projekt oder Weiterbildung.",
+          "order": 2,
+          "weight": 3,
+          "status": "ready",
+          "dependsOn": [
+            "task-1-5",
+            "task-1-6"
+          ],
+          "definitionOfDone": [
+            "Aufgaben und Termine können angelegt, bearbeitet und erledigt werden",
+            "Suche und Filter funktionieren",
+            "Fehlende Frist zeigt Leerzustand wie 'Noch keine Frist hinterlegt'",
+            "Bezug zu Projekt oder Weiterbildung ist wählbar",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-2-3",
+          "title": "Automationen",
+          "description": "Übersicht der Automationen nach Plattform und Projekt mit Modell, Datenquellen, Schwellenwerten und Routing-Logik; Verbindungsstatus ehrlich als nicht verbunden.",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-2-1"
+          ],
+          "definitionOfDone": [
+            "Automationen nach Plattform (n8n, Make.com) und Projekt gruppierbar",
+            "Bekannte Modelle, Datenquellen, Schwellen und Routing werden angezeigt",
+            "Es wird keine aktive externe Verbindung behauptet",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-2-4",
+          "title": "Weiterbildung",
+          "description": "Bereich für 'KI Automations Spezialist' (Aug–Dez 2026) mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
+          "order": 4,
+          "weight": 3,
+          "status": "ready",
+          "dependsOn": [
+            "task-1-5",
+            "task-1-6"
+          ],
+          "definitionOfDone": [
+            "Kurs mit Zeitraum wird angezeigt",
+            "Aufgaben mit IDs im Format KIAutomSpez_X_YY können angelegt und bearbeitet werden",
+            "Arbeitstage Mo–Fr werden aus dem Gerätedatum berechnet und getestet",
+            "Fortschritt ergibt sich nur aus eingetragenen Erledigungen, sonst Leerzustand",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-2-5",
+          "title": "PIKARTZ.AI-Bereich",
+          "description": "Eigener Bereich für Marke und Präsentations-System mit allen hinterlegten Designregeln und dem Demo-Deck Modul 1, Tag 1.",
+          "order": 5,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [
+            "task-1-5",
+            "task-1-6"
+          ],
+          "definitionOfDone": [
+            "Alle Designregeln sind sichtbar und bearbeitbar hinterlegt",
+            "Präsentations-System und Demo-Deck sind beschrieben",
+            "Wortmarke mit blauem '.AI' korrekt dargestellt",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-2-6",
+          "title": "Arbeitscockpit",
+          "description": "Dashboard mit Begrüßung und Tagesübersicht, nächsten Schritten, aktuellen Projekten, Weiterbildung, anstehenden Aufgaben und Terminen sowie letzten Aktivitäten.",
+          "order": 6,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-2-1",
+            "task-2-2",
+            "task-2-4"
+          ],
+          "definitionOfDone": [
+            "Alle Zahlen werden über getestete Selektorfunktionen aus gespeicherten Daten berechnet",
+            "Begrüßung und Datum nutzen Gerätedatum und de-DE",
+            "Leerzustände für fehlende Fristen, Termine und Aktivitäten vorhanden",
+            "Letzte Aktivitäten zeigen nur echte Änderungen",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "title": "CRM und Bewerbungen",
+      "description": "Kontakte und Unternehmen, Kommunikationsverlauf, Leads, Bewerbungen mit Zielrollen und Cockpit-Integration.",
+      "order": 3,
+      "weight": 10,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-3-1",
+          "title": "Kontakte und Unternehmen",
+          "description": "Kontakte und Unternehmen anlegen, bearbeiten, suchen und miteinander verknüpfen.",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-2-6"
+          ],
+          "definitionOfDone": [
+            "Kontakte und Unternehmen können angelegt, bearbeitet und gelöscht werden (mit Bestätigung)",
+            "Suche funktioniert",
+            "Kontakte können Unternehmen zugeordnet werden",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-3-2",
+          "title": "Kommunikationsverlauf und nächste Aktion",
+          "description": "Notizen, Kommunikationsverlauf, nächste Aktion und Projektbezug je Kontakt erfassen.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-3-1"
+          ],
+          "definitionOfDone": [
+            "Verlaufseinträge können erfasst und angezeigt werden",
+            "Nächste Aktion und Projektbezug sind pflegbar",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-3-3",
+          "title": "Leads",
+          "description": "Optionale Leadverwaltung mit Status; Geldbetrag optional und leer zulässig.",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-3-1"
+          ],
+          "definitionOfDone": [
+            "Leads können angelegt, bearbeitet und gefiltert werden",
+            "Leerer Betrag ist zulässig und wird nicht als 0 dargestellt",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-3-4",
+          "title": "Bewerbungen und Zielrollen",
+          "description": "Bewerbungen und Zielrollen verwalten; drei bekannte Zielrollen vorbefüllt, keine Bewerbungen erfunden.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-3-1"
+          ],
+          "definitionOfDone": [
+            "Zielrollen und Bewerbungen können angelegt und bearbeitet werden",
+            "Drei Zielrollen vorhanden, keine vorbefüllten Bewerbungen",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-3-5",
+          "title": "Cockpit-Bereich für Kontakte und Bewerbungen",
+          "description": "Kompakter Bereich im Arbeitscockpit mit berechneten Angaben zu Kontakten und Bewerbungen.",
+          "order": 5,
+          "weight": 1,
+          "status": "planned",
+          "dependsOn": [
+            "task-3-2",
+            "task-3-4"
+          ],
+          "definitionOfDone": [
+            "Angaben werden aus gespeicherten Daten berechnet",
+            "Leerzustand bei fehlenden Kontakten oder Bewerbungen",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "title": "Abschluss",
+      "description": "Einstellungen, Zustände und Barrierefreiheit, End-to-End- und Responsive-Prüfung, Dokumentation.",
+      "order": 4,
+      "weight": 6,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-4-1",
+          "title": "Einstellungen",
+          "description": "Anzeigename, JSON-Export, JSON-Import, Zurücksetzen mit Bestätigung und Demo-Hinweis.",
+          "order": 1,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [
+            "task-1-4",
+            "task-1-6"
+          ],
+          "definitionOfDone": [
+            "Export erzeugt eine JSON-Datei mit allen Daten",
+            "Import validiert Daten und zeigt Fehler verständlich",
+            "Zurücksetzen erfordert Bestätigung",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-4-2",
+          "title": "Zustände und Barrierefreiheit",
+          "description": "Bestätigungen und Toasts, Fehler beim Speichern, Tastaturbedienung, Fokusführung und Kontraste prüfen und ergänzen.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-3-5",
+            "task-4-1"
+          ],
+          "definitionOfDone": [
+            "Lade-, Leer-, Fehler- und Bestätigungszustände in allen Bereichen vorhanden",
+            "Alle Aktionen per Tastatur erreichbar, Fokus sichtbar",
+            "Kontraste erfüllen WCAG AA",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-4-3",
+          "title": "End-to-End-Prüfung und Dokumentation",
+          "description": "Alle Bereiche bei mobilen, Tablet- und Desktop-Breiten prüfen; docs/architecture.md und docs/decisions.md aktualisieren.",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-4-2"
+          ],
+          "definitionOfDone": [
+            "Alle neun Bereiche manuell bei 375, 768 und 1280 px geprüft und dokumentiert",
+            "docs/architecture.md beschreibt die umgesetzte Architektur",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    }
+  ]
 }
-

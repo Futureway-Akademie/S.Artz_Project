@@ -1,0 +1,200 @@
+/*
+ * Breiten:
+ *   < 768 px      dunkle Topbar + Menü als Schublade
+ *   768–1199 px   Icon-Leiste mit Kurzlabel
+ *   ≥ 1200 px     dunkle Sidebar (256 px) mit Wortmarke
+ */
+.shell {
+  min-height: 100vh;
+}
+
+.skipLink {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-blue);
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skipLink:focus {
+  transform: none;
+}
+
+/* --- Topbar (mobil) --- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3.5rem;
+  padding: 0 var(--space-2) 0 var(--space-4);
+  background: var(--color-dark);
+}
+
+.menueButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-height);
+  height: var(--control-height);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-on-dark);
+  cursor: pointer;
+}
+
+.menueButton:hover {
+  background: var(--color-dark-raised);
+}
+
+.menueButton:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-blue);
+}
+
+/* --- Sidebar / Icon-Leiste --- */
+.sidebar {
+  display: none;
+}
+
+.navVoll,
+.markeVoll {
+  display: none;
+}
+
+.markeKurz {
+  color: var(--text-on-dark);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.25rem;
+}
+
+.ai {
+  color: var(--color-blue);
+}
+
+.spalte {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.main {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-8);
+}
+
+.main:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* --- Hinweise --- */
+.demo {
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-blue-soft);
+  color: var(--color-dark);
+  font-size: var(--font-size-sm);
+}
+
+.hinweise {
+  display: flex;
+  flex-direction: column;
+}
+
+.fehlerHinweis,
+.infoHinweis {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+}
+
+.fehlerHinweis {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.infoHinweis {
+  background: var(--color-warning-soft);
+  color: var(--color-dark);
+}
+
+@media (min-width: 768px) {
+  .topbar {
+    display: none;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    height: 100vh;
+    overflow-y: auto;
+    padding: var(--space-4) var(--space-2);
+    background: var(--color-dark);
+  }
+
+  .sidebarMarke {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-2) 0;
+  }
+
+  .main {
+    padding: var(--space-6) var(--space-6) var(--space-8);
+  }
+
+  .demo {
+    padding: var(--space-2) var(--space-6);
+  }
+
+  .fehlerHinweis,
+  .infoHinweis {
+    padding: var(--space-3) var(--space-6);
+  }
+}
+
+@media (min-width: 1200px) {
+  .shell {
+    grid-template-columns: 16rem minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .sidebarMarke {
+    justify-content: flex-start;
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .markeVoll,
+  .navVoll {
+    display: block;
+  }
+
+  .markeKurz,
+  .navRail {
+    display: none;
+  }
+}

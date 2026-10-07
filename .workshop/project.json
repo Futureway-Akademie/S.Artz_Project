@@ -1,12 +1,11 @@
 {
   "schemaVersion": 1,
-  "projectId": null,
-  "name": null,
-  "status": "not_initialized",
+  "projectId": "pikartz-ai-arbeitscockpit",
+  "name": "PIKARTZ.AI – Arbeitscockpit",
+  "status": "active",
   "workshopType": null,
-  "owner": null,
-  "description": null,
-  "createdAt": null,
-  "updatedAt": null
+  "owner": "Sascha Artz",
+  "description": "Persönliches Arbeitscockpit mit CRM-Funktionen für Saschas Arbeit rund um KI-Automationen, Weiterbildung und PIKARTZ.AI. Web-App mit React, Vite und TypeScript; Speicherung im Browser als Demo-Modus.",
+  "createdAt": "2026-10-07T10:03:22Z",
+  "updatedAt": "2026-10-07T10:03:22Z"
 }
-

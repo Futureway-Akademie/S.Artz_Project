@@ -1,0 +1,24 @@
+.zeile {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+}
+
+.check input {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-blue);
+}
+
+@media (min-width: 640px) {
+  .zeile {
+    grid-template-columns: 1fr 1fr;
+  }
+}

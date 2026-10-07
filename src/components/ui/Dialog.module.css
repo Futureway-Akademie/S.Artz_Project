@@ -1,0 +1,96 @@
+.dialog {
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: var(--color-white);
+  color: var(--text-default);
+}
+
+.dialog::backdrop {
+  background: rgb(10 10 11 / 0.5);
+}
+
+.rahmen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.kopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.titel {
+  font-size: var(--font-size-lg);
+}
+
+.schliessen {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--control-height);
+  height: var(--control-height);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-dark);
+  cursor: pointer;
+}
+
+.schliessen:hover {
+  background: var(--color-surface);
+}
+
+.inhalt {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .dialog {
+    height: auto;
+    max-height: calc(100dvh - 4rem);
+    margin: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-raised);
+  }
+
+  .sm {
+    max-width: 28rem;
+  }
+
+  .md {
+    max-width: 40rem;
+  }
+
+  .rahmen {
+    max-height: calc(100dvh - 4rem);
+  }
+
+  .kopf,
+  .inhalt,
+  .aktionen {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+}

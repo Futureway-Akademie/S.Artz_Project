@@ -1,0 +1,19 @@
+/*
+ * Liberation Sans aus der lokalen Installation; ohne Installation greift Arial
+ * (metrisch gleich). Schriftdateien werden nur eingebunden, wenn sie bereitgestellt werden.
+ */
+@font-face {
+  font-family: 'Liberation Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Liberation Sans'), local('LiberationSans-Regular'), local('LiberationSans');
+}
+
+@font-face {
+  font-family: 'Liberation Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Liberation Sans Bold'), local('LiberationSans-Bold');
+}
