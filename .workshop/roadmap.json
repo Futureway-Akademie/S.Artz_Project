@@ -448,7 +448,7 @@
       "description": "Kontakte und Unternehmen, Kommunikationsverlauf, Leads, Bewerbungen mit Zielrollen und Cockpit-Integration.",
       "order": 3,
       "weight": 10,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-3-1",
@@ -579,7 +579,7 @@
           "description": "Kompakter Bereich im Arbeitscockpit mit berechneten Angaben zu Kontakten und Bewerbungen.",
           "order": 5,
           "weight": 1,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-3-2",
             "task-3-4"
@@ -590,12 +590,17 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T13:45:34Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:48:02Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 179 Tests grün, davon 3 für den CRM-Bereich im Cockpit: selectCrmUebersicht berechnet fällige Wiedervorlagen (heute/überfällig), laufende Bewerbungen nach Status, offene Leads mit Summe nur über hinterlegte Beträge; Leerzustand ohne CRM-Daten; Link 'Fällige Wiedervorlagen' öffnet die Kontaktliste mit aktivem Filter (?faellig=1).",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:48:02Z"
           }
         }
       ]
@@ -646,7 +651,7 @@
           "description": "Bestätigungen und Toasts, Fehler beim Speichern, Tastaturbedienung, Fokusführung und Kontraste prüfen und ergänzen.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-3-5",
             "task-4-1"
@@ -657,7 +662,7 @@
             "Kontraste erfüllen WCAG AA",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:48:03Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

@@ -1,4 +1,7 @@
 import { heute, nachFrist } from '../dates.ts'
+import { BEWERBUNG_STATUS, LEAD_STATUS } from '../labels.ts'
+import { bewerbungenNachStatus } from './bewerbungen.ts'
+import { selectLeadSumme } from './leads.ts'
 import type { AppData, Bewerbung, Kontakt, Lead, Unternehmen } from '../types.ts'
 
 export interface KontaktFilter {
@@ -66,4 +69,29 @@ export function unternehmenListe(data: AppData, suche: string): Array<{ unterneh
     .filter((u) => !s || `${u.name} ${u.branche} ${u.notiz}`.toLowerCase().includes(s))
     .sort((a, b) => a.name.localeCompare(b.name, 'de'))
     .map((unternehmen) => ({ unternehmen, ...unternehmenVerknuepfungen(data, unternehmen.id) }))
+}
+
+export interface CrmUebersicht {
+  /** Kontakte mit heute fälliger oder überfälliger nächster Aktion */
+  faelligeWiedervorlagen: number
+  laufendeBewerbungen: Array<{ status: Bewerbung['status']; anzahl: number }>
+  laufendeBewerbungenGesamt: number
+  offeneLeads: number
+  /** Summe nur über offene Leads mit Betrag; ohne Beträge `null` */
+  offeneLeadSumme: number | null
+  /** Gibt es überhaupt CRM-Daten? */
+  leer: boolean
+}
+
+export function selectCrmUebersicht(data: AppData, now: Date): CrmUebersicht {
+  const laufend = data.bewerbungen.filter((b) => BEWERBUNG_STATUS[b.status].laufend)
+  const offeneLeads = data.leads.filter((l) => LEAD_STATUS[l.status].offen)
+  return {
+    faelligeWiedervorlagen: data.kontakte.filter((k) => istAktionFaellig(k, now)).length,
+    laufendeBewerbungen: bewerbungenNachStatus(laufend),
+    laufendeBewerbungenGesamt: laufend.length,
+    offeneLeads: offeneLeads.length,
+    offeneLeadSumme: selectLeadSumme(offeneLeads),
+    leer: data.kontakte.length === 0 && data.bewerbungen.length === 0 && data.leads.length === 0,
+  }
 }

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Badge } from '../../components/ui/Badge.tsx'
 import { Button } from '../../components/ui/Button.tsx'
@@ -18,7 +18,8 @@ export function KontakteSeite() {
   const { data } = useStore()
   const now = useNow()
   const navigate = useNavigate()
-  const [filter, setFilter] = useState<KontaktFilter>(LEERER_KONTAKT_FILTER)
+  const [params] = useSearchParams()
+  const [filter, setFilter] = useState<KontaktFilter>({ ...LEERER_KONTAKT_FILTER, nurFaellig: params.get('faellig') === '1' })
   const [anlegen, setAnlegen] = useState(false)
   const kontakte = useMemo(() => kontaktListe(data, filter, now), [data, filter, now])
 

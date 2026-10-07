@@ -7,7 +7,7 @@ import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useStore } from '../../data/storeContext.ts'
 import { formatDatum, formatZeitpunkt } from '../../domain/dates.ts'
-import { KEIN_STATUS, PROJEKT_STATUS } from '../../domain/labels.ts'
+import { BEWERBUNG_STATUS, KEIN_STATUS, PROJEKT_STATUS } from '../../domain/labels.ts'
 import { bezugInfo } from '../../domain/selectors/bezug.ts'
 import {
   kurzesDatum,
@@ -18,6 +18,8 @@ import {
   selectNaechsteSchritte,
   selectTagesuebersicht,
 } from '../../domain/selectors/cockpit.ts'
+import { selectCrmUebersicht } from '../../domain/selectors/crm.ts'
+import { formatEuro } from '../../domain/selectors/leads.ts'
 import { selectWeiterbildung } from '../../domain/selectors/weiterbildung.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import styles from './CockpitSeite.module.css'
@@ -34,6 +36,7 @@ export function CockpitSeite() {
   const anstehend = selectAnstehend(data, now)
   const aktivitaeten = selectLetzteAktivitaeten(data)
   const wb = selectWeiterbildung(data, now)
+  const crm = selectCrmUebersicht(data, now)
 
   const kacheln = [
     { label: 'Heute fällig', wert: tag.heuteFaellig },
@@ -163,6 +166,42 @@ export function CockpitSeite() {
             </div>
           ) : (
             <EmptyState title="Keine Weiterbildung hinterlegt" />
+          )}
+        </Panel>
+
+        <Panel titel="Kontakte & Bewerbungen">
+          {crm.leer ? (
+            <EmptyState title="Noch keine Kontakte, Bewerbungen oder Leads">
+              Lege Kontakte mit Wiedervorlage oder deine Bewerbungen an – sie erscheinen dann hier.
+            </EmptyState>
+          ) : (
+            <ul className={styles.liste}>
+              <li className={styles.eintrag}>
+                <Link to="/kontakte?faellig=1" className={styles.titel}>
+                  Fällige Wiedervorlagen
+                </Link>
+                <span className={`num ${crm.faelligeWiedervorlagen > 0 ? styles.dringend : ''}`}>{crm.faelligeWiedervorlagen}</span>
+              </li>
+              <li className={styles.eintrag}>
+                <Link to="/bewerbungen" className={styles.titel}>
+                  Laufende Bewerbungen
+                </Link>
+                <span className={styles.art}>
+                  {crm.laufendeBewerbungenGesamt === 0
+                    ? 'Keine'
+                    : crm.laufendeBewerbungen.map((s) => `${BEWERBUNG_STATUS[s.status].label}: ${s.anzahl}`).join(' · ')}
+                </span>
+              </li>
+              <li className={styles.eintrag}>
+                <Link to="/kontakte/leads" className={styles.titel}>
+                  Offene Leads
+                </Link>
+                <span className={styles.art}>
+                  <span className="num">{crm.offeneLeads}</span>
+                  {crm.offeneLeads > 0 && ` · ${crm.offeneLeadSumme === null ? 'Keine Beträge hinterlegt' : formatEuro(crm.offeneLeadSumme)}`}
+                </span>
+              </li>
+            </ul>
           )}
         </Panel>
 

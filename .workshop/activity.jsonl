@@ -82,3 +82,7 @@
 {"timestamp":"2026-10-07T13:45:34Z","type":"task_completed","taskId":"task-3-4","summary":"Task 'Bewerbungen und Zielrollen' abgeschlossen."}
 {"timestamp":"2026-10-07T13:45:34Z","type":"task_ready","taskId":"task-3-5","summary":"Task 'Cockpit-Bereich für Kontakte und Bewerbungen' ist startbar."}
 {"timestamp":"2026-10-07T13:45:34Z","type":"task_started","taskId":"task-3-5","summary":"Task 'Cockpit-Bereich für Kontakte und Bewerbungen' gestartet."}
+{"timestamp":"2026-10-07T13:48:02Z","type":"verification_passed","taskId":"task-3-5","summary":"typecheck, lint, test (179) und build fehlerfrei."}
+{"timestamp":"2026-10-07T13:48:02Z","type":"task_completed","taskId":"task-3-5","summary":"Task 'Cockpit-Bereich für Kontakte und Bewerbungen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:48:02Z","type":"task_ready","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' ist startbar."}
+{"timestamp":"2026-10-07T13:48:03Z","type":"task_started","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' gestartet."}

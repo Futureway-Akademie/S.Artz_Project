@@ -164,3 +164,7 @@
     align-items: start;
   }
 }
+
+.dringend {
+  color: var(--color-danger);
+}
