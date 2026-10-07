@@ -7,6 +7,7 @@ import { ZielrollenSeite } from '../features/bewerbungen/ZielrollenSeite.tsx'
 import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
 import { AutomationenSeite } from '../features/automationen/AutomationenSeite.tsx'
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
+import { KalenderSeite } from '../features/kalender/KalenderSeite.tsx'
 import { KontaktDetailSeite } from '../features/kontakte/KontaktDetailSeite.tsx'
 import { KontakteSeite } from '../features/kontakte/KontakteSeite.tsx'
 import { LeadDetailSeite } from '../features/kontakte/LeadDetailSeite.tsx'
@@ -33,6 +34,7 @@ export function AppRoutes() {
         <Route path="weiterbildung" element={<WeiterbildungSeite />} />
         <Route path="pikartz-ai" element={<MarkeSeite />} />
         <Route path="aufgaben" element={<AufgabenSeite />} />
+        <Route path="kalender" element={<KalenderSeite />} />
         <Route path="kontakte">
           <Route index element={<KontakteSeite />} />
           <Route path="unternehmen" element={<UnternehmenSeite />} />

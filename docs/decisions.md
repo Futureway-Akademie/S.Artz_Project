@@ -359,3 +359,19 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Strg+K öffnet die Suche mit Fokus im Feld, und Enter öffnet den Treffer.
   - Die Knöpfe sind bei 375, 768 und 1280 px sichtbar, ohne horizontalen Überlauf.
   - Gefundener Fehler: Der Fokus lag zuerst auf „Schließen“. Er ist behoben und mit einem Test abgesichert.
+
+## 2026-10-07 – Kalender (task-7-1)
+
+- **Neuer Bereich „Kalender“** (`/kalender`, in der Navigation nach „Aufgaben & Termine“):
+  - Ansichten Monat, Woche und Liste (30 Tage), umschaltbar über Tabs; Zeitraum und Ansicht stehen in der URL.
+  - zeigt Termine, Aufgabenfristen, Wiedervorlagen von Kontakten, Bewerbungen und Leads sowie Kursaufgaben (Selektor `kalenderEintraege`). Erledigtes wird ausgeblendet.
+  - Kurstage sind markiert, und jede Art lässt sich ein- und ausblenden.
+- **Monatsansicht:** zugängliche Tabelle mit einem Tagesknopf je Tag; die Beschriftung nennt Datum und Anzahl der Einträge. Darunter steht die Liste des gewählten Tages.
+  - Auf schmalen Bildschirmen zeigt die Zelle nur die Anzahl, ab 900 px die ersten drei Einträge.
+- **Bedienung:**
+  - Termine und Fristen öffnen sich zum Bearbeiten; Wiedervorlagen verlinken auf ihren Eintrag.
+  - „+ Termin“ legt am jeweiligen Tag an, dafür hat `TerminDialog` die neue Eigenschaft `vorgabeDatum`.
+- **Export als .ics** (RFC 5545):
+  - Termine mit Uhrzeit sind einstündige Ereignisse in Ortszeit, alles andere ist ganztägig. Lange Zeilen werden gefaltet und Sonderzeichen maskiert.
+  - Vor dem Download weist die App darauf hin, dass die Datei unverschlüsselt ist und Namen enthalten kann. Sie gehört nur in den eigenen Kalender.
+- **Im Browser geprüft:** gebaute App bei 1280 und 375 px, ohne Überlauf; die Tagesknöpfe sind 32 × 32 px groß.

@@ -30,18 +30,20 @@ function validiere(werte: Werte): Fehler<Werte> {
 interface TerminDialogProps {
   termin?: Termin
   vorgabeBezug?: Bezug
+  /** Vorbelegtes Datum für neue Termine, z. B. der gewählte Kalendertag */
+  vorgabeDatum?: string
   onSchliessen: () => void
 }
 
 /** Termin anlegen oder bearbeiten: Datum Pflicht, Uhrzeit optional. */
-export function TerminDialog({ termin, vorgabeBezug = { art: 'ohne', id: null }, onSchliessen }: TerminDialogProps) {
+export function TerminDialog({ termin, vorgabeBezug = { art: 'ohne', id: null }, vorgabeDatum = '', onSchliessen }: TerminDialogProps) {
   const { data, dispatch } = useStore()
   const { zeige } = useToast()
   const [loeschenFragen, setLoeschenFragen] = useState(false)
   const form = useForm<Werte>(
     {
       titel: termin?.titel ?? '',
-      datum: termin?.datum ?? '',
+      datum: termin?.datum ?? vorgabeDatum,
       uhrzeit: termin?.uhrzeit ?? '',
       ort: termin?.ort ?? '',
       notiz: termin?.notiz ?? '',

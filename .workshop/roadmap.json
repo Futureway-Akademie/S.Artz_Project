@@ -998,7 +998,7 @@
       "description": "Kalender über alles, E-Mail-Verlauf und Vorlagen ohne Postfachanbindung, Übersicht über alle Bewerbungen.",
       "order": 7,
       "weight": 8,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-7-1",
@@ -1006,7 +1006,7 @@
           "description": "Monats-, Wochen- und Listenansicht mit Terminen, Fristen, Wiedervorlagen und Kurstagen; Export als .ics-Datei.",
           "order": 1,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-6-1"
           ],
@@ -1016,13 +1016,19 @@
             "Einträge anklickbar und direkt anlegbar",
             "Export als .ics-Datei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:26:14Z",
+          "completedAt": "2026-10-07T15:32:44Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Kalenderbereich /kalender mit Monat (zugängliche Tabelle, Tagesauswahl, Kurstage), Woche und Liste; Termine, Fristen, Wiedervorlagen (Kontakt, Bewerbung, Lead) und Kursaufgaben mit Filter; Anlegen am Tag, Bearbeiten per Klick; .ics-Export nach RFC 5545 mit Hinweis auf fehlende Verschlüsselung. Im Browser bei 1280 und 375 px geprüft. 267 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: /kalender bei 1280 und 375 px"
+            ],
+            "checkedAt": "2026-10-07T15:32:44Z"
           }
         },
         {
@@ -1091,7 +1097,7 @@
           "description": "Fokus-Markierung für Aufgaben, Abhaken direkt im Cockpit, Wochenvorschau.",
           "order": 1,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-7-1"
           ],
