@@ -18,6 +18,7 @@ export function createEmptyData(): AppData {
     zielrollen: [],
     bewerbungen: [],
     vorlagen: [],
+    wissen: [],
     aktivitaeten: [],
     einstellungen: { anzeigename: '', letzteSicherungAm: null },
   }

@@ -454,3 +454,18 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - **Warum nicht über Supabase:** Wenn künftig auch die verschlüsselten Daten bei Supabase liegen (Phase 9), dürfte der Wiederherstellungsschlüssel nicht dort liegen. Sonst könnte der Anbieter alles entschlüsseln.
 - **Bewusster Kompromiss:** Wer die Mail und Zugang zum Rechner hat, kann die Daten öffnen. Die App weist darauf hin und empfiehlt Zwei-Faktor-Schutz für das Postfach.
 - **Im Browser geprüft** (gebaute App, Testadresse @example.org, danach gelöscht): einrichten, Link aufrufen, neues Passwort setzen, Daten vollständig da.
+
+## 2026-10-07 – Zweites Gehirn: Wissen zu KI und Weiterbildung (task-9-3)
+
+- **Datenmodell:** Schema v7 mit der neuen Sammlung `wissen` (Migration 6 → 7 legt sie leer an).
+  - Typen: Notiz, Prompt, Tool, Erkenntnis, Quelle, Lerntagebuch.
+  - Felder: Titel, Inhalt (Absätze bleiben erhalten), Thema, Quelle, Schlagworte, Datum bzw. Kurstag.
+  - Verknüpfungen mit Projekten, Kurs und Kursaufgaben.
+- **Bereich „Wissen“** (`/wissen`, `/wissen/:id`, in der Navigation nach „Weiterbildung“):
+  - Filter nach Art, Thema (Groß-/Kleinschreibung egal) und Schlagwort, dazu eine Volltextsuche.
+  - Detailseite mit „Inhalt kopieren“, praktisch für Prompts.
+- **Lerntagebuch** auf der Weiterbildungsseite: „Heute eintragen“ legt einen Eintrag für den heutigen Kurstag an, vorbelegt mit Titel „Kurstag N – Datum“. Darunter stehen die letzten Einträge.
+- **Verbindungen:**
+  - Die Projekt-Gesamtsicht zeigt verknüpftes Wissen, und die Suche (Strg+K) findet Wissen und Tagebuch.
+  - Löschen von Projekt, Kurs oder Kursaufgabe löst nur die Verknüpfung.
+- **Speicherung:** im verschlüsselten Tresor wie alle anderen Daten. Mit Phase 9 wird es Ende-zu-Ende-verschlüsselt zwischen Geräten synchronisiert.

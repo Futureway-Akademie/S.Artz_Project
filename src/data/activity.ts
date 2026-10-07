@@ -115,6 +115,11 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
     titel: (v: Eintrag<'vorlagen'>) => v.titel,
     felder: { ...gemeinsam, betreff: 'Betreff', text: 'Text' },
   },
+  wissen: {
+    einzahl: 'Wissenseintrag',
+    titel: (w: Eintrag<'wissen'>) => w.titel,
+    felder: { ...gemeinsam, typ: 'Typ', inhalt: 'Inhalt', thema: 'Thema', quelle: 'Quelle', datum: 'Datum', projektIds: 'Projekte', kursId: 'Kurs', kursAufgabeIds: 'Kursaufgaben' },
+  },
 }
 
 export function titelVon<S extends Sammlung>(sammlung: S, eintrag: Eintrag<S>): string {

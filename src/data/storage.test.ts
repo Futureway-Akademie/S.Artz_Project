@@ -153,6 +153,15 @@ describe('Migration 5 → 6', () => {
   })
 })
 
+describe('Migration 6 → 7', () => {
+  it('legt das zweite Gehirn leer an', () => {
+    const v6 = { ...createEmptyData(), schemaVersion: 6 } as Record<string, unknown>
+    delete v6.wissen
+    const ergebnis = parseAppData(JSON.stringify(v6))
+    expect(ergebnis.status === 'ok' && ergebnis.data.wissen).toEqual([])
+  })
+})
+
 describe('saveAppData', () => {
   it('speichert als JSON unter dem festen Schlüssel', () => {
     const storage = createFakeStorage()

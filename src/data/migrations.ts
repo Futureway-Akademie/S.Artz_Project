@@ -47,6 +47,8 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
     schemaVersion: 6,
     vorlagen: Array.isArray(data.vorlagen) ? data.vorlagen : standardVorlagen(new Date().toISOString()),
   }),
+  // v7: Zweites Gehirn (Wissen zu KI und Weiterbildung)
+  6: (data) => ({ ...data, schemaVersion: 7, wissen: liste(data.wissen) }),
 }
 
 function objekt(value: unknown): Record<string, unknown> {

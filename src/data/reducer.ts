@@ -40,11 +40,16 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
       add('entknuepft', 'kontakte', data.kontakte.filter((k) => k.projektIds.includes(id)))
       add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.projektId === id))
       add('entknuepft', 'leads', data.leads.filter((l) => l.projektId === id))
+      add('entknuepft', 'wissen', data.wissen.filter((w) => w.projektIds.includes(id)))
       break
     case 'kurse':
       add('geloescht', 'kursAufgaben', data.kursAufgaben.filter((k) => k.kursId === id))
       add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('weiterbildung')))
       add('entknuepft', 'termine', data.termine.filter(bezogen('weiterbildung')))
+      add('entknuepft', 'wissen', data.wissen.filter((w) => w.kursId === id))
+      break
+    case 'kursAufgaben':
+      add('entknuepft', 'wissen', data.wissen.filter((w) => w.kursAufgabeIds.includes(id)))
       break
     case 'kontakte':
       add('geloescht', 'interaktionen', data.interaktionen.filter((i) => i.kontaktId === id))
@@ -97,10 +102,15 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
       )
       next.interaktionen = next.interaktionen.map((i) => (i.projektId === id ? { ...i, projektId: null } : i))
       next.leads = next.leads.map((l) => (l.projektId === id ? { ...l, projektId: null } : l))
+      next.wissen = next.wissen.map((w) => (w.projektIds.includes(id) ? { ...w, projektIds: w.projektIds.filter((p) => p !== id) } : w))
       break
     case 'kurse':
       next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'weiterbildung'))
       next.termine = next.termine.map((t) => ohneBezug(t, 'weiterbildung'))
+      next.wissen = next.wissen.map((w) => (w.kursId === id ? { ...w, kursId: null } : w))
+      break
+    case 'kursAufgaben':
+      next.wissen = next.wissen.map((w) => (w.kursAufgabeIds.includes(id) ? { ...w, kursAufgabeIds: w.kursAufgabeIds.filter((k) => k !== id) } : w))
       break
     case 'kontakte':
       next.termine = next.termine.map((t) => ohneBezug(t, 'kontakt'))

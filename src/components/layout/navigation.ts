@@ -14,6 +14,7 @@ export const NAVIGATION: NavEintrag[] = [
   { to: '/projekte', label: 'Projekte', kurz: 'Projekte', icon: 'projekte' },
   { to: '/automationen', label: 'Automationen', kurz: 'Automat.', icon: 'automationen' },
   { to: '/weiterbildung', label: 'Weiterbildung', kurz: 'Kurs', icon: 'weiterbildung' },
+  { to: '/wissen', label: 'Wissen', kurz: 'Wissen', icon: 'wissen' },
   { to: '/pikartz-ai', label: 'PIKARTZ.AI', kurz: 'Marke', icon: 'marke' },
   { to: '/aufgaben', label: 'Aufgaben & Termine', kurz: 'Aufgaben', icon: 'aufgaben' },
   { to: '/kalender', label: 'Kalender', kurz: 'Kalender', icon: 'kalender' },

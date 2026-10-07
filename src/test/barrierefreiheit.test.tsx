@@ -87,6 +87,7 @@ function beispieldaten(): AppData {
           }
         : p,
     ),
+    wissen: [{ id: 'w1', typ: 'prompt', titel: 'Prompt', inhalt: 'Text', thema: 'Prompting', quelle: 'https://example.org', schlagworte: ['x'], datum: null, projektIds: ['seed-projekt-ki-skills'], kursId: null, kursAufgabeIds: [], ...meta }],
     aktivitaeten: [{ id: 'a1', zeitpunkt: zeit, art: 'angelegt', bezug: { sammlung: 'kontakte', id: 'k1', titel: 'Kim Muster' }, zusammenfassung: 'Kontakt „Kim Muster“ angelegt' }],
   }
 }
@@ -101,6 +102,8 @@ const SEITEN = [
   '/aufgaben',
   '/aufgaben?ansicht=termine',
   '/kalender?datum=2026-10-07',
+  '/wissen',
+  '/wissen/w1',
   '/kalender?ansicht=woche&datum=2026-10-07',
   '/kalender?ansicht=liste&datum=2026-10-01',
   '/kontakte',

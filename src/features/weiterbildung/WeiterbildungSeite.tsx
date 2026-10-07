@@ -12,6 +12,7 @@ import { KURSAUFGABE_STATUS } from '../../domain/labels.ts'
 import { naechsterKursCode, selectWeiterbildung } from '../../domain/selectors/weiterbildung.ts'
 import type { KursAufgabe } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
+import { Lerntagebuch } from '../wissen/Lerntagebuch.tsx'
 import { KursAufgabeDialog } from './KursAufgabeDialog.tsx'
 import { KursDialog } from './KursDialog.tsx'
 import styles from './WeiterbildungSeite.module.css'
@@ -169,6 +170,8 @@ export function WeiterbildungSeite() {
           </ul>
         )}
       </Panel>
+
+      <Lerntagebuch kursId={kurs.id} kurstag={t.heuteKurstag} />
 
       {kursBearbeiten && <KursDialog kurs={kurs} onSchliessen={() => setKursBearbeiten(false)} />}
       {aufgabe && (

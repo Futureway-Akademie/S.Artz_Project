@@ -1261,7 +1261,7 @@
       "description": "Anmeldung und geräteübergreifende Speicherung über Supabase – Ende-zu-Ende-verschlüsselt, Supabase sieht nur Chiffretext; Wissensbereich für KI und Weiterbildung.",
       "order": 9,
       "weight": 12,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-9-1",
@@ -1319,7 +1319,7 @@
           "description": "Neuer Bereich Wissen: Notizen, Prompts, Tools, Erkenntnisse, Quellen und Lerntagebuch je Kurstag; Themen und Schlagworte; Verknüpfung mit Projekten, Kurs und Kursaufgaben; Suche (Strg+K) und Gesamtsicht.",
           "order": 3,
           "weight": 4,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-5-7"
           ],
@@ -1329,13 +1329,18 @@
             "Verknüpfung mit Projekten, Kurs und Kursaufgaben, sichtbar in der Gesamtsicht",
             "Filter nach Typ, Thema und Schlagwort; Suche über Strg+K"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T16:40:16Z",
+          "completedAt": "2026-10-07T16:47:42Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Schema v7 mit Sammlung wissen (Notiz, Prompt, Tool, Erkenntnis, Quelle, Lerntagebuch; Thema, Quelle, Schlagworte, Datum, Verknüpfung mit Projekten, Kurs, Kursaufgaben); Bereich /wissen mit Filtern und Detailseite (Inhalt kopieren); Lerntagebuch je Kurstag auf der Weiterbildungsseite; Wissen in Projekt-Gesamtsicht und Suche; Löschfolgen lösen Verknüpfungen. 311 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T16:47:42Z"
           }
         },
         {

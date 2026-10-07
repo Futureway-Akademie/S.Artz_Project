@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 6
+export const SCHEMA_VERSION = 7
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -223,6 +223,24 @@ export const vorlageSchema = z.object({
   text: z.string(),
 })
 
+/** Zweites Gehirn: Wissen zu KI und Weiterbildung */
+export const wissenSchema = z.object({
+  ...meta,
+  typ: z.enum(['notiz', 'prompt', 'tool', 'erkenntnis', 'quelle', 'tagebuch']),
+  titel: z.string().min(1),
+  inhalt: z.string(),
+  /** Freies Thema, z. B. „Prompting“, „n8n“ */
+  thema: z.string(),
+  /** Link oder Herkunft */
+  quelle: z.string(),
+  schlagworte: z.array(z.string()),
+  /** Datum, beim Lerntagebuch der Kurstag */
+  datum: datum.nullable(),
+  projektIds: z.array(id),
+  kursId: id.nullable(),
+  kursAufgabeIds: z.array(id),
+})
+
 export const sammlungen = [
   'projekte',
   'aufgaben',
@@ -238,6 +256,7 @@ export const sammlungen = [
   'zielrollen',
   'bewerbungen',
   'vorlagen',
+  'wissen',
 ] as const
 
 export const aktivitaetSchema = z.object({
@@ -275,6 +294,7 @@ export const appDataSchema = z.object({
   zielrollen: z.array(zielrolleSchema),
   bewerbungen: z.array(bewerbungSchema),
   vorlagen: z.array(vorlageSchema),
+  wissen: z.array(wissenSchema),
   aktivitaeten: z.array(aktivitaetSchema),
   einstellungen: einstellungenSchema,
 })

@@ -9,13 +9,14 @@ import { formatDatum } from '../../domain/dates.ts'
 import { BEWERBUNG_STATUS, INTERAKTION_ART, LEAD_STATUS, PROJEKT_STATUS } from '../../domain/labels.ts'
 import { bezugInfo } from '../../domain/selectors/bezug.ts'
 import { selectVerknuepft, type Verknuepft, type Ziel } from '../../domain/selectors/verknuepft.ts'
+import { WISSEN_TYP } from '../../domain/selectors/wissen.ts'
 import type { Aufgabe, Termin } from '../../domain/types.ts'
 import { useNow } from '../../hooks/useNow.ts'
 import { AufgabeDialog } from '../aufgaben/AufgabeDialog.tsx'
 import { TerminDialog } from '../aufgaben/TerminDialog.tsx'
 import styles from './Gesamtsicht.module.css'
 
-type Abschnitt = keyof Pick<Verknuepft, 'aufgaben' | 'termine' | 'verlauf' | 'kontakte' | 'unternehmen' | 'projekte' | 'bewerbungen' | 'leads'>
+type Abschnitt = keyof Pick<Verknuepft, 'aufgaben' | 'termine' | 'verlauf' | 'kontakte' | 'unternehmen' | 'projekte' | 'bewerbungen' | 'leads' | 'wissen'>
 
 interface GesamtsichtProps {
   ziel: Ziel
@@ -157,6 +158,13 @@ export function Gesamtsicht({ ziel, ohne = [] }: GesamtsichtProps) {
             id={`${ziel.id}-bewerbungen`}
             titel="Bewerbungen"
             eintraege={v.bewerbungen.map((b) => ({ id: b.id, text: b.stelle, link: `/bewerbungen/${b.id}`, badge: BEWERBUNG_STATUS[b.status] }))}
+          />
+        )}
+        {zeigen('wissen') && v.wissen.length > 0 && (
+          <Liste
+            id={`${ziel.id}-wissen`}
+            titel="Wissen"
+            eintraege={v.wissen.map((w) => ({ id: w.id, text: w.titel, link: `/wissen/${w.id}`, zusatz: WISSEN_TYP[w.typ].label }))}
           />
         )}
         {zeigen('leads') && v.leads.length > 0 && (

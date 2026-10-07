@@ -72,6 +72,11 @@ export function suche(data: AppData, eingabe: string, max = 30): Treffer[] {
       [i.text],
     )
   }
+  for (const w of data.wissen)
+    add(
+      { schluessel: `wissen:${w.id}`, art: w.typ === 'tagebuch' ? 'Lerntagebuch' : 'Wissen', titel: w.titel, unter: [w.thema, w.datum && formatDatum(w.datum)].filter(Boolean).join(' · '), link: `/wissen/${w.id}` },
+      [w.inhalt, w.quelle, ...w.schlagworte],
+    )
   for (const k of data.kursAufgaben)
     add({ schluessel: `kursaufgabe:${k.id}`, art: 'Kursaufgabe', titel: `${k.code} ${k.titel}`, unter: '', link: '/weiterbildung' }, [k.notiz])
 

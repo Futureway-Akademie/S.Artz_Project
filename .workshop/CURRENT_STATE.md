@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v4, Fortschritt 87 % (87 von 100 Gewichtspunkten, 37 von 42 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v4, Fortschritt 91 % (91 von 100 Gewichtspunkten, 38 von 42 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-9-3 – Zweites Gehirn (2026-10-07T16:47:43Z). Wissen, Lerntagebuch, Verknüpfungen.
 - task-5-7 – Passwort-Wiederherstellung per E-Mail-Link (2026-10-07T16:39:58Z). Datenschlüssel v2, Link nur mit Fragment.
 - task-8-4 – Abschlussprüfung Roadmap v3 (2026-10-07T16:05:39Z). 295 Tests, Browser 19 Seiten × 3 Breiten.
 - task-8-3 – Schlagworte und Dubletten (2026-10-07T16:02:13Z). Filter in drei Listen, Warnung bei Dubletten.
@@ -55,7 +56,6 @@ Keine.
 ## Bereite nächste Aufgaben
 
 - task-9-1 – Supabase-Anbindung und Login
-- task-9-3 – Zweites Gehirn: Wissen zu KI und Weiterbildung
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -143,8 +143,8 @@ Keine.
 |---|---|---|---|
 | task-9-1 | Supabase-Anbindung und Login | ▶️ startbar | – |
 | task-9-2 | Verschlüsselte Synchronisierung | ⏳ geplant | task-9-1 |
-| task-9-3 | Zweites Gehirn: Wissen zu KI und Weiterbildung | ▶️ startbar | – |
-| task-9-4 | Abschlussprüfung Roadmap v4 | ⏳ geplant | task-9-1, task-9-2, task-9-3 |
+| task-9-3 | Zweites Gehirn: Wissen zu KI und Weiterbildung | ✅ erledigt |  |
+| task-9-4 | Abschlussprüfung Roadmap v4 | ⏳ geplant | task-9-1, task-9-2 |
 
 ## Blockiert
 

@@ -163,3 +163,10 @@
   flex-wrap: wrap;
   gap: var(--space-1);
 }
+
+.vorschau {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}

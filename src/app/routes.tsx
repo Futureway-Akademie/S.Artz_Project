@@ -18,6 +18,8 @@ import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden } from '../features/NichtGefunden.tsx'
 import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
+import { WissenDetailSeite } from '../features/wissen/WissenDetailSeite.tsx'
+import { WissenSeite } from '../features/wissen/WissenSeite.tsx'
 import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
 import { ProjekteSeite } from '../features/projekte/ProjekteSeite.tsx'
 
@@ -36,6 +38,10 @@ export function AppRoutes() {
         <Route path="pikartz-ai" element={<MarkeSeite />} />
         <Route path="aufgaben" element={<AufgabenSeite />} />
         <Route path="kalender" element={<KalenderSeite />} />
+        <Route path="wissen">
+          <Route index element={<WissenSeite />} />
+          <Route path=":id" element={<WissenDetailSeite />} />
+        </Route>
         <Route path="kontakte">
           <Route index element={<KontakteSeite />} />
           <Route path="unternehmen" element={<UnternehmenSeite />} />

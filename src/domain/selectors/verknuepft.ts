@@ -1,5 +1,5 @@
 import { heute } from '../dates.ts'
-import type { AppData, Aufgabe, Bewerbung, Interaktion, Kontakt, Lead, Projekt, Termin, Unternehmen } from '../types.ts'
+import type { AppData, Aufgabe, Bewerbung, Interaktion, Kontakt, Lead, Projekt, Termin, Unternehmen, Wissen } from '../types.ts'
 
 /** Eintrag, zu dem alles Zugehörige gesucht wird. Die Arten entsprechen dem Bezug von Aufgaben und Terminen. */
 export interface Ziel {
@@ -21,6 +21,8 @@ export interface Verknuepft {
   projekte: Projekt[]
   bewerbungen: Bewerbung[]
   leads: Lead[]
+  /** Wissenseinträge, die mit dem Projekt verknüpft sind */
+  wissen: Wissen[]
 }
 
 const nach = <T,>(liste: T[], schluessel: (e: T) => string) => [...liste].sort((a, b) => schluessel(a).localeCompare(schluessel(b), 'de'))
@@ -110,5 +112,6 @@ export function selectVerknuepft(data: AppData, ziel: Ziel, now: Date): Verknuep
     projekte: nach(projekte, (p) => p.titel),
     bewerbungen: nach(bewerbungen, (b) => b.stelle),
     leads: nach(leads, (l) => l.titel),
+    wissen: art === 'projekt' ? nach(data.wissen.filter((w) => w.projektIds.includes(id)), (w) => w.titel) : [],
   }
 }
