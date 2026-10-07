@@ -125,3 +125,6 @@
 {"timestamp":"2026-10-07T15:18:48Z","type":"task_completed","taskId":"task-6-2","summary":"Task 'Gesamtsicht auf jeder Detailseite' abgeschlossen."}
 {"timestamp":"2026-10-07T15:18:48Z","type":"task_ready","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' ist startbar."}
 {"timestamp":"2026-10-07T15:18:48Z","type":"task_ready","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' ist startbar."}
+{"timestamp":"2026-10-07T15:18:54Z","type":"task_started","taskId":"task-6-3","summary":"Task 'Globale Suche und Schnellerfassung' gestartet."}
+{"timestamp":"2026-10-07T15:26:08Z","type":"verification_passed","taskId":"task-6-3","summary":"Suche (Strg+K) und Schnellerfassung überall; im Browser geprüft; 257 Tests grün."}
+{"timestamp":"2026-10-07T15:26:08Z","type":"task_completed","taskId":"task-6-3","summary":"Task 'Globale Suche und Schnellerfassung' abgeschlossen."}

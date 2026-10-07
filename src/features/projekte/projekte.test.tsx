@@ -35,9 +35,9 @@ describe('Projekte', () => {
 
   it('filtert nach Suche, Status und Kategorie und bietet Zurücksetzen', () => {
     renderApp('/projekte')
-    tippe(/^Suche/, 'vereins')
+    tippe(/^Suches*$/, 'vereins')
     expect(screen.getByText('1 von 12 Projekten')).toBeInTheDocument()
-    tippe(/^Suche/, 'gibt es nicht')
+    tippe(/^Suches*$/, 'gibt es nicht')
     expect(screen.getByText('Keine Projekte passen zu deiner Auswahl')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Filter zurücksetzen' }))
     fireEvent.change(screen.getByLabelText(/^Status/), { target: { value: 'idee' } })

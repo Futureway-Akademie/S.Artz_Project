@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 76,47 % (65 von 85 Gewichtspunkten, 28 von 37 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 80 % (68 von 85 Gewichtspunkten, 29 von 37 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-6-3 – Globale Suche und Schnellerfassung (2026-10-07T15:26:08Z). Strg+K, Neu anlegen mit Verknüpfung.
 - task-6-2 – Gesamtsicht auf jeder Detailseite (2026-10-07T15:18:48Z). Alles dazu, Detailseiten für Bewerbungen und Leads.
 - task-6-1 – Verknüpfungen erweitern (2026-10-07T15:13:03Z). Schema v5, Auftraggeber, Bezüge auf Bewerbung/Lead/Unternehmen.
 - task-5-5 – DSGVO-Funktionen für Kontakte (2026-10-07T15:04:28Z). Rechtsgrundlage, Auskunft, vollständiges Löschen, Prüfhinweis.
@@ -45,7 +46,6 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-- task-6-3 – Globale Suche und Schnellerfassung
 - task-7-1 – Kalender
 - task-7-2 – E-Mails
 - task-7-3 – Bewerbungsübersicht
@@ -111,7 +111,7 @@ Keine.
 |---|---|---|---|
 | task-6-1 | Verknüpfungen erweitern | ✅ erledigt |  |
 | task-6-2 | Gesamtsicht auf jeder Detailseite | ✅ erledigt |  |
-| task-6-3 | Globale Suche und Schnellerfassung | ▶️ startbar | – |
+| task-6-3 | Globale Suche und Schnellerfassung | ✅ erledigt |  |
 
 ### Kalender, Mails und Bewerbungen
 

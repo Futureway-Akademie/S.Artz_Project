@@ -900,7 +900,7 @@
       "description": "Jeder Eintrag zeigt alles, was zu ihm gehört; überall schnell erfassen und finden.",
       "order": 6,
       "weight": 9,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-6-1",
@@ -966,7 +966,7 @@
           "description": "Suche über alle Bereiche (Strg+K) und Schnellerfassung von Aufgabe, Termin und Kontakt an jeder Stelle.",
           "order": 3,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-6-1"
           ],
@@ -975,13 +975,19 @@
             "Tastenkürzel Strg+K",
             "Schnellerfassung von Aufgabe, Termin und Kontakt aus der Navigation"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:18:54Z",
+          "completedAt": "2026-10-07T15:26:08Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Globale Suche über alle Bereiche (Relevanz, akzentunabhängig, alle Wörter) als zugängliche Combobox mit Strg/Cmd+K und Knöpfen in Topbar, Icon-Leiste und Sidebar; Schnellerfassung für sieben Arten mit Verknüpfung zur geöffneten Detailseite. Im Browser (Build) bei 375/768/1280 px geprüft, Fokusfehler gefunden und behoben. 257 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: Strg+K, Suche, Enter, Breiten 375/768/1280"
+            ],
+            "checkedAt": "2026-10-07T15:26:08Z"
           }
         }
       ]

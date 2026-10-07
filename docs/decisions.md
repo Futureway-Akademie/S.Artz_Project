@@ -344,3 +344,18 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - `/bewerbungen/:id` und `/kontakte/leads/:id` mit Angaben und Gesamtsicht.
   - Die Listen verlinken dorthin, und Bezug, Verlauf und Gesamtsicht verlinken direkt auf die Detailseite.
 - **Keine doppelten Abschnitte:** Eine Seite blendet aus, was sie schon selbst zeigt, z. B. Verlauf und Projekte beim Kontakt, nächste Schritte und Ansprechpartner beim Projekt.
+
+## 2026-10-07 – Globale Suche und Schnellerfassung (task-6-3)
+
+- **Suche** (Strg+K oder Cmd+K, oder der Knopf „Suchen“ in Topbar, Icon-Leiste und Sidebar):
+  - durchsucht Projekte, Kontakte, Unternehmen, Bewerbungen, Leads, Aufgaben, Termine, Verlauf und Kursaufgaben (`src/domain/selectors/suche.ts`).
+  - Akzente und Groß-/Kleinschreibung spielen keine Rolle. Alle Wörter müssen vorkommen.
+  - Sortiert wird nach Relevanz: zuerst Titelanfang, dann Wortanfang, dann im Titel, dann in weiteren Feldern.
+  - Bedienung als Combobox: Pfeiltasten wählen, Enter öffnet, Esc schließt. Beim Öffnen liegt der Fokus im Suchfeld.
+- **Schnellerfassung** („Neu anlegen“):
+  - wählt die Art (Aufgabe, Termin, Kontakt, Unternehmen, Projekt, Bewerbung, Lead) und öffnet den bekannten Dialog.
+  - Auf einer Detailseite werden Aufgaben und Termine mit dem geöffneten Eintrag verknüpft; ein Kontakt bekommt auf der Unternehmensseite das Unternehmen vorbelegt.
+- **Im Browser geprüft** (gebaute App, Testpasswort, danach gelöscht):
+  - Strg+K öffnet die Suche mit Fokus im Feld, und Enter öffnet den Treffer.
+  - Die Knöpfe sind bei 375, 768 und 1280 px sichtbar, ohne horizontalen Überlauf.
+  - Gefundener Fehler: Der Fokus lag zuerst auf „Schließen“. Er ist behoben und mit einem Test abgesichert.

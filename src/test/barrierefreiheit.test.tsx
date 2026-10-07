@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react'
+import { fireEvent, screen, within } from '@testing-library/react'
 import axe from 'axe-core'
 import { beispielSeed } from './beispielStart.ts'
 import type { AppData } from '../domain/types.ts'
@@ -129,6 +129,16 @@ describe('Barrierefreiheit (axe-core)', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Projekt anlegen' }))
     fireEvent.click(screen.getByRole('button', { name: 'Speichern' })) // Fehlerzustand anzeigen
     expect(await pruefe(container)).toEqual([])
+  })
+
+  it('Suche und Schnellerfassung ohne Verstöße', async () => {
+    const { container } = renderApp('/kontakte/k1', { daten: beispieldaten() })
+    fireEvent.keyDown(window, { key: 'k', ctrlKey: true })
+    fireEvent.change(within(screen.getByRole('dialog', { name: 'Suchen' })).getByRole('combobox'), { target: { value: 'kim' } })
+    expect(await pruefe(container.ownerDocument.body)).toEqual([])
+    fireEvent.click(screen.getByRole('button', { name: 'Dialog schließen' }))
+    fireEvent.click(screen.getAllByRole('button', { name: /Neu anlegen/, hidden: true })[0]!)
+    expect(await pruefe(container.ownerDocument.body)).toEqual([])
   })
 
   it('Fehlerseite bei defekten Daten ohne Verstöße', async () => {
