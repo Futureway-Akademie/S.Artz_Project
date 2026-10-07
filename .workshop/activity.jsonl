@@ -55,3 +55,7 @@
 {"timestamp":"2026-10-07T13:27:52Z","type":"verification_passed","taskId":"task-2-2","summary":"typecheck, lint, test (136) und build fehlerfrei; Browser-Prüfung Aufgaben & Termine."}
 {"timestamp":"2026-10-07T13:27:52Z","type":"task_completed","taskId":"task-2-2","summary":"Task 'Aufgaben und Termine' abgeschlossen."}
 {"timestamp":"2026-10-07T13:27:52Z","type":"task_started","taskId":"task-2-4","summary":"Task 'Weiterbildung' gestartet."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"verification_passed","taskId":"task-2-4","summary":"typecheck, lint, test (146) und build fehlerfrei; Browser-Prüfung Weiterbildung."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"task_completed","taskId":"task-2-4","summary":"Task 'Weiterbildung' abgeschlossen."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"task_ready","taskId":"task-2-6","summary":"Task 'Arbeitscockpit' ist startbar."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"task_started","taskId":"task-2-6","summary":"Task 'Arbeitscockpit' gestartet."}

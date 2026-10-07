@@ -5,6 +5,7 @@ import { AutomationenSeite } from '../features/automationen/AutomationenSeite.ts
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
+import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
 import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
 import { ProjekteSeite } from '../features/projekte/ProjekteSeite.tsx'
 
@@ -27,10 +28,7 @@ export function AppRoutes() {
           <Route path=":id" element={<ProjektDetailSeite />} />
         </Route>
         <Route path="automationen" element={<AutomationenSeite />} />
-        <Route
-          path="weiterbildung"
-          element={<Platzhalter titel="Weiterbildung" inhalt="Hier begleitest du künftig die Weiterbildung „KI Automations Spezialist“." />}
-        />
+        <Route path="weiterbildung" element={<WeiterbildungSeite />} />
         <Route path="pikartz-ai" element={<MarkeSeite />} />
         <Route path="aufgaben" element={<AufgabenSeite />} />
         <Route path="kontakte">

@@ -347,7 +347,7 @@
           "description": "Bereich für 'KI Automations Spezialist' (Aug–Dez 2026) mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
           "order": 4,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -360,12 +360,18 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T13:27:52Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:31:09Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 146 Tests grün, davon 10 für Weiterbildung: Arbeitstage Mo–Fr aus dem Gerätedatum (03.08.–18.12.2026 = 100, am 07.10.2026 Kurstag 48, 47 vergangen, 53 verbleibend), Wochenende, vor/nach Kurs, Ableitung aus Monaten; Fortschritt nur aus erledigten Kursaufgaben, sonst Leerzustand; Code-Format KIAutomSpez_X_YY mit Vorschlag und Duplikatprüfung; Kursdaten bearbeiten mit Datumsprüfung. Browser (Desktop): Kacheln, Kursdaten und Module sichtbar, Fortschritt als Leerzustand.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /weiterbildung (Screenshot Desktop)"
+            ],
+            "checkedAt": "2026-10-07T13:31:09Z"
           }
         },
         {
@@ -406,7 +412,7 @@
           "description": "Dashboard mit Begrüßung und Tagesübersicht, nächsten Schritten, aktuellen Projekten, Weiterbildung, anstehenden Aufgaben und Terminen sowie letzten Aktivitäten.",
           "order": 6,
           "weight": 3,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-2-1",
             "task-2-2",
@@ -419,7 +425,7 @@
             "Letzte Aktivitäten zeigen nur echte Änderungen",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:31:09Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

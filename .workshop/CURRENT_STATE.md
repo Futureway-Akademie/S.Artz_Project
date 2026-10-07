@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 57,45 % (27 von 47 Gewichtspunkten, 12 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 63,83 % (30 von 47 Gewichtspunkten, 13 von 21 Tasks).
 
 ## Aktive Phase
 
@@ -10,10 +10,11 @@ Arbeitsbereiche (phase-2).
 
 ## Aktive Aufgabe
 
-task-2-4 – Weiterbildung (in_progress seit 2026-10-07T13:27:52Z).
+task-2-6 – Arbeitscockpit (in_progress seit 2026-10-07T13:31:09Z).
 
 ## Zuletzt abgeschlossen
 
+- task-2-4 – Weiterbildung (Kursdaten, Arbeitstage Mo–Fr nach Gerätedatum, Kursaufgaben im Format KIAutomSpez_X_YY, Fortschritt nur aus Erledigungen).
 - task-2-2 – Aufgaben und Termine (zentrale Liste mit Suche und Filtern nach Status, Frist und Bezug, Gruppen nach Fristlage; Termine mit optionaler Uhrzeit; Tabs).
 - task-2-3 – Automationen (Übersicht nach Plattform oder Projekt, Automation je Projekt erfassen/bearbeiten/entfernen, immer „nicht verbunden“).
 - task-4-1 – Einstellungen (Anzeigename, JSON-Export, geprüfter Import mit Bestätigung, Zurücksetzen mit Bestätigung, Demo-Hinweis).
@@ -52,9 +53,9 @@ Keine.
 | task-2-1 | Projekte | ✅ erledigt |  |
 | task-2-2 | Aufgaben und Termine | ✅ erledigt |  |
 | task-2-3 | Automationen | ✅ erledigt |  |
-| task-2-4 | Weiterbildung | 🔨 in Arbeit | – |
+| task-2-4 | Weiterbildung | ✅ erledigt |  |
 | task-2-5 | PIKARTZ.AI-Bereich | ✅ erledigt |  |
-| task-2-6 | Arbeitscockpit | ⏳ geplant | task-2-4 |
+| task-2-6 | Arbeitscockpit | 🔨 in Arbeit | – |
 
 ### CRM und Bewerbungen
 
