@@ -2,11 +2,11 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 100 % (47 von 47 Gewichtspunkten, 21 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v3, Fortschritt 58,82 % (50 von 85 Gewichtspunkten, 22 von 37 Tasks).
 
 ## Aktive Phase
 
-Alle Phasen abgeschlossen.
+Datenschutz und Sicherheit (phase-5).
 
 ## Aktive Aufgabe
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-5-1 – Persönliche Daten aus dem Repository entfernen (2026-10-07T14:36:04Z). Startdaten nur lokal, fiktive Testdaten, Wächter-Test.
 - task-4-3 – End-to-End-Prüfung und Dokumentation (14 Seiten × 3 Breiten, docs/pruefprotokoll.md, architecture.md auf Umsetzungsstand, README).
 - task-4-2 – Zustände und Barrierefreiheit (axe-core-Prüfung aller Seiten ohne Verstöße, Fokusring überall, Hinweise für Speicherfehler/andere Tabs/flüchtigen Betrieb getestet).
 - task-3-5 – Cockpit-Bereich für Kontakte und Bewerbungen (fällige Wiedervorlagen, laufende Bewerbungen nach Status, offene Leads; gefilterte Links; Leerzustand).
@@ -38,7 +39,8 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-Keine.
+- task-5-2 – Keine Verbindung nach außen
+- task-5-3 – Verschlüsselung mit Passwort und automatischer Sperre
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -83,9 +85,45 @@ Keine.
 | task-4-2 | Zustände und Barrierefreiheit | ✅ erledigt |  |
 | task-4-3 | End-to-End-Prüfung und Dokumentation | ✅ erledigt |  |
 
+### Datenschutz und Sicherheit
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-5-1 | Persönliche Daten aus dem Repository entfernen | ✅ erledigt |  |
+| task-5-2 | Keine Verbindung nach außen | ▶️ startbar | – |
+| task-5-3 | Verschlüsselung mit Passwort und automatischer Sperre | ▶️ startbar | – |
+| task-5-4 | Verschlüsselte Sicherung und Erinnerung | ⏳ geplant | task-5-3 |
+| task-5-5 | DSGVO-Funktionen für Kontakte | ⏳ geplant | task-5-3 |
+| task-5-6 | Git-Historie bereinigen | ⛔ blockiert | – |
+
+### Alles verbinden
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-6-1 | Verknüpfungen erweitern | ⏳ geplant | task-5-5 |
+| task-6-2 | Gesamtsicht auf jeder Detailseite | ⏳ geplant | task-6-1 |
+| task-6-3 | Globale Suche und Schnellerfassung | ⏳ geplant | task-6-1 |
+
+### Kalender, Mails und Bewerbungen
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-7-1 | Kalender | ⏳ geplant | task-6-1 |
+| task-7-2 | E-Mails | ⏳ geplant | task-6-1 |
+| task-7-3 | Bewerbungsübersicht | ⏳ geplant | task-6-2 |
+
+### Fokus und Alltag
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-8-1 | Cockpit-Fokus | ⏳ geplant | task-7-1 |
+| task-8-2 | Beziehungspflege | ⏳ geplant | task-7-2 |
+| task-8-3 | Schlagworte und Dubletten | ⏳ geplant | task-6-2 |
+| task-8-4 | Abschlussprüfung Roadmap v3 | ⏳ geplant | task-8-1, task-8-2, task-8-3, task-7-3, task-5-4 |
+
 ## Blockiert
 
-Nichts.
+- task-5-6 – Git-Historie bereinigen
 
 ## Wichtige Entscheidungen
 
@@ -107,4 +145,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-Alle 21 Tasks der Roadmap v2 sind abgeschlossen. Als Nächstes gemeinsam mit Sascha durch die App gehen und Anpassungswünsche als neue Tasks (Roadmap v3) aufnehmen.
+Roadmap v3 autonom weiter umsetzen (Saschas Freigabe): task-5-2, dann task-5-3. task-5-6 (Historie) wartet auf Saschas Freigabe für den Force-Push oder darauf, dass der Dozent das Repository auf privat stellt.

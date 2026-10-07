@@ -715,24 +715,37 @@
       "title": "Datenschutz und Sicherheit",
       "description": "Keine persönliche Information von außen einsehbar, Daten verschlüsselt, DSGVO-Funktionen für Kontaktdaten.",
       "order": 5,
-      "weight": 12,
+      "weight": 13,
       "status": "in_progress",
       "tasks": [
         {
           "id": "task-5-1",
           "title": "Persönliche Daten aus dem Repository entfernen",
-          "description": "Alle persönlichen Startdaten (Projekte, Kurs, Zielrollen, Anzeigename) nur noch lokal in seed.privat.ts; Code, Tests und Doku neutral; Git-Historie bereinigen.",
+          "description": "Alle persönlichen Startdaten (Projekte, Kurs, Zielrollen, Anzeigename) nur noch lokal in seed.privat.ts; Code, Tests und Doku neutral.",
           "order": 1,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Kein persönlicher Begriff in versionierten Dateien (automatischer Test)",
             "Öffentliche Startdaten sind neutral, lokale Startdaten werden eingebunden",
-            "Tests nutzen fiktive Beispieldaten",
-            "Git-Historie auf GitHub ohne persönliche Daten"
+            "Tests nutzen fiktive Beispieldaten"
           ],
-          "startedAt": "2026-10-07T14:21:19Z"
+          "startedAt": "2026-10-07T14:21:19Z",
+          "completedAt": "2026-10-07T14:36:03Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Persönliche Startdaten (Projekte, Kurs, Zielrollen, Anzeigename) stehen nur in der ignorierten src/data/seed.privat.ts; öffentlicher Seed enthält nur Designregeln und Demo-Deck. Tests nutzen fiktive Beispieldaten (src/test/beispielStart.ts). Wächter src/test/datenschutz.test.ts prüft alle versionierten Dateien gegen die lokalen Begriffe: 0 Funde. docs/sources/arbeitskontext.md entfernt, Doku neutralisiert. typecheck, lint, 205 Tests und build fehlerfrei. Historienbereinigung als task-5-6 ausgelagert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npx vitest run src/test/datenschutz.test.ts",
+              "git check-ignore src/data/seed.privat.ts"
+            ],
+            "checkedAt": "2026-10-07T14:36:03Z"
+          }
         },
         {
           "id": "task-5-2",
@@ -740,7 +753,7 @@
           "description": "Content-Security-Policy ohne externe Ziele, kein Referrer, externe Links ohne Opener; per Test belegt.",
           "order": 2,
           "weight": 1,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-5-1"
           ],
@@ -748,7 +761,15 @@
             "CSP verbietet Verbindungen zu fremden Servern",
             "Test prüft index.html und Quellcode auf externe Abrufe",
             "Externe Links öffnen mit noopener/noreferrer"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-5-3",
@@ -756,7 +777,7 @@
           "description": "Daten im Browser nur verschlüsselt (AES-GCM, PBKDF2) speichern; Passwort beim ersten Start festlegen; Sperre nach Inaktivität; Passwort ändern.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-5-1"
           ],
@@ -766,7 +787,15 @@
             "Bestehende Klartext-Daten werden beim Festlegen verschlüsselt übernommen",
             "Automatische Sperre nach einstellbarer Inaktivität",
             "Passwort ändern möglich, Hinweis auf fehlende Wiederherstellung"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-5-4",
@@ -782,7 +811,15 @@
             "Exportdatei ist verschlüsselt",
             "Import fragt nach dem Passwort der Sicherung",
             "Cockpit erinnert an fällige Sicherung"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-5-5",
@@ -800,7 +837,38 @@
             "Löschen entfernt den Namen auch aus dem Aktivitätsprotokoll",
             "Hinweis auf Kontakte ohne Aktivität seit 12 Monaten",
             "Datenschutzhinweis in den Einstellungen"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-5-6",
+          "title": "Git-Historie bereinigen",
+          "description": "Persönliche Begriffe aus allen alten Commits entfernen (Rewrite + Force-Push von main und Arbeitszweig); Reste in Pull-Request-Kopien über den GitHub-Support löschen lassen. Blockiert: Force-Push mit umgeschriebener Historie braucht Saschas ausdrückliche Freigabe in den Claude-Code-Berechtigungen (vom Sicherheitssystem blockiert); alternativ stellt der Dozent das Repository auf privat.",
+          "order": 6,
+          "weight": 1,
+          "status": "blocked",
+          "dependsOn": [
+            "task-5-1"
+          ],
+          "definitionOfDone": [
+            "Kein persönlicher Begriff in einem Commit auf GitHub",
+            "GitHub-Support-Anfrage für Pull-Request-Kopien gestellt"
+          ],
+          "startedAt": "2026-10-07T14:35:47Z",
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         }
       ]
     },
@@ -827,7 +895,15 @@
             "Bezug von Aufgaben und Terminen umfasst Bewerbung, Lead und Unternehmen",
             "Verlaufseinträge können Bewerbung oder Lead zugeordnet werden",
             "Datenmigration ohne Datenverlust"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-6-2",
@@ -842,7 +918,15 @@
           "definitionOfDone": [
             "Detailseiten zeigen alle verknüpften Einträge mit Links",
             "Neue verknüpfte Einträge direkt von der Detailseite anlegen"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-6-3",
@@ -858,7 +942,15 @@
             "Suche findet Einträge aller Bereiche und öffnet sie",
             "Tastenkürzel Strg+K",
             "Schnellerfassung von Aufgabe, Termin und Kontakt aus der Navigation"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         }
       ]
     },
@@ -885,7 +977,15 @@
             "Zeigt Termine, Aufgabenfristen, Wiedervorlagen von Kontakten, Bewerbungen und Leads",
             "Einträge anklickbar und direkt anlegbar",
             "Export als .ics-Datei"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-7-2",
@@ -902,7 +1002,15 @@
             "Vorlagen verwalten, Platzhalter für Name, Unternehmen, Stelle",
             "Entwurf öffnet sich im eigenen Mailprogramm",
             "Keine Verbindung zu einem Postfach"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-7-3",
@@ -919,7 +1027,15 @@
             "Kennzahlen (laufend, Gespräche, Absagen, Antwortquote)",
             "Wiedervorlage mit Datum, im Cockpit und Kalender",
             "Detailseite je Bewerbung mit Verlauf, Terminen und Aufgaben"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         }
       ]
     },
@@ -945,7 +1061,15 @@
             "Aufgaben als Fokus markieren, Fokusliste im Cockpit",
             "Abhaken im Cockpit",
             "Wochenvorschau der nächsten 7 Tage"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-8-2",
@@ -961,7 +1085,15 @@
             "Letzter Kontakt je Kontakt sichtbar, Funkstille-Hinweis",
             "Nach Verlaufseintrag nächste Aktion setzen",
             "Projekt „zuletzt aktiv“ automatisch"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-8-3",
@@ -976,7 +1108,15 @@
           "definitionOfDone": [
             "Schlagworte erfassen und filtern",
             "Warnung bei gleichem Namen oder gleicher E-Mail"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         },
         {
           "id": "task-8-4",
@@ -996,7 +1136,15 @@
             "Alle automatischen Prüfungen grün",
             "Alle Seiten bei drei Breiten geprüft",
             "Architektur, Entscheidungen und Prüfprotokoll aktuell"
-          ]
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
         }
       ]
     }
