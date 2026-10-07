@@ -1523,7 +1523,7 @@
           "description": "Agenten mit Rolle, Systemprompt, Plattform, Werkzeugen (verknüpfte Integrationen) und Status; Skills; Workflows (n8n, Make) mit Auslöser, Schritten und Export-Notiz.",
           "order": 3,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1533,12 +1533,16 @@
             "Verknüpfungen in beide Richtungen sichtbar"
           ],
           "startedAt": "2026-10-07T23:19:56Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T23:23:42Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Agenten (Einsatzfall, Systemprompt, Plattform, Status, verknüpfte Integrationen zuerst angeboten), Skills (Auslöser), Workflows (Auslöser, Ablauf-Schritte). Verknüpfungen zwischen Werkzeugen in beide Richtungen sichtbar; Schritte zeilenweise mit erhaltenem Erledigt-Status. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:23:42Z"
           }
         },
         {
@@ -1547,7 +1551,7 @@
           "description": "Anleitungen zum Installieren oder Implementieren mit abhakbaren Schritten und Fortschritt; Integrationen (MCP-Server, API, App) mit Status, Doku-Link, Ablageort der Zugangsdaten (nie der Schlüssel selbst) und Datenschutz-Angaben.",
           "order": 4,
           "weight": 3,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-11-1"
           ],
@@ -1556,7 +1560,7 @@
             "Integration mit Art, Status, Doku-Link, Datenschutz (Region, AVV) und Hinweis, wo der Schlüssel liegt",
             "Warnung, wenn etwas wie ein Schlüssel oder Passwort eingegeben wird"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T23:23:42Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

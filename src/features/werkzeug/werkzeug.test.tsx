@@ -2,7 +2,7 @@ import { act, fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { reducer } from '../../data/reducer.ts'
 import { suche } from '../../domain/selectors/suche.ts'
 import { selectVerknuepft } from '../../domain/selectors/verknuepft.ts'
-import { leeresWerkzeug, promptAusfuellen, promptPlatzhalter, werkzeugListe, werkzeugVerknuepft, werkzeugZaehler } from '../../domain/selectors/werkzeug.ts'
+import { leeresWerkzeug, promptAusfuellen, promptPlatzhalter, schritteAusText, werkzeugListe, werkzeugVerknuepft, werkzeugZaehler } from '../../domain/selectors/werkzeug.ts'
 import type { AppData, Werkzeug } from '../../domain/types.ts'
 import { beispielSeed } from '../../test/beispielStart.ts'
 import { createMeta } from '../../test/fakes.ts'
@@ -62,7 +62,49 @@ describe('Werkzeugkasten', () => {
     expect(promptAusfuellen(text, { firma: 'ACME', Stelle: 'KI-Trainer', leer: '' })).toBe('Schreibe an ACME für KI-Trainer – ACME {{leer}}')
   })
 
+  it('übernimmt Schritte zeilenweise und behält den Erledigt-Status', () => {
+    expect(schritteAusText('1. Node installieren\n- Repo klonen\n\n  Starten ', [{ text: 'Repo klonen', erledigt: true }])).toEqual([
+      { text: 'Node installieren', erledigt: false },
+      { text: 'Repo klonen', erledigt: true },
+      { text: 'Starten', erledigt: false },
+    ])
+  })
+
   describe('Bedienung', () => {
+    it('verknüpft einen Agenten mit einer Integration – sichtbar in beide Richtungen', () => {
+      const d = { ...daten(), werkzeug: daten().werkzeug.map((w) => (w.id === 'a1' ? { ...w, werkzeugIds: [] } : w)) }
+      renderApp('/werkzeug/agenten/a1', { daten: d })
+      fireEvent.click(screen.getByRole('button', { name: 'Bearbeiten' }))
+      const dialog = screen.getByRole('dialog', { name: 'Agent bearbeiten' })
+      fireEvent.change(within(dialog).getByLabelText(/^Einsatzfall/), { target: { value: 'Firmenrecherche vor Bewerbungen' } })
+      const werkzeuge = within(dialog).getByRole('group', { name: 'Werkzeuge' })
+      expect(within(werkzeuge).getAllByRole('checkbox')[0]).toHaveAccessibleName('Supabase MCP (Integration)')
+      fireEvent.click(within(werkzeuge).getByRole('checkbox', { name: 'Supabase MCP (Integration)' }))
+      fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
+      expect(screen.getByText('Firmenrecherche vor Bewerbungen')).toBeInTheDocument()
+      fireEvent.click(screen.getByRole('link', { name: 'Supabase MCP' }))
+      expect(screen.getByRole('heading', { level: 1, name: 'Supabase MCP' })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: 'Recherche-Agent' })).toHaveAttribute('href', '/werkzeug/agenten/a1')
+    })
+
+    it('zeigt Workflow-Schritte als Ablauf und hakt Anleitungsschritte mit Fortschritt ab', () => {
+      const d = {
+        ...daten(),
+        werkzeug: [
+          werkzeug('wf', 'workflow', { titel: 'Kontaktformular', schritte: [{ text: 'Webhook', erledigt: false }, { text: 'KI-Klassifizierung', erledigt: false }] }),
+          werkzeug('an', 'anleitung', { titel: 'MCP einrichten', schritte: [{ text: 'Server installieren', erledigt: false }, { text: 'Testen', erledigt: false }] }),
+        ],
+      }
+      const { unmount } = renderApp('/werkzeug/workflows/wf', { daten: d })
+      expect(within(screen.getByRole('region', { name: 'Ablauf' })).getAllByRole('listitem').map((l) => l.textContent)).toEqual(['Webhook', 'KI-Klassifizierung'])
+      unmount()
+      renderApp('/werkzeug/anleitungen/an', { daten: d })
+      const schritte = screen.getByRole('region', { name: 'Schritte' })
+      fireEvent.click(within(schritte).getByRole('checkbox', { name: 'Server installieren' }))
+      expect(within(schritte).getByRole('progressbar', { name: 'Schritte erledigt' })).toHaveAttribute('aria-valuenow', '1')
+    })
+
+
     it('füllt Platzhalter eines Masterprompts aus und kopiert das Ergebnis', async () => {
       const schreiben = vi.fn().mockResolvedValue(undefined)
       Object.defineProperty(navigator, 'clipboard', { value: { writeText: schreiben }, configurable: true })

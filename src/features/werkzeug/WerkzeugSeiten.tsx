@@ -34,6 +34,7 @@ import { NichtGefunden } from '../NichtGefunden.tsx'
 import crm from '../kontakte/crm.module.css'
 import styles from './Werkzeug.module.css'
 import { Ausfuellen } from './Ausfuellen.tsx'
+import { Schritte } from './Schritte.tsx'
 import { WerkzeugDialog } from './WerkzeugDialog.tsx'
 import { inZwischenablage } from './zwischenablage.ts'
 
@@ -252,12 +253,19 @@ export function WerkzeugDetailSeite() {
             {w.inhalt ? <pre className={styles.inhalt}>{w.inhalt}</pre> : <p className={crm.leer}>Noch nichts eingetragen.</p>}
           </Panel>
           {mitPlatzhaltern && <Ausfuellen key={w.inhalt} text={w.inhalt} label={info.inhalt.label} />}
+          {info.schritte && <Schritte werkzeug={w} abhaken={info.schritte.abhaken} />}
         </div>
         <div className={crm.spalte}>
           <Panel titel="Angaben">
             <dl className={crm.daten}>
               <dt>{info.plattform.label}</dt>
               <dd>{w.plattform || 'Nicht angegeben'}</dd>
+              {info.ausloeser && (
+                <>
+                  <dt>{info.ausloeser.label}</dt>
+                  <dd>{w.ausloeser || 'Nicht angegeben'}</dd>
+                </>
+              )}
               {w.version && (
                 <>
                   <dt>Version</dt>

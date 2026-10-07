@@ -6,7 +6,7 @@ import { FormDialog } from '../../components/ui/FormDialog.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { loeschfolgen } from '../../data/reducer.ts'
-import { leeresWerkzeug, WERKZEUG_STATUS, WERKZEUG_TYP, werkzeugPlattformen } from '../../domain/selectors/werkzeug.ts'
+import { leeresWerkzeug, schritteAusText, WERKZEUG_STATUS, WERKZEUG_TYP, werkzeugPlattformen } from '../../domain/selectors/werkzeug.ts'
 import type { Werkzeug, WerkzeugTyp } from '../../domain/types.ts'
 import { listeAusKomma, useForm, type Fehler } from '../../hooks/useForm.ts'
 import styles from '../aufgaben/AufgabeDialog.module.css'
@@ -21,6 +21,9 @@ interface Werte extends Record<string, unknown> {
   link: string
   schlagworte: string
   projektIds: string[]
+  ausloeser: string
+  schritte: string
+  werkzeugIds: string[]
 }
 
 function validiere(werte: Werte): Fehler<Werte> {
@@ -61,10 +64,17 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
       link: basis.link,
       schlagworte: basis.schlagworte.join(', '),
       projektIds: basis.projektIds,
+      ausloeser: basis.ausloeser,
+      schritte: basis.schritte.map((s) => s.text).join('\n'),
+      werkzeugIds: basis.werkzeugIds,
     },
     validiere,
   )
   const { werte, setze, fehler } = form
+  // Andere Werkzeuge zum Verknüpfen; Integrationen zuerst (Werkzeuge eines Agenten)
+  const andere = data.werkzeug
+    .filter((w) => w.id !== eintrag?.id)
+    .sort((a, b) => Number(b.typ === 'integration') - Number(a.typ === 'integration') || a.typ.localeCompare(b.typ) || a.titel.localeCompare(b.titel, 'de'))
 
   const speichern = () => {
     const g = form.pruefen()
@@ -79,13 +89,26 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
       link: g.link.trim(),
       schlagworte: listeAusKomma(g.schlagworte),
       projektIds: g.projektIds,
+      ausloeser: info.ausloeser ? g.ausloeser.trim() : basis.ausloeser,
+      schritte: info.schritte ? schritteAusText(g.schritte, basis.schritte) : basis.schritte,
+      werkzeugIds: g.werkzeugIds.filter((id) => andere.some((w) => w.id === id)),
     }
     if (eintrag) {
-      dispatch({ type: 'aendern', sammlung: 'werkzeug', id: eintrag.id, aenderung: daten })
+      dispatch({
+        type: 'aendern',
+        sammlung: 'werkzeug',
+        id: eintrag.id,
+        aenderung: daten,
+      })
       zeige(`${info.einzahl} gespeichert`)
     } else {
       const id = crypto.randomUUID()
-      dispatch({ type: 'anlegen', sammlung: 'werkzeug', id, daten: { ...leeresWerkzeug(typ), ...daten } })
+      dispatch({
+        type: 'anlegen',
+        sammlung: 'werkzeug',
+        id,
+        daten: { ...leeresWerkzeug(typ), ...daten },
+      })
       zeige(`${info.einzahl} angelegt`)
       onAngelegt?.(id)
     }
@@ -124,28 +147,52 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
             required
             value={werte.status}
             onChange={(e) => setze('status', e.target.value)}
-            options={Object.entries(WERKZEUG_STATUS).map(([value, label]) => ({ value, label }))}
+            options={Object.entries(WERKZEUG_STATUS).map(([value, label]) => ({
+              value,
+              label,
+            }))}
           />
         </div>
-        <TextAreaField label={info.inhalt.label} value={werte.inhalt} onChange={(e) => setze('inhalt', e.target.value)} rows={typ === 'befehl' ? 4 : 10} hint={info.inhalt.hinweis} spellCheck={typ !== 'befehl'} />
+        <TextAreaField
+          label={info.inhalt.label}
+          value={werte.inhalt}
+          onChange={(e) => setze('inhalt', e.target.value)}
+          rows={typ === 'befehl' ? 4 : 10}
+          hint={info.inhalt.hinweis}
+          spellCheck={typ !== 'befehl'}
+        />
+        {info.ausloeser && <TextField label={info.ausloeser.label} value={werte.ausloeser} onChange={(e) => setze('ausloeser', e.target.value)} hint={info.ausloeser.hinweis} />}
+        {info.schritte && <TextAreaField label="Schritte" value={werte.schritte} onChange={(e) => setze('schritte', e.target.value)} rows={6} hint={info.schritte.hinweis} />}
         <div className={styles.zeile}>
           <TextField label="Version" value={werte.version} onChange={(e) => setze('version', e.target.value)} hint="z. B. v2 – mit Beispielen" />
           <TextField label="Link" type="url" value={werte.link} onChange={(e) => setze('link', e.target.value)} hint="Doku oder Quelle" />
         </div>
         <TextField label="Schlagworte" value={werte.schlagworte} onChange={(e) => setze('schlagworte', e.target.value)} hint="Mehrere mit Komma trennen." />
-        {data.projekte.length > 0 && (
+        {(data.projekte.length > 0 || andere.length > 0) && (
           <fieldset className={styles.gruppe}>
             <legend>Verknüpfungen</legend>
-            <div className={styles.auswahlListe} role="group" aria-label="Projekte">
-              {[...data.projekte]
-                .sort((a, b) => a.titel.localeCompare(b.titel, 'de'))
-                .map((p) => (
-                  <label key={p.id} className={styles.check}>
-                    <input type="checkbox" checked={werte.projektIds.includes(p.id)} onChange={(e) => setze('projektIds', umschalten(werte.projektIds, p.id, e.target.checked))} />
-                    {p.titel}
+            {andere.length > 0 && (
+              <div className={styles.auswahlListe} role="group" aria-label="Werkzeuge">
+                {andere.map((w) => (
+                  <label key={w.id} className={styles.check}>
+                    <input type="checkbox" checked={werte.werkzeugIds.includes(w.id)} onChange={(e) => setze('werkzeugIds', umschalten(werte.werkzeugIds, w.id, e.target.checked))} />
+                    {w.titel} ({WERKZEUG_TYP[w.typ].einzahl})
                   </label>
                 ))}
-            </div>
+              </div>
+            )}
+            {data.projekte.length > 0 && (
+              <div className={styles.auswahlListe} role="group" aria-label="Projekte">
+                {[...data.projekte]
+                  .sort((a, b) => a.titel.localeCompare(b.titel, 'de'))
+                  .map((p) => (
+                    <label key={p.id} className={styles.check}>
+                      <input type="checkbox" checked={werte.projektIds.includes(p.id)} onChange={(e) => setze('projektIds', umschalten(werte.projektIds, p.id, e.target.checked))} />
+                      {p.titel}
+                    </label>
+                  ))}
+              </div>
+            )}
           </fieldset>
         )}
       </FormDialog>
@@ -157,7 +204,11 @@ export function WerkzeugDialog({ typ, eintrag, onAngelegt, onSchliessen, onGeloe
           gefahr
           onAbbrechen={() => setLoeschen(false)}
           onBestaetigen={() => {
-            dispatch({ type: 'loeschen', sammlung: 'werkzeug', id: eintrag.id })
+            dispatch({
+              type: 'loeschen',
+              sammlung: 'werkzeug',
+              id: eintrag.id,
+            })
             zeige(`${info.einzahl} gelöscht`)
             onSchliessen()
             onGeloescht?.()

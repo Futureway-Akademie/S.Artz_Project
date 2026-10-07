@@ -1,6 +1,6 @@
 import { werkzeugTypen } from '../../data/schema.ts'
 import type { IconName } from '../../components/ui/Icon.tsx'
-import type { AppData, Werkzeug, WerkzeugTyp } from '../types.ts'
+import type { AppData, Schritt, Werkzeug, WerkzeugTyp } from '../types.ts'
 import { hatSchlagwort } from './schlagworte.ts'
 
 export interface WerkzeugTypInfo {
@@ -14,6 +14,10 @@ export interface WerkzeugTypInfo {
   hinweis: string
   plattform: { label: string; hinweis: string }
   inhalt: { label: string; hinweis: string }
+  /** Auslöser bzw. Einsatzfall, falls der Typ einen hat */
+  ausloeser?: { label: string; hinweis: string }
+  /** Schritte; `abhaken` = Checkliste mit Fortschritt */
+  schritte?: { hinweis: string; abhaken: boolean }
   /** Startstatus beim Anlegen */
   status: Werkzeug['status']
 }
@@ -50,6 +54,7 @@ export const WERKZEUG_TYP: Record<WerkzeugTyp, WerkzeugTypInfo> = {
     hinweis: 'Deine KI-Agenten mit Rolle, Systemprompt und Werkzeugen.',
     plattform: { label: 'Plattform', hinweis: 'z. B. Claude Code, Claude Projects, n8n' },
     inhalt: { label: 'Systemprompt', hinweis: 'Rolle, Ziel, Regeln und Ausgabeformat des Agenten.' },
+    ausloeser: { label: 'Einsatzfall', hinweis: 'Wann setzt du den Agenten ein?' },
     status: 'geplant',
   },
   skill: {
@@ -61,6 +66,7 @@ export const WERKZEUG_TYP: Record<WerkzeugTyp, WerkzeugTypInfo> = {
     hinweis: 'Wiederverwendbare Fähigkeiten, z. B. Claude-Skills oder Slash-Befehle.',
     plattform: { label: 'Plattform', hinweis: 'z. B. Claude Code, Claude.ai' },
     inhalt: { label: 'Anweisungen', hinweis: 'Was der Skill tut und wann er greift.' },
+    ausloeser: { label: 'Auslöser', hinweis: 'z. B. Slash-Befehl /review oder Stichwort' },
     status: 'aktiv',
   },
   anleitung: {
@@ -72,6 +78,7 @@ export const WERKZEUG_TYP: Record<WerkzeugTyp, WerkzeugTypInfo> = {
     hinweis: 'Pläne zum Installieren oder Implementieren von Apps, MCP-Servern und APIs.',
     plattform: { label: 'Für', hinweis: 'z. B. MCP-Server, API, App, Supabase' },
     inhalt: { label: 'Notizen', hinweis: 'Voraussetzungen, Stolperfallen, Ergebnis.' },
+    schritte: { hinweis: 'Ein Schritt je Zeile – später einzeln abhaken.', abhaken: true },
     status: 'geplant',
   },
   integration: {
@@ -94,6 +101,8 @@ export const WERKZEUG_TYP: Record<WerkzeugTyp, WerkzeugTypInfo> = {
     hinweis: 'Automatisierte Abläufe, z. B. in n8n oder Make.',
     plattform: { label: 'Plattform', hinweis: 'z. B. n8n, Make, Zapier' },
     inhalt: { label: 'Notizen', hinweis: 'Ablauf, Export-Ort, Besonderheiten.' },
+    ausloeser: { label: 'Auslöser', hinweis: 'z. B. Webhook, Zeitplan, neue Mail' },
+    schritte: { hinweis: 'Ein Schritt (Knoten) je Zeile.', abhaken: false },
     status: 'geplant',
   },
   abo: {
@@ -215,3 +224,21 @@ export function promptAusfuellen(text: string, werte: Record<string, string>): s
 
 /** Typen, deren Inhalt kopiert und ausgefüllt wird */
 export const MIT_PLATZHALTERN: readonly WerkzeugTyp[] = ['prompt', 'befehl', 'agent', 'skill']
+
+/** Schritte aus Text (eine Zeile je Schritt); Erledigt-Status gleichlautender Schritte bleibt erhalten. */
+export function schritteAusText(text: string, vorher: Schritt[] = []): Schritt[] {
+  const offen = [...vorher]
+  return text
+    .split(/\r?\n/)
+    .map((z) => z.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').trim())
+    .filter(Boolean)
+    .map((text) => {
+      const i = offen.findIndex((s) => s.text === text)
+      const erledigt = i >= 0 ? offen.splice(i, 1)[0]!.erledigt : false
+      return { text, erledigt }
+    })
+}
+
+export function schrittFortschritt(w: Pick<Werkzeug, 'schritte'>): { erledigt: number; gesamt: number } {
+  return { erledigt: w.schritte.filter((s) => s.erledigt).length, gesamt: w.schritte.length }
+}

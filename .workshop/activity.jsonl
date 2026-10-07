@@ -194,3 +194,6 @@
 {"timestamp":"2026-10-07T23:19:56Z","type":"verification_passed","taskId":"task-11-2","summary":"Platzhalter, Vorschau und Kopieren getestet; alle Tests grün."}
 {"timestamp":"2026-10-07T23:19:56Z","type":"task_completed","taskId":"task-11-2","summary":"Task 'Masterprompts und Befehle' abgeschlossen."}
 {"timestamp":"2026-10-07T23:19:56Z","type":"task_started","taskId":"task-11-3","summary":"Task 'Agenten, Skills und Workflows' gestartet."}
+{"timestamp":"2026-10-07T23:23:42Z","type":"verification_passed","taskId":"task-11-3","summary":"Agent-Integration-Verknüpfung, Workflow-Ablauf und Schritt-Logik getestet."}
+{"timestamp":"2026-10-07T23:23:42Z","type":"task_completed","taskId":"task-11-3","summary":"Task 'Agenten, Skills und Workflows' abgeschlossen."}
+{"timestamp":"2026-10-07T23:23:42Z","type":"task_started","taskId":"task-11-4","summary":"Task 'Anleitungen und Integrationen' gestartet."}
