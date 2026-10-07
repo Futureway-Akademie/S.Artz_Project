@@ -29,6 +29,49 @@ task-2-1 – Projekte (in_progress seit 2026-10-07T12:14:35Z, wegen task-1-7 kur
 - task-2-5 – PIKARTZ.AI-Bereich
 - task-4-1 – Einstellungen
 
+## Gesamtplan (aus roadmap.json)
+
+### Grundlage
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-1-1 | Quellen und Marken-Assets übernehmen | ✅ erledigt |  |
+| task-1-2 | Projekt-Setup mit Vite, React und TypeScript | ✅ erledigt |  |
+| task-1-3 | Design-Tokens, Typografie und Basis-Komponenten | ✅ erledigt |  |
+| task-1-4 | Datenmodell, Speicherschicht und Aktivitätsprotokoll | ✅ erledigt |  |
+| task-1-5 | Seed-Daten aus belegten Inhalten | ✅ erledigt |  |
+| task-1-6 | App-Shell mit responsiver Navigation | ✅ erledigt |  |
+| task-1-7 | Startdaten auf Projekt-Übersicht umstellen | ✅ erledigt |  |
+
+### Arbeitsbereiche
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-2-1 | Projekte | 🔨 in Arbeit | – |
+| task-2-2 | Aufgaben und Termine | ▶️ startbar | – |
+| task-2-3 | Automationen | ⏳ geplant | task-2-1 |
+| task-2-4 | Weiterbildung | ▶️ startbar | – |
+| task-2-5 | PIKARTZ.AI-Bereich | ▶️ startbar | – |
+| task-2-6 | Arbeitscockpit | ⏳ geplant | task-2-1, task-2-2, task-2-4 |
+
+### CRM und Bewerbungen
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-3-1 | Kontakte und Unternehmen | ⏳ geplant | task-2-6 |
+| task-3-2 | Kommunikationsverlauf und nächste Aktion | ⏳ geplant | task-3-1 |
+| task-3-3 | Leads | ⏳ geplant | task-3-1 |
+| task-3-4 | Bewerbungen und Zielrollen | ⏳ geplant | task-3-1 |
+| task-3-5 | Cockpit-Bereich für Kontakte und Bewerbungen | ⏳ geplant | task-3-2, task-3-4 |
+
+### Abschluss
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-4-1 | Einstellungen | ▶️ startbar | – |
+| task-4-2 | Zustände und Barrierefreiheit | ⏳ geplant | task-3-5, task-4-1 |
+| task-4-3 | End-to-End-Prüfung und Dokumentation | ⏳ geplant | task-4-2 |
+
 ## Blockiert
 
 Nichts.
