@@ -100,7 +100,7 @@ describe('migrate', () => {
     expect(ergebnis.status).toBe('ok')
     if (ergebnis.status === 'ok') {
       expect(ergebnis.data.schemaVersion).toBe(SCHEMA_VERSION)
-      expect(ergebnis.data.einstellungen).toEqual({ anzeigename: 'Alt', letzteSicherungAm: null })
+      expect(ergebnis.data.einstellungen).toEqual({ anzeigename: 'Alt', letzteSicherungAm: null, letzterMailAbrufAm: null })
       expect(ergebnis.data.projekte[0]).toMatchObject({ titel: 'Altes Projekt', kategorie: '', zuletztAktiv: null })
       expect(ergebnis.data.kurse[0]).toMatchObject({ beschreibung: '', unterrichtszeit: '', umfang: '', module: [] })
     }
@@ -143,7 +143,7 @@ describe('Migration 4 → 5', () => {
 
 describe('Migration 5 → 6', () => {
   it('legt die Startvorlagen an, ohne vorhandene Daten zu ändern', () => {
-    const v5 = { ...createEmptyData(), schemaVersion: 5, einstellungen: { anzeigename: 'X', letzteSicherungAm: null } } as Record<string, unknown>
+    const v5 = { ...createEmptyData(), schemaVersion: 5, einstellungen: { anzeigename: 'X', letzteSicherungAm: null, letzterMailAbrufAm: null } } as Record<string, unknown>
     delete v5.vorlagen
     const ergebnis = parseAppData(JSON.stringify(v5))
     expect(ergebnis.status).toBe('ok')

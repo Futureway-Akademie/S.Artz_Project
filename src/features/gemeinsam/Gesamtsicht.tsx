@@ -5,7 +5,7 @@ import { Button } from '../../components/ui/Button.tsx'
 import { DueLabel } from '../../components/ui/DueLabel.tsx'
 import { Panel } from '../../components/ui/Panel.tsx'
 import { useStore } from '../../data/storeContext.ts'
-import { formatDatum } from '../../domain/dates.ts'
+import { formatDatum, toDatum } from '../../domain/dates.ts'
 import { BEWERBUNG_STATUS, INTERAKTION_ART, LEAD_STATUS, PROJEKT_STATUS } from '../../domain/labels.ts'
 import { bezugInfo } from '../../domain/selectors/bezug.ts'
 import { selectVerknuepft, type Verknuepft, type Ziel } from '../../domain/selectors/verknuepft.ts'
@@ -17,7 +17,7 @@ import { AufgabeDialog } from '../aufgaben/AufgabeDialog.tsx'
 import { TerminDialog } from '../aufgaben/TerminDialog.tsx'
 import styles from './Gesamtsicht.module.css'
 
-type Abschnitt = keyof Pick<Verknuepft, 'aufgaben' | 'termine' | 'verlauf' | 'kontakte' | 'unternehmen' | 'projekte' | 'bewerbungen' | 'leads' | 'wissen' | 'werkzeug'>
+type Abschnitt = keyof Pick<Verknuepft, 'aufgaben' | 'termine' | 'verlauf' | 'kontakte' | 'unternehmen' | 'projekte' | 'bewerbungen' | 'leads' | 'wissen' | 'werkzeug' | 'mails'>
 
 interface GesamtsichtProps {
   ziel: Ziel
@@ -166,6 +166,13 @@ export function Gesamtsicht({ ziel, ohne = [] }: GesamtsichtProps) {
             id={`${ziel.id}-wissen`}
             titel="Wissen"
             eintraege={v.wissen.map((w) => ({ id: w.id, text: w.titel, link: `/wissen/${w.id}`, zusatz: WISSEN_TYP[w.typ].label }))}
+          />
+        )}
+        {zeigen('mails') && v.mails.length > 0 && (
+          <Liste
+            id={`${ziel.id}-mails`}
+            titel="Neue Mails im Postfach"
+            eintraege={v.mails.map((m) => ({ id: m.id, text: m.betreff || '(ohne Betreff)', link: '/postfach', zusatz: `${m.richtung === 'eingang' ? 'Eingang' : 'Ausgang'} · ${formatDatum(toDatum(new Date(m.zeitpunkt)))}` }))}
           />
         )}
         {zeigen('werkzeug') && v.werkzeug.length > 0 && (

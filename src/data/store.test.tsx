@@ -25,7 +25,7 @@ function Anzeige() {
   )
 }
 
-const seed = () => ({ ...createEmptyData(), einstellungen: { anzeigename: 'Alex', letzteSicherungAm: null } })
+const seed = () => ({ ...createEmptyData(), einstellungen: { anzeigename: 'Alex', letzteSicherungAm: null, letzterMailAbrufAm: null } })
 
 beforeEach(() => {
   vi.useFakeTimers()

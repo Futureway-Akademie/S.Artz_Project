@@ -37,7 +37,7 @@ describe('App-Shell', () => {
     renderApp()
     const links = within(hauptnavigation()).getAllByRole('link', { hidden: true })
     expect(links.map((l) => l.textContent)).toEqual(NAVIGATION.map((n) => n.label))
-    expect(NAVIGATION).toHaveLength(21)
+    expect(NAVIGATION).toHaveLength(22)
 
     for (const eintrag of NAVIGATION) {
       fireEvent.click(navLink(eintrag.label))

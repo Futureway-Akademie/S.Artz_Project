@@ -74,6 +74,7 @@ export function datenauskunft(data: AppData, kontaktId: string, now: Date): stri
       zeile('Rechtsgrundlage', k.rechtsgrundlage ? RECHTSGRUNDLAGE[k.rechtsgrundlage].label : 'nicht festgelegt'),
     ]),
     ...abschnitt('Verlauf', interaktionen.map((i) => `- ${formatDatum(i.datum)} · ${INTERAKTION_ART[i.art]}: ${i.text}`)),
+    ...abschnitt('Noch nicht übernommene E-Mails (aus Gmail)', data.mails.filter((m) => m.kontaktId === k.id && m.status === 'neu').map((m) => `- ${formatZeitpunkt(m.zeitpunkt)} · ${m.richtung === 'eingang' ? 'Eingang' : 'Ausgang'}: ${m.betreff || '(ohne Betreff)'}`)),
     ...abschnitt('Aufgaben', aufgaben.map((a) => `- ${a.titel}${a.faelligAm ? ` (Frist ${formatDatum(a.faelligAm)})` : ''}${a.erledigt ? ' – erledigt' : ''}`)),
     ...abschnitt('Termine', termine.map((t) => `- ${formatDatum(t.datum)}${t.uhrzeit ? ` ${t.uhrzeit}` : ''} · ${t.titel}`)),
     ...abschnitt('Leads', leads.map((l) => `- ${l.titel} (${LEAD_STATUS[l.status].label})`)),

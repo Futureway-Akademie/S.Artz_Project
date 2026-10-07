@@ -153,7 +153,7 @@ describe('Cockpit-Selektoren', () => {
 
 describe('Sicherungshinweis', () => {
   const jetzt = new Date('2026-10-20T10:00:00.000Z')
-  const mit = (letzteSicherungAm: string | null) => ({ ...beispielSeed(jetzt), einstellungen: { anzeigename: '', letzteSicherungAm } })
+  const mit = (letzteSicherungAm: string | null) => ({ ...beispielSeed(jetzt), einstellungen: { anzeigename: '', letzteSicherungAm, letzterMailAbrufAm: null } })
 
   it('ist fällig ohne Sicherung und ab 7 Tagen', () => {
     expect(selectSicherungHinweis(mit(null), jetzt)).toEqual({ faellig: true, tage: null })

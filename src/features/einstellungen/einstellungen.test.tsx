@@ -92,7 +92,7 @@ describe('Einstellungen', () => {
 
   it('öffnet eine verschlüsselte Sicherung nur mit ihrem Passwort', async () => {
     renderApp('/einstellungen')
-    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Aus Sicherung', letzteSicherungAm: null } }
+    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Aus Sicherung', letzteSicherungAm: null, letzterMailAbrufAm: null } }
     waehleDatei(datei(await sicherungErstellen(JSON.stringify(neu), 'sicherung-passwort', 1000)))
     const dialog = await screen.findByRole('dialog', { name: 'Sicherung öffnen' })
     fireEvent.change(within(dialog).getByLabelText(/^Passwort der Sicherung/), { target: { value: 'falsches-passwort' } })
@@ -107,7 +107,7 @@ describe('Einstellungen', () => {
 
   it('importiert nach Prüfung und Bestätigung', async () => {
     const { gespeichert } = renderApp('/einstellungen')
-    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Importiert', letzteSicherungAm: null } }
+    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Importiert', letzteSicherungAm: null, letzterMailAbrufAm: null } }
     waehleDatei(datei(JSON.stringify(neu)))
     const dialog = await screen.findByRole('dialog', { name: 'Daten importieren?' })
     expect(within(dialog).getByText(/enthält: 0 Projekte/)).toBeInTheDocument()
@@ -130,7 +130,7 @@ describe('Einstellungen', () => {
   })
 
   it('setzt erst nach Bestätigung zurück', () => {
-    renderApp('/einstellungen', { daten: { ...createEmptyData(), einstellungen: { anzeigename: 'Vorher', letzteSicherungAm: null } } })
+    renderApp('/einstellungen', { daten: { ...createEmptyData(), einstellungen: { anzeigename: 'Vorher', letzteSicherungAm: null, letzterMailAbrufAm: null } } })
     expect(screen.getByText(/Aktueller Datenstand: 0 Projekte/)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Daten zurücksetzen' }))
     const dialog = screen.getByRole('dialog', { name: 'Daten zurücksetzen?' })

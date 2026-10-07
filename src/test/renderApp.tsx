@@ -4,6 +4,8 @@ import { AppRoutes } from '../app/routes.tsx'
 import { CloudProvider } from '../app/CloudProvider.tsx'
 import { StoreGate } from '../app/StoreGate.tsx'
 import type { CloudDienst } from '../data/cloud/cloud.ts'
+import { GmailContext } from '../app/gmailContext.ts'
+import type { MailDienst } from '../data/gmail/gmail.ts'
 import { ToastProvider } from '../components/ui/Toast.tsx'
 import { beispielSeed } from './beispielStart.ts'
 import { STORAGE_KEY } from '../data/storage.ts'
@@ -12,7 +14,7 @@ import type { AppData } from '../domain/types.ts'
 import { createFakeStorage } from './fakes.ts'
 
 /** Rendert die ganze App an `pfad`; Daten im Fake-Speicher (Standard: Seed ohne private Details). */
-export function renderApp(pfad = '/', opts: { storage?: ReturnType<typeof createFakeStorage>; daten?: AppData; cloud?: CloudDienst } = {}) {
+export function renderApp(pfad = '/', opts: { storage?: ReturnType<typeof createFakeStorage>; daten?: AppData; cloud?: CloudDienst; mail?: MailDienst } = {}) {
   const storage =
     opts.storage ?? createFakeStorage(opts.daten ? { [STORAGE_KEY]: JSON.stringify(opts.daten) } : {})
   const app = (
@@ -26,7 +28,8 @@ export function renderApp(pfad = '/', opts: { storage?: ReturnType<typeof create
       </StoreGate>
     </StoreProvider>
   )
-  const ergebnis = render(opts.cloud ? <CloudProvider dienst={opts.cloud}>{app}</CloudProvider> : app)
+  const mitMail = opts.mail ? <GmailContext.Provider value={opts.mail}>{app}</GmailContext.Provider> : app
+  const ergebnis = render(opts.cloud ? <CloudProvider dienst={opts.cloud}>{mitMail}</CloudProvider> : mitMail)
   /** Aktuell gespeicherte Daten (nach Ablauf der Speicherverzögerung) */
   const gespeichert = (): AppData => JSON.parse(storage.map.get(STORAGE_KEY)!)
   return { ...ergebnis, storage, gespeichert }

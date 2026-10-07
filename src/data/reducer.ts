@@ -58,6 +58,7 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
     case 'kontakte':
       add('geloescht', 'interaktionen', data.interaktionen.filter((i) => i.kontaktId === id))
       add('geloescht', 'aufgaben', data.aufgaben.filter(bezogen('kontakt')))
+      add('geloescht', 'mails', data.mails.filter((m) => m.kontaktId === id))
       add('entknuepft', 'termine', data.termine.filter(bezogen('kontakt')))
       add('entknuepft', 'leads', data.leads.filter((l) => l.kontaktId === id))
       add('entknuepft', 'bewerbungen', data.bewerbungen.filter((b) => b.kontaktId === id))
@@ -67,6 +68,7 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
       add('entknuepft', 'leads', data.leads.filter((l) => l.unternehmenId === id))
       add('entknuepft', 'bewerbungen', data.bewerbungen.filter((b) => b.unternehmenId === id))
       add('entknuepft', 'projekte', data.projekte.filter((p) => p.auftraggeberId === id))
+      add('entknuepft', 'mails', data.mails.filter((m) => m.unternehmenId === id))
       add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('unternehmen')))
       add('entknuepft', 'termine', data.termine.filter(bezogen('unternehmen')))
       break
@@ -80,6 +82,7 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
       break
     case 'bewerbungen':
       add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.bewerbungId === id))
+      add('entknuepft', 'mails', data.mails.filter((m) => m.bewerbungId === id))
       add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('bewerbung')))
       add('entknuepft', 'termine', data.termine.filter(bezogen('bewerbung')))
       break
@@ -130,6 +133,7 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
       next.leads = next.leads.map((l) => (l.unternehmenId === id ? { ...l, unternehmenId: null } : l))
       next.bewerbungen = next.bewerbungen.map((b) => (b.unternehmenId === id ? { ...b, unternehmenId: null } : b))
       next.projekte = next.projekte.map((p) => (p.auftraggeberId === id ? { ...p, auftraggeberId: null } : p))
+      next.mails = next.mails.map((m) => (m.unternehmenId === id ? { ...m, unternehmenId: null } : m))
       next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'unternehmen'))
       next.termine = next.termine.map((t) => ohneBezug(t, 'unternehmen'))
       break
@@ -143,6 +147,7 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
       break
     case 'bewerbungen':
       next.interaktionen = next.interaktionen.map((i) => (i.bewerbungId === id ? { ...i, bewerbungId: null } : i))
+      next.mails = next.mails.map((m) => (m.bewerbungId === id ? { ...m, bewerbungId: null } : m))
       next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'bewerbung'))
       next.termine = next.termine.map((t) => ohneBezug(t, 'bewerbung'))
       break
@@ -250,6 +255,49 @@ function kernReducer(data: AppData, action: Action, meta: ActionMeta): AppData {
         bezug: { sammlung: null, id: null, titel: 'Einstellungen' },
         zusammenfassung: geaenderteFelder(data.einstellungen, neu).every((f) => f === 'letzteSicherungAm') ? 'Sicherung erstellt' : 'Einstellungen geändert',
       })
+    }
+
+    case 'mailsAbgerufen': {
+      const bekannt = new Set(data.mails.map((m) => m.gmailId))
+      const zeit = meta.now.toISOString()
+      // auch Doppelte innerhalb eines Abrufs überspringen
+      const neu = action.mails.filter((m) => !bekannt.has(m.gmailId) && Boolean(bekannt.add(m.gmailId))).map((m) => ({ ...m, id: meta.newId(), erstelltAm: zeit, geaendertAm: zeit }))
+      const next = { ...data, mails: [...data.mails, ...neu], einstellungen: { ...data.einstellungen, letzterMailAbrufAm: action.abrufAm } }
+      if (neu.length === 0) return next
+      return mitAktivitaet(next, meta, {
+        art: 'angelegt',
+        bezug: { sammlung: 'mails', id: null, titel: 'Postfach' },
+        zusammenfassung: `${neu.length} ${neu.length === 1 ? 'Mail' : 'Mails'} aus Gmail abgerufen`,
+      })
+    }
+
+    case 'mailUebernehmen': {
+      const mail = data.mails.find((m) => m.id === action.mailId)
+      if (!mail || mail.status !== 'neu') return data
+      let next = data
+      const kontaktId = action.kontaktId
+      if (action.neuerKontakt) {
+        next = kernReducer(next, { type: 'anlegen', sammlung: 'kontakte', daten: action.neuerKontakt, id: kontaktId }, meta)
+      }
+      const interaktionId = meta.newId()
+      const datum = toDatum(new Date(mail.zeitpunkt))
+      next = kernReducer(
+        next,
+        {
+          type: 'anlegen',
+          sammlung: 'interaktionen',
+          id: interaktionId,
+          daten: { kontaktId, art: 'email', datum, text: mail.auszug.trim() || '(ohne Text)', projektId: null, bewerbungId: action.bewerbungId, leadId: null, betreff: mail.betreff, richtung: mail.richtung },
+        },
+        meta,
+      )
+      // Inhalt steht jetzt im Verlauf; die Mail behält nur, was den erneuten Abruf verhindert
+      return {
+        ...next,
+        mails: next.mails.map((m) =>
+          m.id === mail.id ? { ...m, status: 'uebernommen' as const, kontaktId, bewerbungId: action.bewerbungId, interaktionId, von: '', an: [], betreff: '', auszug: '', geaendertAm: meta.now.toISOString() } : m,
+        ),
+      }
     }
 
     case 'ersetzen':

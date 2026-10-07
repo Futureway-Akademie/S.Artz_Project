@@ -186,7 +186,7 @@ describe('reducer: Einstellungen und Ersetzen', () => {
 
   it('ersetzt alle Daten ohne Aktivität', () => {
     const meta = createMeta()
-    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Import', letzteSicherungAm: null } }
+    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Import', letzteSicherungAm: null, letzterMailAbrufAm: null } }
     expect(reducer(createEmptyData(), { type: 'ersetzen', daten: neu }, meta)).toBe(neu)
   })
 

@@ -64,7 +64,7 @@ describe('Erinnerung an die Sicherung', () => {
   })
 
   it('schweigt nach einer frischen Sicherung', () => {
-    renderApp('/', { daten: { ...beispielSeed(), einstellungen: { anzeigename: '', letzteSicherungAm: new Date().toISOString() } } })
+    renderApp('/', { daten: { ...beispielSeed(), einstellungen: { anzeigename: '', letzteSicherungAm: new Date().toISOString(), letzterMailAbrufAm: null } } })
     expect(screen.queryByText('Sicherung fällig.')).toBeNull()
   })
 })

@@ -127,6 +127,6 @@ export function createSeedData(now: Date = new Date(), start: StartDaten = LOKAL
       ...meta,
     })),
     vorlagen: standardVorlagen(zeit),
-    einstellungen: { anzeigename: start.anzeigename, letzteSicherungAm: null },
+    einstellungen: { anzeigename: start.anzeigename, letzteSicherungAm: null, letzterMailAbrufAm: null },
   }
 }

@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 8
+export const SCHEMA_VERSION = 9
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -294,6 +294,28 @@ export const werkzeugSchema = z.object({
   schlagworte: z.array(z.string()),
 })
 
+/**
+ * Aus Gmail abgerufene Mail (nur Kopfzeilen und Auszug). Nach Übernahme oder Verwerfen bleiben nur
+ * Gmail-ID und Status, damit sie nicht erneut abgerufen wird (Datenminimierung).
+ */
+export const mailSchema = z.object({
+  ...meta,
+  gmailId: z.string().min(1),
+  threadId: z.string(),
+  zeitpunkt,
+  von: z.string(),
+  an: z.array(z.string()),
+  betreff: z.string(),
+  auszug: z.string(),
+  richtung: z.enum(['eingang', 'ausgang']),
+  kontaktId: id.nullable(),
+  unternehmenId: id.nullable(),
+  bewerbungId: id.nullable(),
+  status: z.enum(['neu', 'uebernommen', 'verworfen']),
+  /** Verlaufseintrag nach der Übernahme */
+  interaktionId: id.nullable(),
+})
+
 export const sammlungen = [
   'projekte',
   'aufgaben',
@@ -311,6 +333,7 @@ export const sammlungen = [
   'vorlagen',
   'wissen',
   'werkzeug',
+  'mails',
 ] as const
 
 export const aktivitaetSchema = z.object({
@@ -330,6 +353,8 @@ export const einstellungenSchema = z.object({
   anzeigename: z.string(),
   /** Zeitpunkt der letzten verschlüsselten Sicherung (Export) */
   letzteSicherungAm: z.iso.datetime().nullable(),
+  /** Letzter erfolgreicher Mailabruf (Gmail); der nächste Abruf beginnt dort */
+  letzterMailAbrufAm: z.iso.datetime().nullable(),
 })
 
 export const appDataSchema = z.object({
@@ -350,6 +375,7 @@ export const appDataSchema = z.object({
   vorlagen: z.array(vorlageSchema),
   wissen: z.array(wissenSchema),
   werkzeug: z.array(werkzeugSchema),
+  mails: z.array(mailSchema),
   aktivitaeten: z.array(aktivitaetSchema),
   einstellungen: einstellungenSchema,
 })

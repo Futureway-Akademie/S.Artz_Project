@@ -138,6 +138,12 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
       projektIds: 'Projekte',
     },
   },
+  mails: {
+    einzahl: 'E-Mail',
+    // Ohne Betreff und Absender: Das Protokoll soll keine Inhalte Dritter enthalten
+    titel: (m: Eintrag<'mails'>) => `vom ${m.zeitpunkt.slice(8, 10)}.${m.zeitpunkt.slice(5, 7)}.${m.zeitpunkt.slice(0, 4)}`,
+    felder: { ...gemeinsam, kontaktId: 'Kontakt', unternehmenId: 'Unternehmen', bewerbungId: 'Bewerbung', interaktionId: 'Verlauf', von: 'Absender', an: 'Empfänger', betreff: 'Betreff', auszug: 'Auszug' },
+  },
 }
 
 export function titelVon<S extends Sammlung>(sammlung: S, eintrag: Eintrag<S>): string {

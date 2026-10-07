@@ -95,6 +95,7 @@ function beispieldaten(): AppData {
       { ...leeresWerkzeug('abo'), id: 't3', titel: 'Claude Pro', abo: { kostenEur: 21.42, intervall: 'monatlich', naechsteVerlaengerung: '2026-10-15', kuendigungsfristTage: 3 }, ...meta },
       { ...leeresWerkzeug('anleitung'), id: 't4', titel: 'MCP einrichten', schritte: [{ text: 'Installieren', erledigt: true }, { text: 'Testen', erledigt: false }], ...meta },
     ],
+    mails: [{ id: 'm1', gmailId: 'g1', threadId: 't1', zeitpunkt: zeit, von: 'Kim Muster <kim@example.org>', an: ['ich@example.org'], betreff: 'Rückmeldung', auszug: 'Danke für Ihre Bewerbung', richtung: 'eingang', kontaktId: 'k1', unternehmenId: 'u1', bewerbungId: 'b1', status: 'neu', interaktionId: null, ...meta }],
     aktivitaeten: [{ id: 'a1', zeitpunkt: zeit, art: 'angelegt', bezug: { sammlung: 'kontakte', id: 'k1', titel: 'Kim Muster' }, zusammenfassung: 'Kontakt „Kim Muster“ angelegt' }],
   }
 }
@@ -133,6 +134,7 @@ const SEITEN = [
   '/kontakte/leads/l1',
   '/kontakte/vorlagen',
   '/einstellungen',
+  '/postfach',
   '/gibt-es-nicht',
 ]
 

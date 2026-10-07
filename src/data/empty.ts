@@ -20,7 +20,8 @@ export function createEmptyData(): AppData {
     vorlagen: [],
     wissen: [],
     werkzeug: [],
+    mails: [],
     aktivitaeten: [],
-    einstellungen: { anzeigename: '', letzteSicherungAm: null },
+    einstellungen: { anzeigename: '', letzteSicherungAm: null, letzterMailAbrufAm: null },
   }
 }

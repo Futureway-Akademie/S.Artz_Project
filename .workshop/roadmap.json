@@ -1645,7 +1645,7 @@
           "description": "Abruf nur passender Mails (Absender oder Empfänger sind Kontakte oder Unternehmensdomains, optional Suchbegriff), Speicherung im Tresor, automatische Zuordnung zu Kontakt und Bewerbung, Posteingang zum Übernehmen in den Verlauf.",
           "order": 2,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-12-1"
           ],
@@ -1655,12 +1655,16 @@
             "Übernahme als E-Mail-Verlaufseintrag; Mails erscheinen in der Gesamtsicht"
           ],
           "startedAt": "2026-10-07T23:38:46Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T23:47:13Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Schema v9 mit Sammlung mails und letzterMailAbrufAm. Abruf nur passender Mails (Kontaktadressen und Unternehmensdomains, ohne Freemail-Anbieter, ab letztem Abruf bzw. 90 Tage), nur Kopfzeilen und Auszug; nicht zuordenbare Mails werden nicht gespeichert. Automatische Zuordnung zu Kontakt, Unternehmen und laufender Bewerbung; Postfach-Seite (Sidebar) zum Übernehmen in den Verlauf, optional mit neuem Kontakt (Rechtsgrundlage Anbahnung bei Bewerbung), oder Verwerfen; danach wird der Mailinhalt gelöscht. Neue Mails in der Gesamtsicht und in der DSGVO-Auskunft; Löschen eines Kontakts löscht seine Mails. Tests inkl. axe grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:47:13Z"
           }
         },
         {
@@ -1669,7 +1673,7 @@
           "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-11-2",
             "task-11-3",
@@ -1682,7 +1686,7 @@
             "Neue Seiten bei drei Breiten geprüft",
             "Architektur, Entscheidungen und Prüfprotokoll aktuell"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T23:47:13Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

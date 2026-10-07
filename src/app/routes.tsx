@@ -17,6 +17,7 @@ import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSe
 import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
 import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
+import { PostfachSeite } from '../features/postfach/PostfachSeite.tsx'
 import { NichtGefunden } from '../features/NichtGefunden.tsx'
 import { WerkzeugDetailSeite, WerkzeugListeSeite, WerkzeugUebersicht } from '../features/werkzeug/WerkzeugSeiten.tsx'
 import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
@@ -64,6 +65,7 @@ export function AppRoutes() {
           <Route path="zielrollen" element={<ZielrollenSeite />} />
           <Route path=":id" element={<BewerbungDetailSeite />} />
         </Route>
+        <Route path="postfach" element={<PostfachSeite />} />
         <Route path="einstellungen" element={<EinstellungenSeite />} />
         <Route path="*" element={<NichtGefunden />} />
       </Route>

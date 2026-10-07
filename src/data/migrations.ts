@@ -65,6 +65,13 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
       }),
     }
   },
+  // v9: Postfach (aus Gmail abgerufene Mails) und Zeitpunkt des letzten Abrufs
+  8: (data) => ({
+    ...data,
+    schemaVersion: 9,
+    mails: liste(data.mails),
+    einstellungen: { letzterMailAbrufAm: null, ...objekt(data.einstellungen) },
+  }),
 }
 
 /** Wissens-Prompt → Masterprompt; das Thema wird zum Schlagwort. */

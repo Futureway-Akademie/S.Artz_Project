@@ -8,6 +8,7 @@ import type {
   vorlageSchema,
   wissenSchema,
   werkzeugSchema,
+  mailSchema,
   schrittSchema,
   bezugSchema,
   deckSchema,
@@ -50,6 +51,7 @@ export type Wissen = z.infer<typeof wissenSchema>
 export type Werkzeug = z.infer<typeof werkzeugSchema>
 export type WerkzeugTyp = Werkzeug['typ']
 export type Schritt = z.infer<typeof schrittSchema>
+export type Mail = z.infer<typeof mailSchema>
 export type Aktivitaet = z.infer<typeof aktivitaetSchema>
 export type Einstellungen = z.infer<typeof einstellungenSchema>
 export type AppData = z.infer<typeof appDataSchema>

@@ -50,6 +50,7 @@ export const NAV_GRUPPEN: NavGruppe[] = [
     titel: 'Netzwerk & Karriere',
     eintraege: [
       { to: '/kontakte', label: 'Kontakte & Leads', kurz: 'Kontakte', icon: 'kontakte' },
+      { to: '/postfach', label: 'Postfach', kurz: 'Postfach', icon: 'mail' },
       { to: '/bewerbungen', label: 'Bewerbungen', kurz: 'Bewerb.', icon: 'bewerbungen' },
     ],
   },

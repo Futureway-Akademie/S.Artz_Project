@@ -1,5 +1,5 @@
 import { heute } from '../dates.ts'
-import type { AppData, Aufgabe, Bewerbung, Interaktion, Kontakt, Lead, Projekt, Termin, Unternehmen, Werkzeug, Wissen } from '../types.ts'
+import type { AppData, Aufgabe, Bewerbung, Interaktion, Kontakt, Lead, Mail, Projekt, Termin, Unternehmen, Werkzeug, Wissen } from '../types.ts'
 
 /** Eintrag, zu dem alles Zugehörige gesucht wird. Die Arten entsprechen dem Bezug von Aufgaben und Terminen. */
 export interface Ziel {
@@ -25,6 +25,8 @@ export interface Verknuepft {
   wissen: Wissen[]
   /** Werkzeuge (Prompts, Agenten …), die mit dem Projekt verknüpft sind */
   werkzeug: Werkzeug[]
+  /** Neue, noch nicht übernommene Mails aus dem Postfach */
+  mails: Mail[]
 }
 
 const nach = <T,>(liste: T[], schluessel: (e: T) => string) => [...liste].sort((a, b) => schluessel(a).localeCompare(schluessel(b), 'de'))
@@ -116,5 +118,14 @@ export function selectVerknuepft(data: AppData, ziel: Ziel, now: Date): Verknuep
     leads: nach(leads, (l) => l.titel),
     wissen: art === 'projekt' ? nach(data.wissen.filter((w) => w.projektIds.includes(id)), (w) => w.titel) : [],
     werkzeug: art === 'projekt' ? nach(data.werkzeug.filter((w) => w.projektIds.includes(id)), (w) => w.titel) : [],
+    mails: data.mails
+      .filter(
+        (m) =>
+          m.status === 'neu' &&
+          ((art === 'kontakt' && m.kontaktId === id) ||
+            (art === 'unternehmen' && (m.unternehmenId === id || kontakte.some((k) => k.id === m.kontaktId))) ||
+            (art === 'bewerbung' && m.bewerbungId === id)),
+      )
+      .sort((a, b) => b.zeitpunkt.localeCompare(a.zeitpunkt)),
   }
 }
