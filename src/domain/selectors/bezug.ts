@@ -6,7 +6,7 @@ export interface BezugInfo {
   link: string | null
 }
 
-/** Lesbarer Bezug einer Aufgabe oder eines Termins, z. B. „Projekt: Diamond World“. */
+/** Lesbarer Bezug einer Aufgabe oder eines Termins, z. B. „Projekt: Website-Relaunch“. */
 export function bezugInfo(data: AppData, bezug: Bezug): BezugInfo | null {
   switch (bezug.art) {
     case 'ohne':

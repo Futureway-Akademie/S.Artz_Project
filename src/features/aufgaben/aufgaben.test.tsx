@@ -1,13 +1,14 @@
+import type { AppData } from '../../domain/types.ts'
 import { act, fireEvent, screen, within } from '@testing-library/react'
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
 const mitSchritten = () =>
-  createSeedData(new Date(), [
-    { projekt: { id: 'seed-projekt-ci-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null }, offen: ['Bilder ausgeben'] },
+  beispielSeed(new Date(), [
+    { projekt: { id: 'seed-projekt-ki-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null }, offen: ['Bilder ausgeben'] },
   ])
 
-function sichern(gespeichert: () => ReturnType<typeof createSeedData>) {
+function sichern(gespeichert: () => AppData) {
   act(() => {
     window.dispatchEvent(new Event('pagehide'))
   })
@@ -20,7 +21,7 @@ describe('Aufgaben & Termine', () => {
     const gruppe = screen.getByRole('region', { name: /Ohne Frist/ })
     expect(within(gruppe).getByText('Bilder ausgeben')).toBeInTheDocument()
     expect(within(gruppe).getByText('Noch keine Frist hinterlegt')).toBeInTheDocument()
-    expect(within(gruppe).getByRole('link', { name: 'CI-Skills (ci-entwurf / ci-board)' })).toHaveAttribute('href', '/projekte/seed-projekt-ci-skills')
+    expect(within(gruppe).getByRole('link', { name: 'KI-Skills' })).toHaveAttribute('href', '/projekte/seed-projekt-ki-skills')
   })
 
   it('legt eine Aufgabe mit Frist und Weiterbildungsbezug an, erledigt sie und filtert', () => {
@@ -29,11 +30,11 @@ describe('Aufgaben & Termine', () => {
     const dialog = screen.getByRole('dialog', { name: 'Aufgabe anlegen' })
     fireEvent.change(within(dialog).getByLabelText(/^Titel/), { target: { value: 'Abgabe Modul 2' } })
     fireEvent.change(within(dialog).getByLabelText(/^Frist/), { target: { value: '2030-03-02' } })
-    fireEvent.change(within(dialog).getByLabelText(/^Bezug/), { target: { value: 'weiterbildung:seed-kurs-ki-automations-spezialist' } })
+    fireEvent.change(within(dialog).getByLabelText(/^Bezug/), { target: { value: 'weiterbildung:seed-kurs-beispiel' } })
     fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
 
     expect(within(screen.getByRole('region', { name: /Später/ })).getByText('Abgabe Modul 2')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Weiterbildung: KI Automations Spezialist' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Weiterbildung: Beispielkurs Automatisierung' })).toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText('Bezug'), { target: { value: 'weiterbildung' } })
     expect(screen.getByText('1 Aufgabe')).toBeInTheDocument()

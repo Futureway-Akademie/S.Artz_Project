@@ -92,3 +92,5 @@
 {"timestamp":"2026-10-07T13:50:37Z","type":"task_started","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' gestartet."}
 {"timestamp":"2026-10-07T13:53:39Z","type":"verification_passed","taskId":"task-4-3","summary":"typecheck, lint, test (206) und build fehlerfrei; alle Seiten bei 375/768/1280 px geprüft."}
 {"timestamp":"2026-10-07T13:53:39Z","type":"task_completed","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' abgeschlossen."}
+{"timestamp":"2026-10-07T14:21:19Z","type":"roadmap_updated","summary":"Roadmap v3: Phasen 5–8 (Datenschutz, Verbindungen, Kalender/Mails/Bewerbungen, Fokus) nach Freigabe ergänzt."}
+{"timestamp":"2026-10-07T14:21:19Z","type":"task_started","taskId":"task-5-1","summary":"Task 'Persönliche Daten aus dem Repository entfernen' gestartet."}

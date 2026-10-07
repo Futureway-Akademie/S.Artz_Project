@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router'
 import { AppRoutes } from './app/routes.tsx'
 import { StoreGate } from './app/StoreGate.tsx'
 import { NAVIGATION } from './components/layout/navigation.ts'
-import { createSeedData } from './data/seed.ts'
+import { beispielSeed } from './test/beispielStart.ts'
 import { STORAGE_KEY } from './data/storage.ts'
 import { StoreProvider } from './data/store.tsx'
 import { ToastProvider } from './components/ui/Toast.tsx'
@@ -11,7 +11,7 @@ import { createFakeStorage } from './test/fakes.ts'
 
 function renderApp(pfad = '/', storage = createFakeStorage()) {
   return render(
-    <StoreProvider storage={storage} createInitialData={() => createSeedData()}>
+    <StoreProvider storage={storage} createInitialData={() => beispielSeed()}>
       <StoreGate>
         <ToastProvider>
           <MemoryRouter initialEntries={[pfad]}>

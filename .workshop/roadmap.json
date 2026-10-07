@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 2,
+  "roadmapVersion": 3,
   "status": "active",
   "phases": [
     {
@@ -201,7 +201,7 @@
         {
           "id": "task-1-7",
           "title": "Startdaten auf Projekt-Übersicht umstellen",
-          "description": "Seed auf Saschas Projekt-Übersicht (lokale Datei projekte-uebersicht.md, Stand 2026-10-07) umstellen: 12 Projekte mit Kategorie, Status, zuletzt aktiv und nächsten Schritten; Weiterbildungsdetails; Schema-Version 2 mit Migration.",
+          "description": "Seed auf die lokale Projekt-Übersicht umstellen: 12 Projekte mit Kategorie, Status, zuletzt aktiv und nächsten Schritten; Weiterbildungsdetails; Schema-Version 2 mit Migration.",
           "order": 7,
           "weight": 2,
           "status": "completed",
@@ -227,7 +227,7 @@
               "npm run lint",
               "npm test",
               "npm run build",
-              "vitest: einmaliger Abgleich Seed gegen C:/Users/Sascha/Downloads/projekte-uebersicht.md (temporär, nicht im Repo)",
+              "vitest: einmaliger Abgleich Seed gegen lokale Projekt-Übersicht (temporär, nicht im Repo)",
               "Browser: localStorage geprüft"
             ],
             "checkedAt": "2026-10-07T12:27:52Z"
@@ -344,7 +344,7 @@
         {
           "id": "task-2-4",
           "title": "Weiterbildung",
-          "description": "Bereich für 'KI Automations Spezialist' (Aug–Dez 2026) mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
+          "description": "Bereich für die laufende Weiterbildung mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
           "order": 4,
           "weight": 3,
           "status": "completed",
@@ -354,7 +354,7 @@
           ],
           "definitionOfDone": [
             "Kurs mit Zeitraum wird angezeigt",
-            "Aufgaben mit IDs im Format KIAutomSpez_X_YY können angelegt und bearbeitet werden",
+            "Aufgaben mit IDs im Format KURS_X_YY können angelegt und bearbeitet werden",
             "Arbeitstage Mo–Fr werden aus dem Gerätedatum berechnet und getestet",
             "Fortschritt ergibt sich nur aus eingetragenen Erledigungen, sonst Leerzustand",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
@@ -363,7 +363,7 @@
           "completedAt": "2026-10-07T13:31:09Z",
           "verification": {
             "status": "passed",
-            "summary": "typecheck, lint, build fehlerfrei; 146 Tests grün, davon 10 für Weiterbildung: Arbeitstage Mo–Fr aus dem Gerätedatum (03.08.–18.12.2026 = 100, am 07.10.2026 Kurstag 48, 47 vergangen, 53 verbleibend), Wochenende, vor/nach Kurs, Ableitung aus Monaten; Fortschritt nur aus erledigten Kursaufgaben, sonst Leerzustand; Code-Format KIAutomSpez_X_YY mit Vorschlag und Duplikatprüfung; Kursdaten bearbeiten mit Datumsprüfung. Browser (Desktop): Kacheln, Kursdaten und Module sichtbar, Fortschritt als Leerzustand.",
+            "summary": "typecheck, lint, build fehlerfrei; 146 Tests grün, davon 10 für Weiterbildung: Arbeitstage Mo–Fr aus dem Gerätedatum (03.08.–18.12.2026 = 100, am 07.10.2026 Kurstag 48, 47 vergangen, 53 verbleibend), Wochenende, vor/nach Kurs, Ableitung aus Monaten; Fortschritt nur aus erledigten Kursaufgaben, sonst Leerzustand; Code-Format KURS_X_YY mit Vorschlag und Duplikatprüfung; Kursdaten bearbeiten mit Datumsprüfung. Browser (Desktop): Kacheln, Kursdaten und Module sichtbar, Fortschritt als Leerzustand.",
             "commands": [
               "npm run typecheck",
               "npm run lint",
@@ -707,6 +707,296 @@
             ],
             "checkedAt": "2026-10-07T13:53:39Z"
           }
+        }
+      ]
+    },
+    {
+      "id": "phase-5",
+      "title": "Datenschutz und Sicherheit",
+      "description": "Keine persönliche Information von außen einsehbar, Daten verschlüsselt, DSGVO-Funktionen für Kontaktdaten.",
+      "order": 5,
+      "weight": 12,
+      "status": "in_progress",
+      "tasks": [
+        {
+          "id": "task-5-1",
+          "title": "Persönliche Daten aus dem Repository entfernen",
+          "description": "Alle persönlichen Startdaten (Projekte, Kurs, Zielrollen, Anzeigename) nur noch lokal in seed.privat.ts; Code, Tests und Doku neutral; Git-Historie bereinigen.",
+          "order": 1,
+          "weight": 3,
+          "status": "in_progress",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Kein persönlicher Begriff in versionierten Dateien (automatischer Test)",
+            "Öffentliche Startdaten sind neutral, lokale Startdaten werden eingebunden",
+            "Tests nutzen fiktive Beispieldaten",
+            "Git-Historie auf GitHub ohne persönliche Daten"
+          ],
+          "startedAt": "2026-10-07T14:21:19Z"
+        },
+        {
+          "id": "task-5-2",
+          "title": "Keine Verbindung nach außen",
+          "description": "Content-Security-Policy ohne externe Ziele, kein Referrer, externe Links ohne Opener; per Test belegt.",
+          "order": 2,
+          "weight": 1,
+          "status": "planned",
+          "dependsOn": [
+            "task-5-1"
+          ],
+          "definitionOfDone": [
+            "CSP verbietet Verbindungen zu fremden Servern",
+            "Test prüft index.html und Quellcode auf externe Abrufe",
+            "Externe Links öffnen mit noopener/noreferrer"
+          ]
+        },
+        {
+          "id": "task-5-3",
+          "title": "Verschlüsselung mit Passwort und automatischer Sperre",
+          "description": "Daten im Browser nur verschlüsselt (AES-GCM, PBKDF2) speichern; Passwort beim ersten Start festlegen; Sperre nach Inaktivität; Passwort ändern.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-5-1"
+          ],
+          "definitionOfDone": [
+            "Im Browser-Speicher steht kein Klartext",
+            "Ohne richtiges Passwort sind die Daten nicht lesbar",
+            "Bestehende Klartext-Daten werden beim Festlegen verschlüsselt übernommen",
+            "Automatische Sperre nach einstellbarer Inaktivität",
+            "Passwort ändern möglich, Hinweis auf fehlende Wiederherstellung"
+          ]
+        },
+        {
+          "id": "task-5-4",
+          "title": "Verschlüsselte Sicherung und Erinnerung",
+          "description": "Export und Import nur verschlüsselt, Erinnerung an regelmäßige Sicherung, dauerhaften Browser-Speicher anfordern.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-5-3"
+          ],
+          "definitionOfDone": [
+            "Exportdatei ist verschlüsselt",
+            "Import fragt nach dem Passwort der Sicherung",
+            "Cockpit erinnert an fällige Sicherung"
+          ]
+        },
+        {
+          "id": "task-5-5",
+          "title": "DSGVO-Funktionen für Kontakte",
+          "description": "Rechtsgrundlage und Zweck je Kontakt, Auskunft je Person, vollständiges Löschen inkl. Protokoll, Prüfhinweis für ruhende Kontakte, Datenschutzhinweis.",
+          "order": 5,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-5-3"
+          ],
+          "definitionOfDone": [
+            "Rechtsgrundlage und Zweck je Kontakt erfassbar",
+            "Auskunft (Art. 15) als Datei je Person",
+            "Löschen entfernt den Namen auch aus dem Aktivitätsprotokoll",
+            "Hinweis auf Kontakte ohne Aktivität seit 12 Monaten",
+            "Datenschutzhinweis in den Einstellungen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-6",
+      "title": "Alles verbinden",
+      "description": "Jeder Eintrag zeigt alles, was zu ihm gehört; überall schnell erfassen und finden.",
+      "order": 6,
+      "weight": 9,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-6-1",
+          "title": "Verknüpfungen erweitern",
+          "description": "Projekte mit Auftraggeber und Ansprechpartnern; Aufgaben, Termine und Verlauf auch mit Bewerbungen, Leads und Unternehmen verknüpfbar.",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-5-5"
+          ],
+          "definitionOfDone": [
+            "Projekt hat Auftraggeber und Ansprechpartner",
+            "Bezug von Aufgaben und Terminen umfasst Bewerbung, Lead und Unternehmen",
+            "Verlaufseinträge können Bewerbung oder Lead zugeordnet werden",
+            "Datenmigration ohne Datenverlust"
+          ]
+        },
+        {
+          "id": "task-6-2",
+          "title": "Gesamtsicht auf jeder Detailseite",
+          "description": "Kontakt, Unternehmen und Projekt zeigen alle zugehörigen Aufgaben, Termine, Verlaufseinträge, Bewerbungen, Leads und Projekte.",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "Detailseiten zeigen alle verknüpften Einträge mit Links",
+            "Neue verknüpfte Einträge direkt von der Detailseite anlegen"
+          ]
+        },
+        {
+          "id": "task-6-3",
+          "title": "Globale Suche und Schnellerfassung",
+          "description": "Suche über alle Bereiche (Strg+K) und Schnellerfassung von Aufgabe, Termin und Kontakt an jeder Stelle.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "Suche findet Einträge aller Bereiche und öffnet sie",
+            "Tastenkürzel Strg+K",
+            "Schnellerfassung von Aufgabe, Termin und Kontakt aus der Navigation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-7",
+      "title": "Kalender, Mails und Bewerbungen",
+      "description": "Kalender über alles, E-Mail-Verlauf und Vorlagen ohne Postfachanbindung, Übersicht über alle Bewerbungen.",
+      "order": 7,
+      "weight": 8,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-7-1",
+          "title": "Kalender",
+          "description": "Monats-, Wochen- und Listenansicht mit Terminen, Fristen, Wiedervorlagen und Kurstagen; Export als .ics-Datei.",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "Monats-, Wochen- und Listenansicht",
+            "Zeigt Termine, Aufgabenfristen, Wiedervorlagen von Kontakten, Bewerbungen und Leads",
+            "Einträge anklickbar und direkt anlegbar",
+            "Export als .ics-Datei"
+          ]
+        },
+        {
+          "id": "task-7-2",
+          "title": "E-Mails",
+          "description": "E-Mails als Verlaufseinträge mit Betreff, Vorlagen mit Platzhaltern, Entwurf im eigenen Mailprogramm öffnen; keine Postfachanbindung.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "E-Mail im Verlauf mit Betreff und Richtung erfassen",
+            "Vorlagen verwalten, Platzhalter für Name, Unternehmen, Stelle",
+            "Entwurf öffnet sich im eigenen Mailprogramm",
+            "Keine Verbindung zu einem Postfach"
+          ]
+        },
+        {
+          "id": "task-7-3",
+          "title": "Bewerbungsübersicht",
+          "description": "Pipeline-Ansicht nach Status, Kennzahlen, Wiedervorlage mit Datum, Detailseite je Bewerbung mit Verlauf und Terminen.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-6-2"
+          ],
+          "definitionOfDone": [
+            "Pipeline-Ansicht nach Status mit Statuswechsel",
+            "Kennzahlen (laufend, Gespräche, Absagen, Antwortquote)",
+            "Wiedervorlage mit Datum, im Cockpit und Kalender",
+            "Detailseite je Bewerbung mit Verlauf, Terminen und Aufgaben"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-8",
+      "title": "Fokus und Alltag",
+      "description": "Cockpit für den Tag, Beziehungspflege, Ordnung und Abschlussprüfung.",
+      "order": 8,
+      "weight": 8,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-8-1",
+          "title": "Cockpit-Fokus",
+          "description": "Fokus-Markierung für Aufgaben, Abhaken direkt im Cockpit, Wochenvorschau.",
+          "order": 1,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-7-1"
+          ],
+          "definitionOfDone": [
+            "Aufgaben als Fokus markieren, Fokusliste im Cockpit",
+            "Abhaken im Cockpit",
+            "Wochenvorschau der nächsten 7 Tage"
+          ]
+        },
+        {
+          "id": "task-8-2",
+          "title": "Beziehungspflege",
+          "description": "Letzter Kontakt und Funkstille-Hinweis, nächste Aktion direkt nach einem Verlaufseintrag, „zuletzt aktiv“ automatisch.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-7-2"
+          ],
+          "definitionOfDone": [
+            "Letzter Kontakt je Kontakt sichtbar, Funkstille-Hinweis",
+            "Nach Verlaufseintrag nächste Aktion setzen",
+            "Projekt „zuletzt aktiv“ automatisch"
+          ]
+        },
+        {
+          "id": "task-8-3",
+          "title": "Schlagworte und Dubletten",
+          "description": "Schlagworte für Kontakte, Unternehmen und Projekte mit Filter; Warnung bei möglichen Dubletten.",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-6-2"
+          ],
+          "definitionOfDone": [
+            "Schlagworte erfassen und filtern",
+            "Warnung bei gleichem Namen oder gleicher E-Mail"
+          ]
+        },
+        {
+          "id": "task-8-4",
+          "title": "Abschlussprüfung Roadmap v3",
+          "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px, Doku und Prüfprotokoll aktualisieren.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-8-1",
+            "task-8-2",
+            "task-8-3",
+            "task-7-3",
+            "task-5-4"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Alle Seiten bei drei Breiten geprüft",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
+          ]
         }
       ]
     }

@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router'
 import { AppRoutes } from '../app/routes.tsx'
 import { StoreGate } from '../app/StoreGate.tsx'
 import { ToastProvider } from '../components/ui/Toast.tsx'
-import { createSeedData } from '../data/seed.ts'
+import { beispielSeed } from './beispielStart.ts'
 import { STORAGE_KEY } from '../data/storage.ts'
 import { StoreProvider } from '../data/store.tsx'
 import type { AppData } from '../domain/types.ts'
@@ -14,7 +14,7 @@ export function renderApp(pfad = '/', opts: { storage?: ReturnType<typeof create
   const storage =
     opts.storage ?? createFakeStorage(opts.daten ? { [STORAGE_KEY]: JSON.stringify(opts.daten) } : {})
   const ergebnis = render(
-    <StoreProvider storage={storage} createInitialData={() => createSeedData(new Date(), [])}>
+    <StoreProvider storage={storage} createInitialData={() => beispielSeed(new Date())}>
       <StoreGate>
         <ToastProvider>
           <MemoryRouter initialEntries={[pfad]}>

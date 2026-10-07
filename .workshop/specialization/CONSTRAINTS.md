@@ -10,7 +10,8 @@ Keine Ausnahme: Es ist höchstens ein Task `in_progress`.
 
 - kein Backend, keine Anmeldung; Speicherung nur in `localStorage`, sichtbar als Demo-Modus gekennzeichnet
 - keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable oder anderen Diensten
-- vorbefüllt wird nur, was in `docs/sources/arbeitskontext.md` belegt ist; Kennzahlen werden immer berechnet
+- vorbefüllt wird nur Belegtes; persönliche Startdaten nur lokal in `src/data/seed.privat.ts`, nie im Repository (Wächter-Test); Kennzahlen werden immer berechnet
+- keine Verbindung nach außen: keine externen Abrufe, keine Telemetrie, alle Daten bleiben im Browser
 
 ## Abhängigkeiten
 

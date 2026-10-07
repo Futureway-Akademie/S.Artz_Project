@@ -1,5 +1,6 @@
+import type { AppData } from '../../domain/types.ts'
 import { act, fireEvent, screen, within } from '@testing-library/react'
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
 function feld(name: RegExp | string) {
@@ -10,7 +11,7 @@ function tippe(name: RegExp | string, wert: string) {
   fireEvent.change(feld(name), { target: { value: wert } })
 }
 
-function speichereDaten(gespeichert: () => ReturnType<typeof createSeedData>) {
+function speichereDaten(gespeichert: () => AppData) {
   act(() => {
     window.dispatchEvent(new Event('pagehide'))
   })
@@ -23,9 +24,9 @@ describe('Projekte', () => {
     expect(screen.getByText('12 Projekte · 10 in Arbeit')).toBeInTheDocument()
     const karten = screen.getAllByRole('listitem')
     expect(karten).toHaveLength(12)
-    expect(within(karten[0]!).getByRole('link', { name: 'Diamond World (Videospiel)' })).toHaveAttribute(
+    expect(within(karten[0]!).getByRole('link', { name: 'Lernspiel (Prototyp)' })).toHaveAttribute(
       'href',
-      '/projekte/seed-projekt-diamond-world',
+      '/projekte/seed-projekt-spiel',
     )
     expect(within(karten[0]!).getByText('In Arbeit')).toBeInTheDocument()
     expect(within(karten[0]!).getByText('Kein offener Schritt')).toBeInTheDocument()
@@ -34,7 +35,7 @@ describe('Projekte', () => {
 
   it('filtert nach Suche, Status und Kategorie und bietet Zurücksetzen', () => {
     renderApp('/projekte')
-    tippe(/^Suche/, 'fidelio')
+    tippe(/^Suche/, 'vereins')
     expect(screen.getByText('1 von 12 Projekten')).toBeInTheDocument()
     tippe(/^Suche/, 'gibt es nicht')
     expect(screen.getByText('Keine Projekte passen zu deiner Auswahl')).toBeInTheDocument()
@@ -79,7 +80,7 @@ describe('Projekte', () => {
   })
 
   it('pflegt nächste Schritte: hinzufügen, erledigen, wieder öffnen, bearbeiten – ohne den Status zu ändern', () => {
-    const { gespeichert } = renderApp('/projekte/seed-projekt-ci-skills')
+    const { gespeichert } = renderApp('/projekte/seed-projekt-ki-skills')
     expect(screen.getByText('Keine offenen Schritte')).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Hinzufügen' }))
@@ -108,7 +109,7 @@ describe('Projekte', () => {
     expect(screen.getByText(/Fällig am/)).toBeInTheDocument()
 
     const daten = speichereDaten(gespeichert)
-    expect(daten.projekte.find((p) => p.id === 'seed-projekt-ci-skills')!.status).toBe('in_arbeit')
+    expect(daten.projekte.find((p) => p.id === 'seed-projekt-ki-skills')!.status).toBe('in_arbeit')
     expect(daten.aktivitaeten.map((a) => a.zusammenfassung)).toEqual([
       'Aufgabe „Bilder als PNG exportieren“ geändert: Titel, Frist',
       'Aufgabe „Bilder exportieren“ wieder geöffnet',
@@ -118,15 +119,15 @@ describe('Projekte', () => {
   })
 
   it('ändert den Status nur manuell und protokolliert das', () => {
-    const { gespeichert } = renderApp('/projekte/seed-projekt-datenschutz-agent')
+    const { gespeichert } = renderApp('/projekte/seed-projekt-pruef-agent')
     fireEvent.change(screen.getByLabelText(/^Status/), { target: { value: 'pausiert' } })
     expect(screen.getAllByText('Pausiert').length).toBeGreaterThan(0)
     const daten = speichereDaten(gespeichert)
-    expect(daten.aktivitaeten[0]!.zusammenfassung).toBe('Projekt „Datenschutz-Agent (DSGVO)“ geändert: Status')
+    expect(daten.aktivitaeten[0]!.zusammenfassung).toBe('Projekt „Prüf-Agent (Konzept)“ geändert: Status')
   })
 
   it('bearbeitet ein Projekt und erzeugt ohne Änderung keine Aktivität', () => {
-    const { gespeichert } = renderApp('/projekte/seed-projekt-jobsuche')
+    const { gespeichert } = renderApp('/projekte/seed-projekt-stellensuche')
     fireEvent.click(screen.getByRole('button', { name: 'Bearbeiten' }))
     fireEvent.click(within(screen.getByRole('dialog', { name: 'Projekt bearbeiten' })).getByRole('button', { name: 'Speichern' }))
     expect(speichereDaten(gespeichert).aktivitaeten).toHaveLength(0)
@@ -135,19 +136,19 @@ describe('Projekte', () => {
     tippe(/^Notizen/, 'Neue Notiz')
     fireEvent.click(within(screen.getByRole('dialog', { name: 'Projekt bearbeiten' })).getByRole('button', { name: 'Speichern' }))
     expect(screen.getByText('Neue Notiz')).toBeInTheDocument()
-    expect(speichereDaten(gespeichert).aktivitaeten[0]!.zusammenfassung).toBe('Projekt „Jobsuche Festanstellung“ geändert: Notizen')
+    expect(speichereDaten(gespeichert).aktivitaeten[0]!.zusammenfassung).toBe('Projekt „Stellensuche“ geändert: Notizen')
   })
 
   it('löscht ein Projekt erst nach Bestätigung und nennt die Folgen', () => {
-    const daten = createSeedData(new Date(), [
-      { projekt: { id: 'seed-projekt-ci-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null }, offen: ['Schritt A'] },
+    const daten = beispielSeed(new Date(), [
+      { projekt: { id: 'seed-projekt-ki-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null }, offen: ['Schritt A'] },
     ])
-    renderApp('/projekte/seed-projekt-ci-skills', { daten })
+    renderApp('/projekte/seed-projekt-ki-skills', { daten })
     fireEvent.click(screen.getByRole('button', { name: 'Löschen' }))
     const dialog = screen.getByRole('dialog', { name: 'Projekt löschen?' })
     expect(within(dialog).getByText(/1 verknüpfte Einträge gelöscht \(Aufgabe\)/)).toBeInTheDocument()
     fireEvent.click(within(dialog).getByRole('button', { name: 'Abbrechen' }))
-    expect(screen.getByRole('heading', { level: 1, name: 'CI-Skills (ci-entwurf / ci-board)' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'KI-Skills' })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Löschen' }))
     fireEvent.click(within(screen.getByRole('dialog', { name: 'Projekt löschen?' })).getByRole('button', { name: 'Projekt löschen' }))

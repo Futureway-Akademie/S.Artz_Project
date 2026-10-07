@@ -18,16 +18,16 @@ describe('Bewerbungen und Zielrollen', () => {
     fireEvent.click(screen.getByRole('link', { name: 'Zielrollen' }))
     const liste = screen.getByRole('list', { name: 'Zielrollen' })
     expect(within(liste).getAllByRole('listitem').map((li) => li.querySelector('span')?.textContent)).toEqual([
-      'Prompt Engineer',
-      'KI-Anwendungsspezialist',
-      'Grafikdesigner mit Social-Media- oder E-Commerce-Fokus',
+      'Datenanalyst',
+      'Projektkoordinator',
+      'Mediengestalter',
     ])
     expect(within(liste).getAllByText('Noch keine Bewerbung')).toHaveLength(3)
   })
 
   it('legt Bewerbungen mit Zielrolle, Quelle, Datum und Link an und filtert nach Status', () => {
     renderApp('/bewerbungen')
-    bewerbungAnlegen('Prompt Engineer (m/w/d)', {
+    bewerbungAnlegen('Datenanalyst (m/w/d)', {
       Zielrolle: 'seed-zielrolle-1',
       Status: 'beworben',
       'Beworben am': '2026-10-05',
@@ -38,8 +38,8 @@ describe('Bewerbungen und Zielrollen', () => {
 
     const liste = screen.getByRole('list', { name: 'Bewerbungen' })
     expect(within(liste).getAllByRole('listitem')).toHaveLength(1) // Standard: nur laufende
-    expect(within(liste).getByText(/Prompt Engineer · Quelle: Jobsuche-Assistent · beworben Mo\., 05\.10\.2026/)).toBeInTheDocument()
-    expect(within(liste).getByRole('link', { name: 'Ausschreibung „Prompt Engineer (m/w/d)“ öffnen' })).toHaveAttribute('href', 'https://example.org/stelle')
+    expect(within(liste).getByText(/Datenanalyst · Quelle: Jobsuche-Assistent · beworben Mo\., 05\.10\.2026/)).toBeInTheDocument()
+    expect(within(liste).getByRole('link', { name: 'Ausschreibung „Datenanalyst (m/w/d)“ öffnen' })).toHaveAttribute('href', 'https://example.org/stelle')
     expect(screen.getByText('Beworben: 1 · Absage: 1')).toBeInTheDocument()
 
     fireEvent.change(screen.getByLabelText('Status'), { target: { value: 'alle' } })

@@ -92,7 +92,7 @@ Die Planung verweist auf „Saschas MD-Datei“ als maßgebliche Quelle. Eine so
 
 - Quelle ist `docs/sources/arbeitskontext.md`. Sie wurde ausschließlich aus Angaben zusammengestellt, die bereits im Repository belegt waren (Projektbrief, Architektur, Roadmap). Stellen ohne belegten Inhalt sind dort mit `[offen]` markiert.
 - Abgleich mit dem geplanten Seed (`docs/architecture.md`, Abschnitt Seed):
-  - übereinstimmend: 5 Projekte; Status Make.com `in_arbeit` mit Notiz „Kern-Pipeline fertig“; übrige Projekte ohne Status; Routing des Klassifikators „geplant“ (Switch-Node offen); Kurs „KI Automations Spezialist“ Aug–Dez 2026, Mo–Fr, ohne Aufgaben; 3 Zielrollen; Anzeigename „Sascha“; keine Kontakte, Unternehmen, Leads, Bewerbungen, Termine oder Aktivitäten
+  - übereinstimmend: 5 Projekte; Status Make.com `in_arbeit` mit Notiz „Kern-Pipeline fertig“; übrige Projekte ohne Status; Routing des Klassifikators „geplant“ (Switch-Node offen); Kurs Aug–Dez 2026, Mo–Fr, ohne Aufgaben; 3 Zielrollen; Anzeigename „Sascha“; keine Kontakte, Unternehmen, Leads, Bewerbungen, Termine oder Aktivitäten
   - nicht belegt: Wortlaut der 3 offenen Klassifikator-Aufgaben, Automationsdetails (Modell, Schwelle, Datenquellen, Pipeline), Inhalt des Demo-Decks, 3 der 10 geplanten Designregeln (belegt sind 7)
   - Regel für task-1-5: Der Seed übernimmt nur, was zu diesem Zeitpunkt in `docs/sources/arbeitskontext.md` steht. Was dann noch `[offen]` ist, wird nicht vorbefüllt. Die 3 Klassifikator-Aufgaben werden nur angelegt, wenn ihr Wortlaut ergänzt wurde.
 - Logos: `Pikartz-Logo.png` (Bildmarke) und `PIKARTZ - in Text - Liberation Sans Bold.png` (Wortmarke „PIKARTZ“) bleiben unverändert. Beide sind schwarz auf weißem, nicht transparentem Hintergrund, die Wortmarke enthält kein „.AI“.
@@ -199,7 +199,7 @@ Sascha hat die eigentliche Projekt-Übersicht geliefert (12 Projekte). Die im Pr
   - Die Tests prüfen das Einbinden mit fiktiven Details.
 - Aus der lokalen Datei gilt:
   - Offene Punkte werden zu nächsten Schritten ohne Frist, [x]-Punkte zu erledigten Schritten ohne Erledigungsdatum.
-  - Kursaufgaben ohne `KIAutomSpez`-Code bleiben nächste Schritte des Tagebuch-Projekts.
+  - Kursaufgaben ohne `KURS`-Code bleiben nächste Schritte des Tagebuch-Projekts.
 - Kein Projekt erhält ein Automationsprofil, weil Plattform, Modell und Routing nicht belegt sind.
 - Zielrollen: nur die bisherigen drei.
 - In der Übersicht genannte Personen und Firmen werden nicht als Kontakte oder Unternehmen angelegt. Das CRM startet leer.
@@ -245,3 +245,17 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Fokus auf die h1 nach Seitenwechsel
   - Dialoge mit Fokusfang, Esc und Fokusrückgabe
   - Tabs mit Pfeiltasten
+
+## 2026-10-07 – Roadmap v3: Datenschutz zuerst (task-5-1)
+
+**Anforderung:** Alles soll verbunden sein, ohne dass auch nur eine Information von außen einsehbar ist, DSGVO-konform. Dazu kommen Kalender, Kontakte, Mails und eine Bewerbungsübersicht.
+
+**Entscheidungen:**
+
+- **Startdaten:** Alle persönlichen Startdaten liegen nur lokal in `src/data/seed.privat.ts` (`STARTDATEN`): Projekte, Weiterbildung, Zielrollen und Anzeigename. Öffentlich bleiben nur die Designregeln und das Demo-Deck der Marke.
+- **Tests und Doku:** Tests nutzen fiktive Beispieldaten (`src/test/beispielStart.ts`). `docs/sources/arbeitskontext.md` ist entfernt.
+- **Wächter-Test:** `src/test/datenschutz.test.ts` liest die Begriffe aus der lokalen Datei (`PRIVATE_BEGRIFFE` plus Titel) und prüft jede versionierte Datei. Die Begriffe selbst stehen nie im Repository. Ohne lokale Datei wird der Test übersprungen.
+- **Git-Historie:** wird neu geschrieben, damit die Begriffe auch in alten Commits fehlen; danach Force-Push von `main` und des Arbeitszweigs. Sascha hat die Entscheidung übertragen („mach, was am sinnvollsten ist“).
+  - Kopien, die GitHub in geschlossenen Pull Requests aufbewahrt, kann nur der GitHub-Support löschen. Der Text dafür liegt Sascha vor.
+- **Verschlüsselung:** wird Pflicht (Saschas Entscheidung). Ein vergessenes Passwort bedeutet Datenverlust; die verschlüsselte Sicherung ist das Backup.
+- **E-Mails:** keine Anbindung an ein Postfach, denn das wäre eine Verbindung nach außen. Mails werden im Verlauf erfasst, und Entwürfe öffnen sich im eigenen Mailprogramm.

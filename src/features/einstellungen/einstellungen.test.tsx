@@ -1,7 +1,7 @@
 import { act, fireEvent, screen, waitFor, within } from '@testing-library/react'
 import { createEmptyData } from '../../data/empty.ts'
 import { exportJson, pruefeImport } from '../../data/exportImport.ts'
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
 function datei(inhalt: string, name = 'export.json') {
@@ -14,7 +14,7 @@ function waehleDatei(file: File) {
 
 describe('Export und Import (rein)', () => {
   it('exportiert alle Daten und liest sie unverändert wieder ein', () => {
-    const daten = createSeedData(new Date('2026-10-07T10:00:00.000Z'), [])
+    const daten = beispielSeed(new Date('2026-10-07T10:00:00.000Z'))
     const ergebnis = pruefeImport(exportJson(daten))
     expect(ergebnis).toEqual({ ok: true, data: daten })
   })
@@ -50,12 +50,12 @@ describe('Einstellungen', () => {
 
   it('speichert den Anzeigenamen mit Aktivität', () => {
     const { gespeichert } = renderApp('/einstellungen')
-    fireEvent.change(screen.getByLabelText('Name für die Begrüßung'), { target: { value: 'Sascha A.' } })
+    fireEvent.change(screen.getByLabelText('Name für die Begrüßung'), { target: { value: 'Alex A.' } })
     fireEvent.click(screen.getByRole('button', { name: 'Speichern' }))
     act(() => {
       window.dispatchEvent(new Event('pagehide'))
     })
-    expect(gespeichert().einstellungen.anzeigename).toBe('Sascha A.')
+    expect(gespeichert().einstellungen.anzeigename).toBe('Alex A.')
     expect(gespeichert().aktivitaeten[0]!.zusammenfassung).toBe('Einstellungen geändert')
   })
 
@@ -108,6 +108,6 @@ describe('Einstellungen', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Daten zurücksetzen' }))
     fireEvent.click(within(screen.getByRole('dialog', { name: 'Daten zurücksetzen?' })).getByRole('button', { name: 'Ja, zurücksetzen' }))
     expect(screen.getByText(/Aktueller Datenstand: 12 Projekte/)).toBeInTheDocument()
-    expect(screen.getByLabelText('Name für die Begrüßung')).toHaveValue('Sascha')
+    expect(screen.getByLabelText('Name für die Begrüßung')).toHaveValue('Alex')
   })
 })

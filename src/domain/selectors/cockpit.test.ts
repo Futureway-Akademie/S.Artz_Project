@@ -1,5 +1,5 @@
 import { createEmptyData } from '../../data/empty.ts'
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import type { Aktivitaet, AppData, Aufgabe, Kontakt, KursAufgabe, Termin } from '../types.ts'
 import {
   kurzesDatum,
@@ -22,7 +22,7 @@ const aufgabe = (id: string, faelligAm: string | null, teil: Partial<Aufgabe> = 
   erledigt: false,
   erledigtAm: null,
   faelligAm,
-  bezug: { art: 'projekt', id: 'seed-projekt-ci-skills' },
+  bezug: { art: 'projekt', id: 'seed-projekt-ki-skills' },
   ...meta,
   ...teil,
 })
@@ -47,8 +47,8 @@ const termin = (id: string, datum: string): Termin => ({ id, titel: id, datum, u
 
 const kursAufgabe = (id: string, faelligAm: string, status: KursAufgabe['status'] = 'offen'): KursAufgabe => ({
   id,
-  kursId: 'seed-kurs-ki-automations-spezialist',
-  code: 'KIAutomSpez_1_01',
+  kursId: 'seed-kurs-beispiel',
+  code: 'KURS_1_01',
   titel: id,
   status,
   faelligAm,
@@ -57,7 +57,7 @@ const kursAufgabe = (id: string, faelligAm: string, status: KursAufgabe['status'
 })
 
 const data: AppData = {
-  ...createSeedData(now, []),
+  ...beispielSeed(now),
   aufgaben: [
     aufgabe('ohne-frist', null),
     aufgabe('ueberfaellig', '2026-10-05'),
@@ -74,7 +74,7 @@ const data: AppData = {
 
 describe('Cockpit-Selektoren', () => {
   it('begrüßt nach Tageszeit mit Namen und langem Datum', () => {
-    expect(selectBegruessung(data, now)).toEqual({ gruss: 'Guten Morgen', name: 'Sascha', datum: 'Mittwoch, 7. Oktober 2026' })
+    expect(selectBegruessung(data, now)).toEqual({ gruss: 'Guten Morgen', name: 'Alex', datum: 'Mittwoch, 7. Oktober 2026' })
     expect(selectBegruessung(data, new Date(2026, 9, 7, 14)).gruss).toBe('Guten Tag')
     expect(selectBegruessung(data, new Date(2026, 9, 7, 20)).gruss).toBe('Guten Abend')
   })

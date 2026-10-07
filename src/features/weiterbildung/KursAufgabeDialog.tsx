@@ -26,7 +26,7 @@ interface KursAufgabeDialogProps {
   onSchliessen: () => void
 }
 
-/** Kursaufgabe im Format KIAutomSpez_X_YY anlegen oder bearbeiten. */
+/** Kursaufgabe im Format KURS_X_YY anlegen oder bearbeiten. */
 export function KursAufgabeDialog({ kurs, aufgabe, codeVorschlag, onSchliessen }: KursAufgabeDialogProps) {
   const { data, dispatch } = useStore()
   const { zeige } = useToast()

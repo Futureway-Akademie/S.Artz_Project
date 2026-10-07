@@ -1,5 +1,5 @@
 import { fireEvent, screen, within } from '@testing-library/react'
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
 beforeEach(() => {
@@ -15,7 +15,7 @@ describe('Arbeitscockpit', () => {
   it('begrüßt mit Name, Datum und Kurstag aus dem Gerätedatum', () => {
     renderApp('/')
     expect(screen.getByRole('heading', { level: 1, name: 'Arbeitscockpit' })).toBeInTheDocument()
-    expect(screen.getByText('Guten Morgen, Sascha')).toBeInTheDocument()
+    expect(screen.getByText('Guten Morgen, Alex')).toBeInTheDocument()
     expect(screen.getByText('Mittwoch, 7. Oktober 2026 · Kurstag 48 von 100')).toBeInTheDocument()
   })
 
@@ -31,8 +31,8 @@ describe('Arbeitscockpit', () => {
 
   it('zeigt nächste Schritte mit Frist-Hinweis und aktuelle Projekte ohne Prozentwerte', () => {
     renderApp('/', {
-      daten: createSeedData(new Date(), [
-        { projekt: { id: 'seed-projekt-ci-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null }, offen: ['Bilder ausgeben'] },
+      daten: beispielSeed(new Date(), [
+        { projekt: { id: 'seed-projekt-ki-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null }, offen: ['Bilder ausgeben'] },
       ]),
     })
     const schritte = screen.getByRole('region', { name: 'Nächste Schritte' })
@@ -41,15 +41,15 @@ describe('Arbeitscockpit', () => {
     expect(within(schritte).getByRole('link', { name: 'Alle anzeigen (1)' })).toBeInTheDocument()
     const projekte = screen.getByRole('region', { name: 'Aktuelle Projekte' })
     expect(within(projekte).getAllByRole('listitem')).toHaveLength(6)
-    expect(within(projekte).queryByText('Lebenslauf Optimierung')).not.toBeInTheDocument()
+    expect(within(projekte).queryByText('Lebenslauf überarbeiten')).not.toBeInTheDocument()
     expect(projekte.textContent).not.toMatch(/\d+\s?%/)
   })
 
   it('zeigt echte Änderungen als letzte Aktivitäten', () => {
-    renderApp('/projekte/seed-projekt-ci-skills')
+    renderApp('/projekte/seed-projekt-ki-skills')
     fireEvent.change(screen.getByLabelText(/^Status/), { target: { value: 'pausiert' } })
     fireEvent.click(screen.getAllByRole('link', { name: 'Arbeitscockpit', hidden: true })[0]!)
     const aktivitaeten = screen.getByRole('region', { name: 'Letzte Aktivitäten' })
-    expect(within(aktivitaeten).getByText('Projekt „CI-Skills (ci-entwurf / ci-board)“ geändert: Status')).toBeInTheDocument()
+    expect(within(aktivitaeten).getByText('Projekt „KI-Skills“ geändert: Status')).toBeInTheDocument()
   })
 })

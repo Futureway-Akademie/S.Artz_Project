@@ -13,7 +13,7 @@ Danach läuft die App unter http://localhost:5173. Weitere Befehle: `npm test`, 
 - Architektur: `docs/architecture.md`
 - Entscheidungen: `docs/decisions.md`
 - Prüfprotokoll: `docs/pruefprotokoll.md`
-- Private Projektdetails (optional, nicht im Repository): `src/data/seed.privat.ts`
+- Persönliche Startdaten (optional, nie im Repository): `src/data/seed.privat.ts` mit `export const STARTDATEN` (Typ `StartDaten` aus `src/data/seed.ts`)
 
 ---
 

@@ -1,4 +1,4 @@
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import type { AppData, Aufgabe, Termin } from '../types.ts'
 import { filtereAufgaben, gruppiereAufgaben, STANDARD_AUFGABEN_FILTER, terminListen } from './aufgaben.ts'
 import { bezugAusText, bezugInfo } from './bezug.ts'
@@ -26,13 +26,13 @@ function termin(id: string, datum: string, uhrzeit: string | null = null): Termi
 }
 
 const data: AppData = {
-  ...createSeedData(now, []),
+  ...beispielSeed(now),
   aufgaben: [
     aufgabe('ueber', { faelligAm: '2026-10-05' }),
     aufgabe('heute', { faelligAm: '2026-10-07', notiz: 'Telefonat vorbereiten' }),
-    aufgabe('woche', { faelligAm: '2026-10-12', bezug: { art: 'projekt', id: 'seed-projekt-ci-skills' } }),
+    aufgabe('woche', { faelligAm: '2026-10-12', bezug: { art: 'projekt', id: 'seed-projekt-ki-skills' } }),
     aufgabe('spaeter', { faelligAm: '2026-11-30' }),
-    aufgabe('ohne', { bezug: { art: 'weiterbildung', id: 'seed-kurs-ki-automations-spezialist' } }),
+    aufgabe('ohne', { bezug: { art: 'weiterbildung', id: 'seed-kurs-beispiel' } }),
     aufgabe('fertig', { erledigt: true }),
   ],
   termine: [termin('gestern', '2026-10-06'), termin('morgen-spaet', '2026-10-08', '15:00'), termin('morgen-frueh', '2026-10-08', '09:00')],
@@ -50,7 +50,7 @@ describe('Aufgaben-Selektoren', () => {
     expect(f({ frist: 'woche' })).toEqual(['heute', 'woche'])
     expect(f({ frist: 'ohne' })).toEqual(['ohne'])
     expect(f({ bezug: 'projekt' })).toEqual(['woche'])
-    expect(f({ bezug: 'projekt:seed-projekt-ci-skills' })).toEqual(['woche'])
+    expect(f({ bezug: 'projekt:seed-projekt-ki-skills' })).toEqual(['woche'])
     expect(f({ bezug: 'weiterbildung' })).toEqual(['ohne'])
     expect(f({ bezug: 'ohne' })).toEqual(['ueber', 'heute', 'spaeter'])
     expect(f({ status: 'erledigt' })).toEqual(['fertig'])
@@ -77,9 +77,9 @@ describe('Aufgaben-Selektoren', () => {
   })
 
   it('beschreibt Bezüge lesbar', () => {
-    expect(bezugInfo(data, bezugAusText('projekt:seed-projekt-ci-skills'))).toEqual({
-      text: 'CI-Skills (ci-entwurf / ci-board)',
-      link: '/projekte/seed-projekt-ci-skills',
+    expect(bezugInfo(data, bezugAusText('projekt:seed-projekt-ki-skills'))).toEqual({
+      text: 'KI-Skills',
+      link: '/projekte/seed-projekt-ki-skills',
     })
     expect(bezugInfo(data, bezugAusText('projekt:weg'))).toEqual({ text: 'Gelöschtes Projekt', link: null })
     expect(bezugInfo(data, bezugAusText('ohne'))).toBeNull()

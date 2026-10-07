@@ -14,7 +14,7 @@ describe('loadAppData', () => {
 
   it('lädt gültige Daten', () => {
     const data = createEmptyData()
-    data.einstellungen.anzeigename = 'Sascha'
+    data.einstellungen.anzeigename = 'Alex'
     const ergebnis = loadAppData(createFakeStorage({ [STORAGE_KEY]: JSON.stringify(data) }))
     expect(ergebnis).toEqual({ status: 'ok', data })
   })
@@ -88,7 +88,7 @@ describe('migrate', () => {
           startDatum: null,
           endeDatum: null,
           arbeitstage: [1, 2, 3, 4, 5],
-          codePraefix: 'KIAutomSpez',
+          codePraefix: 'KURS',
           erstelltAm: zeit,
           geaendertAm: zeit,
         },

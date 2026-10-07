@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react'
 import axe from 'axe-core'
-import { createSeedData } from '../data/seed.ts'
+import { beispielSeed } from './beispielStart.ts'
 import type { AppData } from '../domain/types.ts'
 import { renderApp } from './renderApp.tsx'
 
@@ -20,8 +20,8 @@ const zeit = '2026-10-01T10:00:00.000Z'
 const meta = { erstelltAm: zeit, geaendertAm: zeit }
 
 function beispieldaten(): AppData {
-  const seed = createSeedData(new Date(), [
-    { projekt: { id: 'seed-projekt-ci-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null, tools: ['Langdock'] }, offen: ['Bilder ausgeben'], erledigt: ['Skill gebaut'] },
+  const seed = beispielSeed(new Date(), [
+    { projekt: { id: 'seed-projekt-ki-skills', titel: '', kategorie: '', status: null, zuletztAktiv: null, tools: ['Werkzeug A'] }, offen: ['Bilder ausgeben'], erledigt: ['Skill gebaut'] },
   ])
   return {
     ...seed,
@@ -38,19 +38,19 @@ function beispieldaten(): AppData {
         kontext: 'jobsuche',
         herkunft: 'Messe',
         notiz: '',
-        projektIds: ['seed-projekt-ci-skills'],
+        projektIds: ['seed-projekt-ki-skills'],
         naechsteAktion: { text: 'Nachfassen', faelligAm: '2026-10-07' },
         ...meta,
       },
     ],
     interaktionen: [{ id: 'i1', kontaktId: 'k1', art: 'telefonat', datum: '2026-10-05', text: 'Erstgespräch', projektId: null, ...meta }],
     termine: [{ id: 't1', titel: 'Coaching', datum: '2030-01-10', uhrzeit: '10:00', ort: 'Online', notiz: '', bezug: { art: 'ohne', id: null }, ...meta }],
-    kursAufgaben: [{ id: 'ka1', kursId: 'seed-kurs-ki-automations-spezialist', code: 'KIAutomSpez_1_01', titel: 'Übung', status: 'erledigt', faelligAm: null, notiz: '', ...meta }],
+    kursAufgaben: [{ id: 'ka1', kursId: 'seed-kurs-beispiel', code: 'KURS_1_01', titel: 'Übung', status: 'erledigt', faelligAm: null, notiz: '', ...meta }],
     leads: [{ id: 'l1', titel: 'Schulung', kontaktId: 'k1', unternehmenId: 'u1', status: 'neu', betragEur: null, naechsterSchritt: '', notiz: '', ...meta }],
     bewerbungen: [
       {
         id: 'b1',
-        stelle: 'Prompt Engineer',
+        stelle: 'Datenanalyst',
         unternehmenId: 'u1',
         zielrolleId: 'seed-zielrolle-1',
         kontaktId: 'k1',
@@ -64,7 +64,7 @@ function beispieldaten(): AppData {
       },
     ],
     projekte: seed.projekte.map((p) =>
-      p.id === 'seed-projekt-handwerker-leadmagnet'
+      p.id === 'seed-projekt-kundenformular'
         ? {
             ...p,
             automation: {
@@ -90,7 +90,7 @@ function beispieldaten(): AppData {
 const SEITEN = [
   '/',
   '/projekte',
-  '/projekte/seed-projekt-ci-skills',
+  '/projekte/seed-projekt-ki-skills',
   '/automationen',
   '/weiterbildung',
   '/pikartz-ai',

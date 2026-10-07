@@ -1,5 +1,5 @@
 import { fireEvent, screen, within } from '@testing-library/react'
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import { selectCrmUebersicht } from '../../domain/selectors/crm.ts'
 import type { AppData, Bewerbung, Kontakt, Lead } from '../../domain/types.ts'
 import { renderApp } from '../../test/renderApp.tsx'
@@ -52,7 +52,7 @@ const lead = (id: string, status: Lead['status'], betragEur: number | null): Lea
 })
 
 const mitCrm = (): AppData => ({
-  ...createSeedData(now, []),
+  ...beispielSeed(now),
   kontakte: [kontakt('ueberfaellig', '2026-10-05'), kontakt('heute', '2026-10-07'), kontakt('spaeter', '2026-10-20'), kontakt('ohne', null)],
   bewerbungen: [bewerbung('a', 'beworben'), bewerbung('b', 'beworben'), bewerbung('c', 'im_gespraech'), bewerbung('d', 'absage')],
   leads: [lead('l1', 'neu', null), lead('l2', 'angebot', 1200), lead('l3', 'zusage', 5000)],
@@ -71,7 +71,7 @@ describe('Cockpit-Bereich für Kontakte und Bewerbungen', () => {
       offeneLeadSumme: 1200,
       leer: false,
     })
-    expect(selectCrmUebersicht(createSeedData(now, []), now)).toMatchObject({ leer: true, offeneLeadSumme: null, faelligeWiedervorlagen: 0 })
+    expect(selectCrmUebersicht(beispielSeed(now), now)).toMatchObject({ leer: true, offeneLeadSumme: null, faelligeWiedervorlagen: 0 })
   })
 
   describe('im Cockpit', () => {

@@ -6,7 +6,7 @@ PIKARTZ.AI – Arbeitscockpit
 
 ## Idee / Problem
 
-Saschas Arbeit (Automationsprojekte, Weiterbildung „KI Automations Spezialist“, Marke PIKARTZ.AI, Kontakte, Bewerbungen) ist über viele Tools verteilt. Das Cockpit beantwortet:
+Saschas Arbeit (Automationsprojekte, Weiterbildung, Marke PIKARTZ.AI, Kontakte, Bewerbungen) ist über viele Tools verteilt. Das Cockpit beantwortet:
 
 - Woran arbeite ich gerade?
 - Was ist der nächste konkrete Schritt?
@@ -64,13 +64,18 @@ Eine lauffähige App mit:
 
 ## Vorbefüllte Inhalte (nur belegt)
 
-- Projekte: die 12 Projekte aus Saschas Projekt-Übersicht (Stand 2026-10-07) mit Kategorie, Status und „zuletzt aktiv“; Beschreibung, Notizen und nächste Schritte ohne Frist nur aus der lokalen, nicht versionierten Datei `src/data/seed.privat.ts` (Roadmap v2, ersetzt die ursprünglich angenommenen 5 Projekte)
-- Weiterbildung „KI Automations Spezialist“ der FutureWay KI Akademie GmbH, 03.08.–18.12.2026, Mo–Fr 09:00–16:05, 800 UE, mit Modulen, ohne eingetragene Kursaufgaben oder Fortschritte
-- Zielrollen: Prompt Engineer, KI-Anwendungsspezialist, Grafikdesigner mit Social-Media- oder E-Commerce-Fokus
+- Projekte mit Kategorie, Status, „zuletzt aktiv“, Beschreibung, Notizen und nächsten Schritten ohne Frist – nur aus der lokalen, nicht versionierten Datei `src/data/seed.privat.ts`
+- Die laufende Weiterbildung mit Zeitraum, Unterrichtszeit, Umfang und Modulen (Details nur lokal), ohne eingetragene Kursaufgaben oder Fortschritte
+- Drei Zielrollen (Titel nur lokal)
 - Designregeln des PIKARTZ.AI Präsentations-Systems
 - keine Kontakte, Unternehmen, Leads, Bewerbungen, Termine oder Aktivitäten
 
-Maßgebliche Quelle ist `docs/sources/arbeitskontext.md`. Saschas Projekt-Übersicht selbst bleibt lokal.
+Alle persönlichen Startdaten liegen nur lokal (`src/data/seed.privat.ts`). Das Repository ist öffentlich und enthält keine persönlichen Inhalte.
+
+## Datenschutz (Roadmap v3)
+
+- keine Information von außen einsehbar: keine externen Verbindungen, Daten verschlüsselt im Browser, Sicherungen verschlüsselt
+- DSGVO: Rechtsgrundlage und Zweck je Kontakt, Auskunft, vollständiges Löschen, Prüfhinweis für ruhende Kontakte
 
 ## Definition of Done
 

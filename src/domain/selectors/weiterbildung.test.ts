@@ -1,9 +1,9 @@
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import type { AppData, KursAufgabe } from '../types.ts'
 import { kursCodeMuster, naechsterKursCode, selectWeiterbildung } from './weiterbildung.ts'
 
-const seed = createSeedData(new Date(2026, 9, 7), [])
-const kursId = 'seed-kurs-ki-automations-spezialist'
+const seed = beispielSeed(new Date(2026, 9, 7))
+const kursId = 'seed-kurs-beispiel'
 const zeit = '2026-10-01T10:00:00.000Z'
 
 const aufgabe = (code: string, status: KursAufgabe['status']): KursAufgabe => ({
@@ -50,21 +50,21 @@ describe('Weiterbildung', () => {
     expect(selectWeiterbildung(seed, new Date(2026, 9, 7))!.fortschritt).toBeNull()
     const mitAufgaben: AppData = {
       ...seed,
-      kursAufgaben: [aufgabe('KIAutomSpez_2_01', 'erledigt'), aufgabe('KIAutomSpez_1_10', 'in_arbeit'), aufgabe('KIAutomSpez_1_02', 'offen')],
+      kursAufgaben: [aufgabe('KURS_2_01', 'erledigt'), aufgabe('KURS_1_10', 'in_arbeit'), aufgabe('KURS_1_02', 'offen')],
     }
     const w = selectWeiterbildung(mitAufgaben, new Date(2026, 9, 7))!
     expect(w.fortschritt).toEqual({ erledigt: 1, gesamt: 3, prozent: 33 })
-    expect(w.aufgaben.map((a) => a.code)).toEqual(['KIAutomSpez_1_02', 'KIAutomSpez_1_10', 'KIAutomSpez_2_01'])
+    expect(w.aufgaben.map((a) => a.code)).toEqual(['KURS_1_02', 'KURS_1_10', 'KURS_2_01'])
   })
 
-  it('prüft und schlägt Codes im Format KIAutomSpez_X_YY vor', () => {
-    const muster = kursCodeMuster('KIAutomSpez')
-    expect(muster.test('KIAutomSpez_3_07')).toBe(true)
-    expect(muster.test('KIAutomSpez_3_7')).toBe(false)
+  it('prüft und schlägt Codes im Format KURS_X_YY vor', () => {
+    const muster = kursCodeMuster('KURS')
+    expect(muster.test('KURS_3_07')).toBe(true)
+    expect(muster.test('KURS_3_7')).toBe(false)
     expect(muster.test('Kurs_3_07')).toBe(false)
     const kurs = seed.kurse[0]!
-    expect(naechsterKursCode(kurs, [])).toBe('KIAutomSpez_1_01')
-    expect(naechsterKursCode(kurs, [aufgabe('KIAutomSpez_3_07', 'offen')])).toBe('KIAutomSpez_3_08')
+    expect(naechsterKursCode(kurs, [])).toBe('KURS_1_01')
+    expect(naechsterKursCode(kurs, [aufgabe('KURS_3_07', 'offen')])).toBe('KURS_3_08')
   })
 
   it('liefert ohne Kurs null', () => {

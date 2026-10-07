@@ -15,7 +15,7 @@ function Anzeige() {
       <p>Aktivitäten: {data.aktivitaeten.length}</p>
       {speicherFehler && <p>Fehler: {speicherFehler}</p>}
       {externGeaendert && <p>Extern geändert</p>}
-      <button type="button" onClick={() => dispatch({ type: 'anlegen', sammlung: 'zielrollen', daten: { titel: 'Prompt Engineer', notiz: '' } })}>
+      <button type="button" onClick={() => dispatch({ type: 'anlegen', sammlung: 'zielrollen', daten: { titel: 'Datenanalyst', notiz: '' } })}>
         Anlegen
       </button>
       <button type="button" onClick={zuruecksetzen}>
@@ -25,7 +25,7 @@ function Anzeige() {
   )
 }
 
-const seed = () => ({ ...createEmptyData(), einstellungen: { anzeigename: 'Sascha' } })
+const seed = () => ({ ...createEmptyData(), einstellungen: { anzeigename: 'Alex' } })
 
 beforeEach(() => {
   vi.useFakeTimers()
@@ -45,7 +45,7 @@ describe('StoreProvider', () => {
     )
     expect(screen.getByText('Phase: bereit')).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(400))
-    expect(JSON.parse(storage.map.get(STORAGE_KEY)!).einstellungen.anzeigename).toBe('Sascha')
+    expect(JSON.parse(storage.map.get(STORAGE_KEY)!).einstellungen.anzeigename).toBe('Alex')
   })
 
   it('speichert Änderungen entprellt', () => {

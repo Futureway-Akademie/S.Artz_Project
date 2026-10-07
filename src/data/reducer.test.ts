@@ -173,8 +173,8 @@ describe('reducer: Einstellungen und Ersetzen', () => {
     const meta = createMeta()
     const data = createEmptyData()
     expect(reducer(data, { type: 'einstellungen', aenderung: { anzeigename: '' } }, meta)).toBe(data)
-    const next = reducer(data, { type: 'einstellungen', aenderung: { anzeigename: 'Sascha' } }, meta)
-    expect(next.einstellungen.anzeigename).toBe('Sascha')
+    const next = reducer(data, { type: 'einstellungen', aenderung: { anzeigename: 'Alex' } }, meta)
+    expect(next.einstellungen.anzeigename).toBe('Alex')
     expect(next.aktivitaeten).toHaveLength(1)
   })
 

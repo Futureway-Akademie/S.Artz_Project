@@ -40,7 +40,7 @@ Im CRM sind **keine dieser Kontakte vorbefüllt**. Die Tabelle beschreibt nur, w
 6. **Bewerbungen als eigene Pipeline** (task-3-4)
    - Status: Geplant → Beworben → Im Gespräch → Angebot / Absage / Zurückgezogen
    - Je Bewerbung: Stelle, Unternehmen, Zielrolle, Ansprechpartner (Kontakt), Bewerbungsdatum, Link zur Ausschreibung, nächster Schritt, Notiz
-   - Verknüpft mit den 3 **Zielrollen** (vorbefüllt): Prompt Engineer, KI-Anwendungsspezialist, Grafikdesigner Social Media / E-Commerce
+   - Verknüpft mit den 3 **Zielrollen** (lokal vorbefüllt)
    - **Bezug zum n8n Jobsuche-Assistenten**: Feld „Quelle“ (z. B. „Jobsuche-Assistent“, „LinkedIn“, „Direkt“). Nur Freitext, keine Live-Anbindung.
 7. **Leads, optional und schlank** (task-3-3)
    - Für Anfragen rund um PIKARTZ.AI (Schulung, Automation)
@@ -105,7 +105,6 @@ src/
 │                             einstellungen, NichtGefunden
 └─ test/                      setup, fakes, renderApp, barrierefreiheit (axe-core)
 public/brand/                 Logos unverändert
-docs/sources/                 arbeitskontext.md (öffentliche Zusammenfassung der Quelle)
 ```
 
 ### Routen
@@ -148,7 +147,7 @@ docs/sources/                 arbeitskontext.md (öffentliche Zusammenfassung de
   - „Nächste Schritte“ eines Projekts sind Aufgaben mit Projektbezug.
   - `faelligAm` ist nullable.
 - **Termin**: Datum (Pflicht), Uhrzeit optional, Bezug
-- **Kurs** (Zeitraum 2026-08 bis 2026-12, Arbeitstage Mo–Fr, Präfix `KIAutomSpez`) und **KursAufgabe** (Code `^KIAutomSpez_\d+_\d{2}$`, Status offen/in_arbeit/erledigt)
+- **Kurs** (Zeitraum 2026-08 bis 2026-12, Arbeitstage Mo–Fr, Präfix `KURS`) und **KursAufgabe** (Code `^KURS_\d+_\d{2}$`, Status offen/in_arbeit/erledigt)
 - **Designregel** und **Deck** (PIKARTZ.AI)
 - **CRM**
   - Unternehmen
@@ -201,16 +200,16 @@ Datums-Hilfen in `dates.ts`: `isWorkday`, `nextWorkday`, `countWorkdays`, `relat
 - **Diamant**: nur im Cockpit-Kopf und im PIKARTZ.AI-Kopf
 - **Formulare**: kontrolliert über `useForm`, Validierung pro Entität als reine Funktion. Anlegen und Bearbeiten im Dialog, auf Mobil im Vollbild. Leere Zahlen werden zu `null`. Rückfrage „Änderungen verwerfen?“; nach dem Speichern ein Toast.
 
-### Seed (nur belegte Inhalte)
+### Seed (öffentlich neutral, persönlich nur lokal)
 
-Quelle: `docs/sources/arbeitskontext.md` (Saschas Projekt-Übersicht vom 2026-10-07, Roadmap v2 / task-1-7)
+Das Repository ist öffentlich. Alle persönlichen Startdaten (Projekte, Weiterbildung, Zielrollen, Anzeigename) stehen nur in `src/data/seed.privat.ts` (export `STARTDATEN`, von Git ignoriert). Ohne diese Datei startet die App ohne Projekte, Kurs und Zielrollen. Tests verwenden fiktive Beispieldaten aus `src/test/beispielStart.ts`; der Wächter `src/test/datenschutz.test.ts` prüft alle versionierten Dateien gegen die Begriffe der lokalen Datei (`PRIVATE_BEGRIFFE` plus Titel).
 
-- **Projekte**: 12 Projekte mit Kategorie, Status (🟢/🟡 → `in_arbeit`, ✅ → `abgeschlossen`, Konzeptphase → `idee`), „zuletzt aktiv“; ohne Automationsprofil
+- **Projekte** (lokal): mit Kategorie, Status (🟢/🟡 → `in_arbeit`, ✅ → `abgeschlossen`, Konzeptphase → `idee`), „zuletzt aktiv“; ohne Automationsprofil
 - **Private Details**: Beschreibung, Tools, Bestandteile, Notizen und nächste Schritte stehen nur lokal in `src/data/seed.privat.ts` (von Git ignoriert, Repository ist öffentlich). `seed.ts` bindet die Datei über `import.meta.glob` ein, wenn sie existiert.
 - **Aufgaben** (aus den lokalen Details): offene Punkte als nächste Schritte ohne Frist, [x]-Punkte als erledigt ohne Datum
-- **Weiterbildung**: Kurs mit Anbieter, 03.08.–18.12.2026, Unterrichtszeit, Umfang und Modulen; ohne Kursaufgaben
-- **PIKARTZ.AI**: 7 belegte Designregeln, Demo-Deck Modul 1 / Tag 1
-- **Bewerbungen**: 3 Zielrollen
-- **Einstellungen**: Anzeigename „Sascha“
+- **Weiterbildung** (lokal): Kurs mit Anbieter, Zeitraum, Unterrichtszeit, Umfang und Modulen; ohne Kursaufgaben
+- **PIKARTZ.AI** (öffentlich): 7 belegte Designregeln, Demo-Deck Modul 1 / Tag 1
+- **Bewerbungen** (lokal): Zielrollen
+- **Einstellungen** (lokal): Anzeigename
 - **Leer**: Kontakte, Unternehmen, Leads, Bewerbungen, Termine, Aktivitäten
 - **Schema**: Version 2 (Projekt mit `kategorie` und `zuletztAktiv`, Kurs mit Details); Migration 1 → 2 in `src/data/migrations.ts`

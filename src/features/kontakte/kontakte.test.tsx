@@ -1,8 +1,8 @@
+import type { AppData } from '../../domain/types.ts'
 import { act, fireEvent, screen, within } from '@testing-library/react'
-import { createSeedData } from '../../data/seed.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
-function sichern(gespeichert: () => ReturnType<typeof createSeedData>) {
+function sichern(gespeichert: () => AppData) {
   act(() => {
     window.dispatchEvent(new Event('pagehide'))
   })

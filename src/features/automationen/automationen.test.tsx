@@ -19,7 +19,7 @@ describe('Automationen', () => {
     fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
     expect(within(dialog).getByText('Bitte ein Projekt wählen.')).toBeInTheDocument()
 
-    fireEvent.change(within(dialog).getByLabelText(/^Projekt/), { target: { value: 'seed-projekt-handwerker-leadmagnet' } })
+    fireEvent.change(within(dialog).getByLabelText(/^Projekt/), { target: { value: 'seed-projekt-kundenformular' } })
     fireEvent.change(within(dialog).getByLabelText(/^Plattform/), { target: { value: 'make' } })
     fireEvent.change(within(dialog).getByLabelText(/^Modell/), { target: { value: 'Testmodell' } })
     fireEvent.change(within(dialog).getByLabelText(/^Schwelle/), { target: { value: '150' } })
@@ -34,7 +34,7 @@ describe('Automationen', () => {
     fireEvent.change(within(dialog).getByLabelText(/^Routing-Stand/), { target: { value: 'geplant' } })
     fireEvent.click(within(dialog).getByRole('button', { name: 'Speichern' }))
 
-    const karte = screen.getByRole('article', { name: 'Automation Handwerker-Leadmagnet (navis5)' })
+    const karte = screen.getByRole('article', { name: 'Automation Kundenformular' })
     expect(within(karte).getByText('Make.com')).toBeInTheDocument()
     expect(within(karte).getByText('Nicht verbunden')).toBeInTheDocument()
     expect(within(karte).getByText('Testmodell')).toBeInTheDocument()
@@ -47,16 +47,16 @@ describe('Automationen', () => {
     act(() => {
       window.dispatchEvent(new Event('pagehide'))
     })
-    const projekt = gespeichert().projekte.find((p) => p.id === 'seed-projekt-handwerker-leadmagnet')!
+    const projekt = gespeichert().projekte.find((p) => p.id === 'seed-projekt-kundenformular')!
     expect(projekt.automation).toMatchObject({ plattform: 'make', schwelleProzent: 75.5, verbindung: 'nicht_verbunden' })
-    expect(gespeichert().aktivitaeten[0]!.zusammenfassung).toBe('Projekt „Handwerker-Leadmagnet (navis5)“ geändert: Automation')
+    expect(gespeichert().aktivitaeten[0]!.zusammenfassung).toBe('Projekt „Kundenformular“ geändert: Automation')
   })
 
   it('gruppiert nach Plattform und nach Projekt, bearbeitet und entfernt eine Automation', () => {
     renderApp('/automationen')
     for (const [id, plattform] of [
-      ['seed-projekt-ci-skills', 'sonstige'],
-      ['seed-projekt-jobsuche', 'n8n'],
+      ['seed-projekt-ki-skills', 'sonstige'],
+      ['seed-projekt-stellensuche', 'n8n'],
     ] as const) {
       fireEvent.click(screen.getAllByRole('button', { name: 'Automation erfassen' })[0]!)
       const dialog = imDialog('Automation erfassen')
@@ -69,15 +69,15 @@ describe('Automationen', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Nach Projekt' }))
     expect(screen.getByRole('button', { name: 'Nach Projekt' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent?.trim())).toEqual([
-      'CI-Skills (ci-entwurf / ci-board)',
-      'Jobsuche Festanstellung',
+      'KI-Skills',
+      'Stellensuche',
     ])
 
-    fireEvent.click(screen.getByRole('button', { name: 'Automation von „Jobsuche Festanstellung“ bearbeiten' }))
-    const dialog = imDialog('Automation: Jobsuche Festanstellung')
+    fireEvent.click(screen.getByRole('button', { name: 'Automation von „Stellensuche“ bearbeiten' }))
+    const dialog = imDialog('Automation: Stellensuche')
     fireEvent.click(within(dialog).getByRole('button', { name: 'Automation entfernen' }))
     fireEvent.click(within(imDialog('Automation entfernen?')).getByRole('button', { name: 'Automation entfernen' }))
-    expect(screen.queryByRole('article', { name: 'Automation Jobsuche Festanstellung' })).not.toBeInTheDocument()
-    expect(screen.getByRole('article', { name: 'Automation CI-Skills (ci-entwurf / ci-board)' })).toBeInTheDocument()
+    expect(screen.queryByRole('article', { name: 'Automation Stellensuche' })).not.toBeInTheDocument()
+    expect(screen.getByRole('article', { name: 'Automation KI-Skills' })).toBeInTheDocument()
   })
 })

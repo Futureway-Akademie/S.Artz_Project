@@ -88,7 +88,7 @@ export const kursSchema = z.object({
   titel: z.string().min(1),
   anbieter: z.string(),
   beschreibung: z.string(),
-  /** z. B. „Mo–Fr 09:00–16:05“ */
+  /** z. B. „Mo–Fr 09:00–16:00“ */
   unterrichtszeit: z.string(),
   /** z. B. „800 UE“ */
   umfang: z.string(),

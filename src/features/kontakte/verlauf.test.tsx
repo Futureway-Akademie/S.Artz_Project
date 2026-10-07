@@ -1,5 +1,5 @@
 import { act, fireEvent, screen, within } from '@testing-library/react'
-import { createSeedData } from '../../data/seed.ts'
+import { beispielSeed } from '../../test/beispielStart.ts'
 import type { AppData, Kontakt } from '../../domain/types.ts'
 import { renderApp } from '../../test/renderApp.tsx'
 
@@ -20,7 +20,7 @@ const kim: Kontakt = {
   erstelltAm: zeit,
   geaendertAm: zeit,
 }
-const daten = (): AppData => ({ ...createSeedData(new Date(), []), kontakte: [kim] })
+const daten = (): AppData => ({ ...beispielSeed(new Date()), kontakte: [kim] })
 
 function sichern(gespeichert: () => AppData) {
   act(() => {
@@ -72,13 +72,13 @@ describe('Kommunikationsverlauf und nächste Aktion', () => {
     expect(within(form).getByLabelText(/^Datum/)).toHaveValue('2026-10-07')
     fireEvent.change(within(form).getByLabelText(/^Art/), { target: { value: 'telefonat' } })
     fireEvent.change(within(form).getByLabelText(/^Inhalt/), { target: { value: 'Erstgespräch, Unterlagen schicken.' } })
-    fireEvent.change(within(form).getByLabelText(/^Projekt/), { target: { value: 'seed-projekt-jobsuche' } })
+    fireEvent.change(within(form).getByLabelText(/^Projekt/), { target: { value: 'seed-projekt-stellensuche' } })
     fireEvent.click(within(form).getByRole('button', { name: 'Eintrag hinzufügen' }))
 
     const verlauf = screen.getByRole('list', { name: 'Verlauf' })
     expect(within(verlauf).getByText('Telefonat · Mi., 07.10.2026')).toBeInTheDocument()
     expect(within(verlauf).getByText('Erstgespräch, Unterlagen schicken.')).toBeInTheDocument()
-    expect(within(verlauf).getByRole('link', { name: 'Jobsuche Festanstellung' })).toBeInTheDocument()
+    expect(within(verlauf).getByRole('link', { name: 'Stellensuche' })).toBeInTheDocument()
 
     fireEvent.click(within(verlauf).getByRole('button', { name: 'Verlaufseintrag vom Mi., 07.10.2026 löschen' }))
     fireEvent.click(within(screen.getByRole('dialog', { name: 'Verlaufseintrag löschen?' })).getByRole('button', { name: 'Eintrag löschen' }))
@@ -88,10 +88,10 @@ describe('Kommunikationsverlauf und nächste Aktion', () => {
 
   it('ordnet Projekte zu und zeigt den Kontakt im Projekt', () => {
     renderApp('/kontakte/kim', { daten: daten() })
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Fidelio-Homepage' }))
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Vereinsseite' }))
     expect(screen.getByRole('region', { name: 'Projekte (1)' })).toBeInTheDocument()
     fireEvent.click(screen.getAllByRole('link', { name: 'Projekte', hidden: true })[0]!)
-    fireEvent.click(screen.getByRole('link', { name: 'Fidelio-Homepage' }))
+    fireEvent.click(screen.getByRole('link', { name: 'Vereinsseite' }))
     const kontakte = screen.getByRole('region', { name: 'Kontakte' })
     expect(within(kontakte).getByRole('link', { name: 'Kim Muster' })).toBeInTheDocument()
   })

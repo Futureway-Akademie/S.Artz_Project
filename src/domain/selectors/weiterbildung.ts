@@ -56,12 +56,12 @@ export function selectWeiterbildung(data: AppData, now: Date): Weiterbildung | n
   }
 }
 
-/** Code-Format der Kursaufgaben, z. B. `KIAutomSpez_3_07`. */
+/** Code-Format der Kursaufgaben, z. B. `KURS_3_07`. */
 export function kursCodeMuster(praefix: string): RegExp {
   return new RegExp(`^${praefix}_\\d+_\\d{2}$`)
 }
 
-/** Vorschlag für den nächsten Code im selben Modul, z. B. nach `KIAutomSpez_3_07` → `KIAutomSpez_3_08`. */
+/** Vorschlag für den nächsten Code im selben Modul, z. B. nach `KURS_3_07` → `KURS_3_08`. */
 export function naechsterKursCode(kurs: Kurs, aufgaben: KursAufgabe[]): string {
   const letzte = aufgaben.at(-1)
   const treffer = letzte && /_(\d+)_(\d{2})$/.exec(letzte.code)
