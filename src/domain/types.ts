@@ -5,6 +5,7 @@ import type {
   aufgabeSchema,
   automationProfilSchema,
   bewerbungSchema,
+  vorlageSchema,
   bezugSchema,
   deckSchema,
   designregelSchema,
@@ -41,6 +42,7 @@ export type Interaktion = z.infer<typeof interaktionSchema>
 export type Lead = z.infer<typeof leadSchema>
 export type Zielrolle = z.infer<typeof zielrolleSchema>
 export type Bewerbung = z.infer<typeof bewerbungSchema>
+export type Vorlage = z.infer<typeof vorlageSchema>
 export type Aktivitaet = z.infer<typeof aktivitaetSchema>
 export type Einstellungen = z.infer<typeof einstellungenSchema>
 export type AppData = z.infer<typeof appDataSchema>

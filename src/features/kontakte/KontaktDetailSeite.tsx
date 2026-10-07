@@ -15,6 +15,7 @@ import { KONTEXT } from '../../domain/labels.ts'
 import styles from './crm.module.css'
 import { Gesamtsicht } from '../gemeinsam/Gesamtsicht.tsx'
 import { DatenschutzPanel } from './DatenschutzPanel.tsx'
+import { EmailDialog } from './EmailDialog.tsx'
 import { KontaktDialog } from './KontaktDialog.tsx'
 import { KontaktVerlauf } from './KontaktVerlauf.tsx'
 
@@ -25,6 +26,7 @@ export function KontaktDetailSeite() {
   const navigate = useNavigate()
   const [bearbeiten, setBearbeiten] = useState(false)
   const [loeschen, setLoeschen] = useState(false)
+  const [email, setEmail] = useState(false)
   const kontakt = data.kontakte.find((k) => k.id === id)
 
   if (!kontakt) {
@@ -50,6 +52,7 @@ export function KontaktDetailSeite() {
       }
       aktionen={
         <>
+          {kontakt.email && <Button onClick={() => setEmail(true)}>E-Mail schreiben</Button>}
           <Button variant="secondary" onClick={() => setBearbeiten(true)}>
             Bearbeiten
           </Button>
@@ -97,6 +100,7 @@ export function KontaktDetailSeite() {
       </div>
 
       {bearbeiten && <KontaktDialog kontakt={kontakt} onSchliessen={() => setBearbeiten(false)} />}
+      {email && <EmailDialog kontakt={kontakt} onSchliessen={() => setEmail(false)} />}
       {loeschen && (
         <ConfirmDialog
           offen

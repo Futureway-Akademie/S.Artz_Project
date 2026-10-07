@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 5
+export const SCHEMA_VERSION = 6
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -215,6 +215,14 @@ export const bewerbungSchema = z.object({
   wiedervorlageAm: datum.nullable(),
 })
 
+/** E-Mail-Vorlage mit Platzhaltern wie {{name}} */
+export const vorlageSchema = z.object({
+  ...meta,
+  titel: z.string().min(1),
+  betreff: z.string(),
+  text: z.string(),
+})
+
 export const sammlungen = [
   'projekte',
   'aufgaben',
@@ -229,6 +237,7 @@ export const sammlungen = [
   'leads',
   'zielrollen',
   'bewerbungen',
+  'vorlagen',
 ] as const
 
 export const aktivitaetSchema = z.object({
@@ -265,6 +274,7 @@ export const appDataSchema = z.object({
   leads: z.array(leadSchema),
   zielrollen: z.array(zielrolleSchema),
   bewerbungen: z.array(bewerbungSchema),
+  vorlagen: z.array(vorlageSchema),
   aktivitaeten: z.array(aktivitaetSchema),
   einstellungen: einstellungenSchema,
 })

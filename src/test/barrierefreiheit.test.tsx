@@ -112,6 +112,7 @@ const SEITEN = [
   '/bewerbungen/zielrollen',
   '/bewerbungen/b1',
   '/kontakte/leads/l1',
+  '/kontakte/vorlagen',
   '/einstellungen',
   '/gibt-es-nicht',
 ]
@@ -141,6 +142,13 @@ describe('Barrierefreiheit (axe-core)', () => {
     expect(await pruefe(container.ownerDocument.body)).toEqual([])
     fireEvent.click(screen.getByRole('button', { name: 'Dialog schließen' }))
     fireEvent.click(screen.getAllByRole('button', { name: /Neu anlegen/, hidden: true })[0]!)
+    expect(await pruefe(container.ownerDocument.body)).toEqual([])
+  })
+
+  it('E-Mail-Dialog ohne Verstöße', async () => {
+    const { container } = renderApp('/kontakte/k1', { daten: beispieldaten() })
+    fireEvent.click(screen.getByRole('button', { name: 'E-Mail schreiben' }))
+    fireEvent.change(screen.getByLabelText(/^Vorlage/), { target: { value: 'vorlage-erstkontakt' } })
     expect(await pruefe(container.ownerDocument.body)).toEqual([])
   })
 

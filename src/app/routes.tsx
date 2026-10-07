@@ -14,6 +14,7 @@ import { LeadDetailSeite } from '../features/kontakte/LeadDetailSeite.tsx'
 import { LeadsSeite } from '../features/kontakte/LeadsSeite.tsx'
 import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSeite.tsx'
 import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
+import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden } from '../features/NichtGefunden.tsx'
 import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
@@ -41,6 +42,7 @@ export function AppRoutes() {
           <Route path="unternehmen/:id" element={<UnternehmenDetailSeite />} />
           <Route path="leads" element={<LeadsSeite />} />
           <Route path="leads/:id" element={<LeadDetailSeite />} />
+          <Route path="vorlagen" element={<VorlagenSeite />} />
           <Route path=":id" element={<KontaktDetailSeite />} />
         </Route>
         <Route path="bewerbungen">

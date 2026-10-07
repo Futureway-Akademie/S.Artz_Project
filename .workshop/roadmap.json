@@ -1037,7 +1037,7 @@
           "description": "E-Mails als Verlaufseinträge mit Betreff, Vorlagen mit Platzhaltern, Entwurf im eigenen Mailprogramm öffnen; keine Postfachanbindung.",
           "order": 2,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-6-1"
           ],
@@ -1047,13 +1047,18 @@
             "Entwurf öffnet sich im eigenen Mailprogramm",
             "Keine Verbindung zu einem Postfach"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T15:32:50Z",
+          "completedAt": "2026-10-07T15:38:28Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Schema v6 mit Sammlung vorlagen (Migration legt drei neutrale Startvorlagen an); Vorlagenverwaltung unter Kontakte & Leads; Platzhalter name/vorname/unternehmen/stelle/absender/datum mit Meldung offener Platzhalter; E-Mail schreiben beim Kontakt öffnet Entwurf per mailto im eigenen Mailprogramm und hält ihn optional als ausgehende E-Mail mit Betreff und Bewerbung im Verlauf fest; keine Postfachanbindung. 276 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:38:28Z"
           }
         },
         {
@@ -1121,7 +1126,7 @@
           "description": "Letzter Kontakt und Funkstille-Hinweis, nächste Aktion direkt nach einem Verlaufseintrag, „zuletzt aktiv“ automatisch.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-7-2"
           ],

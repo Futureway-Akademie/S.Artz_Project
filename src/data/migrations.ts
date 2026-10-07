@@ -1,4 +1,5 @@
 import { SCHEMA_VERSION } from './schema.ts'
+import { standardVorlagen } from './vorlagen.ts'
 
 export type MigrationResult =
   | { ok: true; value: unknown }
@@ -39,6 +40,12 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
     interaktionen: liste(data.interaktionen).map((i) => ({ bewerbungId: null, leadId: null, betreff: '', richtung: null, ...i })),
     leads: liste(data.leads).map((l) => ({ projektId: null, wiedervorlageAm: null, ...l })),
     bewerbungen: liste(data.bewerbungen).map((b) => ({ wiedervorlageAm: null, ...b })),
+  }),
+  // v6: E-Mail-Vorlagen (neutrale Startvorlagen)
+  5: (data) => ({
+    ...data,
+    schemaVersion: 6,
+    vorlagen: Array.isArray(data.vorlagen) ? data.vorlagen : standardVorlagen(new Date().toISOString()),
   }),
 }
 

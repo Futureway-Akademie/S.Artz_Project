@@ -375,3 +375,16 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
   - Termine mit Uhrzeit sind einstündige Ereignisse in Ortszeit, alles andere ist ganztägig. Lange Zeilen werden gefaltet und Sonderzeichen maskiert.
   - Vor dem Download weist die App darauf hin, dass die Datei unverschlüsselt ist und Namen enthalten kann. Sie gehört nur in den eigenen Kalender.
 - **Im Browser geprüft:** gebaute App bei 1280 und 375 px, ohne Überlauf; die Tagesknöpfe sind 32 × 32 px groß.
+
+## 2026-10-07 – E-Mails (task-7-2)
+
+- **Keine Postfach-Anbindung:** IMAP, SMTP oder Gmail-API wären eine Verbindung nach außen und würden Zugangsdaten erfordern. Die CSP verbietet das ohnehin.
+- **Verlauf:** E-Mails stehen im Verlauf mit Betreff und Richtung (seit Schema v5). Die Verlaufsliste zeigt „Gesendet:“ bzw. „Empfangen:“ mit dem Betreff.
+- **Vorlagen** (Schema v6, neue Sammlung `vorlagen`; die Migration 5 → 6 legt drei neutrale Startvorlagen an):
+  - Verwaltung unter „Kontakte & Leads → E-Mail-Vorlagen“.
+  - Platzhalter: `{{name}}`, `{{vorname}}`, `{{unternehmen}}`, `{{stelle}}`, `{{absender}}`, `{{datum}}`. Nicht füllbare Platzhalter bleiben sichtbar und werden als „noch offen“ gemeldet.
+- **„E-Mail schreiben“** beim Kontakt, nur wenn eine Adresse hinterlegt ist:
+  - Vorlage und Bewerbung wählen und den Text anpassen.
+  - „Im Mailprogramm öffnen“ ist ein `mailto:`-Link, und der Entwurf öffnet sich im eigenen Mailprogramm. Die App sendet nichts.
+  - Optional (voreingestellt) wird der Entwurf als ausgehende E-Mail im Verlauf festgehalten, verknüpft mit der Bewerbung.
+  - Bei sehr langen Texten erscheint ein Hinweis, weil Mailprogramme lange mailto-Links kürzen.

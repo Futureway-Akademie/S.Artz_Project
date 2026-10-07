@@ -17,6 +17,7 @@ export function createEmptyData(): AppData {
     leads: [],
     zielrollen: [],
     bewerbungen: [],
+    vorlagen: [],
     aktivitaeten: [],
     einstellungen: { anzeigename: '', letzteSicherungAm: null },
   }

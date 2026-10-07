@@ -141,6 +141,18 @@ describe('Migration 4 → 5', () => {
   })
 })
 
+describe('Migration 5 → 6', () => {
+  it('legt die Startvorlagen an, ohne vorhandene Daten zu ändern', () => {
+    const v5 = { ...createEmptyData(), schemaVersion: 5, einstellungen: { anzeigename: 'X', letzteSicherungAm: null } } as Record<string, unknown>
+    delete v5.vorlagen
+    const ergebnis = parseAppData(JSON.stringify(v5))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status !== 'ok') return
+    expect(ergebnis.data.vorlagen).toHaveLength(3)
+    expect(ergebnis.data.einstellungen.anzeigename).toBe('X')
+  })
+})
+
 describe('saveAppData', () => {
   it('speichert als JSON unter dem festen Schlüssel', () => {
     const storage = createFakeStorage()

@@ -1,5 +1,6 @@
 import type { AppData, Aufgabe, Kurs, Projekt } from '../domain/types.ts'
 import { createEmptyData } from './empty.ts'
+import { standardVorlagen } from './vorlagen.ts'
 
 /**
  * Ausgangsdaten beim ersten Start und nach „Zurücksetzen“.
@@ -125,6 +126,7 @@ export function createSeedData(now: Date = new Date(), start: StartDaten = LOKAL
       notiz: '',
       ...meta,
     })),
+    vorlagen: standardVorlagen(zeit),
     einstellungen: { anzeigename: start.anzeigename, letzteSicherungAm: null },
   }
 }

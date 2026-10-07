@@ -110,6 +110,11 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
       wiedervorlageAm: 'Wiedervorlage',
     },
   },
+  vorlagen: {
+    einzahl: 'E-Mail-Vorlage',
+    titel: (v: Eintrag<'vorlagen'>) => v.titel,
+    felder: { ...gemeinsam, betreff: 'Betreff', text: 'Text' },
+  },
 }
 
 export function titelVon<S extends Sammlung>(sammlung: S, eintrag: Eintrag<S>): string {

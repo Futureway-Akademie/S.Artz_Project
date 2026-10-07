@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router'
 import styles from './KontakteNavigation.module.css'
 
-/** Unternavigation des CRM-Bereichs: Kontakte, Unternehmen, Leads. */
+/** Unternavigation des CRM-Bereichs: Kontakte, Unternehmen, Leads, E-Mail-Vorlagen. */
 export function KontakteNavigation() {
   const klasse = ({ isActive }: { isActive: boolean }) => `${styles.link} ${isActive ? styles.aktiv : ''}`
   return (
@@ -14,6 +14,9 @@ export function KontakteNavigation() {
       </NavLink>
       <NavLink to="/kontakte/leads" className={klasse}>
         Leads
+      </NavLink>
+      <NavLink to="/kontakte/vorlagen" className={klasse}>
+        E-Mail-Vorlagen
       </NavLink>
     </nav>
   )
