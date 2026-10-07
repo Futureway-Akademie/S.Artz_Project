@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 76,6 % (36 von 47 Gewichtspunkten, 15 von 21 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v2, Fortschritt 80,85 % (38 von 47 Gewichtspunkten, 16 von 21 Tasks).
 
 ## Aktive Phase
 
@@ -10,10 +10,11 @@ CRM und Bewerbungen (phase-3).
 
 ## Aktive Aufgabe
 
-task-3-2 – Kommunikationsverlauf und nächste Aktion (in_progress seit 2026-10-07T13:37:48Z).
+task-3-3 – Leads (in_progress seit 2026-10-07T13:40:31Z).
 
 ## Zuletzt abgeschlossen
 
+- task-3-2 – Kommunikationsverlauf und nächste Aktion (Wiedervorlage im Cockpit, Verlauf mit Art/Datum/Projekt, Projektzuordnung).
 - task-3-1 – Kontakte und Unternehmen (Kontext, Herkunft, LinkedIn, Suche/Filter, Unternehmen mit verknüpften Kontakten/Bewerbungen/Leads, Löschen mit Bestätigung).
 - task-2-6 – Arbeitscockpit (Begrüßung, Tagesübersicht, nächste Schritte, aktuelle Projekte, Weiterbildung, Anstehendes, letzte Aktivitäten – alles berechnet).
 - task-2-4 – Weiterbildung (Kursdaten, Arbeitstage Mo–Fr nach Gerätedatum, Kursaufgaben im Format KIAutomSpez_X_YY, Fortschritt nur aus Erledigungen).
@@ -32,7 +33,6 @@ task-3-2 – Kommunikationsverlauf und nächste Aktion (in_progress seit 2026-10
 
 ## Bereite nächste Aufgaben
 
-- task-3-3 – Leads
 - task-3-4 – Bewerbungen und Zielrollen
 
 ## Gesamtplan (aus roadmap.json)
@@ -65,10 +65,10 @@ task-3-2 – Kommunikationsverlauf und nächste Aktion (in_progress seit 2026-10
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
 | task-3-1 | Kontakte und Unternehmen | ✅ erledigt |  |
-| task-3-2 | Kommunikationsverlauf und nächste Aktion | 🔨 in Arbeit | – |
-| task-3-3 | Leads | ▶️ startbar | – |
+| task-3-2 | Kommunikationsverlauf und nächste Aktion | ✅ erledigt |  |
+| task-3-3 | Leads | 🔨 in Arbeit | – |
 | task-3-4 | Bewerbungen und Zielrollen | ▶️ startbar | – |
-| task-3-5 | Cockpit-Bereich für Kontakte und Bewerbungen | ⏳ geplant | task-3-2, task-3-4 |
+| task-3-5 | Cockpit-Bereich für Kontakte und Bewerbungen | ⏳ geplant | task-3-4 |
 
 ### Abschluss
 

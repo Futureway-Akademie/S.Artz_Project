@@ -38,6 +38,7 @@ export function ProjektDetailSeite() {
 
   const status = projekt.status ? PROJEKT_STATUS[projekt.status] : null
   const folge = loeschfolgen(data, 'projekte', projekt.id)
+  const kontakte = data.kontakte.filter((k) => k.projektIds.includes(projekt.id)).sort((a, b) => a.name.localeCompare(b.name, 'de'))
 
   const statusAendern = (wert: string) => {
     dispatch({ type: 'aendern', sammlung: 'projekte', id: projekt.id, aenderung: { status: (wert || null) as ProjektStatus | null } })
@@ -119,6 +120,18 @@ export function ProjektDetailSeite() {
               <p className={styles.leer}>Keine Tools hinterlegt.</p>
             )}
           </Panel>
+          {kontakte.length > 0 && (
+            <Panel titel="Kontakte">
+              <ul className={styles.liste}>
+                {kontakte.map((k) => (
+                  <li key={k.id}>
+                    <Link to={`/kontakte/${k.id}`}>{k.name}</Link>
+                    {k.rolle && ` · ${k.rolle}`}
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+          )}
           {projekt.bestandteile.length > 0 && (
             <Panel titel="Bestandteile">
               <ul className={styles.liste}>

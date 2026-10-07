@@ -71,3 +71,6 @@
 {"timestamp":"2026-10-07T13:37:48Z","type":"task_ready","taskId":"task-3-4","summary":"Task 'Bewerbungen und Zielrollen' ist startbar."}
 {"timestamp":"2026-10-07T13:37:48Z","type":"task_started","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' gestartet."}
 {"timestamp":"2026-10-07T13:37:48Z","type":"roadmap_updated","taskId":"task-3-2","summary":"Definition of Done von 'Kommunikationsverlauf und nächste Aktion' laut docs/architecture.md ergänzt."}
+{"timestamp":"2026-10-07T13:40:31Z","type":"verification_passed","taskId":"task-3-2","summary":"typecheck, lint, test (166) und build fehlerfrei."}
+{"timestamp":"2026-10-07T13:40:31Z","type":"task_completed","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' abgeschlossen."}
+{"timestamp":"2026-10-07T13:40:31Z","type":"task_started","taskId":"task-3-3","summary":"Task 'Leads' gestartet."}

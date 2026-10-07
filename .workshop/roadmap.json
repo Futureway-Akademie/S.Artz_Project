@@ -489,7 +489,7 @@
           "description": "Notizen, Kommunikationsverlauf, nächste Aktion und Projektbezug je Kontakt erfassen.",
           "order": 2,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-3-1"
           ],
@@ -501,12 +501,17 @@
             "Verlaufseinträge mit Art (E-Mail, Telefonat, Treffen, Nachricht, Notiz), Datum und optionalem Projektbezug; im Projektdetail erscheinen zugeordnete Kontakte"
           ],
           "startedAt": "2026-10-07T13:37:48Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:40:31Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 166 Tests grün, davon 4 für Verlauf und nächste Aktion: Wiedervorlage mit Pflichttext und optionalem Datum ('Noch keine Frist hinterlegt' / 'Heute fällig'), erscheint im Cockpit unter Nächste Schritte mit Link zum Kontakt, 'Erledigt' entfernt sie; Verlaufseinträge mit Art, Datum (Vorgabe Gerätedatum), Inhalt und Projektbezug, Löschen nach Bestätigung, Aktivität; Projektzuordnung per Checkbox, Kontakt erscheint im Projektdetail; Filter 'Mit fälliger Aktion' und Sortierung nach Wiedervorlage. Browser: nicht gesondert geprüft, um keine Testdaten in Saschas lokalen Daten anzulegen; Abdeckung über Bedienungstests.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:40:31Z"
           }
         },
         {
@@ -515,7 +520,7 @@
           "description": "Optionale Leadverwaltung mit Status; Geldbetrag optional und leer zulässig.",
           "order": 3,
           "weight": 2,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-3-1"
           ],
@@ -524,7 +529,7 @@
             "Leerer Betrag ist zulässig und wird nicht als 0 dargestellt",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:40:31Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
