@@ -3,3 +3,33 @@
 {"timestamp":"2026-10-07T10:03:22Z","type":"decision_recorded","summary":"Stack React + Vite + TypeScript; Speicherung im Browser (localStorage) als gekennzeichneter Demo-Modus."}
 {"timestamp":"2026-10-07T10:03:22Z","type":"task_ready","taskId":"task-1-1","summary":"Task 'Quellen und Marken-Assets übernehmen' ist startbar."}
 {"timestamp":"2026-10-07T10:03:22Z","type":"task_ready","taskId":"task-1-2","summary":"Task 'Projekt-Setup mit Vite, React und TypeScript' ist startbar."}
+{"timestamp":"2026-10-07T11:17:53Z","type":"decision_recorded","summary":"CRM-Konzept (Wiedervorlagen statt Umsatz, Kontext-Kategorien, schlanke Leads) und technische Gesamtarchitektur festgelegt; dokumentiert in docs/architecture.md."}
+{"timestamp":"2026-10-07T11:34:36Z","type":"task_started","taskId":"task-1-1","summary":"Task 'Quellen und Marken-Assets übernehmen' gestartet; docs/sources/arbeitskontext.md aus belegten Repository-Angaben angelegt, offene Stellen markiert."}
+{"timestamp":"2026-10-07T11:44:14Z","type":"verification_passed","taskId":"task-1-1","summary":"Quelle, Logo-Dateien und Abgleich-Dokumentation geprüft."}
+{"timestamp":"2026-10-07T11:44:14Z","type":"task_completed","taskId":"task-1-1","summary":"Task 'Quellen und Marken-Assets übernehmen' abgeschlossen; offene Inhalte der Quelle und fehlende Logo-Varianten in docs/decisions.md dokumentiert."}
+{"timestamp":"2026-10-07T11:48:58Z","type":"task_started","taskId":"task-1-2","summary":"Task 'Projekt-Setup mit Vite, React und TypeScript' gestartet; Umsetzung nach docs/architecture.md."}
+{"timestamp":"2026-10-07T11:52:08Z","type":"verification_passed","taskId":"task-1-2","summary":"typecheck, lint, test und build fehlerfrei; Dev-Server im Browser geprüft."}
+{"timestamp":"2026-10-07T11:52:08Z","type":"task_completed","taskId":"task-1-2","summary":"Task 'Projekt-Setup mit Vite, React und TypeScript' abgeschlossen; Spezialisierungsdateien gefüllt."}
+{"timestamp":"2026-10-07T11:52:08Z","type":"task_ready","taskId":"task-1-3","summary":"Task 'Design-Tokens, Typografie und Basis-Komponenten' ist startbar."}
+{"timestamp":"2026-10-07T11:52:08Z","type":"task_ready","taskId":"task-1-4","summary":"Task 'Datenmodell, Speicherschicht und Aktivitätsprotokoll' ist startbar."}
+{"timestamp":"2026-10-07T11:53:46Z","type":"task_started","taskId":"task-1-3","summary":"Task 'Design-Tokens, Typografie und Basis-Komponenten' gestartet."}
+{"timestamp":"2026-10-07T11:57:51Z","type":"verification_passed","taskId":"task-1-3","summary":"typecheck, lint, test (36) und build fehlerfrei; Browser-Prüfung bei 399, 768 und 1280 px."}
+{"timestamp":"2026-10-07T11:57:51Z","type":"task_completed","taskId":"task-1-3","summary":"Task 'Design-Tokens, Typografie und Basis-Komponenten' abgeschlossen."}
+{"timestamp":"2026-10-07T11:57:51Z","type":"decision_recorded","summary":"Ergänzende Design-Tokens mit WCAG-AA-Kontrasttest festgelegt; dokumentiert in docs/decisions.md."}
+{"timestamp":"2026-10-07T12:00:38Z","type":"task_started","taskId":"task-1-4","summary":"Task 'Datenmodell, Speicherschicht und Aktivitätsprotokoll' gestartet."}
+{"timestamp":"2026-10-07T12:05:13Z","type":"verification_passed","taskId":"task-1-4","summary":"typecheck, lint, test (67) und build fehlerfrei."}
+{"timestamp":"2026-10-07T12:05:13Z","type":"task_completed","taskId":"task-1-4","summary":"Task 'Datenmodell, Speicherschicht und Aktivitätsprotokoll' abgeschlossen."}
+{"timestamp":"2026-10-07T12:05:13Z","type":"task_ready","taskId":"task-1-5","summary":"Task 'Seed-Daten aus belegten Inhalten' ist startbar."}
+{"timestamp":"2026-10-07T12:05:13Z","type":"task_ready","taskId":"task-1-6","summary":"Task 'App-Shell mit responsiver Navigation' ist startbar."}
+{"timestamp":"2026-10-07T12:05:21Z","type":"task_started","taskId":"task-1-5","summary":"Task 'Seed-Daten aus belegten Inhalten' gestartet."}
+{"timestamp":"2026-10-07T12:07:05Z","type":"verification_passed","taskId":"task-1-5","summary":"typecheck, lint, test (77, inkl. Seed-Test) und build fehlerfrei."}
+{"timestamp":"2026-10-07T12:07:05Z","type":"task_completed","taskId":"task-1-5","summary":"Task 'Seed-Daten aus belegten Inhalten' abgeschlossen."}
+{"timestamp":"2026-10-07T12:07:05Z","type":"task_started","taskId":"task-1-6","summary":"Task 'App-Shell mit responsiver Navigation' gestartet."}
+{"timestamp":"2026-10-07T12:12:43Z","type":"verification_passed","taskId":"task-1-6","summary":"typecheck, lint, test (83) und build fehlerfrei; Browser-Prüfung bei 375, 768 und 1280 px."}
+{"timestamp":"2026-10-07T12:12:43Z","type":"task_completed","taskId":"task-1-6","summary":"Task 'App-Shell mit responsiver Navigation' abgeschlossen."}
+{"timestamp":"2026-10-07T12:12:43Z","type":"task_ready","taskId":"task-2-1","summary":"Task 'Projekte' ist startbar."}
+{"timestamp":"2026-10-07T12:12:43Z","type":"task_ready","taskId":"task-2-2","summary":"Task 'Aufgaben und Termine' ist startbar."}
+{"timestamp":"2026-10-07T12:12:43Z","type":"task_ready","taskId":"task-2-4","summary":"Task 'Weiterbildung' ist startbar."}
+{"timestamp":"2026-10-07T12:12:43Z","type":"task_ready","taskId":"task-2-5","summary":"Task 'PIKARTZ.AI-Bereich' ist startbar."}
+{"timestamp":"2026-10-07T12:12:43Z","type":"task_ready","taskId":"task-4-1","summary":"Task 'Einstellungen' ist startbar."}
+{"timestamp":"2026-10-07T12:14:35Z","type":"task_started","taskId":"task-2-1","summary":"Task 'Projekte' gestartet."}

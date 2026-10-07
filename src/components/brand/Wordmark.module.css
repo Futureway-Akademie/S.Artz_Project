@@ -1,0 +1,27 @@
+.wordmark {
+  display: inline-block;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.light {
+  color: var(--color-dark);
+}
+
+.dark {
+  color: var(--text-on-dark);
+}
+
+.ai {
+  color: var(--color-blue);
+}
+
+.md {
+  font-size: 1.25rem;
+}
+
+.lg {
+  font-size: 2rem;
+}

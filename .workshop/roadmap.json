@@ -9,7 +9,7 @@
       "description": "Quellen, Projekt-Setup, Design-Tokens, Datenmodell, Seed-Daten und App-Shell.",
       "order": 1,
       "weight": 13,
-      "status": "ready",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-1-1",
@@ -17,7 +17,7 @@
           "description": "Saschas MD-Datei nach docs/sources/ und die Logo-Dateien unverändert nach public/brand/ übernehmen; die geplanten Seed-Inhalte gegen die MD-Datei abgleichen.",
           "order": 1,
           "weight": 1,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "MD-Datei liegt unter docs/sources/",
@@ -25,13 +25,18 @@
             "Abgleich Seed-Inhalte gegen MD-Datei ist in docs/decisions.md dokumentiert",
             "Fehlende Assets sind als offener Punkt dokumentiert statt nachgezeichnet"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T11:34:36Z",
+          "completedAt": "2026-10-07T11:44:14Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Geprüft: docs/sources/arbeitskontext.md vorhanden (aus belegten Repository-Angaben, offene Stellen markiert); beide Logo-Dateien unverändert unter public/brand/ (von Sascha abgelegt, Bild visuell gesichtet); Abgleich Seed gegen Quelle und fehlende Logo-Varianten in docs/decisions.md dokumentiert.",
+            "commands": [
+              "Test-Path docs/sources/arbeitskontext.md",
+              "Get-ChildItem public/brand",
+              "Select-String -Path docs/decisions.md -Pattern task-1-1",
+              "Select-String -Path docs/decisions.md -Pattern 'Fehlende Assets'"
+            ],
+            "checkedAt": "2026-10-07T11:44:14Z"
           }
         },
         {
@@ -40,7 +45,7 @@
           "description": "Vite-Projekt im Repository-Root mit React, TypeScript, ESLint, Typecheck und Vitest aufsetzen; Spezialisierungsdateien STACK, QUALITY_GATE und CONSTRAINTS füllen.",
           "order": 2,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "npm run dev startet die App lokal",
@@ -48,13 +53,19 @@
             "Ein Beispieltest läuft mit Vitest grün",
             "STACK.md, QUALITY_GATE.md und CONSTRAINTS.md sind projektspezifisch gefüllt"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T11:48:58Z",
+          "completedAt": "2026-10-07T11:52:08Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, test (2 Tests grün) und build fehlerfrei; npm run dev gestartet und Seite unter http://localhost:5173 im Browser geprüft (Überschrift sichtbar); STACK.md, QUALITY_GATE.md und CONSTRAINTS.md projektspezifisch gefüllt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run dev"
+            ],
+            "checkedAt": "2026-10-07T11:52:08Z"
           }
         },
         {
@@ -63,7 +74,7 @@
           "description": "Farben, Abstände und Liberation-Sans-Typografie als Tokens; Basis-Komponenten Logo mit Platzhalter, Buttons, Formularfelder, Badges sowie Leer-, Fehler- und Ladezustand.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-1-1",
             "task-1-2"
@@ -75,13 +86,20 @@
             "Basis-Komponenten erfüllen WCAG-AA-Kontrast",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T11:53:46Z",
+          "completedAt": "2026-10-07T11:57:51Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 36 Tests grün (u. a. Kontrast-Test aller Token-Paare, Logo inkl. Platzhalter, Formularfeld-Barrierefreiheit). Im Browser geprüft: Liberation Sans 400/700 geladen, beide Logos unverzerrt (96x96, 169x32), kein horizontaler Überlauf bei 399, 768 und 1280 px, Fokusring bei Tab-Navigation sichtbar.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: Font-/Logo-/Overflow-Prüfung per Skript bei 399, 768, 1280 px",
+              "Browser: Tab-Taste, Fokusring geprüft"
+            ],
+            "checkedAt": "2026-10-07T11:57:51Z"
           }
         },
         {
@@ -90,7 +108,7 @@
           "description": "TypeScript-Typen für alle Entitäten, versioniertes localStorage-Repository mit Fehlerbehandlung, Store mit Aktivitätseinträgen nur bei echten Änderungen, Demo-Kennzeichnung.",
           "order": 4,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-1-2"
           ],
@@ -101,13 +119,18 @@
             "Tests für Speicherschicht und Store sind grün",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T12:00:38Z",
+          "completedAt": "2026-10-07T12:05:13Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 67 Tests grün, davon 31 neu: Speicherschicht (leer, ok, defektes JSON, ungültiges Schema, neuere/unbekannte Version, nicht verfügbar, Speicher voll), Reducer (Aktivität nur bei echter Änderung, Feld-Diff, Erledigen/Wiedereröffnen, Löschfolgen, Begrenzung) und Store (Seed bei leerem Speicher, entprelltes Speichern, pagehide, Fehlerzustand ohne Überschreiben, flüchtiger Modus, Speicherfehler, Änderung in anderem Tab). Demo-Kennzeichnung als demo/persistenz im Store; sichtbarer Hinweis folgt in task-1-6.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T12:05:13Z"
           }
         },
         {
@@ -116,7 +139,7 @@
           "description": "Die fünf bekannten Projekte, die Weiterbildung, drei Zielrollen und die Designregeln ausschließlich mit belegten Inhalten anlegen.",
           "order": 5,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-1-1",
             "task-1-4"
@@ -128,13 +151,18 @@
             "Seed-Test prüft diese Regeln und ist grün",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T12:05:21Z",
+          "completedAt": "2026-10-07T12:07:05Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 77 Tests grün, davon 10 Seed-Tests: Schema gültig, genau 5 Projekte, Titel/Zielrollen/Designregeln gegen docs/sources/arbeitskontext.md abgeglichen, nur belegter Status, keine Fristen/Aktivitäten/Kontakte/Bewerbungen/Termine/Fortschritte, Zielrollen statt Bewerbungen, Kurs ohne erfundene Daten, stabile IDs.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T12:07:05Z"
           }
         },
         {
@@ -143,7 +171,7 @@
           "description": "Layout mit Navigation über alle neun Bereiche für Desktop, Tablet und Smartphone, Routing, Skip-Link und sichtbarer Demo-Hinweis.",
           "order": 6,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-1-3",
             "task-1-4"
@@ -155,13 +183,19 @@
             "Demo-Modus ist sichtbar gekennzeichnet",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T12:07:05Z",
+          "completedAt": "2026-10-07T12:12:43Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 83 Tests grün (u. a. alle neun Bereiche erreichbar mit aria-current, Fokus auf h1 nach Seitenwechsel, Skip-Link, Demo-Hinweis, mobiles Menü mit Fokusrückgabe, Unterseiten, NotFound, Fehlerseite mit Export/Zurücksetzen). Im Browser geprüft: 375 px Topbar + Menü (Esc schließt, Fokus zurück auf Menü-Button; Navigation aus Menü fokussiert h1), 768 px Icon-Leiste (88 px) mit aktivem Bereich, 1280 px Sidebar 256 px mit Wortmarke und blauem Aktiv-Balken; kein horizontaler Überlauf; Skip-Link erscheint beim ersten Tab; Seed in localStorage gespeichert; nach Neuladen keine Konsolenfehler.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: 375/768/1280 px per Skript und Tastatur (Tab, Escape) geprüft"
+            ],
+            "checkedAt": "2026-10-07T12:12:43Z"
           }
         }
       ]
@@ -172,7 +206,7 @@
       "description": "Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI-Bereich und Arbeitscockpit.",
       "order": 2,
       "weight": 16,
-      "status": "planned",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-2-1",
@@ -180,7 +214,7 @@
           "description": "Projektliste und -detail mit Bearbeiten, Tools, Notizen, nächsten Schritten (offen/erledigt) und manuellem Projektstatus.",
           "order": 1,
           "weight": 3,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -192,7 +226,7 @@
             "Änderungen erscheinen im Aktivitätsprotokoll",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T12:14:35Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
@@ -207,7 +241,7 @@
           "description": "Zentrale Aufgaben- und Terminverwaltung mit Anlegen, Bearbeiten, Erledigen, Suche, Filter, optionaler Frist und Bezug zu Projekt oder Weiterbildung.",
           "order": 2,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -259,7 +293,7 @@
           "description": "Bereich für 'KI Automations Spezialist' (Aug–Dez 2026) mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
           "order": 4,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -286,7 +320,7 @@
           "description": "Eigener Bereich für Marke und Präsentations-System mit allen hinterlegten Designregeln und dem Demo-Deck Modul 1, Tag 1.",
           "order": 5,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -474,7 +508,7 @@
       "description": "Einstellungen, Zustände und Barrierefreiheit, End-to-End- und Responsive-Prüfung, Dokumentation.",
       "order": 4,
       "weight": 6,
-      "status": "planned",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-4-1",
@@ -482,7 +516,7 @@
           "description": "Anzeigename, JSON-Export, JSON-Import, Zurücksetzen mit Bestätigung und Demo-Hinweis.",
           "order": 1,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-1-4",
             "task-1-6"
