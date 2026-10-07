@@ -1,0 +1,27 @@
+.nav {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--color-dark);
+}
+
+.aktiv {
+  border-bottom-color: var(--color-blue);
+  color: var(--color-dark);
+}

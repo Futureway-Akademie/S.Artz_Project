@@ -63,3 +63,11 @@
 {"timestamp":"2026-10-07T13:33:59Z","type":"task_completed","taskId":"task-2-6","summary":"Task 'Arbeitscockpit' abgeschlossen."}
 {"timestamp":"2026-10-07T13:33:59Z","type":"task_ready","taskId":"task-3-1","summary":"Task 'Kontakte und Unternehmen' ist startbar."}
 {"timestamp":"2026-10-07T13:34:00Z","type":"task_started","taskId":"task-3-1","summary":"Task 'Kontakte und Unternehmen' gestartet."}
+{"timestamp":"2026-10-07T13:34:19Z","type":"roadmap_updated","taskId":"task-3-1","summary":"Definition of Done von 'Kontakte und Unternehmen' laut docs/architecture.md ergänzt."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"verification_passed","taskId":"task-3-1","summary":"typecheck, lint, test (162) und build fehlerfrei; Browser-Prüfung Kontakte."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_completed","taskId":"task-3-1","summary":"Task 'Kontakte und Unternehmen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_ready","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' ist startbar."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_ready","taskId":"task-3-3","summary":"Task 'Leads' ist startbar."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_ready","taskId":"task-3-4","summary":"Task 'Bewerbungen und Zielrollen' ist startbar."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_started","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' gestartet."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"roadmap_updated","taskId":"task-3-2","summary":"Definition of Done von 'Kommunikationsverlauf und nächste Aktion' laut docs/architecture.md ergänzt."}

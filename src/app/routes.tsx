@@ -4,6 +4,10 @@ import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
 import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
 import { AutomationenSeite } from '../features/automationen/AutomationenSeite.tsx'
 import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
+import { KontaktDetailSeite } from '../features/kontakte/KontaktDetailSeite.tsx'
+import { KontakteSeite } from '../features/kontakte/KontakteSeite.tsx'
+import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSeite.tsx'
+import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
 import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
@@ -25,13 +29,11 @@ export function AppRoutes() {
         <Route path="pikartz-ai" element={<MarkeSeite />} />
         <Route path="aufgaben" element={<AufgabenSeite />} />
         <Route path="kontakte">
-          <Route
-            index
-            element={<Platzhalter titel="Kontakte & Leads" inhalt="Hier pflegst du künftig Kontakte mit Verlauf und nächster Aktion." />}
-          />
-          <Route path="unternehmen" element={<Platzhalter titel="Unternehmen" inhalt="Hier erscheinen künftig Unternehmen mit verknüpften Kontakten." />} />
+          <Route index element={<KontakteSeite />} />
+          <Route path="unternehmen" element={<UnternehmenSeite />} />
+          <Route path="unternehmen/:id" element={<UnternehmenDetailSeite />} />
           <Route path="leads" element={<Platzhalter titel="Leads" inhalt="Hier verwaltest du künftig optionale Leads rund um PIKARTZ.AI." />} />
-          <Route path=":id" element={<Platzhalter titel="Kontakt" inhalt="Hier erscheinen künftig die Details eines Kontakts." />} />
+          <Route path=":id" element={<KontaktDetailSeite />} />
         </Route>
         <Route path="bewerbungen">
           <Route

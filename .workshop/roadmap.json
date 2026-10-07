@@ -456,7 +456,7 @@
           "description": "Kontakte und Unternehmen anlegen, bearbeiten, suchen und miteinander verknüpfen.",
           "order": 1,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-2-6"
           ],
@@ -464,15 +464,23 @@
             "Kontakte und Unternehmen können angelegt, bearbeitet und gelöscht werden (mit Bestätigung)",
             "Suche funktioniert",
             "Kontakte können Unternehmen zugeordnet werden",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "npm run build, lint, typecheck und test laufen fehlerfrei",
+            "Kontakte haben Kontext-Kategorie (Jobsuche, Weiterbildung, PIKARTZ.AI, Sonstiges), Herkunft und LinkedIn-URL; Filter nach Kontext",
+            "Unternehmen zeigen verknüpfte Kontakte, Bewerbungen und Leads"
           ],
           "startedAt": "2026-10-07T13:34:00Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:37:48Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 162 Tests grün, davon 5 für Kontakte und Unternehmen: leerer Start ohne vorbefüllte Kontakte/Unternehmen; Unternehmen anlegen, Kontakt aus dem Unternehmen heraus mit Rolle, Kontext, Herkunft und LinkedIn (URL-Prüfung) anlegen; Unternehmensdetail zeigt verknüpfte Kontakte, Bewerbungen, Leads; Suche und Kontext-Filter; Unternehmen löschen nach Bestätigung, Kontakte bleiben ohne Zuordnung; Kontakt löschen nach Bestätigung. Browser: /kontakte mit Unternavigation (aria-current), Leerzustand, kein Überlauf.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /kontakte per Skript"
+            ],
+            "checkedAt": "2026-10-07T13:37:48Z"
           }
         },
         {
@@ -481,16 +489,18 @@
           "description": "Notizen, Kommunikationsverlauf, nächste Aktion und Projektbezug je Kontakt erfassen.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-3-1"
           ],
           "definitionOfDone": [
             "Verlaufseinträge können erfasst und angezeigt werden",
             "Nächste Aktion und Projektbezug sind pflegbar",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "npm run build, lint, typecheck und test laufen fehlerfrei",
+            "Wiedervorlage (nächste Aktion mit optionalem Datum) erscheint im Cockpit unter „Nächste Schritte“; ohne Datum „Noch keine Frist hinterlegt“",
+            "Verlaufseinträge mit Art (E-Mail, Telefonat, Treffen, Nachricht, Notiz), Datum und optionalem Projektbezug; im Projektdetail erscheinen zugeordnete Kontakte"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-07T13:37:48Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
@@ -505,7 +515,7 @@
           "description": "Optionale Leadverwaltung mit Status; Geldbetrag optional und leer zulässig.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-3-1"
           ],
@@ -529,7 +539,7 @@
           "description": "Bewerbungen und Zielrollen verwalten; drei bekannte Zielrollen vorbefüllt, keine Bewerbungen erfunden.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-3-1"
           ],
