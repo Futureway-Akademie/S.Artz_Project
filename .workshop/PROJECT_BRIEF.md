@@ -37,7 +37,7 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 ## Nicht-Ziele
 
 - kein Mehrbenutzer- oder Login-System
-- kein Server-Backend und keine dauerhafte oder sichere Speicherung (Demo-Modus mit localStorage)
+- kein eigenes Server-Backend; Daten verschlüsselt im Browser, optional Ende-zu-Ende-verschlüsselt über Supabase synchronisiert (Roadmap v4)
 - keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable usw.
 - keine erfundenen Daten (Kennzahlen, Umsätze, Termine, Kontakte, Fortschritte)
 - keine dekorativen Diagramme oder Animationen ohne Funktion
