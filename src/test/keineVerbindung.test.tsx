@@ -76,7 +76,8 @@ describe('Keine Verbindung nach außen', () => {
     expect([...new Set(adressen)].sort()).toEqual([...GMAIL_ZIELE].sort())
     expect(modul).toContain('const t = aktuellerToken(Date.now(), scope)\n  if (!t) throw new NichtAngemeldet()')
     expect(modul).not.toMatch(/method: '(PUT|PATCH|DELETE)'/)
-    expect(modul.match(/method: 'POST'/g)).toHaveLength(1) // nur der Widerruf
+    expect(modul.match(/method: 'POST'/g)).toHaveLength(2) // Widerruf und – nur mit eigener Berechtigung – Termin anlegen
+    expect(modul).toContain('aktuellerToken(Date.now(), KALENDER_SCHREIBEN_SCOPE)')
     const auth = readFileSync('src/data/gmail/googleAuth.ts', 'utf8')
     expect(auth).toContain("export const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'")
     expect(auth).toContain("export const KALENDER_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly'")

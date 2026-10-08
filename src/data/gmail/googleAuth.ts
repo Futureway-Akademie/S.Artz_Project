@@ -11,6 +11,9 @@ export const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'
 export const KALENDER_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly'
 /** Angefragt wird beides nur lesend; was erteilt wurde, steht im Token */
 export const GOOGLE_SCOPES = [GMAIL_SCOPE, KALENDER_SCOPE]
+/** Nur auf ausdrücklichen Wunsch zusätzlich: Termine anlegen (nicht ändern oder löschen über die App) */
+export const KALENDER_SCHREIBEN_SCOPE = 'https://www.googleapis.com/auth/calendar.events'
+const ALLE_SCOPES = [...GOOGLE_SCOPES, KALENDER_SCHREIBEN_SCOPE]
 const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 /** Schutz gegen untergeschobene Rücksprünge (CSRF); nur für die Dauer der Anmeldung im Tab */
 export const STATE_KEY = 'pikartz.google.state'
@@ -35,12 +38,12 @@ export const googleKonfiguriert = (clientId = CLIENT_ID) => Boolean(clientId)
 /** Rücksprungadresse: Startseite der App; muss in der Google Cloud Console exakt so eingetragen sein. */
 export const rueckkehrAdresse = (origin: string) => `${origin}/`
 
-export function anmeldeUrl(clientId: string, redirectUri: string, state: string): string {
+export function anmeldeUrl(clientId: string, redirectUri: string, state: string, scopes: readonly string[] = GOOGLE_SCOPES): string {
   const p = new URLSearchParams({
     client_id: clientId,
     redirect_uri: redirectUri,
     response_type: 'token',
-    scope: GOOGLE_SCOPES.join(' '),
+    scope: scopes.join(' '),
     state,
     include_granted_scopes: 'false',
     prompt: 'consent',
@@ -54,11 +57,16 @@ function zufall(): string {
 }
 
 /** Leitet zu Google weiter. Danach ist der Tresor gesperrt und muss nach der Rückkehr entsperrt werden. */
-export function anmeldungStarten(ort: Pick<Location, 'origin' | 'assign'> = window.location, speicher: Pick<Storage, 'setItem'> = sessionStorage, clientId = CLIENT_ID) {
+export function anmeldungStarten(
+  ort: Pick<Location, 'origin' | 'assign'> = window.location,
+  speicher: Pick<Storage, 'setItem'> = sessionStorage,
+  clientId = CLIENT_ID,
+  scopes: readonly string[] = GOOGLE_SCOPES,
+) {
   if (!clientId) throw new Error('Google ist nicht eingerichtet.')
   const state = zufall()
   speicher.setItem(STATE_KEY, state)
-  ort.assign(anmeldeUrl(clientId, rueckkehrAdresse(ort.origin), state))
+  ort.assign(anmeldeUrl(clientId, rueckkehrAdresse(ort.origin), state, scopes))
 }
 
 /** Wertet das Fragment nach dem Rücksprung aus; `null`, wenn es kein Google-Rücksprung ist. */
@@ -69,7 +77,7 @@ export function rueckkehrAuswerten(hash: string, erwarteterState: string | null,
   if (p.get('state') !== erwarteterState) return { art: 'fehler', grund: 'Die Anmeldung gehört nicht zu dieser Sitzung und wurde verworfen.' }
   const fehler = p.get('error')
   if (fehler) return { art: 'fehler', grund: fehler === 'access_denied' ? 'Du hast den Zugriff bei Google abgelehnt.' : `Google meldet: ${fehler}` }
-  const scopes = (p.get('scope') ?? '').split(' ').filter((s) => GOOGLE_SCOPES.includes(s))
+  const scopes = (p.get('scope') ?? '').split(' ').filter((s) => ALLE_SCOPES.includes(s))
   if (scopes.length === 0) return { art: 'fehler', grund: 'Google hat keine Leseberechtigung erteilt.' }
   const sekunden = Number(p.get('expires_in') ?? '0')
   return { art: 'verbunden', token: { wert: p.get('access_token')!, scopes, gueltigBis: jetzt + Math.max(0, sekunden - 60) * 1000 } }
@@ -92,6 +100,11 @@ export function rueckkehrVerarbeiten(ort: Location = window.location, verlauf: H
 /** Gültiger Token oder `null`; mit `scope` nur, wenn diese Berechtigung erteilt wurde */
 export function aktuellerToken(jetzt = Date.now(), scope?: string): string | null {
   return token && token.gueltigBis > jetzt && (!scope || token.scopes.includes(scope)) ? token.wert : null
+}
+
+/** Wurde diese Berechtigung erteilt (und ist der Zugang gültig)? */
+export function hatBerechtigung(scope: string, jetzt = Date.now()): boolean {
+  return aktuellerToken(jetzt, scope) !== null
 }
 
 export function tokenGueltigBis(): number | null {

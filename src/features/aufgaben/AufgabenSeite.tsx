@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { GoogleEintragen } from './GoogleEintragen.tsx'
 import { Link, useSearchParams } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Button } from '../../components/ui/Button.tsx'
@@ -168,6 +169,7 @@ function TerminListe({ onBearbeiten }: { onBearbeiten: (t: Termin) => void }) {
       </div>
       <div className={styles.meta}>
         <BezugLink aufgabe={t} />
+        <GoogleEintragen termin={t} />
         <Button size="sm" variant="ghost" onClick={() => onBearbeiten(t)} aria-label={`Termin „${t.titel}“ bearbeiten`}>
           Bearbeiten
         </Button>

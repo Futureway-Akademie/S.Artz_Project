@@ -79,6 +79,7 @@ function fakeDienst(mails: RohMail[]): MailDienst {
   return {
     konfiguriert: true,
     termine: vi.fn().mockResolvedValue([]),
+    terminEintragen: vi.fn().mockResolvedValue(undefined),
     profil: vi.fn().mockResolvedValue('ich@example.org'),
     suchen: vi.fn().mockResolvedValue(mails.map((x) => x.id)),
     holen: vi.fn().mockImplementation(async (id: string) => mails.find((x) => x.id === id)!),

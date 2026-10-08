@@ -2164,7 +2164,7 @@
       "description": "Google-Kalender, n8n/Make, Stellenanzeigen und Dokumente.",
       "order": 17,
       "weight": 13,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-17-1",
@@ -2197,20 +2197,24 @@
           "description": "Termine aus dem Cockpit nach Bestätigung in Google-Kalender übertragen.",
           "order": 2,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-17-1"
           ],
           "definitionOfDone": [
             "Eintragen nur nach Bestätigung"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:05:48Z",
+          "completedAt": "2026-10-08T10:08:59Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Termine in Google-Kalender eintragen: Button je Termin (Aufgaben → Termine) mit Bestätigung; Schreibberechtigung calendar.events wird nur beim ersten Mal per Weiterleitung angefragt (Hinweis auf erneutes Entsperren); übertragen werden nur Titel, Datum, Uhrzeit (1 Stunde, Zeitzone Berlin) bzw. ganztägig, Ort. Quelltext-Wächter: zweiter POST nur mit Schreibberechtigung, kein PUT/PATCH/DELETE. Anleitung ergänzt; Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:08:59Z"
           }
         },
         {

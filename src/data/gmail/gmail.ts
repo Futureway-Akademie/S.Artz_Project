@@ -1,4 +1,4 @@
-import { aktuellerToken, GMAIL_SCOPE, googleKonfiguriert, KALENDER_SCOPE, tokenVergessen } from './googleAuth.ts'
+import { aktuellerToken, GMAIL_SCOPE, googleKonfiguriert, KALENDER_SCHREIBEN_SCOPE, KALENDER_SCOPE, tokenVergessen } from './googleAuth.ts'
 
 /**
  * Einziges Modul mit Netzwerkzugriff auf Google: liest Gmail nur (gmail.readonly) und nur Kopfzeilen
@@ -39,6 +39,8 @@ export interface MailDienst {
   konfiguriert: boolean
   /** Kalender-Termine im Zeitraum (nur lesend, nur mit Kalender-Berechtigung) */
   termine(von: string, bis: string): Promise<GoogleTermin[]>
+  /** Einen Termin anlegen (nur mit ausdrücklich erteilter Schreibberechtigung) */
+  terminEintragen(termin: { titel: string; datum: string; uhrzeit: string | null; ort: string }): Promise<void>
   /** Angemeldete Adresse (prüft zugleich den Token) */
   profil(): Promise<string>
   /** IDs passender Mails, neueste zuerst */
@@ -124,6 +126,19 @@ export function alsGoogleTermin(e: KalenderEreignis): GoogleTermin | null {
   }
 }
 
+/** Termin als Google-Ereignis: mit Uhrzeit eine Stunde (Zeitzone Berlin), sonst ganztägig. Exportiert für Tests. */
+export function googleEreignis(t: { titel: string; datum: string; uhrzeit: string | null; ort: string }) {
+  const zone = 'Europe/Berlin'
+  if (!t.uhrzeit) {
+    const ende = new Date(`${t.datum}T12:00:00Z`)
+    ende.setUTCDate(ende.getUTCDate() + 1)
+    return { summary: t.titel, location: t.ort || undefined, start: { date: t.datum }, end: { date: ende.toISOString().slice(0, 10) } }
+  }
+  const [h = 0, m = 0] = t.uhrzeit.split(':').map(Number)
+  const bis = `${String(Math.min(h + 1, 23)).padStart(2, '0')}:${String(h + 1 > 23 ? 59 : m).padStart(2, '0')}`
+  return { summary: t.titel, location: t.ort || undefined, start: { dateTime: `${t.datum}T${t.uhrzeit}:00`, timeZone: zone }, end: { dateTime: `${t.datum}T${bis}:00`, timeZone: zone } }
+}
+
 export const gmailDienst: MailDienst = {
   konfiguriert: googleKonfiguriert(),
   async termine(von, bis) {
@@ -137,6 +152,21 @@ export const gmailDienst: MailDienst = {
     })
     const antwort = await holeJson<{ items?: KalenderEreignis[] }>(`?${p.toString()}`, KALENDER, KALENDER_SCOPE)
     return (antwort.items ?? []).map(alsGoogleTermin).filter((t): t is GoogleTermin => t !== null)
+  },
+  async terminEintragen(termin) {
+    const t = aktuellerToken(Date.now(), KALENDER_SCHREIBEN_SCOPE)
+    if (!t) throw new NichtAngemeldet()
+    const antwort = await fetch(KALENDER, {
+      ...OPTIONEN,
+      method: 'POST',
+      headers: { Authorization: `Bearer ${t}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(googleEreignis(termin)),
+    })
+    if (antwort.status === 401) {
+      tokenVergessen()
+      throw new NichtAngemeldet()
+    }
+    if (!antwort.ok) throw new Error(`Google-Kalender antwortet mit Fehler ${antwort.status}.`)
   },
   async profil() {
     return (await holeJson<{ emailAddress: string }>('/profile')).emailAddress

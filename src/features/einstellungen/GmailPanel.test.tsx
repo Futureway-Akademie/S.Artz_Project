@@ -9,6 +9,7 @@ function dienst(konfiguriert: boolean): MailDienst {
   return {
     konfiguriert,
     termine: vi.fn().mockResolvedValue([]),
+    terminEintragen: vi.fn().mockResolvedValue(undefined),
     profil: vi.fn().mockResolvedValue('ich@example.org'),
     suchen: vi.fn(),
     holen: vi.fn(),
