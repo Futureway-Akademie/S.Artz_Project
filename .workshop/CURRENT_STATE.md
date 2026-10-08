@@ -2,15 +2,15 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v6, Fortschritt 83,46 % (106 von 127 Gewichtspunkten, 43 von 52 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v6, Fortschritt 100 % (126 von 126 Gewichtspunkten, 51 von 51 Tasks).
 
 ## Aktive Phase
 
-Datenschutz und Sicherheit (phase-5).
+Alle Phasen abgeschlossen.
 
 ## Aktive Aufgabe
 
-task-11-1 – Werkzeugkasten: Datenmodell und Navigation (in_progress seit 2026-10-07T18:13:50Z).
+Keine.
 
 ## Zuletzt abgeschlossen
 
@@ -114,7 +114,7 @@ Keine.
 | task-5-3 | Verschlüsselung mit Passwort und automatischer Sperre | ✅ erledigt |  |
 | task-5-4 | Verschlüsselte Sicherung und Erinnerung | ✅ erledigt |  |
 | task-5-5 | DSGVO-Funktionen für Kontakte | ✅ erledigt |  |
-| task-5-6 | Git-Historie bereinigen | ⛔ blockiert | – |
+| task-5-6 | Git-Historie bereinigen | abgebrochen | – |
 | task-5-7 | Passwort-Wiederherstellung per E-Mail-Link | ✅ erledigt |  |
 
 ### Alles verbinden
@@ -162,23 +162,23 @@ Keine.
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-11-1 | Werkzeugkasten: Datenmodell und Navigation | 🔨 in Arbeit | – |
-| task-11-2 | Masterprompts und Befehle | ⏳ geplant | task-11-1 |
-| task-11-3 | Agenten, Skills und Workflows | ⏳ geplant | task-11-1 |
-| task-11-4 | Anleitungen und Integrationen | ⏳ geplant | task-11-1 |
-| task-11-5 | Modelle und Abos | ⏳ geplant | task-11-1 |
+| task-11-1 | Werkzeugkasten: Datenmodell und Navigation | ✅ erledigt |  |
+| task-11-2 | Masterprompts und Befehle | ✅ erledigt |  |
+| task-11-3 | Agenten, Skills und Workflows | ✅ erledigt |  |
+| task-11-4 | Anleitungen und Integrationen | ✅ erledigt |  |
+| task-11-5 | Modelle und Abos | ✅ erledigt |  |
 
 ### Gmail-Anbindung
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-12-1 | Google-Anmeldung (nur lesend) | ⏳ geplant | task-11-1 |
-| task-12-2 | Mails abrufen und zuordnen | ⏳ geplant | task-12-1 |
-| task-12-3 | Abschlussprüfung Roadmap v6 | ⏳ geplant | task-11-2, task-11-3, task-11-4, task-11-5, task-12-2 |
+| task-12-1 | Google-Anmeldung (nur lesend) | ✅ erledigt |  |
+| task-12-2 | Mails abrufen und zuordnen | ✅ erledigt |  |
+| task-12-3 | Abschlussprüfung Roadmap v6 | ✅ erledigt |  |
 
 ## Blockiert
 
-- task-5-6 – Git-Historie bereinigen
+Nichts.
 
 ## Wichtige Entscheidungen
 
@@ -200,4 +200,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-Roadmap v4 ist bis auf task-5-6 umgesetzt. Sascha: (1) App öffnen, Passwort festlegen, in den Einstellungen die Wiederherstellung per E-Mail einrichten und eine Sicherung erstellen; (2) Supabase-Projekt nach docs/supabase-einrichtung.md anlegen und .env.local füllen, dann anmelden; (3) PR #2 mergen; (4) Entscheidung zu task-5-6. Danach gemeinsam durch die App gehen.
+Roadmap v6 ist vollständig umgesetzt (task-5-6 auf Saschas Entscheidung abgebrochen: In der Git-Historie stehen nur Projekt-, Firmen- und Rollennamen sowie Kursdaten, keine Projektinhalte). Sascha: (1) PR #2 mergen, damit das Dashboard den aktuellen Stand zeigt; (2) Gmail nach docs/gmail-einrichtung.md und Supabase nach docs/supabase-einrichtung.md einrichten; (3) im Cockpit Passwort und Wiederherstellung einrichten. Neue Wünsche kommen als Roadmap v7.

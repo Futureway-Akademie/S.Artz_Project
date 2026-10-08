@@ -716,7 +716,7 @@
       "description": "Keine persönliche Information von außen einsehbar, Daten verschlüsselt, DSGVO-Funktionen für Kontaktdaten.",
       "order": 5,
       "weight": 16,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-5-1",
@@ -875,7 +875,7 @@
           "description": "Persönliche Begriffe aus allen alten Commits entfernen (Rewrite + Force-Push von main und Arbeitszweig); Reste in Pull-Request-Kopien über den GitHub-Support löschen lassen. Blockiert: Force-Push mit umgeschriebener Historie braucht Saschas ausdrückliche Freigabe in den Claude-Code-Berechtigungen (vom Sicherheitssystem blockiert); alternativ stellt der Dozent das Repository auf privat.",
           "order": 6,
           "weight": 1,
-          "status": "blocked",
+          "status": "cancelled",
           "dependsOn": [
             "task-5-1"
           ],

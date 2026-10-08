@@ -538,3 +538,8 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - **Protokoll ohne Inhalte Dritter:** Aktivitäten zu Mails nennen nur das Datum, nicht Betreff oder Absender.
 - **Neuer Kontakt aus einer Mail** (z. B. Personalabteilung): Rechtsgrundlage „Vertrag/Anbahnung“ und Zweck werden nur bei einer zugeordneten Bewerbung vorbelegt, sonst bleibt beides offen zur Prüfung.
 - **Einziges Netzwerkmodul** für Google ist `src/data/gmail/gmail.ts`; der Quelltext-Wächter erlaubt `fetch` nur dort und prüft die Zieladressen.
+
+## 2026-10-08 – Git-Historie bleibt (task-5-6 abgebrochen)
+
+- Alte Commits enthalten nur Namen (Projekttitel, zwei Firmen, Zielrollen) und Kursangaben, keine Projektinhalte; per Abgleich mit allen lokalen Detailtexten geprüft.
+- Sascha: „Die Daten stören mich nicht, solange es nur die Namen sind und nicht die Projekte an sich.“ Deshalb kein Umschreiben der Historie und kein Force-Push. Neue Inhalte bleiben wie bisher nur lokal (`seed.privat.ts`, Wächter-Test vor jedem Push).

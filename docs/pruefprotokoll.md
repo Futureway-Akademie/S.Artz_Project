@@ -159,7 +159,7 @@ Neu getestet:
 ## Offen (braucht Sascha)
 
 - **Supabase:** Projekt anlegen und Werte in `.env.local` eintragen (Anleitung: `docs/supabase-einrichtung.md`). Erst dann sind Login und Synchronisierung echt nutzbar. Bis dahin ist die Funktion ausgeblendet, und es gibt keine Verbindung nach außen.
-- **Git-Historie (task-5-6):** weiterhin blockiert.
+- **Git-Historie (task-5-6):** am 2026-10-08 auf Saschas Entscheidung abgebrochen (siehe unten).
 
 ---
 
@@ -197,4 +197,8 @@ Neu getestet:
 - **Gmail:** Google-Cloud-Projekt anlegen und `VITE_GOOGLE_CLIENT_ID` in `.env.local` eintragen (Anleitung: `docs/gmail-einrichtung.md`). Bis dahin ist das Postfach ausgeblendet und es gibt keine Verbindung zu Google.
 - **Supabase:** wie bisher `docs/supabase-einrichtung.md`.
 - **Fernsteuerung per Handy (Remote Control):** von der Organisations-Richtlinie gesperrt; nur ein Admin kann sie freigeben.
-- **Git-Historie (task-5-6):** weiterhin blockiert.
+- **Git-Historie (task-5-6):** am 2026-10-08 auf Saschas Entscheidung abgebrochen (siehe unten).
+
+## Nachtrag 2026-10-08: Git-Historie (task-5-6) abgebrochen
+
+Geprüft wurde die gesamte Historie aller Zweige gegen die privaten Begriffe und gegen alle 110 längeren Detailtexte der lokalen Projektdaten (Beschreibungen, Notizen, nächste Schritte). In alten Commits stehen nur Projekttitel, Kategorien und Stand, zwei Firmennamen, die drei Zielrollen und Kursangaben (Anbieter, Zeitraum, Unterrichtszeit, Module). Keine Projektbeschreibungen, Notizen oder Schritte, keine Personennamen, E-Mail-Adressen, Telefonnummern, Passwörter oder Schlüssel. Sascha hat entschieden, dass das nicht stört; ein Umschreiben der Historie mit Force-Push entfällt.
