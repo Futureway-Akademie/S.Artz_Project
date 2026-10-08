@@ -237,3 +237,5 @@
 {"timestamp":"2026-10-08T09:15:52Z","type":"task_ready","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' ist startbar."}
 {"timestamp":"2026-10-08T09:15:52Z","type":"task_ready","taskId":"task-14-5","summary":"Task 'Geteilte Bereiche' ist startbar."}
 {"timestamp":"2026-10-08T09:15:52Z","type":"task_started","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' gestartet."}
+{"timestamp":"2026-10-08T09:20:47Z","type":"verification_passed","taskId":"task-14-4","summary":"Rechte in Navigation, Seiten, Suche, Schnellerfassung, Cockpit und Dashboard getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:20:47Z","type":"task_completed","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' abgeschlossen."}

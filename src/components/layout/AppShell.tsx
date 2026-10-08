@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Outlet, useLocation } from 'react-router'
+import { Navigate, Outlet, useLocation } from 'react-router'
+import { useRechte } from '../../app/cloudContext.ts'
+import { BEREICHE, darf, darfPfad } from '../../domain/bereiche.ts'
+import { EmptyState } from '../ui/States.tsx'
+import { Seite } from './Seite.tsx'
 import { useTresor } from '../../app/tresorContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { Wordmark } from '../brand/Wordmark.tsx'
@@ -11,6 +15,29 @@ import { SucheDialog } from '../../features/suche/SucheDialog.tsx'
 import { SEITENTITEL_ID } from './ids.ts'
 import { NavDrawer } from './NavDrawer.tsx'
 import { NavList } from './NavList.tsx'
+
+/** Zeigt die Seite nur mit Berechtigung; gesperrte Nutzer sehen einen Hinweis, ohne Cockpit-Recht geht es zum ersten freien Bereich. */
+function Zugang() {
+  const rechte = useRechte()
+  const { pathname } = useLocation()
+  if (rechte.gesperrt) {
+    return (
+      <Seite titel="Zugang gesperrt">
+        <EmptyState title="Dein Zugang ist gesperrt">Bitte wende dich an den Admin. Deine Daten auf diesem Gerät bleiben verschlüsselt erhalten.</EmptyState>
+      </Seite>
+    )
+  }
+  if (darfPfad(rechte, pathname)) return <Outlet />
+  if (pathname === '/') {
+    const erster = BEREICHE.find((b) => b.pfad && darf(rechte, b.key))
+    return <Navigate to={erster?.pfad ?? '/einstellungen'} replace />
+  }
+  return (
+    <Seite titel="Kein Zugriff">
+      <EmptyState title="Dieser Bereich ist für dich nicht freigegeben">Wenn du ihn brauchst, frag den Admin.</EmptyState>
+    </Seite>
+  )
+}
 
 function DemoBanner() {
   const { persistenz } = useStore()
@@ -171,7 +198,7 @@ export function AppShell() {
         <DemoBanner />
         <StatusHinweise />
         <main id="inhalt" className={styles.main} tabIndex={-1}>
-          <Outlet />
+          <Zugang />
         </main>
       </div>
       {suchen && <SucheDialog onSchliessen={() => setSuchen(false)} />}

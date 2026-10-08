@@ -1878,7 +1878,7 @@
           "description": "Nicht freigegebene Bereiche verschwinden aus Navigation, Suche, Schnellerfassung, Cockpit und Dashboard; direkte Aufrufe zeigen „Kein Zugriff“. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 4,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-14-3"
           ],
@@ -1887,12 +1887,16 @@
             "Direktaufruf zeigt „Kein Zugriff“"
           ],
           "startedAt": "2026-10-08T09:15:52Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T09:20:47Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Navigation (voll, Icon-Leiste, Menü) zeigt nur freigegebene Bereiche, Admin-Eintrag „Nutzer & Rollen“ nur für Admins; Seitenschutz: Direktaufruf zeigt „Kein Zugriff“, ohne Cockpit-Recht Weiterleitung zum ersten freien Bereich, Gesperrte sehen nur einen Hinweis; Suche, Schnellerfassung, Cockpit-Panels und Dashboard-Kacheln/-Grafiken nach Rechten. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:20:47Z"
           }
         },
         {

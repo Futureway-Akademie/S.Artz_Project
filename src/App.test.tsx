@@ -36,10 +36,12 @@ describe('App-Shell', () => {
   it('erreicht alle Bereiche und Werkzeugkasten-Unterpunkte über die Navigation', () => {
     renderApp()
     const links = within(hauptnavigation()).getAllByRole('link', { hidden: true })
-    expect(links.map((l) => l.textContent)).toEqual(NAVIGATION.map((n) => n.label))
-    expect(NAVIGATION).toHaveLength(22)
+    // Ohne Anmeldung kein Admin: „Nutzer & Rollen“ erscheint nur für Admins
+    const sichtbar = NAVIGATION.filter((n) => n.to !== '/admin')
+    expect(links.map((l) => l.textContent)).toEqual(sichtbar.map((n) => n.label))
+    expect(NAVIGATION).toHaveLength(23)
 
-    for (const eintrag of NAVIGATION) {
+    for (const eintrag of sichtbar) {
       fireEvent.click(navLink(eintrag.label))
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
         eintrag.label === 'Arbeitscockpit' ? 'Arbeitscockpit' : eintrag.label,

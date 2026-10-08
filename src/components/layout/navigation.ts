@@ -58,6 +58,7 @@ export const NAV_GRUPPEN: NavGruppe[] = [
     titel: 'Marke & System',
     eintraege: [
       { to: '/pikartz-ai', label: 'PIKARTZ.AI', kurz: 'Marke', icon: 'marke' },
+      { to: '/admin', label: 'Nutzer & Rollen', kurz: 'Nutzer', icon: 'schloss' },
       { to: '/einstellungen', label: 'Einstellungen', kurz: 'Optionen', icon: 'einstellungen' },
     ],
   },

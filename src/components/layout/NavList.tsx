@@ -1,5 +1,7 @@
 import { useId, useState } from 'react'
 import { NavLink } from 'react-router'
+import { useRechte } from '../../app/cloudContext.ts'
+import { darfPfad } from '../../domain/bereiche.ts'
 import { Icon } from '../ui/Icon.tsx'
 import styles from './NavList.module.css'
 import { NAV_GRUPPEN, type NavEintrag, type NavGruppe } from './navigation.ts'
@@ -33,7 +35,10 @@ function Eintrag({ eintrag, variante, onNavigate }: { eintrag: NavEintrag } & Na
 function Gruppe({ gruppe, variante, onNavigate }: { gruppe: NavGruppe } & NavListProps) {
   const id = useId()
   const [offen, setOffen] = useState(true)
-  const eintraege = variante === 'rail' ? gruppe.eintraege.filter((e) => !e.nurVoll) : gruppe.eintraege
+  const rechte = useRechte()
+  const eintraege = (variante === 'rail' ? gruppe.eintraege.filter((e) => !e.nurVoll) : gruppe.eintraege).filter((e) => darfPfad(rechte, e.to))
+
+  if (eintraege.length === 0) return null
 
   if (variante === 'rail') {
     return (

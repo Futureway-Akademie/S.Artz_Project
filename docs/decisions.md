@@ -596,3 +596,15 @@ Mit Sascha geplant und am 2026-10-08 bestätigt; eingetragen als Roadmap v7 (Pha
   - Priorität bis dahin: Phasen 13–16, ★-Aufgaben zuerst. task-14-5 (geteilte Bereiche) und die Phasen 17–19 kommen danach.
 - **KI-Assistent – Funktionen:** Bewerbung, Mails und Verlauf, Tagesplanung, Chat mit den eigenen Daten. Alles nur nach Freigabe-Dialog.
 - **Anbindungen:** Google-Kalender, n8n/Make, Stellenanzeigen (Link oder Text), Dokumente.
+
+## 2026-10-08 – Mehrbenutzer umgesetzt (task-14-1 bis task-14-4)
+
+- **Supabase-Regeln** stehen in `supabase/schema.sql`: Rollen, Profile, Admin, Sperre, RLS. Sie werden mit einem echten Postgres (PGlite) getestet. Dabei wird der `auth`-Teil von Supabase nachgebildet, das läuft auch in der CI.
+- **Erstes Konto = Admin.** Danach Selbstregistrierung abschalten, neue Nutzer nur über die Funktion `einladen`. Die Funktion prüft den Admin; der service_role-Schlüssel bleibt bei Supabase.
+- **Bereichsrechte:**
+  - Rolle plus Freigaben minus Sperren je Nutzer. Gelten für Navigation, Seiten (Direktaufruf zeigt „Kein Zugriff“), Suche, Schnellerfassung, Cockpit und Dashboard.
+  - Ohne Anmeldung gelten die zuletzt gemerkten Rechte des Geräts.
+- **Ehrliche Grenze:**
+  - Die eigenen Daten eines Nutzers liegen in seinem eigenen, nur für ihn lesbaren Tresor. Bereichsrechte steuern dort, welche Funktionen er sieht. Der Server kann den Inhalt nicht prüfen, weil er ihn nicht lesen kann.
+  - Echte serverseitige Durchsetzung gibt es für die Sperre (kein Zugriff auf den Cloud-Tresor) und künftig für geteilte Bereiche (task-14-5) und den KI-Zugang (task-15-1).
+- **Gemeinsam genutztes Gerät:** Der lokale Tresor merkt sich sein Konto. Meldet sich ein anderes Konto an, wird nicht abgeglichen; das Cockpit weist darauf hin.
