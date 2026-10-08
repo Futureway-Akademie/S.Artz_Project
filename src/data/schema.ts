@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 9
+export const SCHEMA_VERSION = 10
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -336,6 +336,16 @@ export const sammlungen = [
   'mails',
 ] as const
 
+/** Protokoll der KI-Aufrufe: was, wann, wie viel – nie der Inhalt */
+export const kiProtokollSchema = z.object({
+  id,
+  zeitpunkt,
+  aufgabe: z.enum(['anschreiben', 'antwort', 'zusammenfassung', 'tagesplan', 'chat', 'stellenanzeige']),
+  /** Anzahl gesendeter Zeichen */
+  zeichen: z.number().int().min(0),
+  tokens: z.number().int().min(0),
+})
+
 export const aktivitaetSchema = z.object({
   id,
   zeitpunkt,
@@ -376,6 +386,7 @@ export const appDataSchema = z.object({
   wissen: z.array(wissenSchema),
   werkzeug: z.array(werkzeugSchema),
   mails: z.array(mailSchema),
+  kiProtokoll: z.array(kiProtokollSchema),
   aktivitaeten: z.array(aktivitaetSchema),
   einstellungen: einstellungenSchema,
 })

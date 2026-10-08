@@ -5,6 +5,8 @@ import { aktivitaetText, geaenderteFelder, titelVon } from './activity.ts'
 
 /** Obergrenze, damit das Protokoll den Speicher nicht füllt. */
 export const MAX_AKTIVITAETEN = 500
+/** So viele KI-Aufrufe bleiben im Protokoll */
+export const MAX_KI_PROTOKOLL = 200
 
 type Liste<S extends Sammlung> = Array<Eintrag<S>>
 
@@ -255,6 +257,12 @@ function kernReducer(data: AppData, action: Action, meta: ActionMeta): AppData {
         bezug: { sammlung: null, id: null, titel: 'Einstellungen' },
         zusammenfassung: geaenderteFelder(data.einstellungen, neu).every((f) => f === 'letzteSicherungAm') ? 'Sicherung erstellt' : 'Einstellungen geändert',
       })
+    }
+
+    case 'kiProtokoll': {
+      if (!action.eintrag) return { ...data, kiProtokoll: [] }
+      const eintrag = { id: meta.newId(), zeitpunkt: meta.now.toISOString(), ...action.eintrag }
+      return { ...data, kiProtokoll: [eintrag, ...data.kiProtokoll].slice(0, MAX_KI_PROTOKOLL) }
     }
 
     case 'mailsAbgerufen': {

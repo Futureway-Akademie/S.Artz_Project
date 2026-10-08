@@ -244,3 +244,11 @@
 {"timestamp":"2026-10-08T09:27:05Z","type":"task_completed","taskId":"task-15-1","summary":"Task 'KI-Zugang über Supabase-Funktion' abgeschlossen."}
 {"timestamp":"2026-10-08T09:27:05Z","type":"task_ready","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' ist startbar."}
 {"timestamp":"2026-10-08T09:27:05Z","type":"task_started","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' gestartet."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"verification_passed","taskId":"task-15-2","summary":"Freigabe, Bearbeiten vor dem Senden, Übernahme und Protokoll ohne Inhalt getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_completed","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' abgeschlossen."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-3","summary":"Task 'KI für Bewerbungen' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-4","summary":"Task 'KI für Mails und Verlauf' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-5","summary":"Task 'KI-Tagesplanung' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-6","summary":"Task 'Chat mit deinen Daten' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' ist startbar."}
+{"timestamp":"2026-10-08T09:30:11Z","type":"task_started","taskId":"task-15-3","summary":"Task 'KI für Bewerbungen' gestartet."}

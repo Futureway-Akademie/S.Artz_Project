@@ -1,10 +1,12 @@
-import type { Aenderung, AppData, Einstellungen, Neu, Sammlung } from '../domain/types.ts'
+import type { Aenderung, AppData, Einstellungen, KiProtokollEintrag, Neu, Sammlung } from '../domain/types.ts'
 
 export type Action =
   | { [S in Sammlung]: { type: 'anlegen'; sammlung: S; daten: Neu<S>; /** optional vorgegebene ID, sonst erzeugt */ id?: string } }[Sammlung]
   | { [S in Sammlung]: { type: 'aendern'; sammlung: S; id: string; aenderung: Aenderung<S> } }[Sammlung]
   | { type: 'loeschen'; sammlung: Sammlung; id: string }
   | { type: 'einstellungen'; aenderung: Partial<Einstellungen> }
+  /** KI-Aufruf protokollieren (ohne Inhalt, ohne Aktivität) bzw. Protokoll leeren */
+  | { type: 'kiProtokoll'; eintrag: { aufgabe: KiProtokollEintrag['aufgabe']; zeichen: number; tokens: number } | null }
   /** Ergebnis eines Mailabrufs: neue Mails auf einmal, eine Aktivität, Abrufzeitpunkt merken */
   | { type: 'mailsAbgerufen'; mails: Array<Neu<'mails'>>; abrufAm: string }
   /** Mail in den Verlauf übernehmen; optional zuvor einen Kontakt anlegen. Inhalt der Mail wird danach entfernt. */

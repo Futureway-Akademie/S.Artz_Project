@@ -1966,7 +1966,7 @@
           "description": "Vor jedem KI-Aufruf Vorschau, welche Daten gesendet werden, mit Bestätigung; verschlüsseltes Protokoll der Aufrufe. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-15-1"
           ],
@@ -1975,12 +1975,16 @@
             "Vorschau zeigt genau den gesendeten Text"
           ],
           "startedAt": "2026-10-08T09:27:05Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T09:30:10Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI-Freigabe-Dialog: zeigt den zu sendenden Text (bearbeitbar, Längengrenze), sendet erst nach Bestätigung, Ergebnis bearbeitbar, kopieren oder übernehmen, Verbrauch und Restbudget; ohne Verfügbarkeit Hinweis statt Senden. Schema v10 mit kiProtokoll (Aufgabe, Zeichen, Tokens – ohne Inhalt), Migration 9→10, Protokoll in den Einstellungen mit Leeren. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:30:10Z"
           }
         },
         {
@@ -1989,7 +1993,7 @@
           "description": "Anschreiben aus Stelle, Zielrolle und eigenen Angaben entwerfen; Antworten auf Mails formulieren; Entwurf übernehmen oder anpassen. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-15-2"
           ],
@@ -1997,7 +2001,7 @@
             "Anschreiben-Entwurf aus Bewerbung",
             "Antwortentwurf zu einer Mail"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:30:11Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
@@ -2012,7 +2016,7 @@
           "description": "Mails und Verlauf zusammenfassen, nächsten Schritt und Wiedervorlage vorschlagen, per Klick übernehmen.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2035,7 +2039,7 @@
           "description": "„Was soll ich heute tun?“: Vorschlag aus Fristen, Fokus, Terminen und Wiedervorlagen; in den Fokus übernehmen.",
           "order": 5,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2058,7 +2062,7 @@
           "description": "Fragen an die eigenen Daten; der Nutzer wählt die einbezogenen Bereiche; Antworten mit Links zu den Einträgen.",
           "order": 6,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2212,7 +2216,7 @@
           "description": "Stellenanzeige als Link oder Text einfügen; KI liest Firma, Stelle, Anforderungen und Kontakt aus und legt Bewerbung und Unternehmen an (nach Prüfung).",
           "order": 4,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-15-2"
           ],
