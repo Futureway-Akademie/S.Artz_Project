@@ -38,9 +38,9 @@ describe('Keine Verbindung nach außen', () => {
   })
 
   it('mit Gmail kommen genau die Gmail-API und der Token-Widerruf hinzu', () => {
-    expect(contentSecurityPolicy(undefined, { gmail: true })).toContain('connect-src https://gmail.googleapis.com https://oauth2.googleapis.com;')
+    expect(contentSecurityPolicy(undefined, { gmail: true })).toContain('connect-src https://gmail.googleapis.com https://oauth2.googleapis.com https://www.googleapis.com;')
     expect(contentSecurityPolicy(undefined, { gmail: false })).toContain("connect-src 'none';")
-    expect(GMAIL_ZIELE).toEqual(['https://gmail.googleapis.com', 'https://oauth2.googleapis.com'])
+    expect(GMAIL_ZIELE).toEqual(['https://gmail.googleapis.com', 'https://oauth2.googleapis.com', 'https://www.googleapis.com'])
     expect(readFileSync('vite.config.ts', 'utf8')).toContain('{ gmail: Boolean(env.VITE_GOOGLE_CLIENT_ID) }')
   })
 
@@ -73,11 +73,14 @@ describe('Keine Verbindung nach außen', () => {
   it('das Gmail-Modul spricht nur Google an, nur lesend und nie ohne Anmeldung', () => {
     const modul = readFileSync(GMAIL_MODUL, 'utf8')
     const adressen = [...modul.matchAll(/'(https:\/\/[^'/]+)/g)].map((m) => m[1])
-    expect([...new Set(adressen)].sort()).toEqual(GMAIL_ZIELE)
-    expect(modul).toContain('const t = aktuellerToken()\n  if (!t) throw new NichtAngemeldet()')
+    expect([...new Set(adressen)].sort()).toEqual([...GMAIL_ZIELE].sort())
+    expect(modul).toContain('const t = aktuellerToken(Date.now(), scope)\n  if (!t) throw new NichtAngemeldet()')
     expect(modul).not.toMatch(/method: '(PUT|PATCH|DELETE)'/)
     expect(modul.match(/method: 'POST'/g)).toHaveLength(1) // nur der Widerruf
-    expect(readFileSync('src/data/gmail/googleAuth.ts', 'utf8')).toContain("export const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'")
+    const auth = readFileSync('src/data/gmail/googleAuth.ts', 'utf8')
+    expect(auth).toContain("export const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'")
+    expect(auth).toContain("export const KALENDER_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly'")
+    expect(auth).toContain('export const GOOGLE_SCOPES = [GMAIL_SCOPE, KALENDER_SCOPE]')
   })
 
   it('externe Links öffnen ohne Referrer und ohne Opener; andere Schemata sind kein Link', () => {

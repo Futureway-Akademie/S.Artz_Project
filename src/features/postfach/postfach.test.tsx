@@ -78,6 +78,7 @@ const roh = (id: string, extra: Partial<RohMail> = {}): RohMail => ({
 function fakeDienst(mails: RohMail[]): MailDienst {
   return {
     konfiguriert: true,
+    termine: vi.fn().mockResolvedValue([]),
     profil: vi.fn().mockResolvedValue('ich@example.org'),
     suchen: vi.fn().mockResolvedValue(mails.map((x) => x.id)),
     holen: vi.fn().mockImplementation(async (id: string) => mails.find((x) => x.id === id)!),
@@ -167,7 +168,7 @@ describe('Postfach: Abruf und Zuordnung', () => {
     })
 
     it('ruft ab, übernimmt eine Mail und zeigt sie im Verlauf des Kontakts', async () => {
-      tokenSetzen({ wert: 'tok', gueltigBis: Date.now() + 3_600_000 })
+      tokenSetzen({ wert: 'tok', scopes: ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/calendar.readonly'], gueltigBis: Date.now() + 3_600_000 })
       const { gespeichert } = renderApp('/postfach', { daten: daten(), mail: fakeDienst([roh('m1')]) })
       expect(screen.getByText(/1 Adresse und 1 Unternehmensdomain/)).toBeInTheDocument()
       await act(async () => {

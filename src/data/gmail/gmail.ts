@@ -1,4 +1,4 @@
-import { aktuellerToken, googleKonfiguriert, tokenVergessen } from './googleAuth.ts'
+import { aktuellerToken, GMAIL_SCOPE, googleKonfiguriert, KALENDER_SCOPE, tokenVergessen } from './googleAuth.ts'
 
 /**
  * Einziges Modul mit Netzwerkzugriff auf Google: liest Gmail nur (gmail.readonly) und nur Kopfzeilen
@@ -8,6 +8,7 @@ import { aktuellerToken, googleKonfiguriert, tokenVergessen } from './googleAuth
 
 const API = 'https://gmail.googleapis.com/gmail/v1/users/me'
 const REVOKE = 'https://oauth2.googleapis.com/revoke'
+const KALENDER = 'https://www.googleapis.com/calendar/v3/calendars/primary/events'
 
 export interface RohMail {
   id: string
@@ -23,8 +24,21 @@ export interface RohMail {
   labels: string[]
 }
 
+/** Termin aus Google-Kalender – nur Titel, Zeit und Ort, nichts wird gespeichert */
+export interface GoogleTermin {
+  id: string
+  titel: string
+  /** JJJJ-MM-TT */
+  datum: string
+  /** HH:MM oder null bei ganztägigen Terminen */
+  uhrzeit: string | null
+  ort: string
+}
+
 export interface MailDienst {
   konfiguriert: boolean
+  /** Kalender-Termine im Zeitraum (nur lesend, nur mit Kalender-Berechtigung) */
+  termine(von: string, bis: string): Promise<GoogleTermin[]>
   /** Angemeldete Adresse (prüft zugleich den Token) */
   profil(): Promise<string>
   /** IDs passender Mails, neueste zuerst */
@@ -42,10 +56,10 @@ export class NichtAngemeldet extends Error {
 
 const OPTIONEN: RequestInit = { credentials: 'omit', cache: 'no-store', referrerPolicy: 'no-referrer' }
 
-async function holeJson<T>(pfad: string): Promise<T> {
-  const t = aktuellerToken()
+async function holeJson<T>(pfad: string, basis = API, scope = GMAIL_SCOPE): Promise<T> {
+  const t = aktuellerToken(Date.now(), scope)
   if (!t) throw new NichtAngemeldet()
-  const antwort = await fetch(`${API}${pfad}`, { ...OPTIONEN, headers: { Authorization: `Bearer ${t}` } })
+  const antwort = await fetch(`${basis}${pfad}`, { ...OPTIONEN, headers: { Authorization: `Bearer ${t}` } })
   if (antwort.status === 401) {
     tokenVergessen()
     throw new NichtAngemeldet()
@@ -89,8 +103,41 @@ function entitaeten(text: string): string {
     .replace(/&amp;/g, '&')
 }
 
+interface KalenderEreignis {
+  id: string
+  summary?: string
+  location?: string
+  start?: { date?: string; dateTime?: string }
+}
+
+/** Google-Antwort ins eigene Format (exportiert für Tests); Uhrzeit in Ortszeit des Geräts */
+export function alsGoogleTermin(e: KalenderEreignis): GoogleTermin | null {
+  const start = e.start?.dateTime ? new Date(e.start.dateTime) : null
+  const datum = e.start?.date ?? (start ? `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-${String(start.getDate()).padStart(2, '0')}` : null)
+  if (!datum) return null
+  return {
+    id: e.id,
+    titel: e.summary?.trim() || '(ohne Titel)',
+    datum,
+    uhrzeit: start ? `${String(start.getHours()).padStart(2, '0')}:${String(start.getMinutes()).padStart(2, '0')}` : null,
+    ort: e.location?.trim() ?? '',
+  }
+}
+
 export const gmailDienst: MailDienst = {
   konfiguriert: googleKonfiguriert(),
+  async termine(von, bis) {
+    const p = new URLSearchParams({
+      timeMin: new Date(`${von}T00:00:00`).toISOString(),
+      timeMax: new Date(`${bis}T23:59:59`).toISOString(),
+      singleEvents: 'true',
+      orderBy: 'startTime',
+      maxResults: '250',
+      fields: 'items(id,summary,location,start)',
+    })
+    const antwort = await holeJson<{ items?: KalenderEreignis[] }>(`?${p.toString()}`, KALENDER, KALENDER_SCOPE)
+    return (antwort.items ?? []).map(alsGoogleTermin).filter((t): t is GoogleTermin => t !== null)
+  },
   async profil() {
     return (await holeJson<{ emailAddress: string }>('/profile')).emailAddress
   },

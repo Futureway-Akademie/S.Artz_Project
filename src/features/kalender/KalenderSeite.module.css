@@ -55,6 +55,10 @@
   --art-farbe: var(--color-danger);
 }
 
+.art_google {
+  --art-farbe: var(--color-blue-strong);
+}
+
 .art_kursaufgabe {
   --art-farbe: var(--text-muted);
 }

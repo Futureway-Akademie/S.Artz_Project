@@ -2172,19 +2172,23 @@
           "description": "Termine aus Google-Kalender nur lesend im Kalender und Cockpit anzeigen; Token nur im Speicher.",
           "order": 1,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Google-Termine im Kalender sichtbar",
             "Ohne Einrichtung keine Verbindung"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:50:59Z",
+          "completedAt": "2026-10-08T09:55:24Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Google-Kalender nur lesend: Anmeldung fragt zusätzlich calendar.readonly an (erteilte Berechtigungen im Token, Prüfung je Abfrage), Kalender-Abfrage nur mit Titel, Start und Ort, Termine nur im Arbeitsspeicher; im Kalender als eigene Art „Google“ (Filter nur bei Verbindung); CSP-Ausnahme um www.googleapis.com ergänzt, Quelltext-Wächter angepasst; Filterbeschriftung für Abo/Google korrigiert; Anleitung ergänzt. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:55:24Z"
           }
         },
         {
@@ -2193,7 +2197,7 @@
           "description": "Termine aus dem Cockpit nach Bestätigung in Google-Kalender übertragen.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-17-1"
           ],
@@ -2262,13 +2266,13 @@
           "description": "Lebenslauf, Zeugnisse und Anschreiben verschlüsselt ablegen (Supabase Storage nur Chiffretext) und an Bewerbungen hängen.",
           "order": 5,
           "weight": 3,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [],
           "definitionOfDone": [
             "Dateien nur verschlüsselt gespeichert",
             "Dokumente an Bewerbungen anhängbar"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:55:24Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

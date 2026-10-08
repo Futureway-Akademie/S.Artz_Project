@@ -271,3 +271,8 @@
 {"timestamp":"2026-10-08T09:47:59Z","type":"task_started","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' gestartet."}
 {"timestamp":"2026-10-08T09:50:37Z","type":"verification_passed","taskId":"task-17-4","summary":"Ablauf Anzeige→KI→Prüfung→Anlage getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T09:50:37Z","type":"task_completed","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' abgeschlossen."}
+{"timestamp":"2026-10-08T09:50:59Z","type":"task_started","taskId":"task-17-1","summary":"Task 'Google-Kalender lesen' gestartet."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"verification_passed","taskId":"task-17-1","summary":"Kalender-Abfrage, Anzeige und „ohne Anmeldung keine Abfrage“ getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"task_completed","taskId":"task-17-1","summary":"Task 'Google-Kalender lesen' abgeschlossen."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"task_ready","taskId":"task-17-2","summary":"Task 'Termine in Google-Kalender eintragen' ist startbar."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"task_started","taskId":"task-17-5","summary":"Task 'Dokumente' gestartet."}

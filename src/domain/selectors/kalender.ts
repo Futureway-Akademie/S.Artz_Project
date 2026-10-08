@@ -5,7 +5,7 @@ import { bezugInfo } from './bezug.ts'
 import { formatEuro } from './leads.ts'
 import { werkzeugLink } from './werkzeug.ts'
 
-export type KalenderArt = 'termin' | 'aufgabe' | 'kursaufgabe' | 'wiedervorlage' | 'abo'
+export type KalenderArt = 'termin' | 'aufgabe' | 'kursaufgabe' | 'wiedervorlage' | 'abo' | 'google'
 
 export interface KalenderEintrag {
   /** Eindeutig, z. B. `termin:t1` */
@@ -28,6 +28,7 @@ export const KALENDER_ART: Record<KalenderArt, string> = {
   kursaufgabe: 'Kursaufgabe',
   wiedervorlage: 'Wiedervorlage',
   abo: 'Abo',
+  google: 'Google',
 }
 
 /** Alle datierten Einträge zwischen `von` und `bis` (jeweils einschließlich), sortiert nach Datum und Uhrzeit. */

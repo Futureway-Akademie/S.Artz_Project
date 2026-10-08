@@ -8,12 +8,17 @@
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined
 
 export const GMAIL_SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'
+export const KALENDER_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly'
+/** Angefragt wird beides nur lesend; was erteilt wurde, steht im Token */
+export const GOOGLE_SCOPES = [GMAIL_SCOPE, KALENDER_SCOPE]
 const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 /** Schutz gegen untergeschobene Rücksprünge (CSRF); nur für die Dauer der Anmeldung im Tab */
 export const STATE_KEY = 'pikartz.google.state'
 
 export interface GoogleToken {
   wert: string
+  /** Tatsächlich erteilte Berechtigungen */
+  scopes: string[]
   /** Millisekunden seit 1970 */
   gueltigBis: number
 }
@@ -35,7 +40,7 @@ export function anmeldeUrl(clientId: string, redirectUri: string, state: string)
     client_id: clientId,
     redirect_uri: redirectUri,
     response_type: 'token',
-    scope: GMAIL_SCOPE,
+    scope: GOOGLE_SCOPES.join(' '),
     state,
     include_granted_scopes: 'false',
     prompt: 'consent',
@@ -64,10 +69,10 @@ export function rueckkehrAuswerten(hash: string, erwarteterState: string | null,
   if (p.get('state') !== erwarteterState) return { art: 'fehler', grund: 'Die Anmeldung gehört nicht zu dieser Sitzung und wurde verworfen.' }
   const fehler = p.get('error')
   if (fehler) return { art: 'fehler', grund: fehler === 'access_denied' ? 'Du hast den Zugriff bei Google abgelehnt.' : `Google meldet: ${fehler}` }
-  const scope = p.get('scope') ?? ''
-  if (!scope.split(' ').includes(GMAIL_SCOPE)) return { art: 'fehler', grund: 'Google hat die Leseberechtigung für Gmail nicht erteilt.' }
+  const scopes = (p.get('scope') ?? '').split(' ').filter((s) => GOOGLE_SCOPES.includes(s))
+  if (scopes.length === 0) return { art: 'fehler', grund: 'Google hat keine Leseberechtigung erteilt.' }
   const sekunden = Number(p.get('expires_in') ?? '0')
-  return { art: 'verbunden', token: { wert: p.get('access_token')!, gueltigBis: jetzt + Math.max(0, sekunden - 60) * 1000 } }
+  return { art: 'verbunden', token: { wert: p.get('access_token')!, scopes, gueltigBis: jetzt + Math.max(0, sekunden - 60) * 1000 } }
 }
 
 /**
@@ -84,9 +89,9 @@ export function rueckkehrVerarbeiten(ort: Location = window.location, verlauf: H
   melden()
 }
 
-/** Gültiger Token oder `null` */
-export function aktuellerToken(jetzt = Date.now()): string | null {
-  return token && token.gueltigBis > jetzt ? token.wert : null
+/** Gültiger Token oder `null`; mit `scope` nur, wenn diese Berechtigung erteilt wurde */
+export function aktuellerToken(jetzt = Date.now(), scope?: string): string | null {
+  return token && token.gueltigBis > jetzt && (!scope || token.scopes.includes(scope)) ? token.wert : null
 }
 
 export function tokenGueltigBis(): number | null {

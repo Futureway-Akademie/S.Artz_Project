@@ -8,6 +8,7 @@ import { GmailPanel } from './GmailPanel.tsx'
 function dienst(konfiguriert: boolean): MailDienst {
   return {
     konfiguriert,
+    termine: vi.fn().mockResolvedValue([]),
     profil: vi.fn().mockResolvedValue('ich@example.org'),
     suchen: vi.fn(),
     holen: vi.fn(),
@@ -45,7 +46,7 @@ describe('Gmail in den Einstellungen', () => {
   })
 
   it('verbunden: zeigt Gültigkeit und Adresse und trennt die Verbindung', async () => {
-    tokenSetzen({ wert: 'tok', gueltigBis: new Date(2026, 9, 7, 10, 30).getTime() + 365 * 86_400_000 })
+    tokenSetzen({ wert: 'tok', scopes: ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/calendar.readonly'], gueltigBis: new Date(2026, 9, 7, 10, 30).getTime() + 365 * 86_400_000 })
     const d = dienst(true)
     zeige(d)
     expect(screen.getByText(/Zugang gültig bis 10:30 Uhr/)).toBeInTheDocument()

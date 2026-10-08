@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useGoogle } from '../../app/gmailContext.ts'
+import { useGoogleTermine } from './useGoogleTermine.ts'
 import { Link, useSearchParams } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Button } from '../../components/ui/Button.tsx'
@@ -33,7 +35,8 @@ const ANSICHTEN: Array<{ key: Ansicht; label: string }> = [
 ]
 const WOCHENTAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 const LISTE_TAGE = 30
-const ALLE_ARTEN: KalenderArt[] = ['termin', 'aufgabe', 'wiedervorlage', 'kursaufgabe', 'abo']
+const FILTER_LABEL: Record<KalenderArt, string> = { termin: 'Termine', aufgabe: 'Fristen', wiedervorlage: 'Wiedervorlagen', kursaufgabe: 'Kursaufgaben', abo: 'Abo-Fristen', google: 'Google-Kalender' }
+const ALLE_ARTEN: KalenderArt[] = ['termin', 'aufgabe', 'wiedervorlage', 'kursaufgabe', 'abo', 'google']
 
 const istDatum = (s: string | null): s is string => s !== null && /^\d{4}-\d{2}-\d{2}$/.test(s)
 
@@ -55,7 +58,11 @@ export function KalenderSeite() {
   const tage = ansicht === 'monat' ? monatsRaster(datum.slice(0, 7)) : ansicht === 'woche' ? wochenTage(datum) : Array.from({ length: LISTE_TAGE }, (_, i) => plusTage(datum, i))
   const von = tage[0]!
   const bis = tage[tage.length - 1]!
-  const eintraege = kalenderEintraege(data, von, bis).filter((e) => arten.includes(e.art))
+  const google = useGoogleTermine(von, bis)
+  const googleSichtbar = useGoogle().verbunden
+  const eintraege = [...kalenderEintraege(data, von, bis), ...google]
+    .filter((e) => arten.includes(e.art))
+    .sort((a, b) => a.datum.localeCompare(b.datum) || (a.uhrzeit ?? '').localeCompare(b.uhrzeit ?? '') || a.titel.localeCompare(b.titel, 'de'))
   const proTag = new Map<string, KalenderEintrag[]>()
   for (const e of eintraege) proTag.set(e.datum, [...(proTag.get(e.datum) ?? []), e])
 
@@ -162,10 +169,10 @@ export function KalenderSeite() {
           </div>
           <fieldset className={styles.filter}>
             <legend className="visually-hidden">Anzeigen</legend>
-            {ALLE_ARTEN.map((a) => (
+            {ALLE_ARTEN.filter((a) => a !== 'google' || googleSichtbar).map((a) => (
               <label key={a} className={`${styles.check} ${styles[`art_${a}`]}`}>
                 <input type="checkbox" checked={arten.includes(a)} onChange={(e) => setArten(e.target.checked ? [...arten, a] : arten.filter((x) => x !== a))} />
-                {a === 'aufgabe' ? 'Fristen' : a === 'termin' ? 'Termine' : a === 'wiedervorlage' ? 'Wiedervorlagen' : 'Kursaufgaben'}
+                {FILTER_LABEL[a]}
               </label>
             ))}
           </fieldset>

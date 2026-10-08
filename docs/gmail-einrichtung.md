@@ -1,4 +1,4 @@
-# Gmail einrichten (nur lesen, für Bewerbungen und Kontakte)
+# Gmail und Google-Kalender einrichten (nur lesen)
 
 Ohne diese Einrichtung hat das Arbeitscockpit **keine Verbindung zu Google**. Mit ihr kann es Mails von und an deine Kontakte und Unternehmen abrufen. So siehst du z. B. Antworten auf Bewerbungen direkt im Verlauf.
 
@@ -6,20 +6,21 @@ Ohne diese Einrichtung hat das Arbeitscockpit **keine Verbindung zu Google**. Mi
 
 | | |
 |---|---|
-| **Berechtigung** | nur `gmail.readonly`: lesen. Die App kann keine Mails senden, ändern oder löschen. |
+| **Berechtigung** | nur `gmail.readonly` und `calendar.readonly`: lesen. Die App kann keine Mails senden und keine Termine anlegen, ändern oder löschen. |
 | **Anmeldung** | Weiterleitung zu Google, kein Google-Skript in der App |
 | **Zugang (Token)** | liegt nur im Arbeitsspeicher, gilt etwa eine Stunde, ist nach dem Neuladen weg. Er wird nie gespeichert. |
 | **Abgerufen wird** | nur Mails von oder an Adressen deiner Kontakte und Domains deiner Unternehmen |
 | **Gespeichert wird** | Absender, Empfänger, Betreff, Datum und der kurze Auszug, den Gmail liefert. Alles liegt verschlüsselt im Tresor, ohne Anhänge und ohne Volltext. |
-| **Verbindungen** | nur `gmail.googleapis.com` und `oauth2.googleapis.com` (Widerruf). Die Content-Security-Policy erlaubt nichts sonst. |
+| **Kalender** | Termine werden nur angezeigt (Titel, Zeit, Ort) und nie gespeichert |
+| **Verbindungen** | nur `gmail.googleapis.com`, `www.googleapis.com` (Kalender) und `oauth2.googleapis.com` (Widerruf). Die Content-Security-Policy erlaubt nichts sonst. |
 
 ## Schritte
 
 1. **Projekt anlegen:** In der [Google Cloud Console](https://console.cloud.google.com/) ein neues Projekt anlegen, z. B. „Arbeitscockpit“.
-2. **Gmail-API aktivieren:** *APIs & Dienste → Bibliothek → Gmail API → Aktivieren*.
+2. **APIs aktivieren:** *APIs & Dienste → Bibliothek* → **Gmail API** und **Google Calendar API** jeweils aktivieren.
 3. **Zustimmungsbildschirm (OAuth consent screen / Google Auth Platform):**
    - Nutzertyp **Extern**, App-Name z. B. „Arbeitscockpit (privat)“
-   - als Bereich (Scope) nur `.../auth/gmail.readonly` hinzufügen
+   - als Bereiche (Scopes) nur `.../auth/gmail.readonly` und `.../auth/calendar.readonly` hinzufügen
    - Veröffentlichungsstatus **Testing** lassen und unter *Testnutzer* die eigene Gmail-Adresse eintragen. So braucht es keine Prüfung durch Google. Bei der Anmeldung erscheint der Hinweis „Google hat diese App nicht überprüft“. Das ist bei eigenen Test-Apps normal: *Weiter* wählen.
 4. **Zugangsdaten anlegen:** *APIs & Dienste → Anmeldedaten → Anmeldedaten erstellen → OAuth-Client-ID*
    - Anwendungstyp: **Webanwendung**
