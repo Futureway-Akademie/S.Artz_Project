@@ -4,7 +4,7 @@ Stand: 2026-10-08, Roadmap v8. Die maßgebliche Quelle ist `.workshop/roadmap.js
 
 ## Gesamt
 
-**76,89 %**: 183 von 238 Gewichtspunkten, 74 von 97 Tasks abgeschlossen.
+**75,93 %**: 183 von 241 Gewichtspunkten, 74 von 98 Tasks abgeschlossen.
 
 ## Phasen
 
@@ -31,7 +31,7 @@ Stand: 2026-10-08, Roadmap v8. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | 19. Praxis und Abschluss | in Arbeit | 1 von 5 | 2 von 10 |
 | 20. Teilen und Übergeben | startbar | 0 von 6 | 0 von 16 |
 | 21. Anmeldung | startbar | 0 von 4 | 0 von 9 |
-| 22. Microsoft 365 und Google Drive anbinden | startbar | 0 von 6 | 0 von 16 |
+| 22. Microsoft 365 und Google Drive anbinden | startbar | 0 von 7 | 0 von 19 |
 
 ## Offene Tasks
 
@@ -59,6 +59,7 @@ Stand: 2026-10-08, Roadmap v8. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | task-22-3 | Outlook-Kalender | geplant | 3 |
 | task-22-4 | Dateien aus OneDrive | geplant | 3 |
 | task-22-5 | Dateien aus Google Drive | startbar | 2 |
+| task-22-7 | Mehrere Google-Konten | geplant | 3 |
 | task-22-6 | Abschlussprüfung Anmeldung und Anbindungen | geplant | 2 |
 
 Abgebrochen und nicht mitgezählt: task-5-6 (Git-Historie bereinigen, auf Saschas Entscheidung).

@@ -655,3 +655,9 @@ Mit Sascha geplant und bestätigt; eingetragen als Roadmap v8 (Phasen 20–22, 1
   - Jede Anbindung mit eigener Zustimmung nach dem Login, Token nur im Arbeitsspeicher, Dateien nur als verschlüsselte Kopie.
   - Offen: ob die Microsoft-App-Registrierung eine Kreditkarte verlangt (vor task-21-3 bzw. task-22-1 klären).
 - **Reihenfolge:** Supabase (task-13-1) und die Generalprobe (task-16-2) für die Präsentation am 21.10.2026 bleiben vorrangig.
+
+## 2026-10-08 – Mehrere Konten je Anbieter, Zugangsschlüssel nur im Arbeitsspeicher
+
+- Ein Nutzer kann mehrere Google- und Microsoft-Konten für Postfach, Kalender und Dateien verbinden (task-22-1, neu task-22-7). Fürs Anmelden reicht ein Konto.
+- **Sascha hat entschieden, bei der bestehenden Regel zu bleiben:** Zugangsschlüssel liegen nur im Arbeitsspeicher, nie im Tresor und nie auf dem Server. Nach dem Sperren oder Neuladen wird jedes Konto kurz neu bestätigt.
+- Verworfen: dauerhafte Schlüssel (Refresh-Token) verschlüsselt im Tresor. Bequemer, aber sie gelten bis zum Widerruf und müssten einmal über eine Supabase-Funktion laufen.

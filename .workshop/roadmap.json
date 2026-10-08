@@ -2846,13 +2846,13 @@
       "title": "Microsoft 365 und Google Drive anbinden",
       "description": "Outlook-Postfach, Outlook-Kalender und Dateien aus OneDrive und Google Drive; jeweils eigene Zustimmung nach dem Login, Token nur im Arbeitsspeicher.",
       "order": 22,
-      "weight": 16,
+      "weight": 19,
       "status": "ready",
       "tasks": [
         {
           "id": "task-22-1",
           "title": "Microsoft verbinden",
-          "description": "Eigene Zustimmung nach dem Login über Microsoft Graph, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für Microsoft, jederzeit trennbar.",
+          "description": "Eigene Zustimmung nach dem Login über Microsoft Graph, mehrere Microsoft-Konten je Nutzer möglich, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für Microsoft, jedes Konto einzeln trennbar.",
           "order": 1,
           "weight": 3,
           "status": "ready",
@@ -2861,10 +2861,11 @@
           ],
           "definitionOfDone": [
             "Verbindung getrennt vom Login mit eigener Zustimmung",
+            "Mehrere Microsoft-Konten gleichzeitig verbindbar; Liste „Verbundene Konten“; Herkunft je Eintrag sichtbar",
             "Nur die für die Funktion nötigen Berechtigungen",
             "Token nur im Arbeitsspeicher, nie im Tresor oder Repository",
             "CSP öffnet nur die Microsoft-Adressen, nur wenn eingerichtet",
-            "Trennen und Widerruf möglich",
+            "Jedes Konto einzeln trennen und widerrufen; nach Sperren oder Neuladen Neu-Bestätigung je Konto",
             "Typecheck, Lint, Tests und Build grün",
             "axe ohne Verstöße auf neuen Seiten und Dialogen"
           ],
@@ -2986,10 +2987,38 @@
           }
         },
         {
+          "id": "task-22-7",
+          "title": "Mehrere Google-Konten",
+          "order": 6,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-22-5"
+          ],
+          "description": "Gmail, Google-Kalender und Google Drive mit mehreren Google-Konten je Nutzer (z. B. privat und geschäftlich); gemeinsame Liste „Verbundene Konten“ mit Microsoft; Token nur im Arbeitsspeicher, Neu-Bestätigung je Konto nach Sperren oder Neuladen.",
+          "definitionOfDone": [
+            "Mehrere Google-Konten gleichzeitig verbindbar, jedes mit eigener Zustimmung",
+            "Mails, Termine und Dateien zeigen das Herkunftskonto",
+            "Jedes Konto einzeln trennen und widerrufen",
+            "Token nur im Arbeitsspeicher, nie im Tresor oder auf dem Server",
+            "Bestehende Gmail-Daten und -Zuordnungen bleiben erhalten (Migration getestet)",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
           "id": "task-22-6",
           "title": "Abschlussprüfung Anmeldung und Anbindungen",
           "description": "Alle Prüfungen, Browser bei drei Breiten, Doku und Prüfprotokoll für Phase 21 und 22.",
-          "order": 6,
+          "order": 7,
           "weight": 2,
           "status": "planned",
           "dependsOn": [
@@ -2997,7 +3026,8 @@
             "task-22-2",
             "task-22-3",
             "task-22-4",
-            "task-22-5"
+            "task-22-5",
+            "task-22-7"
           ],
           "definitionOfDone": [
             "Keine Mail-, Kalender- oder Datei-Berechtigungen im reinen Login (Test)",

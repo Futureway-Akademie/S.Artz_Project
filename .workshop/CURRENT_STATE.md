@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v8, Fortschritt 76,89 % (183 von 238 Gewichtspunkten, 74 von 97 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v8, Fortschritt 75,93 % (183 von 241 Gewichtspunkten, 74 von 98 Tasks).
 
 ## Aktive Phase
 
@@ -276,7 +276,8 @@ Keine.
 | task-22-3 | Outlook-Kalender | ⏳ geplant | task-22-1 |
 | task-22-4 | Dateien aus OneDrive | ⏳ geplant | task-22-1 |
 | task-22-5 | Dateien aus Google Drive | ▶️ startbar | – |
-| task-22-6 | Abschlussprüfung Anmeldung und Anbindungen | ⏳ geplant | task-21-4, task-22-2, task-22-3, task-22-4, task-22-5 |
+| task-22-7 | Mehrere Google-Konten | ⏳ geplant | task-22-5 |
+| task-22-6 | Abschlussprüfung Anmeldung und Anbindungen | ⏳ geplant | task-21-4, task-22-2, task-22-3, task-22-4, task-22-5, task-22-7 |
 
 ## Blockiert
 
