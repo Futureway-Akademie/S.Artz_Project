@@ -133,6 +133,15 @@ describe('Supabase-Regeln (schema.sql)', () => {
     await als(SASCHA, `update public.profile set gesperrt = false where user_id = '${KIM}'`)
   })
 
+  it('Webhooks: Adresse nur schreiben, nie lesen; jeder nur die eigenen', async () => {
+    await als(KIM, `insert into public.webhooks (user_id, werkzeug_id, url) values ('${KIM}', 'wf1', 'https://n8n.example/webhook/geheim')`)
+    await expect(als(KIM, `select url from public.webhooks`)).rejects.toThrow()
+    expect(await als(KIM, `select werkzeug_id, letzter_status from public.webhooks`)).toEqual([{ werkzeug_id: 'wf1', letzter_status: null }])
+    expect(await als(SASCHA, `select werkzeug_id from public.webhooks`)).toEqual([])
+    await expect(als(KIM, `insert into public.webhooks (user_id, werkzeug_id, url) values ('${KIM}', 'wf2', 'http://unsicher.example')`)).rejects.toThrow()
+    await expect(als(KIM, `update public.webhooks set letzter_status = 200 where werkzeug_id = 'wf1'`)).rejects.toThrow()
+  })
+
   it('lässt sich gefahrlos erneut ausführen (z. B. nach einem Update)', async () => {
     await db.exec(readFileSync('supabase/schema.sql', 'utf8'))
     expect((await db.query(`select count(*)::int as n from public.profile`)).rows[0]).toEqual({ n: 2 })

@@ -279,3 +279,6 @@
 {"timestamp":"2026-10-08T09:55:44Z","type":"task_started","taskId":"task-17-5","summary":"Task 'Dokumente' gestartet."}
 {"timestamp":"2026-10-08T10:01:42Z","type":"verification_passed","taskId":"task-17-5","summary":"Verschlüsselung, Cloud-Rückholung, Löschen und Storage-Regeln getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T10:01:42Z","type":"task_completed","taskId":"task-17-5","summary":"Task 'Dokumente' abgeschlossen."}
+{"timestamp":"2026-10-08T10:02:14Z","type":"task_started","taskId":"task-17-3","summary":"Task 'n8n und Make anbinden' gestartet."}
+{"timestamp":"2026-10-08T10:05:27Z","type":"verification_passed","taskId":"task-17-3","summary":"Webhook-Rechte, Adressprüfung und Start-Ablauf getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:05:27Z","type":"task_completed","taskId":"task-17-3","summary":"Task 'n8n und Make anbinden' abgeschlossen."}

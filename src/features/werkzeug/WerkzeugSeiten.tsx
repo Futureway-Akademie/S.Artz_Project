@@ -40,6 +40,7 @@ import crm from '../kontakte/crm.module.css'
 import styles from './Werkzeug.module.css'
 import { Ausfuellen } from './Ausfuellen.tsx'
 import { Schritte } from './Schritte.tsx'
+import { WorkflowAusfuehren } from './WorkflowAusfuehren.tsx'
 import { VorlagenDialog } from './VorlagenDialog.tsx'
 import { WerkzeugDialog } from './WerkzeugDialog.tsx'
 import { inZwischenablage } from './zwischenablage.ts'
@@ -273,6 +274,7 @@ export function WerkzeugDetailSeite() {
           </Panel>
           {mitPlatzhaltern && <Ausfuellen key={w.inhalt} text={w.inhalt} label={info.inhalt.label} />}
           {info.schritte && <Schritte werkzeug={w} abhaken={info.schritte.abhaken} />}
+          {w.typ === 'workflow' && <WorkflowAusfuehren werkzeugId={w.id} />}
           {w.abo && <AboAngaben abo={w.abo} />}
           {w.integration && (
             <Panel titel="Zugang und Datenschutz">

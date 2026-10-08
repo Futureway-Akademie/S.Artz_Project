@@ -2219,19 +2219,23 @@
           "description": "Workflows per Webhook über eine Supabase-Funktion starten und Status anzeigen; Webhook-Adressen geschützt, nie im Browser.",
           "order": 3,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Workflow aus dem Cockpit startbar",
             "Status und letzte Ausführung sichtbar"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:02:14Z",
+          "completedAt": "2026-10-08T10:05:27Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "n8n/Make: Tabelle webhooks mit Spaltenrechten (Adresse nur schreiben, nie lesen; RLS je Konto; nur https), Supabase-Funktion workflow (Bereich automationen, Adressprüfung gegen interne Ziele und Zugangsdaten, kein Folgen von Umleitungen, Zeitlimit, Status und Zeitpunkt gespeichert). Werkzeug-Detail „Ausführen“ für Workflows: Webhook hinterlegen, starten mit optionaler Eingabe, letzter Status, entfernen. Regeln mit PGlite, Adressprüfung und Ablauf getestet; Anleitung ergänzt.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:05:27Z"
           }
         },
         {

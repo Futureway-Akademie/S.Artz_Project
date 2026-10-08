@@ -26,6 +26,14 @@ export interface KiAntwort {
   uebrig: number
 }
 
+/** Hinterlegter Webhook eines Workflows – ohne die Adresse */
+export interface WebhookInfo {
+  werkzeugId: string
+  letzteAusfuehrung: string | null
+  letzterStatus: number | null
+  letzteMeldung: string
+}
+
 export type SpeicherAntwort = { ok: true; revision: number } | { ok: false; konflikt: true }
 
 export interface CloudDienst {
@@ -61,6 +69,12 @@ export interface CloudDienst {
   dateiHochladen: (pfad: string, daten: Uint8Array) => Promise<void>
   dateiLaden: (pfad: string) => Promise<Uint8Array | null>
   dateiLoeschen: (pfad: string) => Promise<void>
+
+  // --- Workflows (Roadmap v7): Webhook-Adresse nur schreiben, nie lesen ---
+  webhooks: () => Promise<WebhookInfo[]>
+  webhookSpeichern: (werkzeugId: string, url: string) => Promise<void>
+  webhookEntfernen: (werkzeugId: string) => Promise<void>
+  workflowStarten: (werkzeugId: string, eingabe: string) => Promise<{ ok: boolean; status: number; meldung: string }>
 }
 
 /** Schutz vor Versehen: Nur ein verschlüsselter Tresor-Umschlag darf das Gerät verlassen. */

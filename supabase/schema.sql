@@ -213,3 +213,35 @@ begin
       using (bucket_id = 'dokumente' and (storage.foldername(name))[1] = auth.uid()::text and not public.ist_gesperrt())$p$;
   end if;
 end $$;
+
+-- ============================================================================
+-- Workflows (Roadmap v7): Webhooks zu n8n/Make. Die Adresse wirkt wie ein Schlüssel:
+-- Der Browser darf sie eintragen, aber nie wieder lesen. Ausgelöst wird nur über die Funktion „workflow“.
+-- ============================================================================
+
+create table if not exists public.webhooks (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  werkzeug_id text not null check (length(werkzeug_id) between 1 and 64),
+  url text not null check (url ~ '^https://'),
+  letzte_ausfuehrung timestamptz,
+  letzter_status integer,
+  letzte_meldung text not null default '',
+  primary key (user_id, werkzeug_id)
+);
+
+alter table public.webhooks enable row level security;
+drop policy if exists "webhooks_lesen" on public.webhooks;
+drop policy if exists "webhooks_anlegen" on public.webhooks;
+drop policy if exists "webhooks_aendern" on public.webhooks;
+drop policy if exists "webhooks_loeschen" on public.webhooks;
+create policy "webhooks_lesen" on public.webhooks for select to authenticated using (user_id = auth.uid() and not public.ist_gesperrt());
+create policy "webhooks_anlegen" on public.webhooks for insert to authenticated with check (user_id = auth.uid() and not public.ist_gesperrt());
+create policy "webhooks_aendern" on public.webhooks for update to authenticated using (user_id = auth.uid() and not public.ist_gesperrt()) with check (user_id = auth.uid());
+create policy "webhooks_loeschen" on public.webhooks for delete to authenticated using (user_id = auth.uid());
+
+-- Spaltenrechte: Adresse nur schreiben, nie lesen
+revoke all on public.webhooks from anon, authenticated;
+grant select (user_id, werkzeug_id, letzte_ausfuehrung, letzter_status, letzte_meldung) on public.webhooks to authenticated;
+grant insert (user_id, werkzeug_id, url) on public.webhooks to authenticated;
+grant update (url) on public.webhooks to authenticated;
+grant delete on public.webhooks to authenticated;

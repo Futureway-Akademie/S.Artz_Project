@@ -38,3 +38,31 @@ export function ursprungsListe(wert: string | undefined): string[] {
     .map((s) => s.trim().replace(/\/$/, ''))
     .filter(Boolean)
 }
+
+/**
+ * Webhook-Adresse prüfen: nur https, keine Zugangsdaten in der Adresse und keine internen Ziele
+ * (Schutz davor, dass die Server-Funktion interne Dienste anspricht).
+ */
+export function webhookAdressePruefen(adresse: string): string | null {
+  let url: URL
+  try {
+    url = new URL(adresse.trim())
+  } catch {
+    return 'Bitte eine vollständige Adresse angeben (https://…).'
+  }
+  if (url.protocol !== 'https:') return 'Nur https-Adressen sind erlaubt.'
+  if (url.username || url.password) return 'Die Adresse darf keine Zugangsdaten enthalten.'
+  if (adresse.length > 2000) return 'Die Adresse ist zu lang.'
+  const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, '')
+  const intern =
+    host === 'localhost' ||
+    host.endsWith('.localhost') ||
+    host.endsWith('.local') ||
+    host.endsWith('.internal') ||
+    /^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(host) ||
+    /^172\.(1[6-9]|2\d|3[01])\./.test(host) ||
+    host === '::1' ||
+    /^(fc|fd|fe80)/.test(host) ||
+    !host.includes('.')
+  return intern ? 'Interne Adressen sind nicht erlaubt.' : null
+}

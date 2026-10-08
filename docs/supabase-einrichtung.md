@@ -59,3 +59,11 @@ Das Schema aus Schritt 3 legt zusätzlich Rollen, Profile und Zugriffsregeln an.
 - **Gesperrte** Nutzer kommen nicht mehr an ihre Cloud-Daten.
 
 **Ein Gerät, mehrere Konten:** Für jedes Konto ein eigenes Browserprofil nutzen. Meldet sich auf einem Gerät ein anderes Konto an, gleicht das Cockpit nicht ab und weist darauf hin.
+
+## Workflows starten (n8n, Make)
+
+1. Funktion bereitstellen: `supabase functions deploy workflow` (der Code liegt in `supabase/functions/workflow`).
+2. Im Werkzeugkasten unter *Workflows* den Workflow öffnen und unter **Ausführen** die Webhook-Adresse hinterlegen, z. B. die Produktions-URL des n8n-Webhook-Knotens.
+3. Die Adresse liegt danach nur bei Supabase. Das Cockpit kann sie nicht mehr anzeigen, nur noch „Workflow starten“ und den letzten Status.
+
+Erlaubt sind nur https-Adressen ohne Zugangsdaten und ohne interne Ziele. Gesendet wird nur, was du unter „Mitgeben“ einträgst, plus Zeitpunkt und Herkunft.

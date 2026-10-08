@@ -256,3 +256,48 @@ describe('Werkzeugkasten', () => {
     })
   })
 })
+
+describe('Workflows starten (n8n, Make)', () => {
+  afterEach(() => localStorage.clear())
+
+  it('prüft Webhook-Adressen: nur https, keine Zugangsdaten, keine internen Ziele', async () => {
+    const { webhookAdressePruefen } = await import('../../../supabase/functions/_gemeinsam/pruefen.ts')
+    expect(webhookAdressePruefen('https://n8n.example.com/webhook/abc')).toBeNull()
+    expect(webhookAdressePruefen('http://n8n.example.com/webhook/abc')).toMatch(/https/)
+    expect(webhookAdressePruefen('https://nutzer:pw@n8n.example.com/x')).toMatch(/Zugangsdaten/)
+    for (const intern of ['https://localhost/x', 'https://127.0.0.1/x', 'https://10.0.0.5/x', 'https://192.168.1.2/x', 'https://169.254.169.254/latest', 'https://intranet/x', 'https://[::1]/x']) {
+      expect(webhookAdressePruefen(intern)).toMatch(/Interne/)
+    }
+  })
+
+  it('hinterlegt den Webhook geschützt, zeigt ihn nie wieder an und startet den Workflow', async () => {
+    const { createFakeCloud } = await import('../../test/fakeCloud.ts')
+    const admin = { userId: 'u1', email: 'admin@example.org', anzeigename: '', rolleId: null, istAdmin: true, gesperrt: false, bereicheAn: [], bereicheAus: [] }
+    const fake = createFakeCloud({ nutzer: { id: 'u1', email: 'admin@example.org' }, profile: [admin] })
+    const { gespeichert } = renderApp('/werkzeug/workflows/wf', { daten: { ...daten(), werkzeug: [werkzeug('wf', 'workflow', { titel: 'Kontaktanfragen' })] }, cloud: fake.dienst })
+    const panel = await screen.findByRole('region', { name: 'Ausführen' })
+    const feld = await within(panel).findByLabelText(/^Webhook-Adresse/)
+    fireEvent.change(feld, { target: { value: 'http://n8n.example.com/webhook/geheim' } })
+    await act(async () => {
+      fireEvent.click(within(panel).getByRole('button', { name: 'Webhook hinterlegen' }))
+    })
+    expect(within(panel).getByText(/Nur https-Adressen/)).toBeInTheDocument()
+    fireEvent.change(within(panel).getByLabelText(/^Webhook-Adresse/), { target: { value: 'https://n8n.example.com/webhook/geheim' } })
+    await act(async () => {
+      fireEvent.click(within(panel).getByRole('button', { name: 'Webhook hinterlegen' }))
+    })
+    expect(await within(panel).findByText(/Adresse nicht einsehbar/)).toBeInTheDocument()
+    expect(document.body.textContent).not.toContain('webhook/geheim')
+
+    fireEvent.change(within(panel).getByLabelText(/^Mitgeben/), { target: { value: 'Test' } })
+    await act(async () => {
+      fireEvent.click(within(panel).getByRole('button', { name: 'Workflow starten' }))
+    })
+    expect(fake.workflowAufrufe).toEqual([{ werkzeugId: 'wf', eingabe: 'Test', url: 'https://n8n.example.com/webhook/geheim' }])
+    expect(await within(panel).findByText(/Gestartet/)).toBeInTheDocument()
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(JSON.stringify(gespeichert())).not.toContain('webhook/geheim')
+  })
+})

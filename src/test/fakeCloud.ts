@@ -15,6 +15,8 @@ export function createFakeCloud(
   const einladungen: Array<{ email: string; rolleId: string | null }> = []
   const kiAnfragen: Array<{ aufgabe: string; eingabe: string }> = []
   const dateien = new Map<string, Uint8Array>()
+  const webhooks = new Map<string, { url: string; letzteAusfuehrung: string | null; letzterStatus: number | null; letzteMeldung: string }>()
+  const workflowAufrufe: Array<{ werkzeugId: string; eingabe: string; url: string }> = []
   const ich = () => profile.find((p) => p.userId === nutzer?.id) ?? null
   const nurAdmin = () => {
     if (!ich()?.istAdmin) throw new Error('Keine Berechtigung für diese Änderung.')
@@ -82,6 +84,20 @@ export function createFakeCloud(
     dateiLoeschen: async (pfad) => {
       dateien.delete(pfad)
     },
+    webhooks: async () => [...webhooks.entries()].map(([werkzeugId, w]) => ({ werkzeugId, letzteAusfuehrung: w.letzteAusfuehrung, letzterStatus: w.letzterStatus, letzteMeldung: w.letzteMeldung })),
+    webhookSpeichern: async (werkzeugId, url) => {
+      webhooks.set(werkzeugId, { url, letzteAusfuehrung: null, letzterStatus: null, letzteMeldung: '' })
+    },
+    webhookEntfernen: async (werkzeugId) => {
+      webhooks.delete(werkzeugId)
+    },
+    workflowStarten: async (werkzeugId, eingabe) => {
+      const w = webhooks.get(werkzeugId)
+      if (!w) throw new Error('Für diesen Workflow ist kein Webhook hinterlegt.')
+      workflowAufrufe.push({ werkzeugId, eingabe, url: w.url })
+      webhooks.set(werkzeugId, { ...w, letzteAusfuehrung: new Date().toISOString(), letzterStatus: 200, letzteMeldung: 'Gestartet' })
+      return { ok: true, status: 200, meldung: 'Gestartet' }
+    },
   }
 
   return {
@@ -100,6 +116,7 @@ export function createFakeCloud(
     einladungen,
     kiAnfragen,
     dateien,
+    workflowAufrufe,
     profile: () => profile,
     setzeProfile: (p: Profil[]) => {
       profile = p

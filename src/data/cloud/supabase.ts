@@ -6,7 +6,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Profil, Rolle } from '../../domain/bereiche.ts'
 import { istVerschluesselteDatei } from '../dateien.ts'
-import type { CloudDienst, CloudStand, KiAntwort } from './cloud.ts'
+import type { CloudDienst, CloudStand, KiAntwort, WebhookInfo } from './cloud.ts'
 
 const URL_ = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
@@ -201,6 +201,28 @@ export const supabaseDienst: CloudDienst = {
     const { c, id } = await mitNutzer()
     const { error } = await c.storage.from(DOKUMENTE).remove([`${id}/${pfad}`])
     if (error) throw new Error(error.message)
+  },
+
+  async webhooks(): Promise<WebhookInfo[]> {
+    const zeilen = pruefe(await (await holeClient()).from('webhooks').select('werkzeug_id, letzte_ausfuehrung, letzter_status, letzte_meldung'))
+    return (zeilen ?? []).map((z) => ({ werkzeugId: z.werkzeug_id as string, letzteAusfuehrung: z.letzte_ausfuehrung as string | null, letzterStatus: z.letzter_status as number | null, letzteMeldung: z.letzte_meldung as string }))
+  },
+
+  async webhookSpeichern(werkzeugId, url) {
+    const { c, id } = await mitNutzer()
+    // Erst ändern, sonst anlegen – die Adresse wird dabei nie gelesen
+    const geaendert = pruefe(await c.from('webhooks').update({ url }).eq('werkzeug_id', werkzeugId).select('werkzeug_id'))
+    if (!geaendert || geaendert.length === 0) pruefe(await c.from('webhooks').insert({ user_id: id, werkzeug_id: werkzeugId, url }))
+  },
+
+  async webhookEntfernen(werkzeugId) {
+    pruefe(await (await holeClient()).from('webhooks').delete().eq('werkzeug_id', werkzeugId))
+  },
+
+  async workflowStarten(werkzeugId, eingabe) {
+    const { data, error } = await (await holeClient()).functions.invoke('workflow', { body: { werkzeugId, eingabe } })
+    if (error) throw new Error(await fehlerText(error))
+    return data as { ok: boolean; status: number; meldung: string }
   },
 }
 
