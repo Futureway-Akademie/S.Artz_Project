@@ -239,3 +239,8 @@
 {"timestamp":"2026-10-08T09:15:52Z","type":"task_started","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' gestartet."}
 {"timestamp":"2026-10-08T09:20:47Z","type":"verification_passed","taskId":"task-14-4","summary":"Rechte in Navigation, Seiten, Suche, Schnellerfassung, Cockpit und Dashboard getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T09:20:47Z","type":"task_completed","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' abgeschlossen."}
+{"timestamp":"2026-10-08T09:21:18Z","type":"task_started","taskId":"task-15-1","summary":"Task 'KI-Zugang über Supabase-Funktion' gestartet."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"verification_passed","taskId":"task-15-1","summary":"KI-Rechte, Budget-Regeln, Anfrageprüfung und Verfügbarkeit getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"task_completed","taskId":"task-15-1","summary":"Task 'KI-Zugang über Supabase-Funktion' abgeschlossen."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"task_ready","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' ist startbar."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"task_started","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' gestartet."}

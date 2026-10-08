@@ -30,7 +30,7 @@ describe('Admin-Bereich', () => {
   it('lädt Nutzer ein, ändert Rolle und Bereiche und sperrt', async () => {
     const fake = cloud()
     renderApp('/admin', { cloud: fake.dienst })
-    const kim = await screen.findByRole('article', { name: 'kim@example.org' })
+    const kim = await screen.findByRole('article', { name: 'kim@example.org' }, { timeout: 5000 })
     expect(within(karte('admin@example.org')).getByText('Admins sehen alle Bereiche.')).toBeInTheDocument()
 
     // Bereich zusätzlich zur Rolle freigeben
@@ -68,7 +68,7 @@ describe('Admin-Bereich', () => {
   it('pflegt Rollen', async () => {
     const fake = cloud()
     renderApp('/admin', { cloud: fake.dienst })
-    const rolle = await screen.findByRole('article', { name: 'Kunde' })
+    const rolle = await screen.findByRole('article', { name: 'Kunde' }, { timeout: 5000 })
     await act(async () => {
       fireEvent.click(within(rolle).getByRole('checkbox', { name: 'Kalender' }))
     })

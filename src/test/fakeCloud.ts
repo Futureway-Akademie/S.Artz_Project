@@ -2,7 +2,9 @@ import type { CloudDienst, CloudNutzer, CloudStand } from '../data/cloud/cloud.t
 import type { Profil, Rolle } from '../domain/bereiche.ts'
 
 /** In-Memory-Ersatz für Supabase: protokolliert, was hochgeladen würde. */
-export function createFakeCloud(opts: { nutzer?: CloudNutzer | null; stand?: CloudStand | null; profile?: Profil[]; rollen?: Rolle[] } = {}) {
+export function createFakeCloud(
+  opts: { nutzer?: CloudNutzer | null; stand?: CloudStand | null; profile?: Profil[]; rollen?: Rolle[]; kiAntwort?: (aufgabe: string, eingabe: string) => string } = {},
+) {
   let nutzer: CloudNutzer | null = opts.nutzer ?? null
   let stand: CloudStand | null = opts.stand ?? null
   const beobachter = new Set<(n: CloudNutzer | null) => void>()
@@ -11,6 +13,7 @@ export function createFakeCloud(opts: { nutzer?: CloudNutzer | null; stand?: Clo
   let profile: Profil[] = opts.profile ?? []
   let rollen: Rolle[] = opts.rollen ?? []
   const einladungen: Array<{ email: string; rolleId: string | null }> = []
+  const kiAnfragen: Array<{ aufgabe: string; eingabe: string }> = []
   const ich = () => profile.find((p) => p.userId === nutzer?.id) ?? null
   const nurAdmin = () => {
     if (!ich()?.istAdmin) throw new Error('Keine Berechtigung für diese Änderung.')
@@ -66,6 +69,11 @@ export function createFakeCloud(opts: { nutzer?: CloudNutzer | null; stand?: Clo
       nurAdmin()
       einladungen.push({ email, rolleId })
     },
+    ki: async (aufgabe, eingabe) => {
+      if (!nutzer) throw new Error('Bitte anmelden.')
+      kiAnfragen.push({ aufgabe, eingabe })
+      return { text: opts.kiAntwort?.(aufgabe, eingabe) ?? `KI-Antwort zu ${aufgabe}`, tokens: 100, uebrig: 299_900 }
+    },
   }
 
   return {
@@ -82,6 +90,7 @@ export function createFakeCloud(opts: { nutzer?: CloudNutzer | null; stand?: Clo
     },
     stand: () => stand,
     einladungen,
+    kiAnfragen,
     profile: () => profile,
     setzeProfile: (p: Profil[]) => {
       profile = p

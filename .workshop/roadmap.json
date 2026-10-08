@@ -1932,7 +1932,7 @@
       "description": "Claude im Cockpit über AWS Bedrock (Frankfurt); Daten gehen nur nach Freigabe pro Aktion an die KI.",
       "order": 15,
       "weight": 14,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-15-1",
@@ -1940,20 +1940,24 @@
           "description": "Edge Function als Vermittler zu Claude auf AWS Bedrock (eu-central-1): Zugangsdaten nur serverseitig, nur angemeldete und berechtigte Nutzer, Kostenlimit je Nutzer, keine Speicherung der Inhalte. Voraussetzung: AWS-Konto mit Claude-Freischaltung (Sascha). Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Kein KI-Schlüssel im Browser oder Repository",
             "Nur berechtigte Nutzer, Kostenlimit greift",
             "Verarbeitung in der EU (Frankfurt)"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:21:18Z",
+          "completedAt": "2026-10-08T09:27:05Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Supabase-Funktion ki: Claude über AWS Bedrock eu-central-1 (Converse), nur angemeldete Nutzer mit Bereich „ki“ (SQL-Funktion darf_bereich), Monatsbudget je Nutzer (ki_nutzung, Buchung nur serverseitig), feste Systemanweisungen je Aufgabe auf dem Server, keine Inhaltsspeicherung, AWS-Zugang nur als Secret. Client: Cloud-Schnittstelle ki, useKi mit Verfügbarkeitsgrund. Regeln mit PGlite getestet, Anfrageprüfung und Verfügbarkeit getestet; Anleitung docs/ki-einrichtung.md. Live-Test braucht AWS-Konto (Sascha).",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:27:05Z"
           }
         },
         {
@@ -1962,7 +1966,7 @@
           "description": "Vor jedem KI-Aufruf Vorschau, welche Daten gesendet werden, mit Bestätigung; verschlüsseltes Protokoll der Aufrufe. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-15-1"
           ],
@@ -1970,7 +1974,7 @@
             "Ohne Bestätigung wird nichts gesendet",
             "Vorschau zeigt genau den gesendeten Text"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:27:05Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

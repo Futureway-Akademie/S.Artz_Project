@@ -144,3 +144,47 @@ insert into public.rollen (name, bereiche) values
   ('Kursteilnehmer', array['cockpit', 'aufgaben', 'kalender', 'weiterbildung', 'wissen', 'werkzeug']),
   ('Familie/Freunde', array['cockpit', 'aufgaben', 'kalender'])
 on conflict (name) do nothing;
+
+-- ============================================================================
+-- KI-Assistent (Roadmap v7): Recht „ki“ und Monatsbudget je Nutzer
+-- Inhalte werden nie gespeichert – nur die Anzahl verbrauchter Tokens je Monat.
+-- ============================================================================
+
+alter table public.profile add column if not exists ki_limit_tokens integer not null default 300000 check (ki_limit_tokens >= 0);
+
+-- Darf der angemeldete Nutzer diesen Bereich nutzen? (Admin immer, Gesperrte nie)
+create or replace function public.darf_bereich(bereich text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select coalesce((
+    select not p.gesperrt and (
+      p.ist_admin
+      or (bereich = any (coalesce(r.bereiche, '{}')) or bereich = any (p.bereiche_an)) and not bereich = any (p.bereiche_aus)
+    )
+    from public.profile p left join public.rollen r on r.id = p.rolle_id
+    where p.user_id = auth.uid()
+  ), false)
+$$;
+
+create table if not exists public.ki_nutzung (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  monat text not null check (monat ~ '^\d{4}-\d{2}$'),
+  tokens bigint not null default 0,
+  aufrufe integer not null default 0,
+  primary key (user_id, monat)
+);
+
+alter table public.ki_nutzung enable row level security;
+-- Lesen: eigene Nutzung, der Admin alle. Schreiben nur die KI-Funktion (mit Server-Rechten).
+drop policy if exists "ki_nutzung_lesen" on public.ki_nutzung;
+create policy "ki_nutzung_lesen" on public.ki_nutzung for select to authenticated using (user_id = auth.uid() or public.ist_admin());
+revoke all on public.ki_nutzung from anon;
+revoke insert, update, delete on public.ki_nutzung from authenticated;
+
+-- Verbrauch buchen (nur für die KI-Funktion; prüft und erhöht in einem Schritt)
+create or replace function public.ki_verbrauch_buchen(nutzer uuid, verbrauch bigint) returns void
+language sql security definer set search_path = public as $$
+  insert into public.ki_nutzung (user_id, monat, tokens, aufrufe)
+  values (nutzer, to_char(now() at time zone 'Europe/Berlin', 'YYYY-MM'), greatest(verbrauch, 0), 1)
+  on conflict (user_id, monat) do update set tokens = public.ki_nutzung.tokens + excluded.tokens, aufrufe = public.ki_nutzung.aufrufe + 1
+$$;
+revoke all on function public.ki_verbrauch_buchen(uuid, bigint) from public, anon, authenticated;

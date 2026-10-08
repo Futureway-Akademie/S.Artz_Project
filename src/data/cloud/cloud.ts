@@ -2,6 +2,7 @@
  * Schnittstelle für Login und Synchronisierung – unabhängig von Supabase, damit Tests einen Fake nutzen können.
  * Übertragen wird ausschließlich der verschlüsselte Umschlag (siehe `istVerschluesselterUmschlag`).
  */
+import type { KiAufgabe } from '../../../supabase/functions/_gemeinsam/ki.ts'
 import type { Profil, Rolle } from '../../domain/bereiche.ts'
 import { alsTresor } from '../tresorKrypto.ts'
 
@@ -15,6 +16,14 @@ export interface CloudStand {
   umschlag: string
   revision: number
   aktualisiertAm: string
+}
+
+export interface KiAntwort {
+  text: string
+  /** Verbrauchte Tokens dieser Anfrage */
+  tokens: number
+  /** Restbudget im laufenden Monat */
+  uebrig: number
 }
 
 export type SpeicherAntwort = { ok: true; revision: number } | { ok: false; konflikt: true }
@@ -43,6 +52,10 @@ export interface CloudDienst {
   profilAendern: (userId: string, aenderung: Partial<Pick<Profil, 'rolleId' | 'gesperrt' | 'bereicheAn' | 'bereicheAus' | 'istAdmin'>>) => Promise<void>
   /** Einladung per Mail (über eine Supabase-Funktion, die den Admin prüft) */
   einladen: (email: string, rolleId: string | null, zurueck: string) => Promise<void>
+
+  // --- KI-Assistent (Roadmap v7) ---
+  /** Sendet genau den freigegebenen Text an die KI-Funktion (Claude über AWS Frankfurt) */
+  ki: (aufgabe: KiAufgabe, eingabe: string) => Promise<KiAntwort>
 }
 
 /** Schutz vor Versehen: Nur ein verschlüsselter Tresor-Umschlag darf das Gerät verlassen. */

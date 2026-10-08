@@ -5,7 +5,7 @@
  */
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Profil, Rolle } from '../../domain/bereiche.ts'
-import type { CloudDienst, CloudStand } from './cloud.ts'
+import type { CloudDienst, CloudStand, KiAntwort } from './cloud.ts'
 
 const URL_ = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
@@ -173,6 +173,23 @@ export const supabaseDienst: CloudDienst = {
 
   async einladen(email, rolleId, zurueck) {
     const { error } = await (await holeClient()).functions.invoke('einladen', { body: { email, rolleId, zurueck } })
-    if (error) throw new Error(error.message)
+    if (error) throw new Error(await fehlerText(error))
   },
+
+  async ki(aufgabe, eingabe) {
+    const { data, error } = await (await holeClient()).functions.invoke('ki', { body: { aufgabe, eingabe } })
+    if (error) throw new Error(await fehlerText(error))
+    return data as KiAntwort
+  },
+}
+
+/** Fehlermeldung der Funktion („fehler“ im Antworttext) statt des allgemeinen HTTP-Fehlers */
+async function fehlerText(error: { message: string; context?: unknown }): Promise<string> {
+  try {
+    const kontext = error.context as Response | undefined
+    const inhalt = (await kontext?.json()) as { fehler?: string } | undefined
+    return inhalt?.fehler ?? error.message
+  } catch {
+    return error.message
+  }
 }

@@ -97,6 +97,23 @@ describe('Supabase-Regeln (schema.sql)', () => {
     expect(await als(KIM, 'select user_id from public.tresor')).toHaveLength(1)
   })
 
+  it('KI: Recht je Bereich und Verbrauch nur über die Server-Funktion', async () => {
+    const darf = async (uid: string) => (await als<{ d: boolean }>(uid, `select public.darf_bereich('ki') as d`))[0]!.d
+    expect(await darf(SASCHA)).toBe(true)
+    expect(await darf(KIM)).toBe(false)
+    await als(SASCHA, `update public.profile set bereiche_an = '{ki}' where user_id = '${KIM}'`)
+    expect(await darf(KIM)).toBe(true)
+    await als(SASCHA, `update public.profile set bereiche_aus = '{ki}' where user_id = '${KIM}'`)
+    expect(await darf(KIM)).toBe(false)
+
+    await expect(als(KIM, `select public.ki_verbrauch_buchen('${KIM}', 1000)`)).rejects.toThrow()
+    await expect(als(KIM, `insert into public.ki_nutzung (user_id, monat, tokens) values ('${KIM}', '2026-10', 0)`)).rejects.toThrow()
+    await db.query(`select public.ki_verbrauch_buchen('${KIM}', 1200)`)
+    await db.query(`select public.ki_verbrauch_buchen('${KIM}', 300)`)
+    expect(await als(KIM, 'select tokens::int, aufrufe from public.ki_nutzung')).toEqual([{ tokens: 1500, aufrufe: 2 }])
+    expect(await als(SASCHA, 'select tokens::int from public.ki_nutzung')).toHaveLength(1)
+  })
+
   it('lässt sich gefahrlos erneut ausführen (z. B. nach einem Update)', async () => {
     await db.exec(readFileSync('supabase/schema.sql', 'utf8'))
     expect((await db.query(`select count(*)::int as n from public.profile`)).rows[0]).toEqual({ n: 2 })
