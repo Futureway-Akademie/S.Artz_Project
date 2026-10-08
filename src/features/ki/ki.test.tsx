@@ -85,3 +85,31 @@ describe('KI bei Bewerbungen', () => {
     expect(gespeichert().bewerbungen[0]!.notiz).toMatch(/^Anforderung: n8n\n\n— Anschreiben \(KI-Entwurf, .+\) —\nSehr geehrte Damen und Herren, …$/)
   })
 })
+
+describe('KI für Verlauf', () => {
+  afterEach(() => localStorage.clear())
+
+  it('fasst den Verlauf eines Kontakts zusammen und übernimmt nächste Aktion mit Wiedervorlage', async () => {
+    const { renderApp } = await import('../../test/renderApp.tsx')
+    const zeit = '2026-10-01T10:00:00.000Z'
+    const m = { erstelltAm: zeit, geaendertAm: zeit }
+    const daten = {
+      ...beispielSeed(),
+      kontakte: [{ id: 'k1', name: 'Kim Muster', rolle: '', unternehmenId: null, email: '', telefon: '', linkedinUrl: '', kontext: 'jobsuche' as const, herkunft: '', notiz: '', projektIds: [], naechsteAktion: null, rechtsgrundlage: null, zweck: '', schlagworte: [], ...m }],
+      interaktionen: (['2026-10-01', '2026-10-05'] as const).map((datum, n) => ({ id: `i${n}`, kontaktId: 'k1', art: 'telefonat' as const, datum, text: `Gespräch ${n}`, projektId: null, bewerbungId: null, leadId: null, betreff: '', richtung: null, ...m })),
+    }
+    const fake = createFakeCloud({ nutzer: { id: 'u1', email: 'admin@example.org' }, profile: [admin], kiAntwort: () => '- Interesse an Zusammenarbeit\nNächster Schritt: Angebot schicken\nWiedervorlage: 2026-10-12' })
+    const { gespeichert } = renderApp('/kontakte/k1', { daten, cloud: fake.dienst })
+    fireEvent.click(await screen.findByRole('button', { name: 'Zusammenfassen mit KI' }))
+    const dialog = await screen.findByRole('dialog', { name: /KI: Zusammenfassen/ })
+    await act(async () => {
+      fireEvent.click(await within(dialog).findByRole('button', { name: 'Senden' }))
+    })
+    expect(fake.kiAnfragen[0]!.eingabe).toContain('Gespräch 1')
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Als nächste Aktion übernehmen' }))
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(gespeichert().kontakte[0]!.naechsteAktion).toEqual({ text: 'Angebot schicken', faelligAm: '2026-10-12' })
+  })
+})

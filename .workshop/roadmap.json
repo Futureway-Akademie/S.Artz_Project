@@ -2020,7 +2020,7 @@
           "description": "Mails und Verlauf zusammenfassen, nächsten Schritt und Wiedervorlage vorschlagen, per Klick übernehmen.",
           "order": 4,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2029,12 +2029,16 @@
             "Vorschlag als Wiedervorlage übernehmbar"
           ],
           "startedAt": "2026-10-08T09:34:37Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T09:36:57Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI für Mails und Verlauf: „Zusammenfassen mit KI“ im Kontakt-Verlauf (übernimmt nächste Aktion mit Wiedervorlage) und auf der Bewerbung (übernimmt nächsten Schritt und Wiedervorlage); Antwort wird nach „Nächster Schritt“/„Wiedervorlage“ ausgewertet. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:36:57Z"
           }
         },
         {
@@ -2043,7 +2047,7 @@
           "description": "„Was soll ich heute tun?“: Vorschlag aus Fristen, Fokus, Terminen und Wiedervorlagen; in den Fokus übernehmen.",
           "order": 5,
           "weight": 2,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2051,7 +2055,7 @@
             "Tagesvorschlag im Cockpit",
             "Übernahme in den Fokus"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:36:57Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

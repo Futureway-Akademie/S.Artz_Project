@@ -256,3 +256,6 @@
 {"timestamp":"2026-10-08T09:34:36Z","type":"task_completed","taskId":"task-15-3","summary":"Task 'KI für Bewerbungen' abgeschlossen."}
 {"timestamp":"2026-10-08T09:34:36Z","type":"task_ready","taskId":"task-16-1","summary":"Task 'Demo-Daten, Ablauf und Folien' ist startbar."}
 {"timestamp":"2026-10-08T09:34:37Z","type":"task_started","taskId":"task-15-4","summary":"Task 'KI für Mails und Verlauf' gestartet."}
+{"timestamp":"2026-10-08T09:36:57Z","type":"verification_passed","taskId":"task-15-4","summary":"Zusammenfassung mit Übernahme der Wiedervorlage getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:36:57Z","type":"task_completed","taskId":"task-15-4","summary":"Task 'KI für Mails und Verlauf' abgeschlossen."}
+{"timestamp":"2026-10-08T09:36:57Z","type":"task_started","taskId":"task-15-5","summary":"Task 'KI-Tagesplanung' gestartet."}
