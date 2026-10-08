@@ -265,9 +265,17 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-Alles, was ohne Saschas Konten möglich war, ist umgesetzt (Stand 92,82 %). Offen sind nur Aufgaben mit Sascha:
-- task-13-1: Supabase gemeinsam einrichten, dabei Mehrbenutzer, Einladung, KI- und Workflow-Funktion live prüfen
-- AWS-Konto für Claude in Bedrock (Frankfurt) anlegen
-- task-16-2: Generalprobe für die Präsentation am 21.10.2026
+Stand 2026-10-08: Alles, was ohne Saschas Konten möglich war, ist umgesetzt (92,82 %). PR #3 (chore/projekt-initialisierung → main) ist offen und wartet auf Saschas „merge“.
+
+Offene Entscheidung: KI-Anbieter.
+- Sascha hat keine Kreditkarte, deshalb geht AWS Bedrock (Claude) vorerst nicht.
+- Vorschlag: Die Supabase-Funktion „ki“ bekommt eine Anbieter-Auswahl (Mistral oder Claude über AWS) per Secret; Mistral-Gratistarif (EU) zunächst nur mit Demo-Daten, bis die Trainingsnutzung im Gratistarif geklärt ist.
+- Sascha hat noch nicht zugestimmt; nachfragen, dann umsetzen.
+
+Danach mit Sascha:
+- task-13-1: Supabase gemeinsam einrichten (Projekt in Frankfurt, schema.sql, Funktionen einladen, ki, workflow, erinnern bereitstellen) und dabei alles live prüfen
+- task-16-2: Generalprobe für die Präsentation am 21.10.2026 (docs/praesentation/)
 - task-18-1: Hosting in Deutschland
 - task-19-1 bis task-19-4: Praxistest, Rechtstexte, AVVs, Abschlussprüfung
+
+Werkzeuge für Agenten: scripts/workshop/ (Task starten und abschließen, CURRENT_STATE aktualisieren, prüfen und committen).

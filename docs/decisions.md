@@ -623,3 +623,12 @@ Mit Sascha geplant und am 2026-10-08 bestätigt; eingetragen als Roadmap v7 (Pha
   - Bereits gesehene Stände kann niemand zurückholen; das liegt in der Natur des Teilens.
 - **Aktualität:** Als Admin werden geteilte Bereiche 5 Sekunden nach einer Änderung neu verschlüsselt hochgeladen, aber nur, wenn es Freigaben gibt.
 - **Voraussetzung:** Ein Empfänger muss sich einmal anmelden und seinen Tresor entsperren; dabei entsteht sein Schlüsselpaar. Vorher meldet der Admin-Bereich „Noch nicht möglich“.
+
+## 2026-10-08 – KI-Anbieter: offene Entscheidung
+
+- Geplant war Claude über AWS Bedrock (Frankfurt). Sascha hat **keine Kreditkarte**, AWS verlangt eine.
+- **Vorschlag, noch nicht bestätigt:**
+  - Die Funktion `ki` bekommt eine Anbieter-Auswahl per Secret: `mistral` oder `bedrock`.
+  - Mistral bietet einen kostenlosen Einstiegstarif ohne Kreditkarte (Bestätigung per Handynummer, EU-Anbieter, mit Nutzungsgrenzen).
+  - Ob Mistral im Gratistarif Daten zum Training nutzt, ist zu prüfen. Bis dahin im Gratistarif nur Demo-Daten senden.
+  - Rechte, Budget, Freigabe-Dialog und Protokoll bleiben unverändert. Ein späterer Wechsel zu Claude geht ohne Umbau.
