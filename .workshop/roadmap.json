@@ -2103,7 +2103,7 @@
       "description": "Vorführbereit machen: fiktive Demo-Daten, Demo-Ablauf, Folien und Generalprobe.",
       "order": 16,
       "weight": 4,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-16-1",
@@ -2111,7 +2111,7 @@
           "description": "Fiktiver Demo-Bestand (keine echten Personen), Demo-Ablauf mit Mehrbenutzer und KI, Folien im PIKARTZ.AI-Design. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-14-4",
             "task-15-3"
@@ -2120,13 +2120,17 @@
             "Demo-Daten per Klick ladbar und wieder entfernbar",
             "Ablaufplan und Folien liegen vor"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:43:01Z",
+          "completedAt": "2026-10-08T09:47:42Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Fiktive Demo-Daten (Firmen, Kontakte, Bewerbungen, Verlauf mit Mail, Lead, Aufgaben, Termine, Wissen, Werkzeuge, Abo) relativ zu heute, Präfix demo-, per Klick in den Einstellungen hinzufügen und vollständig entfernen (eigene Daten bleiben, Verweise werden gelöst); Demo-Ablauf docs/praesentation/ablauf.md mit Vorbereitung und Notfallplan; Folien docs/praesentation/folien.html (12 Folien im PIKARTZ.AI-Design, Tastatur, Vollbild, Druck). Wächter und Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:47:42Z"
           }
         },
         {
@@ -2135,7 +2139,7 @@
           "description": "Kompletter Demo-Durchlauf lokal, alle Prüfungen grün, Notfallplan ohne Netz. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-16-1"
           ],

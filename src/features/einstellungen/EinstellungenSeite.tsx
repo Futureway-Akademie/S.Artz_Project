@@ -19,6 +19,7 @@ import { useStore } from '../../data/storeContext.ts'
 import type { AppData } from '../../domain/types.ts'
 import styles from './EinstellungenSeite.module.css'
 import { KiProtokollPanel } from '../ki/KiProtokollPanel.tsx'
+import { DemoPanel } from './DemoPanel.tsx'
 import { GmailPanel } from './GmailPanel.tsx'
 import { KontoPanel } from './KontoPanel.tsx'
 import { SicherheitPanel } from './SicherheitPanel.tsx'
@@ -142,6 +143,8 @@ export function EinstellungenSeite() {
       <GmailPanel />
 
       <KiProtokollPanel />
+
+      <DemoPanel />
 
       <Panel titel="Datenschutz">
         <ul className={styles.punkte}>

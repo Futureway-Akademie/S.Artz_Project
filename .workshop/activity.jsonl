@@ -264,3 +264,7 @@
 {"timestamp":"2026-10-08T09:39:16Z","type":"task_started","taskId":"task-15-6","summary":"Task 'Chat mit deinen Daten' gestartet."}
 {"timestamp":"2026-10-08T09:42:39Z","type":"verification_passed","taskId":"task-15-6","summary":"Chat mit Bereichswahl, Datenschutz der Kontaktdaten und Verlinkung getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T09:42:39Z","type":"task_completed","taskId":"task-15-6","summary":"Task 'Chat mit deinen Daten' abgeschlossen."}
+{"timestamp":"2026-10-08T09:43:01Z","type":"task_started","taskId":"task-16-1","summary":"Task 'Demo-Daten, Ablauf und Folien' gestartet."}
+{"timestamp":"2026-10-08T09:47:42Z","type":"verification_passed","taskId":"task-16-1","summary":"Demo-Daten (gültig, entfernbar) getestet, Folien im Browser geprüft; alle Tests grün."}
+{"timestamp":"2026-10-08T09:47:42Z","type":"task_completed","taskId":"task-16-1","summary":"Task 'Demo-Daten, Ablauf und Folien' abgeschlossen."}
+{"timestamp":"2026-10-08T09:47:42Z","type":"task_ready","taskId":"task-16-2","summary":"Task 'Generalprobe' ist startbar."}
