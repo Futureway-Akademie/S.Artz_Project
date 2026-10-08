@@ -20,7 +20,7 @@ describe('Rechte in der Oberfläche', () => {
     renderApp('/', { cloud: cloud() })
     await waitFor(() => expect(within(nav()).queryByRole('link', { name: 'Kontakte & Leads', hidden: true })).toBeNull())
     const links = within(nav()).getAllByRole('link', { hidden: true }).map((l) => l.textContent)
-    expect(links).toEqual(['Arbeitscockpit', 'Aufgaben & Termine', 'Projekte', 'Einstellungen'])
+    expect(links).toEqual(['Arbeitscockpit', 'Aufgaben & Termine', 'Projekte', 'Geteilt mit mir', 'Einstellungen'])
     expect(screen.getByRole('region', { name: 'Aktuelle Projekte' })).toBeInTheDocument()
     expect(screen.queryByRole('region', { name: 'Weiterbildung' })).toBeNull()
     expect(screen.queryByRole('region', { name: 'Kontakte & Bewerbungen' })).toBeNull()

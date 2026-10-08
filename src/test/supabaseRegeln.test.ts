@@ -142,6 +142,35 @@ describe('Supabase-Regeln (schema.sql)', () => {
     await expect(als(KIM, `update public.webhooks set letzter_status = 200 where werkzeug_id = 'wf1'`)).rejects.toThrow()
   })
 
+  it('Freigaben: nur der Admin teilt, Empfänger lesen nur mit gültigem Schlüssel der aktuellen Version', async () => {
+    const U = `'{"format":"pikartz-freigabe","version":1,"iv":"a","daten":"b"}'::jsonb`
+    // Schlüsselpaare: öffentlicher Teil für alle lesbar, privater nur über die eigene Funktion
+    await als(KIM, `insert into public.schluessel (user_id, oeffentlich, privat_verschluesselt) values ('${KIM}', '{"kty":"RSA"}', '{"iv":"x","daten":"y"}')`)
+    expect(await als(SASCHA, `select oeffentlich from public.schluessel where user_id = '${KIM}'`)).toEqual([{ oeffentlich: { kty: 'RSA' } }])
+    await expect(als(SASCHA, `select privat_verschluesselt from public.schluessel`)).rejects.toThrow()
+    expect(await als(KIM, `select public.eigener_privater_schluessel() as p`)).toEqual([{ p: { iv: 'x', daten: 'y' } }])
+    expect(await als(SASCHA, `select public.eigener_privater_schluessel() as p`)).toEqual([{ p: null }])
+
+    // Teilen nur durch den Admin, nur verschlüsselt
+    await expect(als(KIM, `insert into public.freigaben (besitzer_id, bereich, umschlag) values ('${KIM}', 'projekte', ${U})`)).rejects.toThrow()
+    await expect(als(SASCHA, `insert into public.freigaben (besitzer_id, bereich, umschlag) values ('${SASCHA}', 'projekte', '{"klartext":1}'::jsonb)`)).rejects.toThrow()
+    await als(SASCHA, `insert into public.freigaben (besitzer_id, bereich, version, umschlag) values ('${SASCHA}', 'projekte', 1, ${U}), ('${SASCHA}', 'wissen', 1, ${U})`)
+    await als(SASCHA, `insert into public.freigabe_schluessel (besitzer_id, bereich, empfaenger_id, version, verpackt) values ('${SASCHA}', 'projekte', '${KIM}', 1, 'k')`)
+    expect(await als(KIM, `select bereich from public.freigaben`)).toEqual([{ bereich: 'projekte' }])
+    expect(await als(KIM, `select verpackt from public.freigabe_schluessel`)).toEqual([{ verpackt: 'k' }])
+
+    // Neue Version ohne Schlüssel für Kim: kein Zugriff mehr (Entzug)
+    await als(SASCHA, `update public.freigaben set version = 2 where bereich = 'projekte'`)
+    expect(await als(KIM, `select bereich from public.freigaben`)).toEqual([])
+
+    // Gesperrt: auch mit gültigem Schlüssel nichts
+    await als(SASCHA, `update public.freigabe_schluessel set version = 2 where empfaenger_id = '${KIM}'`)
+    expect(await als(KIM, `select bereich from public.freigaben`)).toEqual([{ bereich: 'projekte' }])
+    await als(SASCHA, `update public.profile set gesperrt = true where user_id = '${KIM}'`)
+    expect(await als(KIM, `select bereich from public.freigaben`)).toEqual([])
+    await als(SASCHA, `update public.profile set gesperrt = false where user_id = '${KIM}'`)
+  })
+
   it('lässt sich gefahrlos erneut ausführen (z. B. nach einem Update)', async () => {
     await db.exec(readFileSync('supabase/schema.sql', 'utf8'))
     expect((await db.query(`select count(*)::int as n from public.profile`)).rows[0]).toEqual({ n: 2 })

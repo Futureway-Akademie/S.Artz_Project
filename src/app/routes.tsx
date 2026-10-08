@@ -20,6 +20,7 @@ import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
 import { AssistentSeite } from '../features/ki/AssistentSeite.tsx'
 import { AdminSeite } from '../features/admin/AdminSeite.tsx'
+import { GeteiltSeite } from '../features/admin/GeteiltSeite.tsx'
 import { PostfachSeite } from '../features/postfach/PostfachSeite.tsx'
 import { NichtGefunden } from '../features/NichtGefunden.tsx'
 import { WerkzeugDetailSeite, WerkzeugListeSeite, WerkzeugUebersicht } from '../features/werkzeug/WerkzeugSeiten.tsx'
@@ -72,6 +73,7 @@ export function AppRoutes() {
         </Route>
         <Route path="postfach" element={<PostfachSeite />} />
         <Route path="admin" element={<AdminSeite />} />
+        <Route path="geteilt" element={<GeteiltSeite />} />
         <Route path="einstellungen" element={<EinstellungenSeite />} />
         <Route path="*" element={<NichtGefunden />} />
       </Route>

@@ -4,6 +4,7 @@
  */
 import type { KiAufgabe } from '../../../supabase/functions/_gemeinsam/ki.ts'
 import type { Profil, Rolle } from '../../domain/bereiche.ts'
+import type { FreigabeUmschlag, VerschluesselterText } from '../freigabe/freigabeKrypto.ts'
 import { alsTresor } from '../tresorKrypto.ts'
 
 export interface CloudNutzer {
@@ -32,6 +33,22 @@ export interface WebhookInfo {
   letzteAusfuehrung: string | null
   letzterStatus: number | null
   letzteMeldung: string
+}
+
+export interface EigeneFreigabe {
+  bereich: string
+  version: number
+  /** Empfänger mit Schlüssel für die aktuelle Version */
+  empfaenger: string[]
+}
+
+export interface ErhalteneFreigabe {
+  besitzerId: string
+  bereich: string
+  version: number
+  umschlag: FreigabeUmschlag
+  verpackt: string
+  aktualisiertAm: string
 }
 
 export type SpeicherAntwort = { ok: true; revision: number } | { ok: false; konflikt: true }
@@ -75,6 +92,16 @@ export interface CloudDienst {
   webhookSpeichern: (werkzeugId: string, url: string) => Promise<void>
   webhookEntfernen: (werkzeugId: string) => Promise<void>
   workflowStarten: (werkzeugId: string, eingabe: string) => Promise<{ ok: boolean; status: number; meldung: string }>
+
+  // --- Geteilte Bereiche (Roadmap v7): nur Chiffretext und öffentliche Schlüssel ---
+  eigeneSchluessel: () => Promise<{ oeffentlich: JsonWebKey; privatVerschluesselt: VerschluesselterText } | null>
+  schluesselSpeichern: (oeffentlich: JsonWebKey, privatVerschluesselt: VerschluesselterText) => Promise<void>
+  oeffentlicheSchluessel: (userIds: string[]) => Promise<Record<string, JsonWebKey>>
+  eigeneFreigaben: () => Promise<EigeneFreigabe[]>
+  /** Ersetzt Inhalt und alle Empfänger-Schlüssel eines Bereichs */
+  freigabeSchreiben: (bereich: string, version: number, umschlag: FreigabeUmschlag, schluessel: Array<{ empfaengerId: string; verpackt: string }>) => Promise<void>
+  freigabeEntfernen: (bereich: string) => Promise<void>
+  freigabenFuerMich: () => Promise<ErhalteneFreigabe[]>
 }
 
 /** Schutz vor Versehen: Nur ein verschlüsselter Tresor-Umschlag darf das Gerät verlassen. */

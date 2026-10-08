@@ -37,9 +37,9 @@ describe('App-Shell', () => {
     renderApp()
     const links = within(hauptnavigation()).getAllByRole('link', { hidden: true })
     // Ohne Anmeldung kein Admin: „Nutzer & Rollen“ erscheint nur für Admins
-    const sichtbar = NAVIGATION.filter((n) => n.to !== '/admin')
+    const sichtbar = NAVIGATION.filter((n) => n.to !== '/admin' && !n.nurEingeladene)
     expect(links.map((l) => l.textContent)).toEqual(sichtbar.map((n) => n.label))
-    expect(NAVIGATION).toHaveLength(24)
+    expect(NAVIGATION).toHaveLength(25)
 
     for (const eintrag of sichtbar) {
       fireEvent.click(navLink(eintrag.label))

@@ -34,7 +34,7 @@ describe('Admin-Bereich', () => {
     expect(within(karte('admin@example.org')).getByText('Admins sehen alle Bereiche.')).toBeInTheDocument()
 
     // Bereich zusätzlich zur Rolle freigeben
-    expect(within(kim).getByRole('checkbox', { name: /^Projekte/ })).toBeChecked()
+    expect(within(within(kim).getByRole('group', { name: 'Bereiche' })).getByRole('checkbox', { name: /^Projekte/ })).toBeChecked()
     await act(async () => {
       fireEvent.click(within(kim).getByRole('checkbox', { name: /^Kalender/ }))
     })

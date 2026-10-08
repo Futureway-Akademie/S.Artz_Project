@@ -10,6 +10,11 @@ import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { BEREICHE, bereichUmschalten, effektiveBereiche, type Bereich, type Profil, type Rolle } from '../../domain/bereiche.ts'
+import { useFreigaben } from '../../app/freigabeContext.ts'
+import type { EigeneFreigabe } from '../../data/cloud/cloud.ts'
+import { TEILBARE_BEREICHE, type TeilbarerBereich } from '../../data/freigabe/ausschnitt.ts'
+import { bereichTeilen } from '../../data/freigabe/freigabe.ts'
+import { useStore } from '../../data/storeContext.ts'
 import styles from './AdminSeite.module.css'
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -21,15 +26,19 @@ export function AdminSeite() {
   const [profile, setProfile] = useState<Profil[] | null>(null)
   const [rollen, setRollen] = useState<Rolle[]>([])
   const [fehler, setFehler] = useState<string | null>(null)
+  const [freigaben, setFreigaben] = useState<EigeneFreigabe[]>([])
+  const { data } = useStore()
+  const { freigabenGeaendert } = useFreigaben()
   const dienst = cloud?.dienst
   const istAdmin = Boolean(cloud?.rechte.istAdmin && cloud.nutzer)
 
   const laden = useCallback(async () => {
     if (!dienst) return
     try {
-      const [p, r] = await Promise.all([dienst.profile(), dienst.rollen()])
+      const [p, r, f] = await Promise.all([dienst.profile(), dienst.rollen(), dienst.eigeneFreigaben()])
       setProfile(p)
       setRollen(r)
+      setFreigaben(f)
       setFehler(null)
     } catch (e) {
       setFehler(e instanceof Error ? e.message : String(e))
@@ -39,11 +48,12 @@ export function AdminSeite() {
   useEffect(() => {
     if (!istAdmin || !dienst) return
     let aktiv = true
-    Promise.all([dienst.profile(), dienst.rollen()])
-      .then(([p, r]) => {
+    Promise.all([dienst.profile(), dienst.rollen(), dienst.eigeneFreigaben()])
+      .then(([p, r, f]) => {
         if (!aktiv) return
         setProfile(p)
         setRollen(r)
+        setFreigaben(f)
       })
       .catch((e: unknown) => aktiv && setFehler(e instanceof Error ? e.message : String(e)))
     return () => {
@@ -60,6 +70,22 @@ export function AdminSeite() {
       zeige(meldung)
     } catch (e) {
       zeige(e instanceof Error ? e.message : 'Änderung fehlgeschlagen')
+    }
+  }
+
+  /** Bereich für einen Nutzer teilen oder nicht mehr teilen; verschlüsselt neu mit neuem Bereichsschlüssel */
+  const teilen = async (userId: string, bereich: TeilbarerBereich, an: boolean) => {
+    if (!dienst) return
+    const bisher = freigaben.find((f) => f.bereich === bereich)?.empfaenger ?? []
+    const empfaenger = an ? [...new Set([...bisher, userId])] : bisher.filter((id) => id !== userId)
+    try {
+      const e = await bereichTeilen(dienst, data, bereich, empfaenger, new Date())
+      const neu = await dienst.eigeneFreigaben()
+      setFreigaben(neu)
+      freigabenGeaendert(neu.some((f) => f.empfaenger.length > 0))
+      zeige(e.ohneSchluessel.includes(userId) ? 'Noch nicht möglich: Die Person muss sich einmal anmelden und ihren Tresor entsperren.' : an ? 'Bereich verschlüsselt geteilt' : 'Freigabe beendet – neue Stände sind für die Person nicht mehr lesbar')
+    } catch (err) {
+      zeige(err instanceof Error ? err.message : 'Teilen fehlgeschlagen')
     }
   }
 
@@ -98,6 +124,8 @@ export function AdminSeite() {
                   profil={p}
                   rollen={rollen}
                   ichSelbst={p.userId === cloud.nutzer?.id}
+                  geteilt={new Set(freigaben.filter((f) => f.empfaenger.includes(p.userId)).map((f) => f.bereich))}
+                  onTeilen={(bereich, an) => teilen(p.userId, bereich, an)}
                   onAendern={(aenderung, meldung) => aendern(() => cloud.dienst.profilAendern(p.userId, aenderung), meldung)}
                 />
               </li>
@@ -148,11 +176,15 @@ function NutzerKarte({
   rollen,
   ichSelbst,
   onAendern,
+  geteilt,
+  onTeilen,
 }: {
   profil: Profil
   rollen: Rolle[]
   ichSelbst: boolean
   onAendern: (aenderung: Partial<Profil>, meldung: string) => Promise<void>
+  geteilt: Set<string>
+  onTeilen: (bereich: TeilbarerBereich, an: boolean) => Promise<void>
 }) {
   const [sperren, setSperren] = useState(false)
   const rolle = rollen.find((r) => r.id === profil.rolleId)
@@ -204,6 +236,15 @@ function NutzerKarte({
                 </label>
               )
             })}
+          </fieldset>
+          <fieldset className={styles.bereiche}>
+            <legend>Von deinen Daten teilen (nur lesen, verschlüsselt)</legend>
+            {TEILBARE_BEREICHE.map((b) => (
+              <label key={b.key} className={styles.check}>
+                <input type="checkbox" checked={geteilt.has(b.key)} disabled={profil.gesperrt} onChange={(e) => void onTeilen(b.key, e.target.checked)} />
+                {b.label}
+              </label>
+            ))}
           </fieldset>
         </>
       )}

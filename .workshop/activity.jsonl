@@ -293,3 +293,6 @@
 {"timestamp":"2026-10-08T10:12:27Z","type":"task_started","taskId":"task-18-4","summary":"Task 'Handy-Bedienung feinschleifen' gestartet."}
 {"timestamp":"2026-10-08T10:16:54Z","type":"verification_passed","taskId":"task-18-4","summary":"Browserprüfung bei 375 px (Überlauf, Tippflächen) vor und nach den Änderungen; alle Tests grün."}
 {"timestamp":"2026-10-08T10:16:54Z","type":"task_completed","taskId":"task-18-4","summary":"Task 'Handy-Bedienung feinschleifen' abgeschlossen."}
+{"timestamp":"2026-10-08T10:17:50Z","type":"task_started","taskId":"task-14-5","summary":"Task 'Geteilte Bereiche' gestartet."}
+{"timestamp":"2026-10-08T10:25:29Z","type":"verification_passed","taskId":"task-14-5","summary":"RLS, Kryptografie, Entzug und Ablauf Admin→Nutzer getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:25:29Z","type":"task_completed","taskId":"task-14-5","summary":"Task 'Geteilte Bereiche' abgeschlossen."}

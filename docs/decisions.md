@@ -608,3 +608,18 @@ Mit Sascha geplant und am 2026-10-08 bestätigt; eingetragen als Roadmap v7 (Pha
   - Die eigenen Daten eines Nutzers liegen in seinem eigenen, nur für ihn lesbaren Tresor. Bereichsrechte steuern dort, welche Funktionen er sieht. Der Server kann den Inhalt nicht prüfen, weil er ihn nicht lesen kann.
   - Echte serverseitige Durchsetzung gibt es für die Sperre (kein Zugriff auf den Cloud-Tresor) und künftig für geteilte Bereiche (task-14-5) und den KI-Zugang (task-15-1).
 - **Gemeinsam genutztes Gerät:** Der lokale Tresor merkt sich sein Konto. Meldet sich ein anderes Konto an, wird nicht abgeglichen; das Cockpit weist darauf hin.
+
+## 2026-10-08 – Geteilte Bereiche (task-14-5)
+
+- **Was geteilt werden kann:** Projekte (mit ihren Aufgaben und Terminen), Aufgaben und Termine, Wissen, KI-Werkzeugkasten.
+  - Nicht teilbar sind Kontakte, Bewerbungen und Postfach (personenbezogene Daten Dritter).
+  - Beim Teilen werden Verweise auf Personen, Firmen, Leads und Bewerbungen entfernt, ebenso der Ablageort von Zugangsdaten.
+- **Kryptografie:**
+  - Jeder Nutzer hat ein RSA-OAEP-Schlüsselpaar (3072 Bit). Der öffentliche Schlüssel ist für Angemeldete lesbar; der private liegt nur mit dem Datenschlüssel des eigenen Tresors verschlüsselt bei Supabase.
+  - Ein geteilter Bereich wird mit einem eigenen AES-256-Schlüssel verschlüsselt, der je Empfänger mit dessen öffentlichem Schlüssel verpackt wird.
+- **Entzug wirkt technisch:**
+  - Bei jeder Aktualisierung entstehen ein neuer Bereichsschlüssel und eine neue Version.
+  - Die Datenbank liefert einen Bereich nur an Empfänger mit Schlüssel für die aktuelle Version (RLS) und nie an Gesperrte. Wer entfernt wurde, kann neue Stände nicht lesen.
+  - Bereits gesehene Stände kann niemand zurückholen; das liegt in der Natur des Teilens.
+- **Aktualität:** Als Admin werden geteilte Bereiche 5 Sekunden nach einer Änderung neu verschlüsselt hochgeladen, aber nur, wenn es Freigaben gibt.
+- **Voraussetzung:** Ein Empfänger muss sich einmal anmelden und seinen Tresor entsperren; dabei entsteht sein Schlüsselpaar. Vorher meldet der Admin-Bereich „Noch nicht möglich“.

@@ -1,6 +1,6 @@
 import { useId, useState } from 'react'
 import { NavLink } from 'react-router'
-import { useRechte } from '../../app/cloudContext.ts'
+import { useCloud, useRechte } from '../../app/cloudContext.ts'
 import { darfPfad } from '../../domain/bereiche.ts'
 import { Icon } from '../ui/Icon.tsx'
 import styles from './NavList.module.css'
@@ -36,7 +36,9 @@ function Gruppe({ gruppe, variante, onNavigate }: { gruppe: NavGruppe } & NavLis
   const id = useId()
   const [offen, setOffen] = useState(true)
   const rechte = useRechte()
-  const eintraege = (variante === 'rail' ? gruppe.eintraege.filter((e) => !e.nurVoll) : gruppe.eintraege).filter((e) => darfPfad(rechte, e.to))
+  const cloud = useCloud()
+  const eingeladen = Boolean(cloud?.nutzer && !rechte.istAdmin)
+  const eintraege = (variante === 'rail' ? gruppe.eintraege.filter((e) => !e.nurVoll) : gruppe.eintraege).filter((e) => darfPfad(rechte, e.to) && (!e.nurEingeladene || eingeladen))
 
   if (eintraege.length === 0) return null
 

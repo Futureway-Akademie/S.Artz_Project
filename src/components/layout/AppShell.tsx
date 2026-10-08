@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { FreigabenDienst } from '../../app/FreigabenDienst.tsx'
 import { Navigate, Outlet, useLocation } from 'react-router'
 import { useRechte } from '../../app/cloudContext.ts'
 import { BEREICHE, darf, darfPfad } from '../../domain/bereiche.ts'
@@ -198,7 +199,9 @@ export function AppShell() {
         <DemoBanner />
         <StatusHinweise />
         <main id="inhalt" className={styles.main} tabIndex={-1}>
-          <Zugang />
+          <FreigabenDienst>
+            <Zugang />
+          </FreigabenDienst>
         </main>
       </div>
       {suchen && <SucheDialog onSchliessen={() => setSuchen(false)} />}

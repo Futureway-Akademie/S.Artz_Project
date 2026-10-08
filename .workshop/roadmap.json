@@ -1788,7 +1788,7 @@
       "description": "Andere Nutzer nur per Einladung; Sascha als Admin vergibt Rollen und schaltet Bereiche je Nutzer frei oder sperrt Nutzer. Jeder hat eigene Daten, dazu geteilte Bereiche.",
       "order": 14,
       "weight": 16,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-14-1",
@@ -1905,7 +1905,7 @@
           "description": "Sascha gibt einzelne Bereiche seiner Daten an Nutzer frei: Bereichsschlüssel je berechtigtem Nutzer verpackt; beim Entziehen Schlüsseltausch, damit der Zugriff auch kryptografisch endet.",
           "order": 5,
           "weight": 5,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-14-2",
             "task-14-3"
@@ -1915,13 +1915,17 @@
             "Nach Entzug kein Zugriff mehr auf neue Daten (Schlüsseltausch)",
             "Supabase sieht weiterhin nur Chiffretext"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:17:50Z",
+          "completedAt": "2026-10-08T10:25:29Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Geteilte Bereiche Ende-zu-Ende-verschlüsselt: Schlüsselpaar je Nutzer (RSA-OAEP 3072, privat mit Tresor-Datenschlüssel verschlüsselt), Bereichsschlüssel (AES-256) je Empfänger verpackt, neue Version bei jeder Aktualisierung; SQL: schluessel (öffentlich lesbar, privat nur per Funktion), freigaben und freigabe_schluessel mit RLS (nur aktiver Admin teilt, Empfänger nur mit Schlüssel der aktuellen Version, Gesperrte nie), mit PGlite getestet. Teilbar: Projekte, Aufgaben/Termine, Wissen, Werkzeugkasten (ohne Personenbezüge und Schlüssel-Ablageorte). Admin-Bereich: Auswahl je Nutzer; automatisches Neu-Verschlüsseln nach Änderungen; Seite „Geteilt mit mir“ für Eingeladene. Ende-zu-Ende-Test Teilen→Lesen→Entzug grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:25:29Z"
           }
         }
       ]

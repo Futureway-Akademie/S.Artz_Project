@@ -1,9 +1,26 @@
 import type { CloudDienst, CloudNutzer, CloudStand } from '../data/cloud/cloud.ts'
+import type { FreigabeUmschlag, VerschluesselterText } from '../data/freigabe/freigabeKrypto.ts'
 import type { Profil, Rolle } from '../domain/bereiche.ts'
 
 /** In-Memory-Ersatz für Supabase: protokolliert, was hochgeladen würde. */
+/** Server-Zustand für Schlüssel und Freigaben – mehrere Fake-Clouds (Nutzer) können ihn teilen */
+export function neuerGeteilterZustand() {
+  return {
+    schluessel: new Map<string, { oeffentlich: JsonWebKey; privat: VerschluesselterText }>(),
+    freigaben: new Map<string, { besitzerId: string; bereich: string; version: number; umschlag: FreigabeUmschlag; aktualisiertAm: string }>(),
+    freigabeSchluessel: [] as Array<{ besitzerId: string; bereich: string; empfaengerId: string; version: number; verpackt: string }>,
+  }
+}
+
 export function createFakeCloud(
-  opts: { nutzer?: CloudNutzer | null; stand?: CloudStand | null; profile?: Profil[]; rollen?: Rolle[]; kiAntwort?: (aufgabe: string, eingabe: string) => string } = {},
+  opts: {
+    nutzer?: CloudNutzer | null
+    stand?: CloudStand | null
+    profile?: Profil[]
+    rollen?: Rolle[]
+    kiAntwort?: (aufgabe: string, eingabe: string) => string
+    geteilt?: ReturnType<typeof neuerGeteilterZustand>
+  } = {},
 ) {
   let nutzer: CloudNutzer | null = opts.nutzer ?? null
   let stand: CloudStand | null = opts.stand ?? null
@@ -17,6 +34,12 @@ export function createFakeCloud(
   const dateien = new Map<string, Uint8Array>()
   const webhooks = new Map<string, { url: string; letzteAusfuehrung: string | null; letzterStatus: number | null; letzteMeldung: string }>()
   const workflowAufrufe: Array<{ werkzeugId: string; eingabe: string; url: string }> = []
+  // Gemeinsamer Zustand mehrerer Fake-Geräte: über opts.geteilt übergeben
+  const geteilt = opts.geteilt ?? neuerGeteilterZustand()
+  const meineId = () => {
+    if (!nutzer) throw new Error('Nicht angemeldet.')
+    return nutzer.id
+  }
   const ich = () => profile.find((p) => p.userId === nutzer?.id) ?? null
   const nurAdmin = () => {
     if (!ich()?.istAdmin) throw new Error('Keine Berechtigung für diese Änderung.')
@@ -98,6 +121,40 @@ export function createFakeCloud(
       webhooks.set(werkzeugId, { ...w, letzteAusfuehrung: new Date().toISOString(), letzterStatus: 200, letzteMeldung: 'Gestartet' })
       return { ok: true, status: 200, meldung: 'Gestartet' }
     },
+    eigeneSchluessel: async () => {
+      const s = geteilt.schluessel.get(meineId())
+      return s ? { oeffentlich: s.oeffentlich, privatVerschluesselt: s.privat } : null
+    },
+    schluesselSpeichern: async (oeffentlich, privat) => {
+      geteilt.schluessel.set(meineId(), { oeffentlich, privat })
+    },
+    oeffentlicheSchluessel: async (ids) => Object.fromEntries(ids.filter((id) => geteilt.schluessel.has(id)).map((id) => [id, geteilt.schluessel.get(id)!.oeffentlich])),
+    eigeneFreigaben: async () =>
+      [...geteilt.freigaben.values()]
+        .filter((f) => f.besitzerId === meineId())
+        .map((f) => ({ bereich: f.bereich, version: f.version, empfaenger: geteilt.freigabeSchluessel.filter((s) => s.besitzerId === f.besitzerId && s.bereich === f.bereich && s.version === f.version).map((s) => s.empfaengerId) })),
+    freigabeSchreiben: async (bereich, version, umschlag, schluessel) => {
+      nurAdmin()
+      const id = meineId()
+      geteilt.freigaben.set(`${id}:${bereich}`, { besitzerId: id, bereich, version, umschlag, aktualisiertAm: new Date().toISOString() })
+      geteilt.freigabeSchluessel = [...geteilt.freigabeSchluessel.filter((s) => !(s.besitzerId === id && s.bereich === bereich)), ...schluessel.map((s) => ({ besitzerId: id, bereich, empfaengerId: s.empfaengerId, version, verpackt: s.verpackt }))]
+    },
+    freigabeEntfernen: async (bereich) => {
+      nurAdmin()
+      const id = meineId()
+      geteilt.freigaben.delete(`${id}:${bereich}`)
+      geteilt.freigabeSchluessel = geteilt.freigabeSchluessel.filter((s) => !(s.besitzerId === id && s.bereich === bereich))
+    },
+    freigabenFuerMich: async () => {
+      const id = meineId()
+      if (ich()?.gesperrt) return []
+      return geteilt.freigabeSchluessel
+        .filter((s) => s.empfaengerId === id)
+        .flatMap((s) => {
+          const f = geteilt.freigaben.get(`${s.besitzerId}:${s.bereich}`)
+          return f && f.version === s.version ? [{ besitzerId: f.besitzerId, bereich: f.bereich, version: f.version, umschlag: f.umschlag, verpackt: s.verpackt, aktualisiertAm: f.aktualisiertAm }] : []
+        })
+    },
   }
 
   return {
@@ -117,6 +174,7 @@ export function createFakeCloud(
     kiAnfragen,
     dateien,
     workflowAufrufe,
+    geteilt,
     profile: () => profile,
     setzeProfile: (p: Profil[]) => {
       profile = p

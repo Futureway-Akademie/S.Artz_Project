@@ -9,6 +9,8 @@ export interface NavEintrag {
   icon: IconName
   /** Nur in der vollen Navigation, nicht in der Icon-Leiste */
   nurVoll?: boolean
+  /** Nur für angemeldete, eingeladene Nutzer (nicht für den Admin) */
+  nurEingeladene?: boolean
 }
 
 export interface NavGruppe {
@@ -53,6 +55,7 @@ export const NAV_GRUPPEN: NavGruppe[] = [
       { to: '/kontakte', label: 'Kontakte & Leads', kurz: 'Kontakte', icon: 'kontakte' },
       { to: '/postfach', label: 'Postfach', kurz: 'Postfach', icon: 'mail' },
       { to: '/bewerbungen', label: 'Bewerbungen', kurz: 'Bewerb.', icon: 'bewerbungen' },
+      { to: '/geteilt', label: 'Geteilt mit mir', kurz: 'Geteilt', icon: 'kontakte', nurEingeladene: true },
     ],
   },
   {

@@ -245,3 +245,77 @@ grant select (user_id, werkzeug_id, letzte_ausfuehrung, letzter_status, letzte_m
 grant insert (user_id, werkzeug_id, url) on public.webhooks to authenticated;
 grant update (url) on public.webhooks to authenticated;
 grant delete on public.webhooks to authenticated;
+
+-- ============================================================================
+-- Geteilte Bereiche (Roadmap v7): Der Admin gibt Bereiche seiner Daten an Nutzer frei.
+-- Alles bleibt Ende-zu-Ende-verschlüsselt: Der Inhalt ist mit einem Bereichsschlüssel verschlüsselt,
+-- dieser ist je Empfänger mit dessen öffentlichem Schlüssel verpackt. Supabase sieht nur Chiffretext.
+-- ============================================================================
+
+create table if not exists public.schluessel (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  oeffentlich jsonb not null,
+  -- privater Schlüssel, verschlüsselt mit dem Datenschlüssel des eigenen Tresors
+  privat_verschluesselt jsonb not null check (privat_verschluesselt ? 'iv' and privat_verschluesselt ? 'daten')
+);
+
+alter table public.schluessel enable row level security;
+drop policy if exists "schluessel_lesen" on public.schluessel;
+drop policy if exists "schluessel_anlegen" on public.schluessel;
+drop policy if exists "schluessel_aendern" on public.schluessel;
+create policy "schluessel_lesen" on public.schluessel for select to authenticated using (true);
+create policy "schluessel_anlegen" on public.schluessel for insert to authenticated with check (user_id = auth.uid());
+create policy "schluessel_aendern" on public.schluessel for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+-- Öffentliche Schlüssel darf jeder Angemeldete lesen, den verschlüsselten privaten nur sein Besitzer (über die Funktion)
+revoke all on public.schluessel from anon, authenticated;
+grant select (user_id, oeffentlich) on public.schluessel to authenticated;
+grant insert (user_id, oeffentlich, privat_verschluesselt) on public.schluessel to authenticated;
+grant update (oeffentlich, privat_verschluesselt) on public.schluessel to authenticated;
+
+create or replace function public.eigener_privater_schluessel() returns jsonb
+language sql stable security definer set search_path = public as $$
+  select privat_verschluesselt from public.schluessel where user_id = auth.uid()
+$$;
+
+create table if not exists public.freigaben (
+  besitzer_id uuid not null references auth.users (id) on delete cascade,
+  bereich text not null check (bereich in ('projekte', 'aufgaben', 'wissen', 'werkzeug')),
+  version integer not null default 1,
+  umschlag jsonb not null check (umschlag ->> 'format' = 'pikartz-freigabe' and umschlag ? 'iv' and umschlag ? 'daten'),
+  aktualisiert_am timestamptz not null default now(),
+  primary key (besitzer_id, bereich)
+);
+
+create table if not exists public.freigabe_schluessel (
+  besitzer_id uuid not null,
+  bereich text not null,
+  empfaenger_id uuid not null references auth.users (id) on delete cascade,
+  version integer not null,
+  verpackt text not null,
+  primary key (besitzer_id, bereich, empfaenger_id),
+  foreign key (besitzer_id, bereich) references public.freigaben (besitzer_id, bereich) on delete cascade
+);
+
+alter table public.freigaben enable row level security;
+alter table public.freigabe_schluessel enable row level security;
+drop policy if exists "freigaben_lesen" on public.freigaben;
+drop policy if exists "freigaben_schreiben" on public.freigaben;
+drop policy if exists "freigabe_schluessel_lesen" on public.freigabe_schluessel;
+drop policy if exists "freigabe_schluessel_schreiben" on public.freigabe_schluessel;
+-- Lesen: Besitzer, oder Empfänger mit gültigem Schlüssel für die aktuelle Version (und nicht gesperrt)
+create policy "freigaben_lesen" on public.freigaben for select to authenticated using (
+  besitzer_id = auth.uid()
+  or (not public.ist_gesperrt() and exists (
+    select 1 from public.freigabe_schluessel s
+    where s.besitzer_id = freigaben.besitzer_id and s.bereich = freigaben.bereich and s.empfaenger_id = auth.uid() and s.version = freigaben.version
+  ))
+);
+-- Schreiben: nur ein aktiver Admin für die eigenen Daten
+create policy "freigaben_schreiben" on public.freigaben for all to authenticated
+  using (besitzer_id = auth.uid() and public.ist_admin()) with check (besitzer_id = auth.uid() and public.ist_admin());
+create policy "freigabe_schluessel_lesen" on public.freigabe_schluessel for select to authenticated
+  using (besitzer_id = auth.uid() or (empfaenger_id = auth.uid() and not public.ist_gesperrt()));
+create policy "freigabe_schluessel_schreiben" on public.freigabe_schluessel for all to authenticated
+  using (besitzer_id = auth.uid() and public.ist_admin()) with check (besitzer_id = auth.uid() and public.ist_admin());
+revoke all on public.freigaben from anon;
+revoke all on public.freigabe_schluessel from anon;
