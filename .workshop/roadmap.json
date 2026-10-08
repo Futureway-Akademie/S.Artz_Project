@@ -1993,7 +1993,7 @@
           "description": "Anschreiben aus Stelle, Zielrolle und eigenen Angaben entwerfen; Antworten auf Mails formulieren; Entwurf übernehmen oder anpassen. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2002,12 +2002,16 @@
             "Antwortentwurf zu einer Mail"
           ],
           "startedAt": "2026-10-08T09:30:11Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T09:34:36Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI für Bewerbungen: „Anschreiben mit KI“ auf der Bewerbungsseite (Eingabe aus Stelle, Firma, Ansprechpartner, Zielrolle, Notizen; Stärken als Platzhalter), Übernahme in die Notizen; „Antwort mit KI“ für empfangene Mails im Verlauf und im Postfach. Eingabetexte in kiEingaben.ts, getestet; Ablauf Bewerbung→Entwurf→Notizen getestet.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:34:36Z"
           }
         },
         {
@@ -2016,7 +2020,7 @@
           "description": "Mails und Verlauf zusammenfassen, nächsten Schritt und Wiedervorlage vorschlagen, per Klick übernehmen.",
           "order": 4,
           "weight": 2,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2024,7 +2028,7 @@
             "Zusammenfassung je Kontakt oder Bewerbung",
             "Vorschlag als Wiedervorlage übernehmbar"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:34:37Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
@@ -2087,7 +2091,7 @@
       "description": "Vorführbereit machen: fiktive Demo-Daten, Demo-Ablauf, Folien und Generalprobe.",
       "order": 16,
       "weight": 4,
-      "status": "planned",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-16-1",
@@ -2095,7 +2099,7 @@
           "description": "Fiktiver Demo-Bestand (keine echten Personen), Demo-Ablauf mit Mehrbenutzer und KI, Folien im PIKARTZ.AI-Design. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-14-4",
             "task-15-3"

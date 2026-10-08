@@ -59,3 +59,29 @@ describe('KI-Freigabe-Dialog', () => {
     expect(screen.queryByRole('button', { name: 'Senden' })).toBeNull()
   })
 })
+
+describe('KI bei Bewerbungen', () => {
+  afterEach(() => localStorage.clear())
+
+  it('entwirft ein Anschreiben und übernimmt es in die Notizen der Bewerbung', async () => {
+    const { renderApp } = await import('../../test/renderApp.tsx')
+    const zeit = '2026-10-01T10:00:00.000Z'
+    const daten = {
+      ...beispielSeed(),
+      bewerbungen: [{ id: 'b1', stelle: 'KI-Trainer', unternehmenId: null, zielrolleId: null, kontaktId: null, status: 'geplant' as const, quelle: '', beworbenAm: null, link: '', naechsterSchritt: '', notiz: 'Anforderung: n8n', wiedervorlageAm: null, erstelltAm: zeit, geaendertAm: zeit }],
+    }
+    const fake = createFakeCloud({ nutzer: { id: 'u1', email: 'admin@example.org' }, profile: [admin], kiAntwort: () => 'Sehr geehrte Damen und Herren, …' })
+    const { gespeichert } = renderApp('/bewerbungen/b1', { daten, cloud: fake.dienst })
+    fireEvent.click(await screen.findByRole('button', { name: 'Anschreiben mit KI' }))
+    const dialog = await screen.findByRole('dialog', { name: 'KI: Anschreiben entwerfen' })
+    expect((within(dialog).getByLabelText(/^Zu sendender Text/) as HTMLTextAreaElement).value).toContain('Stelle: KI-Trainer')
+    await act(async () => {
+      fireEvent.click(await within(dialog).findByRole('button', { name: 'Senden' }))
+    })
+    fireEvent.click(within(dialog).getByRole('button', { name: 'In die Notizen übernehmen' }))
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(gespeichert().bewerbungen[0]!.notiz).toMatch(/^Anforderung: n8n\n\n— Anschreiben \(KI-Entwurf, .+\) —\nSehr geehrte Damen und Herren, …$/)
+  })
+})

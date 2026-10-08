@@ -1,4 +1,9 @@
 import { useState } from 'react'
+import { NurMit } from '../../components/NurMit.tsx'
+import { formatDatum, heute } from '../../domain/dates.ts'
+import { anschreibenEingabe } from '../../domain/selectors/kiEingaben.ts'
+import { useNow } from '../../hooks/useNow.ts'
+import { KiDialog } from '../ki/KiDialog.tsx'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Badge } from '../../components/ui/Badge.tsx'
@@ -8,7 +13,6 @@ import { ExternerLink } from '../../components/ui/ExternerLink.tsx'
 import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useStore } from '../../data/storeContext.ts'
-import { formatDatum } from '../../domain/dates.ts'
 import { SelectField } from '../../components/ui/Field.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
 import { BEWERBUNG_STATUS, optionen } from '../../domain/labels.ts'
@@ -24,6 +28,8 @@ export function BewerbungDetailSeite() {
   const { zeige } = useToast()
   const navigate = useNavigate()
   const [bearbeiten, setBearbeiten] = useState(false)
+  const [kiAnschreiben, setKiAnschreiben] = useState(false)
+  const now = useNow()
   const b = data.bewerbungen.find((x) => x.id === id)
 
   if (!b) {
@@ -49,9 +55,16 @@ export function BewerbungDetailSeite() {
         </span>
       }
       aktionen={
-        <Button variant="secondary" onClick={() => setBearbeiten(true)}>
-          Bearbeiten
-        </Button>
+        <>
+          <NurMit bereich="ki">
+            <Button variant="secondary" onClick={() => setKiAnschreiben(true)}>
+              Anschreiben mit KI
+            </Button>
+          </NurMit>
+          <Button variant="secondary" onClick={() => setBearbeiten(true)}>
+            Bearbeiten
+          </Button>
+        </>
       }
     >
       <div className={styles.raster}>
@@ -93,6 +106,19 @@ export function BewerbungDetailSeite() {
         </div>
       </div>
       {bearbeiten && <BewerbungDialog bewerbung={b} onSchliessen={() => setBearbeiten(false)} onGeloescht={() => navigate('/bewerbungen')} />}
+      {kiAnschreiben && (
+        <KiDialog
+          aufgabe="anschreiben"
+          eingabe={anschreibenEingabe(data, b)}
+          uebernehmenLabel="In die Notizen übernehmen"
+          onUebernehmen={(text) => {
+            const kopf = `— Anschreiben (KI-Entwurf, ${formatDatum(heute(now))}) —`
+            dispatch({ type: 'aendern', sammlung: 'bewerbungen', id: b.id, aenderung: { notiz: [b.notiz, `${kopf}\n${text}`].filter(Boolean).join('\n\n') } })
+            zeige('Entwurf in die Notizen übernommen')
+          }}
+          onSchliessen={() => setKiAnschreiben(false)}
+        />
+      )}
     </Seite>
   )
 }

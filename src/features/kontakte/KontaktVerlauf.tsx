@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { NurMit } from '../../components/NurMit.tsx'
+import { antwortEingabe } from '../../domain/selectors/kiEingaben.ts'
+import { KiDialog } from '../ki/KiDialog.tsx'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router'
 import { Button } from '../../components/ui/Button.tsx'
@@ -142,6 +145,8 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
   const [richtung, setRichtung] = useState<'eingang' | 'ausgang'>('ausgang')
   const [fehler, setFehler] = useState<string>()
   const [loeschen, setLoeschen] = useState<Interaktion | null>(null)
+
+  const [kiAntwort, setKiAntwort] = useState<Interaktion | null>(null)
   const [weiter, setWeiter] = useState(false)
 
   const eintraege = data.interaktionen
@@ -241,6 +246,15 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
                   </p>
                 )}
                 <p className={styles.text}>{i.text}</p>
+                {i.art === 'email' && i.richtung === 'eingang' && (
+                  <NurMit bereich="ki">
+                    <div>
+                      <Button size="sm" variant="ghost" onClick={() => setKiAntwort(i)}>
+                        Antwort mit KI
+                      </Button>
+                    </div>
+                  </NurMit>
+                )}
                 {projekt && (
                   <Link to={`/projekte/${projekt.id}`} className={styles.projekt}>
                     {projekt.titel}
@@ -278,6 +292,7 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
           <p>Der Eintrag vom {formatDatum(loeschen.datum)} wird endgültig gelöscht.</p>
         </ConfirmDialog>
       )}
+      {kiAntwort && <KiDialog aufgabe="antwort" eingabe={antwortEingabe(data, kiAntwort)} onSchliessen={() => setKiAntwort(null)} />}
     </>
   )
 }

@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { NurMit } from '../../components/NurMit.tsx'
+import { mailAntwortEingabe } from '../../domain/selectors/kiEingaben.ts'
+import { KiDialog } from '../ki/KiDialog.tsx'
 import { Link } from 'react-router'
 import { useGmailDienst, useGoogle } from '../../app/gmailContext.ts'
 import { Seite } from '../../components/layout/Seite.tsx'
@@ -99,6 +102,7 @@ function MailKarte({ mail }: { mail: Mail }) {
   const { zeige } = useToast()
   const [kontaktId, setKontaktId] = useState(mail.kontaktId ?? NEUER_KONTAKT)
   const [bewerbungId, setBewerbungId] = useState(mail.bewerbungId ?? '')
+  const [ki, setKi] = useState(false)
   const titelId = `mail-${mail.id}`
   const kontakt = data.kontakte.find((k) => k.id === kontaktId)
   const unternehmen = data.unternehmen.find((u) => u.id === (kontakt?.unternehmenId ?? mail.unternehmenId))
@@ -153,10 +157,16 @@ function MailKarte({ mail }: { mail: Mail }) {
       </div>
       <div className={styles.knoepfe}>
         <Button onClick={uebernehmen}>{neuerKontakt ? 'Kontakt anlegen und übernehmen' : 'In den Verlauf übernehmen'}</Button>
+        <NurMit bereich="ki">
+          <Button variant="secondary" onClick={() => setKi(true)}>
+            Antwort mit KI
+          </Button>
+        </NurMit>
         <Button variant="ghost" onClick={verwerfen}>
           Verwerfen
         </Button>
       </div>
+      {ki && <KiDialog aufgabe="antwort" eingabe={mailAntwortEingabe(data, mail)} onSchliessen={() => setKi(false)} />}
     </article>
   )
 }
