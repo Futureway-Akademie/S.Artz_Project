@@ -2266,19 +2266,23 @@
           "description": "Lebenslauf, Zeugnisse und Anschreiben verschlüsselt ablegen (Supabase Storage nur Chiffretext) und an Bewerbungen hängen.",
           "order": 5,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Dateien nur verschlüsselt gespeichert",
             "Dokumente an Bewerbungen anhängbar"
           ],
-          "startedAt": "2026-10-08T09:55:24Z",
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:55:44Z",
+          "completedAt": "2026-10-08T10:01:42Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Dokumente: Dateien (max. 10 MB) werden im Browser mit dem Datenschlüssel des Tresors verschlüsselt (AES-GCM, Kennung PKZ1), lokal in IndexedDB und – angemeldet – zusätzlich in Supabase Storage (privater Bucket, je Konto eigener Ordner, Gesperrte ohne Zugriff, Regeln mit PGlite getestet) gespeichert; Speicher lehnen Klartext ab. Schema v11 mit Sammlung dokumente (Name, Typ, Größe, Pfad, Bewerbungen). Seite Bewerbungen → Dokumente (hinzufügen, öffnen, löschen überall) und Panel auf der Bewerbung (hinzufügen, vorhandene anhängen, lösen). Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:01:42Z"
           }
         }
       ]

@@ -135,6 +135,7 @@ export function TresorGate({ basis, children, iterationen = STANDARD_ITERATIONEN
         await speicher.schluesselWechseln(wiederherstellungEntfernen(speicher.aktuellerSchluessel()))
         setWiederherstellungEmail(null)
       },
+      datenschluessel: () => speicher.aktuellerSchluessel().datenschluessel,
     }
   }, [speicher, basis, sperren, sperreMinuten, iterationen, wiederherstellungEmail])
 

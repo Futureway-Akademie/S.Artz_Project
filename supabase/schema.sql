@@ -188,3 +188,28 @@ language sql security definer set search_path = public as $$
   on conflict (user_id, monat) do update set tokens = public.ki_nutzung.tokens + excluded.tokens, aufrufe = public.ki_nutzung.aufrufe + 1
 $$;
 revoke all on function public.ki_verbrauch_buchen(uuid, bigint) from public, anon, authenticated;
+
+-- ============================================================================
+-- Dokumente (Roadmap v7): privater Speicher-Bucket, je Konto ein eigener Ordner.
+-- Hochgeladen werden nur im Browser verschlüsselte Dateien.
+-- ============================================================================
+
+do $$
+begin
+  if exists (select 1 from pg_namespace where nspname = 'storage') then
+    insert into storage.buckets (id, name, public) values ('dokumente', 'dokumente', false) on conflict (id) do nothing;
+
+    execute 'drop policy if exists "dokumente_lesen" on storage.objects';
+    execute 'drop policy if exists "dokumente_anlegen" on storage.objects';
+    execute 'drop policy if exists "dokumente_aendern" on storage.objects';
+    execute 'drop policy if exists "dokumente_loeschen" on storage.objects';
+    execute $p$create policy "dokumente_lesen" on storage.objects for select to authenticated
+      using (bucket_id = 'dokumente' and (storage.foldername(name))[1] = auth.uid()::text and not public.ist_gesperrt())$p$;
+    execute $p$create policy "dokumente_anlegen" on storage.objects for insert to authenticated
+      with check (bucket_id = 'dokumente' and (storage.foldername(name))[1] = auth.uid()::text and not public.ist_gesperrt())$p$;
+    execute $p$create policy "dokumente_aendern" on storage.objects for update to authenticated
+      using (bucket_id = 'dokumente' and (storage.foldername(name))[1] = auth.uid()::text and not public.ist_gesperrt())$p$;
+    execute $p$create policy "dokumente_loeschen" on storage.objects for delete to authenticated
+      using (bucket_id = 'dokumente' and (storage.foldername(name))[1] = auth.uid()::text and not public.ist_gesperrt())$p$;
+  end if;
+end $$;

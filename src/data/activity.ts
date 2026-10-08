@@ -138,6 +138,11 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
       projektIds: 'Projekte',
     },
   },
+  dokumente: {
+    einzahl: 'Dokument',
+    titel: (d: Eintrag<'dokumente'>) => d.name,
+    felder: { ...gemeinsam, name: 'Name', bewerbungIds: 'Bewerbungen' },
+  },
   mails: {
     einzahl: 'E-Mail',
     // Ohne Betreff und Absender: Das Protokoll soll keine Inhalte Dritter enthalten

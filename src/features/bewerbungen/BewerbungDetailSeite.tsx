@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { DokumentListe } from './Dokumente.tsx'
 import { NurMit } from '../../components/NurMit.tsx'
 import { formatDatum, heute } from '../../domain/dates.ts'
 import { anschreibenEingabe, naechsterSchrittAusAntwort, wiedervorlageAusAntwort, zusammenfassungEingabe } from '../../domain/selectors/kiEingaben.ts'
@@ -76,6 +77,9 @@ export function BewerbungDetailSeite() {
       <div className={styles.raster}>
         <div className={styles.spalte}>
           <Gesamtsicht ziel={{ art: 'bewerbung', id: b.id }} ohne={['kontakte', 'unternehmen']} />
+          <Panel titel="Dokumente">
+            <DokumentListe bewerbungId={b.id} />
+          </Panel>
         </div>
         <div className={styles.spalte}>
           <Panel titel="Angaben">

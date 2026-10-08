@@ -11,6 +11,9 @@ export function BewerbungenNavigation() {
       <NavLink to="/bewerbungen/zielrollen" className={klasse}>
         Zielrollen
       </NavLink>
+      <NavLink to="/bewerbungen/dokumente" className={klasse}>
+        Dokumente
+      </NavLink>
     </nav>
   )
 }

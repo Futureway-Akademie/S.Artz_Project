@@ -74,6 +74,8 @@ const migrations: Record<number, (data: Record<string, unknown>) => Record<strin
   }),
   // v10: Protokoll der KI-Aufrufe (ohne Inhalte)
   9: (data) => ({ ...data, schemaVersion: 10, kiProtokoll: liste(data.kiProtokoll) }),
+  // v11: Dokumente (Inhalte verschlüsselt im Dateispeicher)
+  10: (data) => ({ ...data, schemaVersion: 11, dokumente: liste(data.dokumente) }),
 }
 
 /** Wissens-Prompt → Masterprompt; das Thema wird zum Schlagwort. */

@@ -14,6 +14,7 @@ export function createFakeCloud(
   let rollen: Rolle[] = opts.rollen ?? []
   const einladungen: Array<{ email: string; rolleId: string | null }> = []
   const kiAnfragen: Array<{ aufgabe: string; eingabe: string }> = []
+  const dateien = new Map<string, Uint8Array>()
   const ich = () => profile.find((p) => p.userId === nutzer?.id) ?? null
   const nurAdmin = () => {
     if (!ich()?.istAdmin) throw new Error('Keine Berechtigung für diese Änderung.')
@@ -74,6 +75,13 @@ export function createFakeCloud(
       kiAnfragen.push({ aufgabe, eingabe })
       return { text: opts.kiAntwort?.(aufgabe, eingabe) ?? `KI-Antwort zu ${aufgabe}`, tokens: 100, uebrig: 299_900 }
     },
+    dateiHochladen: async (pfad, daten) => {
+      dateien.set(pfad, daten)
+    },
+    dateiLaden: async (pfad) => dateien.get(pfad) ?? null,
+    dateiLoeschen: async (pfad) => {
+      dateien.delete(pfad)
+    },
   }
 
   return {
@@ -91,6 +99,7 @@ export function createFakeCloud(
     stand: () => stand,
     einladungen,
     kiAnfragen,
+    dateien,
     profile: () => profile,
     setzeProfile: (p: Profil[]) => {
       profile = p

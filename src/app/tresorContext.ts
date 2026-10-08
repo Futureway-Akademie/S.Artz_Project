@@ -12,6 +12,8 @@ export interface TresorValue {
   /** Erzeugt einen neuen Wiederherstellungsschlüssel und liefert den Link für die Mail an sich selbst (ältere Links werden ungültig). */
   wiederherstellungEinrichten: (email: string) => Promise<string>
   wiederherstellungEntfernen: () => Promise<void>
+  /** Datenschlüssel des geöffneten Tresors – zum Ver- und Entschlüsseln von Dateien */
+  datenschluessel: () => CryptoKey
 }
 
 export const TresorContext = createContext<TresorValue | null>(null)

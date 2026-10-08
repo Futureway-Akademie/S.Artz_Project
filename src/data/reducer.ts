@@ -85,6 +85,7 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
     case 'bewerbungen':
       add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.bewerbungId === id))
       add('entknuepft', 'mails', data.mails.filter((m) => m.bewerbungId === id))
+      add('entknuepft', 'dokumente', data.dokumente.filter((d) => d.bewerbungIds.includes(id)))
       add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('bewerbung')))
       add('entknuepft', 'termine', data.termine.filter(bezogen('bewerbung')))
       break
@@ -150,6 +151,7 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
     case 'bewerbungen':
       next.interaktionen = next.interaktionen.map((i) => (i.bewerbungId === id ? { ...i, bewerbungId: null } : i))
       next.mails = next.mails.map((m) => (m.bewerbungId === id ? { ...m, bewerbungId: null } : m))
+      next.dokumente = next.dokumente.map((d) => (d.bewerbungIds.includes(id) ? { ...d, bewerbungIds: d.bewerbungIds.filter((b) => b !== id) } : d))
       next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'bewerbung'))
       next.termine = next.termine.map((t) => ohneBezug(t, 'bewerbung'))
       break

@@ -5,6 +5,7 @@
  */
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Profil, Rolle } from '../../domain/bereiche.ts'
+import { istVerschluesselteDatei } from '../dateien.ts'
 import type { CloudDienst, CloudStand, KiAntwort } from './cloud.ts'
 
 const URL_ = import.meta.env.VITE_SUPABASE_URL as string | undefined
@@ -181,6 +182,36 @@ export const supabaseDienst: CloudDienst = {
     if (error) throw new Error(await fehlerText(error))
     return data as KiAntwort
   },
+
+  async dateiHochladen(pfad, daten) {
+    if (!istVerschluesselteDatei(daten)) throw new Error('Abgebrochen: Nur verschlüsselte Dateien dürfen das Gerät verlassen.')
+    const { c, id } = await mitNutzer()
+    const { error } = await c.storage.from(DOKUMENTE).upload(`${id}/${pfad}`, new Blob([daten as Uint8Array<ArrayBuffer>]), { upsert: true, contentType: 'application/octet-stream' })
+    if (error) throw new Error(error.message)
+  },
+
+  async dateiLaden(pfad) {
+    const { c, id } = await mitNutzer()
+    const { data, error } = await c.storage.from(DOKUMENTE).download(`${id}/${pfad}`)
+    if (error) return null
+    return new Uint8Array(await data.arrayBuffer())
+  },
+
+  async dateiLoeschen(pfad) {
+    const { c, id } = await mitNutzer()
+    const { error } = await c.storage.from(DOKUMENTE).remove([`${id}/${pfad}`])
+    if (error) throw new Error(error.message)
+  },
+}
+
+const DOKUMENTE = 'dokumente'
+
+async function mitNutzer() {
+  const c = await holeClient()
+  const { data } = await c.auth.getSession()
+  const id = data.session?.user.id
+  if (!id) throw new Error('Nicht angemeldet.')
+  return { c, id }
 }
 
 /** Fehlermeldung der Funktion („fehler“ im Antworttext) statt des allgemeinen HTTP-Fehlers */

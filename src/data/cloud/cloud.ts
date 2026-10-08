@@ -56,6 +56,11 @@ export interface CloudDienst {
   // --- KI-Assistent (Roadmap v7) ---
   /** Sendet genau den freigegebenen Text an die KI-Funktion (Claude über AWS Frankfurt) */
   ki: (aufgabe: KiAufgabe, eingabe: string) => Promise<KiAntwort>
+
+  // --- Dokumente (Roadmap v7): nur verschlüsselte Bytes ---
+  dateiHochladen: (pfad: string, daten: Uint8Array) => Promise<void>
+  dateiLaden: (pfad: string) => Promise<Uint8Array | null>
+  dateiLoeschen: (pfad: string) => Promise<void>
 }
 
 /** Schutz vor Versehen: Nur ein verschlüsselter Tresor-Umschlag darf das Gerät verlassen. */

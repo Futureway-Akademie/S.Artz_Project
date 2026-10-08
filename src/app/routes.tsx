@@ -3,6 +3,7 @@ import { AppShell } from '../components/layout/AppShell.tsx'
 import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
 import { BewerbungDetailSeite } from '../features/bewerbungen/BewerbungDetailSeite.tsx'
 import { BewerbungenSeite } from '../features/bewerbungen/BewerbungenSeite.tsx'
+import { DokumenteSeite } from '../features/bewerbungen/Dokumente.tsx'
 import { ZielrollenSeite } from '../features/bewerbungen/ZielrollenSeite.tsx'
 import { DashboardSeite } from '../features/dashboard/DashboardSeite.tsx'
 import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
@@ -66,6 +67,7 @@ export function AppRoutes() {
         <Route path="bewerbungen">
           <Route index element={<BewerbungenSeite />} />
           <Route path="zielrollen" element={<ZielrollenSeite />} />
+          <Route path="dokumente" element={<DokumenteSeite />} />
           <Route path=":id" element={<BewerbungDetailSeite />} />
         </Route>
         <Route path="postfach" element={<PostfachSeite />} />

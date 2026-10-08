@@ -1,0 +1,33 @@
+.bereich {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.dateiKnopf {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-blue);
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+}
+
+.dateiKnopf:hover {
+  background: var(--color-blue-strong);
+}
+
+input:focus-visible + .dateiKnopf,
+.aktionen:focus-within .dateiKnopf {
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-blue);
+}

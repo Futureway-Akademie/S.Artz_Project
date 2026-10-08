@@ -276,3 +276,6 @@
 {"timestamp":"2026-10-08T09:55:24Z","type":"task_completed","taskId":"task-17-1","summary":"Task 'Google-Kalender lesen' abgeschlossen."}
 {"timestamp":"2026-10-08T09:55:24Z","type":"task_ready","taskId":"task-17-2","summary":"Task 'Termine in Google-Kalender eintragen' ist startbar."}
 {"timestamp":"2026-10-08T09:55:24Z","type":"task_started","taskId":"task-17-5","summary":"Task 'Dokumente' gestartet."}
+{"timestamp":"2026-10-08T09:55:44Z","type":"task_started","taskId":"task-17-5","summary":"Task 'Dokumente' gestartet."}
+{"timestamp":"2026-10-08T10:01:42Z","type":"verification_passed","taskId":"task-17-5","summary":"Verschlüsselung, Cloud-Rückholung, Löschen und Storage-Regeln getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:01:42Z","type":"task_completed","taskId":"task-17-5","summary":"Task 'Dokumente' abgeschlossen."}
