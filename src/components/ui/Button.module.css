@@ -27,6 +27,14 @@
   padding: 0 var(--space-3);
 }
 
+/* Auf Touch-Geräten auch kleine Knöpfe mit voller Tippfläche */
+@media (pointer: coarse) {
+  .sm {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
 .md {
   min-height: var(--control-height);
 }

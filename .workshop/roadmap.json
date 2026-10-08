@@ -2380,18 +2380,22 @@
           "description": "Touch-Ziele, Navigation, Schnellerfassung und KI am Handy optimieren.",
           "order": 4,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Alle Bereiche bei 375 px bequem bedienbar"
           ],
           "startedAt": "2026-10-08T10:12:27Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T10:16:54Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Handy-Bedienung: automatische Prüfung aller Seiten bei 375 px mit Demo-Daten (gebaute App, Touch-Emulation): kein horizontaler Überlauf; Tippflächen auf Touch-Geräten mind. 44 px für eigenständige Links (Kopfzeilen, Listen, Angaben, Hinweise) und Knöpfe, kleine Knöpfe mit voller Tippfläche, Unter-Navigation bricht um statt abgeschnitten zu werden, Kalender-Filter mit größeren Häkchen. Rest: Tabellen-Umschalter und Monatstage 32 px (über WCAG-Minimum 24 px). Testdaten danach gelöscht. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:16:54Z"
           }
         }
       ]

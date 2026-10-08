@@ -33,6 +33,7 @@
   align-items: center;
   gap: var(--space-1);
   padding-left: var(--space-2);
+  min-height: var(--control-height);
   border-left: 4px solid var(--art-farbe);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
@@ -265,4 +266,10 @@
   .zellListe {
     display: block;
   }
+}
+
+.check input {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-blue);
 }
