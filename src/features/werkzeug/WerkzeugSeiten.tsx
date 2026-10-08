@@ -40,6 +40,7 @@ import crm from '../kontakte/crm.module.css'
 import styles from './Werkzeug.module.css'
 import { Ausfuellen } from './Ausfuellen.tsx'
 import { Schritte } from './Schritte.tsx'
+import { VorlagenDialog } from './VorlagenDialog.tsx'
 import { WerkzeugDialog } from './WerkzeugDialog.tsx'
 import { inZwischenablage } from './zwischenablage.ts'
 
@@ -51,9 +52,18 @@ export function WerkzeugUebersicht() {
   const zaehler = werkzeugZaehler(data)
   const zuletzt = zuletztGeaenderteWerkzeuge(data)
   const abos = aboUebersicht(data)
+  const [vorlagen, setVorlagen] = useState(false)
 
   return (
-    <Seite titel="Werkzeugkasten" einleitung="Deine KI-Werkzeuge an einem Ort: Prompts, Befehle, Agenten, Pläne und Abos – verschlüsselt und mit Projekten verknüpft.">
+    <Seite
+      titel="Werkzeugkasten"
+      einleitung="Deine KI-Werkzeuge an einem Ort: Prompts, Befehle, Agenten, Pläne und Abos – verschlüsselt und mit Projekten verknüpft."
+      aktionen={
+        <Button variant="secondary" onClick={() => setVorlagen(true)}>
+          Startvorlagen
+        </Button>
+      }
+    >
       <ul className={styles.kacheln} aria-label="Bereiche des Werkzeugkastens">
         {WERKZEUG_TYPEN.map((t) => (
           <li key={t}>
@@ -85,6 +95,7 @@ export function WerkzeugUebersicht() {
           </ul>
         </Panel>
       )}
+      {vorlagen && <VorlagenDialog onSchliessen={() => setVorlagen(false)} />}
     </Seite>
   )
 }

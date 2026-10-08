@@ -81,6 +81,25 @@ describe('Werkzeugkasten', () => {
   })
 
   describe('Bedienung', () => {
+    it('übernimmt Startvorlagen und erkennt bereits vorhandene', () => {
+      const { gespeichert } = renderApp('/werkzeug', { daten: { ...daten(), werkzeug: [werkzeug('x', 'befehl', { titel: 'Alle Prüfungen' })] } })
+      fireEvent.click(screen.getByRole('button', { name: 'Startvorlagen' }))
+      const dialog = screen.getByRole('dialog', { name: 'Startvorlagen' })
+      expect(within(dialog).getByRole('checkbox', { name: /Alle Prüfungen/ })).toBeDisabled()
+      fireEvent.click(within(dialog).getByRole('checkbox', { name: 'Code-Review' }))
+      const knopf = within(dialog).getByRole('button', { name: /^Übernehmen/ })
+      const anzahl = Number(knopf.textContent!.match(/\d+/)![0])
+      fireEvent.click(knopf)
+      act(() => {
+        window.dispatchEvent(new Event('pagehide'))
+      })
+      const titel = gespeichert().werkzeug.map((w) => w.titel)
+      expect(titel).toHaveLength(anzahl + 1)
+      expect(titel).toContain('MCP-Server in Claude Code einrichten')
+      expect(titel).not.toContain('Code-Review')
+      expect(titel.filter((t) => t === 'Alle Prüfungen')).toHaveLength(1)
+    })
+
     it('legt ein Abo mit Kosten und Frist an – Summe, Cockpit und Dashboard zeigen es', () => {
       vi.useFakeTimers({ toFake: ['Date'] })
       vi.setSystemTime(now)

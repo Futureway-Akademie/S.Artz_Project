@@ -136,3 +136,21 @@
   background: var(--color-blue-soft);
   color: var(--color-dark);
 }
+
+.vorlagenGruppe {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  border: none;
+}
+
+.vorlagenGruppe legend {
+  margin-bottom: var(--space-1);
+  font-weight: var(--font-weight-bold);
+}
+
+.vorhanden {
+  color: var(--text-muted);
+  font-weight: var(--font-weight-regular);
+}

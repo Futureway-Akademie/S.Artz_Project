@@ -1707,7 +1707,7 @@
       "description": "Supabase gemeinsam einrichten, automatische Tests auf GitHub, Werkzeugkasten mit Startvorlagen.",
       "order": 13,
       "weight": 5,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-13-1",
@@ -1737,19 +1737,21 @@
           "description": "GitHub Actions: Typecheck, Lint, Tests und Build bei jedem Push und Pull Request; Datenschutz-Wächter läuft mit.",
           "order": 2,
           "weight": 1,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Workflow läuft bei Push und PR",
             "Fehlschlag bei roten Tests oder Wächter-Treffer"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T08:57:46Z",
+          "completedAt": "2026-10-08T09:00:32Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "GitHub-Actions-Workflow .github/workflows/ci.yml (Typecheck, Lint, Tests inkl. axe und Verbindungs-Wächter, Build) bei Push und PR; erster Lauf 37753386309 auf GitHub erfolgreich. Der Datenschutz-Wächter läuft lokal vor jedem Push, da die privaten Begriffe nicht im Repository liegen.",
+            "commands": [
+              "gh run watch 37753386309 --exit-status"
+            ],
+            "checkedAt": "2026-10-08T09:00:32Z"
           }
         },
         {
@@ -1758,19 +1760,23 @@
           "description": "Neutrale Startvorlagen zum Übernehmen: Masterprompts, Claude-Code- und Git-Befehle, Anleitungen (MCP-Server, Supabase, Claude Code), Abo-Einträge zum Ausfüllen; nichts Persönliches im Repository.",
           "order": 3,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Vorlagen per Klick übernehmbar",
             "Keine persönlichen Inhalte im Repository (Wächter grün)"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:00:33Z",
+          "completedAt": "2026-10-08T09:01:46Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Startvorlagen-Dialog im Werkzeugkasten mit 24 neutralen Vorlagen (Masterprompts, Befehle, Agent, Skill, Anleitungen inkl. MCP-Server und Supabase, Integrationen, Workflow, Abos ohne Beträge); Auswahl, bereits Vorhandenes wird erkannt. Wächter grün, Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:01:46Z"
           }
         }
       ]
