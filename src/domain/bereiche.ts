@@ -85,3 +85,14 @@ export function darfPfad(rechte: Rechte, pfad: string): boolean {
   if (b === 'admin') return rechte.istAdmin
   return b === null || darf(rechte, b)
 }
+
+/**
+ * Einen Bereich für einen Nutzer ein- oder ausschalten: Abweichungen von der Rolle werden in
+ * `bereicheAn`/`bereicheAus` festgehalten, Überflüssiges wird entfernt.
+ */
+export function bereichUmschalten(profil: Pick<Profil, 'bereicheAn' | 'bereicheAus'>, rolle: readonly string[], bereich: Bereich, an: boolean): Pick<Profil, 'bereicheAn' | 'bereicheAus'> {
+  const ohne = (liste: string[]) => liste.filter((b) => b !== bereich)
+  const inRolle = rolle.includes(bereich)
+  if (an) return { bereicheAn: inRolle ? ohne(profil.bereicheAn) : [...ohne(profil.bereicheAn), bereich], bereicheAus: ohne(profil.bereicheAus) }
+  return { bereicheAn: ohne(profil.bereicheAn), bereicheAus: inRolle ? [...ohne(profil.bereicheAus), bereich] : ohne(profil.bereicheAus) }
+}

@@ -1850,7 +1850,7 @@
           "description": "Nutzerliste, Rollen-Vorlagen bearbeiten, Rolle zuweisen, Bereiche je Nutzer ein- und ausschalten, Nutzer sperren und entsperren. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-14-1"
           ],
@@ -1860,12 +1860,16 @@
             "Nutzer sperren und entsperren"
           ],
           "startedAt": "2026-10-08T09:12:39Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T09:15:52Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Admin-Seite /admin (Nutzer & Rollen): einladen mit Rolle, Nutzerkarten mit Rolle, Bereichen je Nutzer (Abweichungen von der Rolle gekennzeichnet), Sperren mit Bestätigung und Entsperren; Rollen anlegen, Bereiche je Rolle, löschen. Nur für Admins, sonst Hinweis. Tests mit nachgebauter Cloud grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:15:52Z"
           }
         },
         {
@@ -1874,7 +1878,7 @@
           "description": "Nicht freigegebene Bereiche verschwinden aus Navigation, Suche, Schnellerfassung, Cockpit und Dashboard; direkte Aufrufe zeigen „Kein Zugriff“. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-14-3"
           ],
@@ -1882,7 +1886,7 @@
             "Gesperrte Bereiche nirgends sichtbar",
             "Direktaufruf zeigt „Kein Zugriff“"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:15:52Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
@@ -1897,7 +1901,7 @@
           "description": "Sascha gibt einzelne Bereiche seiner Daten an Nutzer frei: Bereichsschlüssel je berechtigtem Nutzer verpackt; beim Entziehen Schlüsseltausch, damit der Zugriff auch kryptografisch endet.",
           "order": 5,
           "weight": 5,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-14-2",
             "task-14-3"

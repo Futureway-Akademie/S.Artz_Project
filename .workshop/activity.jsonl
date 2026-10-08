@@ -232,3 +232,8 @@
 {"timestamp":"2026-10-08T09:12:39Z","type":"verification_passed","taskId":"task-14-2","summary":"Einladungsprüfung, Erstanmeldung und Geräteschutz getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T09:12:39Z","type":"task_completed","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' abgeschlossen."}
 {"timestamp":"2026-10-08T09:12:39Z","type":"task_started","taskId":"task-14-3","summary":"Task 'Admin-Bereich' gestartet."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"verification_passed","taskId":"task-14-3","summary":"Admin-Bereich (Einladen, Rollen, Bereiche, Sperren) getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_completed","taskId":"task-14-3","summary":"Task 'Admin-Bereich' abgeschlossen."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_ready","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' ist startbar."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_ready","taskId":"task-14-5","summary":"Task 'Geteilte Bereiche' ist startbar."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_started","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' gestartet."}
