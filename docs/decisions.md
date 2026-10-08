@@ -543,3 +543,38 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 
 - Alte Commits enthalten nur Namen (Projekttitel, zwei Firmen, Zielrollen) und Kursangaben, keine Projektinhalte; per Abgleich mit allen lokalen Detailtexten geprüft.
 - Sascha: „Die Daten stören mich nicht, solange es nur die Namen sind und nicht die Projekte an sich.“ Deshalb kein Umschreiben der Historie und kein Force-Push. Neue Inhalte bleiben wie bisher nur lokal (`seed.privat.ts`, Wächter-Test vor jedem Push).
+
+## 2026-10-08 – Planung Roadmap v7 (Zwischenstand, noch nicht in der Roadmap)
+
+Die Planung mit Sascha läuft. Sobald sie abgeschlossen und bestätigt ist, wird daraus Roadmap v7. Festgehalten bisher:
+
+- **Zielbild:**
+  - Arbeitsalltag, Portfolio-Projekt, späteres PIKARTZ.AI-Produkt und Lernprojekt – alles zusammen
+  - Nutzung am PC und vollständig am Handy
+  - viel KI im Cockpit (KI-Assistent)
+  - kein festes Enddatum
+- **Fester Termin:** Präsentation am 21.10.2026
+- **Gewünschte Bausteine:**
+  - Inbetriebnahme
+  - online und am Handy nutzbar
+  - Praxistest und Feinschliff
+  - Werkzeugkasten befüllen
+  - Automationen echt anbinden
+  - Google-Kalender
+  - KI im Cockpit
+  - automatische Tests auf GitHub
+  - weitere folgen in der Planung
+- **Datenschutz-Richtung (vorgeschlagen, noch nicht bestätigt):**
+  - Hosting in Deutschland (Hetzner oder IONOS) statt Vercel
+  - Supabase in der Region EU (Frankfurt)
+  - KI über Claude auf AWS Bedrock Frankfurt; Alternativen Mistral oder Langdock
+  - Daten an die KI nur nach Freigabe pro Aktion
+  - Push-Nachrichten ohne Inhalt
+- **Für das Ende vorgemerkt (Saschas Wunsch):**
+  - Aufgabe „AVVs abschließen“ (Auftragsverarbeitungsverträge, Art. 28 DSGVO) mit Klick-Anleitung je Anbieter:
+    - Supabase: Legal Documents
+    - AWS: in den Bedingungen enthalten
+    - Hetzner/IONOS: im Kundenkonto
+    - Gmail: nicht nötig
+  - Dazu ein Verzeichnis der Verarbeitungen
+  - Für das Produkt zusätzlich Datenschutzerklärung und Impressum
