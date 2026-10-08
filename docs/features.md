@@ -45,6 +45,6 @@ Anschreiben entwerfen, Mails und Verlauf zusammenfassen, nächsten Schritt vorsc
 - **Gesamtsicht:** Jede Detailseite zeigt „Alles dazu“, auch indirekte Verknüpfungen.
 - **Sicherheit:** AES-256-Verschlüsselung mit Passwort, automatische Sperre, Wiederherstellung per Link in der eigenen Mail, verschlüsselte Sicherung und verschlüsselter Import.
 - **Synchronisierung** (optional): Ende-zu-Ende-verschlüsselt über Supabase, mit Konfliktbehandlung zwischen Geräten.
-- **Mehrbenutzer** (optional): Einladung, Rollen, Bereiche je Nutzer, Sperre, Ende-zu-Ende-verschlüsselt geteilte Bereiche.
+- **Mehrbenutzer** (optional): Einladung, Rollen, Bereiche je Nutzer, Sperre, Ende-zu-Ende-verschlüsselt geteilte Bereiche, Freigabe-Kreis (wer mit wem teilen und Aufgaben übergeben darf) und Recht „Teilen und Aufgaben übergeben“ je Rolle oder Nutzer.
 - **Handy:** als App installierbar (PWA), Tippflächen ab 44 px, Push-Erinnerungen ohne Inhalte.
 - **PIKARTZ.AI:** Marke mit Logos, Farben, Designregeln und Präsentations-System.

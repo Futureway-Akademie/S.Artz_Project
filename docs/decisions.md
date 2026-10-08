@@ -668,3 +668,12 @@ Mit Sascha geplant und bestätigt; eingetragen als Roadmap v8 (Phasen 20–22, 1
 - **Sascha hat entschieden:** Pflicht je Rolle einstellbar. Für den Admin ist sie immer Pflicht.
 - Durchsetzung serverseitig: Bei Pflicht verlangen Datenbankregeln und Funktionen die bestätigte zweite Stufe.
 - Ausfall des Geräts: zwei Geräte eintragbar, der Admin kann den Faktor eines Nutzers zurücksetzen.
+
+## 2026-10-08 – Freigabe-Kreis (task-20-1)
+
+- **Paare statt Gruppen:** Der Admin hakt im Admin-Bereich je Nutzer an, mit wem er teilen und Aufgaben übergeben darf. Ein Paar gilt in beide Richtungen und steht genau einmal in `freigabe_kreis` (kleinere ID zuerst).
+- **Recht „Teilen und Aufgaben übergeben“:** je Rolle (`rollen.darf_teilen`), je Nutzer abweichend (`profile.darf_teilen`, leer = wie die Rolle). Der Admin darf immer und mit allen; Gesperrte nie.
+- **Empfangen braucht kein Recht:** Wer im Kreis einer berechtigten Person ist, kann von ihr etwas bekommen, auch ohne selbst teilen zu dürfen.
+- **Durchsetzung in der Datenbank:** `darf_teilen_mit(anderer)` ist die gemeinsame Prüfung für das Teilen (task-20-2) und den Briefkasten (task-20-3). Empfänger-Schlüssel (`freigabe_schluessel`) lassen sich nur noch für erlaubte Partner schreiben.
+- **Gesperrte Empfänger:** Die Prüfung beim Schreiben lässt sie zu, damit das automatische Neu-Verschlüsseln nicht an ihnen scheitert. Lesen können sie ohnehin nichts, und in der Auswahl (`meine_kreis_partner()`) erscheinen sie nicht.
+- **Nach dem Update:** `supabase/schema.sql` im Supabase-SQL-Editor erneut ausführen (gefahrlos wiederholbar).

@@ -4,7 +4,7 @@
  * Zu Supabase gehen nur: E-Mail-Adresse (Login) und der verschlüsselte Umschlag – nie Klartext.
  */
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { Profil, Rolle } from '../../domain/bereiche.ts'
+import { kreisPaar, type Profil, type Rolle } from '../../domain/bereiche.ts'
 import { istVerschluesselteDatei } from '../dateien.ts'
 import type { FreigabeUmschlag, VerschluesselterText } from '../freigabe/freigabeKrypto.ts'
 import type { CloudDienst, CloudStand, EigeneFreigabe, ErhalteneFreigabe, KiAntwort, WebhookInfo } from './cloud.ts'
@@ -12,7 +12,17 @@ import type { CloudDienst, CloudStand, EigeneFreigabe, ErhalteneFreigabe, KiAntw
 const URL_ = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 const TABELLE = 'tresor'
-const PROFIL_FELDER = 'user_id, email, anzeigename, rolle_id, ist_admin, gesperrt, bereiche_an, bereiche_aus'
+const PROFIL_FELDER = 'user_id, email, anzeigename, rolle_id, ist_admin, gesperrt, bereiche_an, bereiche_aus, darf_teilen'
+const ROLLEN_FELDER = 'id, name, bereiche, darf_teilen'
+
+interface RolleZeile {
+  id: string
+  name: string
+  bereiche: string[]
+  darf_teilen: boolean | null
+}
+
+const alsRolle = (z: RolleZeile): Rolle => ({ id: z.id, name: z.name, bereiche: z.bereiche ?? [], darfTeilen: Boolean(z.darf_teilen) })
 
 interface ProfilZeile {
   user_id: string
@@ -23,6 +33,7 @@ interface ProfilZeile {
   gesperrt: boolean
   bereiche_an: string[]
   bereiche_aus: string[]
+  darf_teilen: boolean | null
 }
 
 const alsProfil = (z: ProfilZeile): Profil => ({
@@ -34,6 +45,7 @@ const alsProfil = (z: ProfilZeile): Profil => ({
   gesperrt: z.gesperrt,
   bereicheAn: z.bereiche_an ?? [],
   bereicheAus: z.bereiche_aus ?? [],
+  darfTeilen: z.darf_teilen ?? null,
 })
 
 const pruefe = <T,>(antwort: { data: T; error: { message: string } | null }): T => {
@@ -140,8 +152,8 @@ export const supabaseDienst: CloudDienst = {
   },
 
   async rollen(): Promise<Rolle[]> {
-    const zeilen = pruefe(await (await holeClient()).from('rollen').select('id, name, bereiche').order('name'))
-    return (zeilen ?? []) as Rolle[]
+    const zeilen = pruefe(await (await holeClient()).from('rollen').select(ROLLEN_FELDER).order('name').returns<RolleZeile[]>())
+    return (zeilen ?? []).map(alsRolle)
   },
 
   async profile() {
@@ -151,10 +163,11 @@ export const supabaseDienst: CloudDienst = {
 
   async rolleSpeichern(rolle) {
     const c = await holeClient()
+    const felder = { name: rolle.name, bereiche: rolle.bereiche, darf_teilen: rolle.darfTeilen ?? false }
     const zeile = rolle.id
-      ? pruefe(await c.from('rollen').update({ name: rolle.name, bereiche: rolle.bereiche }).eq('id', rolle.id).select('id, name, bereiche').single())
-      : pruefe(await c.from('rollen').insert({ name: rolle.name, bereiche: rolle.bereiche }).select('id, name, bereiche').single())
-    return zeile as Rolle
+      ? pruefe(await c.from('rollen').update(felder).eq('id', rolle.id).select(ROLLEN_FELDER).single<RolleZeile>())
+      : pruefe(await c.from('rollen').insert(felder).select(ROLLEN_FELDER).single<RolleZeile>())
+    return alsRolle(zeile!)
   },
 
   async rolleLoeschen(id) {
@@ -168,6 +181,7 @@ export const supabaseDienst: CloudDienst = {
     if (a.istAdmin !== undefined) felder.ist_admin = a.istAdmin
     if (a.bereicheAn !== undefined) felder.bereiche_an = a.bereicheAn
     if (a.bereicheAus !== undefined) felder.bereiche_aus = a.bereicheAus
+    if (a.darfTeilen !== undefined) felder.darf_teilen = a.darfTeilen
     // Die Datenbank lässt Änderungen nur durch den Admin zu (RLS); ohne Treffer gab es keine Berechtigung
     const zeilen = pruefe(await (await holeClient()).from('profile').update(felder).eq('user_id', userId).select('user_id'))
     if (!zeilen || zeilen.length === 0) throw new Error('Keine Berechtigung für diese Änderung.')
@@ -279,6 +293,24 @@ export const supabaseDienst: CloudDienst = {
       const s = schluessel.find((x) => x.besitzer_id === f.besitzer_id && x.bereich === f.bereich && x.version === f.version)
       return s ? [{ besitzerId: f.besitzer_id as string, bereich: f.bereich as string, version: f.version as number, umschlag: f.umschlag as FreigabeUmschlag, verpackt: s.verpackt as string, aktualisiertAm: f.aktualisiert_am as string }] : []
     })
+  },
+
+  async freigabeKreis() {
+    const zeilen = pruefe(await (await holeClient()).from('freigabe_kreis').select('nutzer_a, nutzer_b')) ?? []
+    return zeilen.map((z) => ({ a: z.nutzer_a as string, b: z.nutzer_b as string }))
+  },
+
+  async kreisPaarSetzen(x, y, an) {
+    const c = await holeClient()
+    const p = kreisPaar(x, y)
+    // Nur der Admin darf das (Regel in der Datenbank); Doppeltes wird ignoriert
+    if (an) pruefe(await c.from('freigabe_kreis').upsert({ nutzer_a: p.a, nutzer_b: p.b }, { onConflict: 'nutzer_a,nutzer_b', ignoreDuplicates: true }))
+    else pruefe(await c.from('freigabe_kreis').delete().eq('nutzer_a', p.a).eq('nutzer_b', p.b))
+  },
+
+  async kreisPartner() {
+    const zeilen = pruefe(await (await holeClient()).rpc('meine_kreis_partner')) as Array<{ user_id: string; email: string; anzeigename: string }> | null
+    return (zeilen ?? []).map((z) => ({ userId: z.user_id, email: z.email, anzeigename: z.anzeigename }))
   },
 
   async pushAbos() {

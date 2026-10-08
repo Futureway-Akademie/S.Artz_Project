@@ -321,6 +321,76 @@ revoke all on public.freigaben from anon;
 revoke all on public.freigabe_schluessel from anon;
 
 -- ============================================================================
+-- Freigabe-Kreis (Roadmap v8): Der Admin legt fest, wer mit wem teilen und Aufgaben übergeben darf.
+-- Dazu das Recht „darf teilen“ je Rolle, je Nutzer abweichend einstellbar (null = wie die Rolle).
+-- Der Admin darf immer teilen; Gesperrte nie, und mit Gesperrten auch niemand.
+-- ============================================================================
+
+alter table public.rollen add column if not exists darf_teilen boolean not null default false;
+alter table public.profile add column if not exists darf_teilen boolean;
+
+create table if not exists public.freigabe_kreis (
+  nutzer_a uuid not null references auth.users (id) on delete cascade,
+  nutzer_b uuid not null references auth.users (id) on delete cascade,
+  erstellt_am timestamptz not null default now(),
+  primary key (nutzer_a, nutzer_b),
+  -- ungerichtet: jedes Paar genau einmal, kleinere ID zuerst
+  constraint kreis_reihenfolge check (nutzer_a < nutzer_b)
+);
+
+alter table public.freigabe_kreis enable row level security;
+drop policy if exists "kreis_lesen" on public.freigabe_kreis;
+drop policy if exists "kreis_anlegen" on public.freigabe_kreis;
+drop policy if exists "kreis_loeschen" on public.freigabe_kreis;
+-- Lesen: der Admin alles, Nutzer nur die eigenen Paare; Ändern nur der Admin
+create policy "kreis_lesen" on public.freigabe_kreis for select to authenticated
+  using (public.ist_admin() or (not public.ist_gesperrt() and auth.uid() in (nutzer_a, nutzer_b)));
+create policy "kreis_anlegen" on public.freigabe_kreis for insert to authenticated with check (public.ist_admin());
+create policy "kreis_loeschen" on public.freigabe_kreis for delete to authenticated using (public.ist_admin());
+revoke all on public.freigabe_kreis from anon;
+revoke update on public.freigabe_kreis from authenticated;
+
+-- Darf der angemeldete Nutzer teilen und Aufgaben übergeben?
+create or replace function public.darf_teilen() returns boolean
+language sql stable security definer set search_path = public as $$
+  select coalesce((
+    select not p.gesperrt and (p.ist_admin or coalesce(p.darf_teilen, r.darf_teilen, false))
+    from public.profile p left join public.rollen r on r.id = p.rolle_id
+    where p.user_id = auth.uid()
+  ), false)
+$$;
+
+-- Darf der angemeldete Nutzer mit dieser Person teilen bzw. ihr etwas übergeben?
+-- Admin: mit allen. Sonst: Recht „darf teilen“ und gemeinsames Paar im Kreis.
+-- Gesperrte Empfänger lesen ohnehin nichts (Regeln beim Lesen); so scheitert z. B. das Neu-Verschlüsseln nicht an ihnen.
+create or replace function public.darf_teilen_mit(anderer uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select public.darf_teilen()
+    and anderer <> auth.uid()
+    and exists (select 1 from public.profile p where p.user_id = anderer)
+    and (
+      public.ist_admin()
+      or exists (select 1 from public.freigabe_kreis k where k.nutzer_a = least(auth.uid(), anderer) and k.nutzer_b = greatest(auth.uid(), anderer))
+    )
+$$;
+
+-- Wen darf ich auswählen? Nur nicht gesperrte Partner, mit denen ich teilen darf (Admin: alle)
+create or replace function public.meine_kreis_partner() returns table (user_id uuid, email text, anzeigename text)
+language sql stable security definer set search_path = public as $$
+  select p.user_id, p.email, p.anzeigename from public.profile p
+  where not p.gesperrt and public.darf_teilen_mit(p.user_id)
+  order by p.email
+$$;
+revoke all on function public.meine_kreis_partner() from public, anon;
+grant execute on function public.meine_kreis_partner() to authenticated;
+
+-- Empfänger-Schlüssel nur für erlaubte Partner (gilt auch für künftiges Teilen durch Nutzer)
+drop policy if exists "freigabe_schluessel_schreiben" on public.freigabe_schluessel;
+create policy "freigabe_schluessel_schreiben" on public.freigabe_schluessel for all to authenticated
+  using (besitzer_id = auth.uid() and public.darf_teilen())
+  with check (besitzer_id = auth.uid() and public.darf_teilen_mit(empfaenger_id));
+
+-- ============================================================================
 -- Erinnerungen per Push (Roadmap v7): Der Server kennt keine Inhalte (Ende-zu-Ende-Verschlüsselung),
 -- er verschickt nur zur gewählten Uhrzeit „Schau, was heute ansteht“. Gespeichert wird nur das Push-Abo.
 -- ============================================================================

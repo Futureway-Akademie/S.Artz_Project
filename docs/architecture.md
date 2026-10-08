@@ -169,7 +169,8 @@ public/brand/                 Logos unverändert
 - Optional Supabase (Roadmap v4): Login per E-Mail-Link, Ende-zu-Ende-verschlüsselte Synchronisierung; Supabase speichert nur E-Mail-Adresse und Chiffretext.
 - Optional Gmail (Roadmap v6): nur `gmail.readonly`, Anmeldung per Weiterleitung ohne Google-Skript, Token nur im Arbeitsspeicher; CSP öffnet dann genau `gmail.googleapis.com` und `oauth2.googleapis.com`. Einziges Modul mit `fetch`: `src/data/gmail/gmail.ts`.
 - **Mehrbenutzer (Roadmap v7):**
-  - Supabase-Tabellen `rollen`, `profile` (erstes Konto = Admin), `schluessel`, `freigaben`, `freigabe_schluessel`, `ki_nutzung`, `webhooks`, `push_abos`, dazu der Bucket `dokumente`.
+  - Supabase-Tabellen `rollen`, `profile` (erstes Konto = Admin), `schluessel`, `freigaben`, `freigabe_schluessel`, `freigabe_kreis`, `ki_nutzung`, `webhooks`, `push_abos`, dazu der Bucket `dokumente`.
+  - **Freigabe-Kreis (Roadmap v8):** Der Admin legt Paare fest, die miteinander teilen und Aufgaben übergeben dürfen. Dazu kommt das Recht „darf teilen“ je Rolle, je Nutzer abweichend. Die Funktionen `darf_teilen()`, `darf_teilen_mit(anderer)` und `meine_kreis_partner()` prüfen das in der Datenbank; Empfänger-Schlüssel lassen sich nur für erlaubte Partner schreiben.
   - Alle Regeln (RLS, Spaltenrechte) stehen in `supabase/schema.sql` und sind mit PGlite getestet (`src/test/supabaseRegeln.test.ts`).
   - Server-Funktionen in `supabase/functions`: `einladen`, `ki` (Claude über AWS Bedrock Frankfurt), `workflow` (n8n/Make), `erinnern` (Push).
 - Werkzeugkasten speichert nie Schlüssel: Eingaben, die wie Schlüssel oder Passwörter aussehen, werden erkannt und erst nach Entfernen oder ausdrücklicher Bestätigung gespeichert; bei Integrationen wird nur der Ablageort notiert.

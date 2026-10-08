@@ -310,3 +310,8 @@
 {"timestamp":"2026-10-08T17:27:21Z","type":"task_ready","taskId":"task-22-5","summary":"Task 'Dateien aus Google Drive' ist startbar."}
 {"timestamp":"2026-10-08T17:33:08Z","type":"roadmap_updated","taskId":"task-22-7","summary":"Task 'Mehrere Google-Konten' ergänzt; task-22-1 für mehrere Microsoft-Konten präzisiert; Abschlussprüfung task-22-6 wartet zusätzlich auf task-22-7. Token bleiben nur im Arbeitsspeicher (Saschas Entscheidung)."}
 {"timestamp":"2026-10-08T17:40:06Z","type":"roadmap_updated","taskId":"task-21-5","summary":"Task 'Zwei-Faktor-Anmeldung' ergänzt (Authenticator-App, Pflicht je Rolle, Admin immer); Abschlussprüfung task-22-6 wartet zusätzlich darauf."}
+{"timestamp":"2026-10-08T18:02:35Z","type":"task_started","taskId":"task-20-1","summary":"Task 'Freigabe-Kreis' gestartet."}
+{"timestamp":"2026-10-08T18:15:43Z","type":"verification_passed","taskId":"task-20-1","summary":"Kreis, Recht je Rolle/Nutzer, RLS (PGlite), Admin-UI und axe geprüft; 459 Tests grün."}
+{"timestamp":"2026-10-08T18:15:43Z","type":"task_completed","taskId":"task-20-1","summary":"Task 'Freigabe-Kreis' abgeschlossen."}
+{"timestamp":"2026-10-08T18:15:43Z","type":"task_ready","taskId":"task-20-2","summary":"Task 'Einzelne Projekte teilen' ist startbar."}
+{"timestamp":"2026-10-08T18:15:43Z","type":"task_ready","taskId":"task-20-3","summary":"Task 'Verschlüsselter Briefkasten' ist startbar."}

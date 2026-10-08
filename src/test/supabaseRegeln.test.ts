@@ -188,4 +188,66 @@ describe('Supabase-Regeln (schema.sql)', () => {
     await expect(als(SASCHA, `update public.profile set ist_admin = false where user_id = '${SASCHA}'`)).rejects.toThrow(/mindestens einen aktiven Admin/)
     await expect(als(SASCHA, `update public.profile set gesperrt = true where user_id = '${SASCHA}'`)).rejects.toThrow(/mindestens einen aktiven Admin/)
   })
+
+  it('Freigabe-Kreis: nur der Admin legt Paare fest; teilen nur mit Recht und nur im Kreis', async () => {
+    const LEA = '00000000-0000-4000-8000-000000000003'
+    const MAX = '00000000-0000-4000-8000-000000000004'
+    const [kunde] = (await db.query<{ id: string }>(`select id from public.rollen where name = 'Kunde'`)).rows
+    await konto(LEA, 'lea@example.org', JSON.stringify({ rolle_id: kunde!.id }))
+    await konto(MAX, 'max@example.org', JSON.stringify({ rolle_id: kunde!.id }))
+    const darf = async (uid: string) => (await als<{ d: boolean }>(uid, `select public.darf_teilen() as d`))[0]!.d
+    const mit = async (uid: string, anderer: string) => (await als<{ d: boolean }>(uid, `select public.darf_teilen_mit('${anderer}') as d`))[0]!.d
+    const partner = async (uid: string) => (await als<{ email: string }>(uid, `select email from public.meine_kreis_partner()`)).map((p) => p.email)
+
+    // Recht „darf teilen“: Admin immer, sonst Rolle, je Nutzer abweichend
+    expect(await darf(SASCHA)).toBe(true)
+    expect(await darf(KIM)).toBe(false)
+    await als(SASCHA, `update public.rollen set darf_teilen = true where name = 'Kunde'`)
+    expect(await darf(KIM)).toBe(true)
+    await als(SASCHA, `update public.profile set darf_teilen = false where user_id = '${MAX}'`)
+    expect(await darf(MAX)).toBe(false)
+    await als(KIM, `update public.profile set darf_teilen = true where user_id = '${MAX}'`)
+    expect(await darf(MAX)).toBe(false)
+
+    // Paare: nur der Admin, jedes Paar genau einmal in fester Reihenfolge
+    await expect(als(KIM, `insert into public.freigabe_kreis (nutzer_a, nutzer_b) values ('${KIM}', '${LEA}')`)).rejects.toThrow()
+    await expect(als(SASCHA, `insert into public.freigabe_kreis (nutzer_a, nutzer_b) values ('${LEA}', '${KIM}')`)).rejects.toThrow(/kreis_reihenfolge/)
+    await als(SASCHA, `insert into public.freigabe_kreis (nutzer_a, nutzer_b) values ('${KIM}', '${LEA}')`)
+    expect(await als(LEA, `select nutzer_a from public.freigabe_kreis`)).toHaveLength(1)
+    expect(await als(MAX, `select nutzer_a from public.freigabe_kreis`)).toEqual([])
+    expect(await als(SASCHA, `select nutzer_a from public.freigabe_kreis`)).toHaveLength(1)
+    await expect(als(null, `select nutzer_a from public.freigabe_kreis`)).rejects.toThrow()
+
+    // Teilen nur im Kreis (in beide Richtungen), nie mit sich selbst; der Admin mit allen
+    expect(await mit(KIM, LEA)).toBe(true)
+    expect(await mit(LEA, KIM)).toBe(true)
+    expect(await mit(KIM, MAX)).toBe(false)
+    expect(await mit(KIM, KIM)).toBe(false)
+    expect(await mit(SASCHA, MAX)).toBe(true)
+    expect(await partner(KIM)).toEqual(['lea@example.org'])
+    expect(await partner(MAX)).toEqual([])
+    expect(await partner(SASCHA)).toEqual(['kim@example.org', 'lea@example.org', 'max@example.org'])
+
+    // Empfänger-Schlüssel nur für erlaubte Partner
+    await als(SASCHA, `insert into public.freigabe_schluessel (besitzer_id, bereich, empfaenger_id, version, verpackt) values ('${SASCHA}', 'wissen', '${MAX}', 1, 'k')`)
+    await expect(als(SASCHA, `insert into public.freigabe_schluessel (besitzer_id, bereich, empfaenger_id, version, verpackt) values ('${SASCHA}', 'wissen', '${SASCHA}', 1, 'k')`)).rejects.toThrow()
+
+    // Gesperrt: darf nichts, taucht bei niemandem als Partner auf, sieht keine Paare
+    await als(SASCHA, `update public.profile set gesperrt = true where user_id = '${LEA}'`)
+    expect(await darf(LEA)).toBe(false)
+    expect(await mit(LEA, KIM)).toBe(false)
+    expect(await partner(KIM)).toEqual([])
+    expect(await als(LEA, `select nutzer_a from public.freigabe_kreis`)).toEqual([])
+    await als(SASCHA, `update public.profile set gesperrt = false where user_id = '${LEA}'`)
+
+    // Paar entfernen: kein Teilen mehr
+    await expect(als(KIM, `delete from public.freigabe_kreis returning nutzer_a`)).resolves.toEqual([])
+    await als(SASCHA, `delete from public.freigabe_kreis where nutzer_a = '${KIM}'`)
+    expect(await mit(KIM, LEA)).toBe(false)
+
+    // Konto gelöscht: Paare verschwinden mit
+    await als(SASCHA, `insert into public.freigabe_kreis (nutzer_a, nutzer_b) values ('${KIM}', '${MAX}')`)
+    await db.exec(`delete from auth.users where id = '${MAX}'`)
+    expect((await db.query(`select count(*)::int as n from public.freigabe_kreis`)).rows[0]).toEqual({ n: 0 })
+  })
 })

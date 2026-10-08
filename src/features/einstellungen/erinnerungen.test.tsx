@@ -43,6 +43,8 @@ describe('Push-Erinnerungen ohne Inhalte', () => {
       </CloudProvider>,
     )
     fireEvent.change(await screen.findByLabelText('Uhrzeit'), { target: { value: '7' } })
+    // Der Knopf ist erst aktiv, wenn die vorhandenen Abos geladen sind
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Erinnerung einschalten' })).toBeEnabled())
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Erinnerung einschalten' }))
     })

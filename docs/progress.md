@@ -4,7 +4,7 @@ Stand: 2026-10-08, Roadmap v8. Die maßgebliche Quelle ist `.workshop/roadmap.js
 
 ## Gesamt
 
-**75 %**: 183 von 244 Gewichtspunkten, 74 von 99 Tasks abgeschlossen.
+**75,82 %**: 185 von 244 Gewichtspunkten, 75 von 99 Tasks abgeschlossen.
 
 ## Phasen
 
@@ -29,7 +29,7 @@ Stand: 2026-10-08, Roadmap v8. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | 17. Anbindungen | abgeschlossen | 5 von 5 | 13 von 13 |
 | 18. Online und Handy | in Arbeit | 3 von 4 | 7 von 9 |
 | 19. Praxis und Abschluss | in Arbeit | 1 von 5 | 2 von 10 |
-| 20. Teilen und Übergeben | startbar | 0 von 6 | 0 von 16 |
+| 20. Teilen und Übergeben | in Arbeit | 1 von 6 | 2 von 16 |
 | 21. Anmeldung | startbar | 0 von 5 | 0 von 12 |
 | 22. Microsoft 365 und Google Drive anbinden | startbar | 0 von 7 | 0 von 19 |
 
@@ -44,9 +44,8 @@ Stand: 2026-10-08, Roadmap v8. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | task-19-2 | Datenschutzerklärung, Impressum, Nutzungsbedingungen | geplant | 2 |
 | task-19-3 | AVVs und Verzeichnis der Verarbeitungen | geplant | 1 |
 | task-19-4 | Abschlussprüfung Roadmap v7 | geplant | 2 |
-| task-20-1 | Freigabe-Kreis | startbar | 2 |
-| task-20-2 | Einzelne Projekte teilen | geplant | 3 |
-| task-20-3 | Verschlüsselter Briefkasten | geplant | 3 |
+| task-20-2 | Einzelne Projekte teilen | startbar | 3 |
+| task-20-3 | Verschlüsselter Briefkasten | startbar | 3 |
 | task-20-4 | Aufgaben übergeben | geplant | 3 |
 | task-20-5 | Auf dem Laufenden bleiben | geplant | 3 |
 | task-20-6 | Abschlussprüfung Teilen und Übergeben | geplant | 2 |

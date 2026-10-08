@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { CloudProvider, RECHTE_KEY } from '../app/CloudProvider.tsx'
 import { useRechte } from '../app/cloudContext.ts'
 import { createFakeCloud } from '../test/fakeCloud.ts'
-import { ALLE_RECHTE, bereichVonPfad, darf, darfPfad, effektiveBereiche, rechteAus, type Profil, type Rolle } from './bereiche.ts'
+import { ALLE_RECHTE, bereichVonPfad, darf, darfPfad, darfTeilen, effektiveBereiche, imKreis, kreisPaar, kreisPartner, rechteAus, type Profil, type Rolle } from './bereiche.ts'
 
 const kunde: Rolle = { id: 'r1', name: 'Kunde', bereiche: ['cockpit', 'projekte', 'kalender', 'unbekannt'] }
 const profil = (extra: Partial<Profil> = {}): Profil => ({
@@ -28,6 +28,28 @@ describe('Bereiche und Rechte', () => {
     const gesperrt = rechteAus(profil({ gesperrt: true }), [kunde])
     expect(gesperrt).toMatchObject({ gesperrt: true })
     expect(darf(gesperrt, 'cockpit')).toBe(false)
+  })
+
+  it('Teilen: Admin immer, Gesperrte nie, sonst Abweichung je Nutzer vor Rolle', () => {
+    const teilende: Rolle = { ...kunde, darfTeilen: true }
+    expect(darfTeilen(profil({ istAdmin: true }), undefined)).toBe(true)
+    expect(darfTeilen(profil(), kunde)).toBe(false)
+    expect(darfTeilen(profil(), teilende)).toBe(true)
+    expect(darfTeilen(profil({ darfTeilen: false }), teilende)).toBe(false)
+    expect(darfTeilen(profil({ darfTeilen: true }), kunde)).toBe(true)
+    expect(darfTeilen(profil({ darfTeilen: true, gesperrt: true }), teilende)).toBe(false)
+    expect(rechteAus(profil(), [teilende]).darfTeilen).toBe(true)
+    expect(rechteAus(profil({ istAdmin: true }), []).darfTeilen).toBe(true)
+    expect(rechteAus(null, []).darfTeilen).toBe(false)
+  })
+
+  it('Freigabe-Kreis: Paare sind ungerichtet', () => {
+    expect(kreisPaar('u3', 'u2')).toEqual({ a: 'u2', b: 'u3' })
+    const paare = [kreisPaar('u2', 'u3'), kreisPaar('u4', 'u2')]
+    expect(imKreis(paare, 'u3', 'u2')).toBe(true)
+    expect(imKreis(paare, 'u3', 'u4')).toBe(false)
+    expect(kreisPartner(paare, 'u2')).toEqual(['u3', 'u4'])
+    expect(kreisPartner(paare, 'u3')).toEqual(['u2'])
   })
 
   it('ordnet Adressen Bereichen zu', () => {

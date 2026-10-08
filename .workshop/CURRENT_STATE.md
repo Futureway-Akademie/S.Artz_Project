@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v8, Fortschritt 75 % (183 von 244 Gewichtspunkten, 74 von 99 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v8, Fortschritt 75,82 % (185 von 244 Gewichtspunkten, 75 von 99 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-20-1 – Freigabe-Kreis (2026-10-08T18:15:43Z). Paare durch den Admin, Recht „Teilen und Aufgaben übergeben“ je Rolle/Nutzer, Prüfung in der Datenbank.
 - task-19-5 – Projektdokumentation für die Workshop-Zentrale (2026-10-08T12:30:42Z). Elf Kapitel unter docs/, Reflexion als Entwurf.
 - task-10-2 – Dashboard-Seite (2026-10-07T18:11:46Z). 11 Grafiken, Kennzahlen.
 - task-10-1 – Diagramm-Bausteine und Auswertungen (2026-10-07T18:06:13Z).
@@ -63,7 +64,8 @@ Keine.
 
 - task-13-1 – Supabase einrichten
 - task-16-2 – Generalprobe
-- task-20-1 – Freigabe-Kreis
+- task-20-2 – Einzelne Projekte teilen
+- task-20-3 – Verschlüsselter Briefkasten
 - task-21-1 – Login nachschärfen
 - task-22-1 – Microsoft verbinden
 - task-22-5 – Dateien aus Google Drive
@@ -251,9 +253,9 @@ Keine.
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-20-1 | Freigabe-Kreis | ▶️ startbar | – |
-| task-20-2 | Einzelne Projekte teilen | ⏳ geplant | task-20-1 |
-| task-20-3 | Verschlüsselter Briefkasten | ⏳ geplant | task-20-1 |
+| task-20-1 | Freigabe-Kreis | ✅ erledigt |  |
+| task-20-2 | Einzelne Projekte teilen | ▶️ startbar | – |
+| task-20-3 | Verschlüsselter Briefkasten | ▶️ startbar | – |
 | task-20-4 | Aufgaben übergeben | ⏳ geplant | task-20-3 |
 | task-20-5 | Auf dem Laufenden bleiben | ⏳ geplant | task-20-4 |
 | task-20-6 | Abschlussprüfung Teilen und Übergeben | ⏳ geplant | task-20-2, task-20-5 |

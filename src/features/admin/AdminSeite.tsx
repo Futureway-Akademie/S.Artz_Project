@@ -9,7 +9,7 @@ import { SelectField, TextField } from '../../components/ui/Field.tsx'
 import { Panel } from '../../components/ui/Panel.tsx'
 import { EmptyState } from '../../components/ui/States.tsx'
 import { useToast } from '../../components/ui/toastContext.ts'
-import { BEREICHE, bereichUmschalten, effektiveBereiche, type Bereich, type Profil, type Rolle } from '../../domain/bereiche.ts'
+import { BEREICHE, bereichUmschalten, darfTeilen, effektiveBereiche, imKreis, type Bereich, type KreisPaar, type Profil, type Rolle } from '../../domain/bereiche.ts'
 import { useFreigaben } from '../../app/freigabeContext.ts'
 import type { EigeneFreigabe } from '../../data/cloud/cloud.ts'
 import { TEILBARE_BEREICHE, type TeilbarerBereich } from '../../data/freigabe/ausschnitt.ts'
@@ -27,6 +27,7 @@ export function AdminSeite() {
   const [rollen, setRollen] = useState<Rolle[]>([])
   const [fehler, setFehler] = useState<string | null>(null)
   const [freigaben, setFreigaben] = useState<EigeneFreigabe[]>([])
+  const [kreis, setKreis] = useState<KreisPaar[]>([])
   const { data } = useStore()
   const { freigabenGeaendert } = useFreigaben()
   const dienst = cloud?.dienst
@@ -35,10 +36,11 @@ export function AdminSeite() {
   const laden = useCallback(async () => {
     if (!dienst) return
     try {
-      const [p, r, f] = await Promise.all([dienst.profile(), dienst.rollen(), dienst.eigeneFreigaben()])
+      const [p, r, f, k] = await Promise.all([dienst.profile(), dienst.rollen(), dienst.eigeneFreigaben(), dienst.freigabeKreis()])
       setProfile(p)
       setRollen(r)
       setFreigaben(f)
+      setKreis(k)
       setFehler(null)
     } catch (e) {
       setFehler(e instanceof Error ? e.message : String(e))
@@ -48,12 +50,13 @@ export function AdminSeite() {
   useEffect(() => {
     if (!istAdmin || !dienst) return
     let aktiv = true
-    Promise.all([dienst.profile(), dienst.rollen(), dienst.eigeneFreigaben()])
-      .then(([p, r, f]) => {
+    Promise.all([dienst.profile(), dienst.rollen(), dienst.eigeneFreigaben(), dienst.freigabeKreis()])
+      .then(([p, r, f, k]) => {
         if (!aktiv) return
         setProfile(p)
         setRollen(r)
         setFreigaben(f)
+        setKreis(k)
       })
       .catch((e: unknown) => aktiv && setFehler(e instanceof Error ? e.message : String(e)))
     return () => {
@@ -105,7 +108,7 @@ export function AdminSeite() {
   }
 
   return (
-    <Seite titel="Nutzer & Rollen" einleitung="Lade Nutzer ein, vergib Rollen und schalte Bereiche je Nutzer frei. Die Daten jedes Nutzers bleiben in seinem eigenen, verschlüsselten Tresor.">
+    <Seite titel="Nutzer & Rollen" einleitung="Lade Nutzer ein, vergib Rollen und schalte Bereiche je Nutzer frei. Im Freigabe-Kreis legst du fest, wer mit wem teilen und Aufgaben übergeben darf. Die Daten jedes Nutzers bleiben in seinem eigenen, verschlüsselten Tresor.">
       {fehler && (
         <p className={styles.fehler} role="alert">
           {fehler}
@@ -124,6 +127,9 @@ export function AdminSeite() {
                   profil={p}
                   rollen={rollen}
                   ichSelbst={p.userId === cloud.nutzer?.id}
+                  andere={profile.filter((x) => x.userId !== p.userId)}
+                  kreis={kreis}
+                  onKreis={(anderer, an) => aendern(() => cloud.dienst.kreisPaarSetzen(p.userId, anderer.userId, an), an ? `${name(p)} und ${name(anderer)} dürfen jetzt teilen` : `${name(p)} und ${name(anderer)} dürfen nicht mehr teilen`)}
                   geteilt={new Set(freigaben.filter((f) => f.empfaenger.includes(p.userId)).map((f) => f.bereich))}
                   onTeilen={(bereich, an) => teilen(p.userId, bereich, an)}
                   onAendern={(aenderung, meldung) => aendern(() => cloud.dienst.profilAendern(p.userId, aenderung), meldung)}
@@ -142,6 +148,9 @@ export function AdminSeite() {
     </Seite>
   )
 }
+
+/** Anzeigename, sonst E-Mail-Adresse */
+const name = (p: Pick<Profil, 'anzeigename' | 'email'>) => p.anzeigename.trim() || p.email
 
 function Einladen({ rollen, onEinladen }: { rollen: Rolle[]; onEinladen: (email: string, rolleId: string | null) => Promise<void> }) {
   const [email, setEmail] = useState('')
@@ -178,6 +187,9 @@ function NutzerKarte({
   onAendern,
   geteilt,
   onTeilen,
+  andere,
+  kreis,
+  onKreis,
 }: {
   profil: Profil
   rollen: Rolle[]
@@ -185,12 +197,18 @@ function NutzerKarte({
   onAendern: (aenderung: Partial<Profil>, meldung: string) => Promise<void>
   geteilt: Set<string>
   onTeilen: (bereich: TeilbarerBereich, an: boolean) => Promise<void>
+  andere: Profil[]
+  kreis: KreisPaar[]
+  onKreis: (anderer: Profil, an: boolean) => Promise<void>
 }) {
   const [sperren, setSperren] = useState(false)
   const rolle = rollen.find((r) => r.id === profil.rolleId)
   const rolleBereiche = rolle?.bereiche ?? []
   const aktiv = new Set<string>(effektiveBereiche(rolleBereiche, profil.bereicheAn, profil.bereicheAus))
   const id = `nutzer-${profil.userId}`
+  const ausRolle = rolle?.darfTeilen ?? false
+  const teilenWert = profil.darfTeilen === true ? 'ja' : profil.darfTeilen === false ? 'nein' : ''
+  const darfEs = darfTeilen(profil, rolle)
 
   return (
     <article className={styles.karte} aria-labelledby={id}>
@@ -203,7 +221,7 @@ function NutzerKarte({
         {ichSelbst && <Badge>Du</Badge>}
       </div>
       {profil.istAdmin ? (
-        <p className={styles.hinweis}>Admins sehen alle Bereiche.</p>
+        <p className={styles.hinweis}>Admins sehen alle Bereiche und dürfen mit allen teilen und Aufgaben übergeben.</p>
       ) : (
         <>
           <div className={styles.zeile}>
@@ -246,6 +264,31 @@ function NutzerKarte({
               </label>
             ))}
           </fieldset>
+          <div className={styles.zeile}>
+            <SelectField
+              label="Teilen und Aufgaben übergeben"
+              value={teilenWert}
+              disabled={profil.gesperrt}
+              onChange={(e) => void onAendern({ darfTeilen: e.target.value === 'ja' ? true : e.target.value === 'nein' ? false : null }, 'Recht zum Teilen geändert')}
+              placeholder={`Wie die Rolle (${ausRolle ? 'erlaubt' : 'nicht erlaubt'})`}
+              options={[
+                { value: 'ja', label: 'Erlaubt' },
+                { value: 'nein', label: 'Nicht erlaubt' },
+              ]}
+              optionalKennzeichnen={false}
+            />
+          </div>
+          <fieldset className={styles.bereiche}>
+            <legend>Freigabe-Kreis: darf teilen und Aufgaben übergeben an</legend>
+            {andere.length === 0 && <p className={styles.hinweis}>Noch keine anderen Nutzer.</p>}
+            {andere.map((a) => (
+              <label key={a.userId} className={styles.check}>
+                <input type="checkbox" checked={imKreis(kreis, profil.userId, a.userId)} disabled={profil.gesperrt} onChange={(e) => void onKreis(a, e.target.checked)} />
+                {name(a)}
+              </label>
+            ))}
+          </fieldset>
+          {!darfEs && !profil.gesperrt && <p className={styles.hinweis}>Ohne das Recht „Teilen und Aufgaben übergeben“ kann diese Person selbst nichts teilen. Andere aus ihrem Kreis können ihr trotzdem etwas teilen oder übergeben.</p>}
         </>
       )}
       {sperren && (
@@ -319,6 +362,10 @@ function RolleKarte({ rolle, onSpeichern, onLoeschen }: { rolle: Rolle; onSpeich
           </label>
         ))}
       </fieldset>
+      <label className={styles.check}>
+        <input type="checkbox" checked={rolle.darfTeilen ?? false} onChange={(e) => void onSpeichern({ ...rolle, darfTeilen: e.target.checked })} />
+        Darf teilen und Aufgaben übergeben (nur im Freigabe-Kreis)
+      </label>
       {loeschen && (
         <ConfirmDialog
           offen

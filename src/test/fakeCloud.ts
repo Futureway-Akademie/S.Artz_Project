@@ -1,6 +1,6 @@
 import type { CloudDienst, CloudNutzer, CloudStand } from '../data/cloud/cloud.ts'
 import type { FreigabeUmschlag, VerschluesselterText } from '../data/freigabe/freigabeKrypto.ts'
-import type { Profil, Rolle } from '../domain/bereiche.ts'
+import { darfTeilen, imKreis, kreisPaar, type KreisPaar, type Profil, type Rolle } from '../domain/bereiche.ts'
 
 /** In-Memory-Ersatz für Supabase: protokolliert, was hochgeladen würde. */
 /** Server-Zustand für Schlüssel und Freigaben – mehrere Fake-Clouds (Nutzer) können ihn teilen */
@@ -9,6 +9,7 @@ export function neuerGeteilterZustand() {
     schluessel: new Map<string, { oeffentlich: JsonWebKey; privat: VerschluesselterText }>(),
     freigaben: new Map<string, { besitzerId: string; bereich: string; version: number; umschlag: FreigabeUmschlag; aktualisiertAm: string }>(),
     freigabeSchluessel: [] as Array<{ besitzerId: string; bereich: string; empfaengerId: string; version: number; verpackt: string }>,
+    kreis: [] as KreisPaar[],
   }
 }
 
@@ -79,7 +80,7 @@ export function createFakeCloud(
     },
     rolleSpeichern: async (r) => {
       nurAdmin()
-      const rolle = { id: r.id ?? `rolle-${rollen.length + 1}`, name: r.name, bereiche: r.bereiche }
+      const rolle = { id: r.id ?? `rolle-${rollen.length + 1}`, name: r.name, bereiche: r.bereiche, darfTeilen: r.darfTeilen ?? false }
       rollen = r.id ? rollen.map((x) => (x.id === r.id ? rolle : x)) : [...rollen, rolle]
       return rolle
     },
@@ -145,6 +146,26 @@ export function createFakeCloud(
       const id = meineId()
       geteilt.freigaben.delete(`${id}:${bereich}`)
       geteilt.freigabeSchluessel = geteilt.freigabeSchluessel.filter((s) => !(s.besitzerId === id && s.bereich === bereich))
+    },
+    freigabeKreis: async () => {
+      const id = meineId()
+      if (ich()?.istAdmin) return [...geteilt.kreis]
+      if (ich()?.gesperrt) return []
+      return geteilt.kreis.filter((p) => p.a === id || p.b === id)
+    },
+    kreisPaarSetzen: async (x, y, an) => {
+      nurAdmin()
+      const p = kreisPaar(x, y)
+      geteilt.kreis = geteilt.kreis.filter((q) => !(q.a === p.a && q.b === p.b))
+      if (an) geteilt.kreis.push(p)
+    },
+    kreisPartner: async () => {
+      const id = meineId()
+      const selbst = ich()
+      if (!selbst || !darfTeilen(selbst, rollen.find((r) => r.id === selbst.rolleId))) return []
+      return profile
+        .filter((p) => p.userId !== id && !p.gesperrt && (selbst.istAdmin || imKreis(geteilt.kreis, id, p.userId)))
+        .map((p) => ({ userId: p.userId, email: p.email, anzeigename: p.anzeigename }))
     },
     pushAbos: async () => [...pushAbos.values()].map((a) => ({ endpoint: a.endpoint, stunde: a.stunde })),
     pushSpeichern: async (abo, stunde) => {

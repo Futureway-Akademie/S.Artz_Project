@@ -33,12 +33,16 @@ export interface Profil {
   gesperrt: boolean
   bereicheAn: string[]
   bereicheAus: string[]
+  /** Teilen und Aufgaben übergeben: `null`/fehlend = wie die Rolle */
+  darfTeilen?: boolean | null
 }
 
 export interface Rolle {
   id: string
   name: string
   bereiche: string[]
+  /** Nutzer dieser Rolle dürfen teilen und Aufgaben übergeben (nur innerhalb des Freigabe-Kreises) */
+  darfTeilen?: boolean
 }
 
 export interface Rechte {
@@ -47,9 +51,19 @@ export interface Rechte {
   istAdmin: boolean
   gesperrt: boolean
   bereiche: ReadonlySet<Bereich>
+  /** Darf teilen und Aufgaben übergeben (Admin immer; sonst Rolle bzw. Abweichung je Nutzer) */
+  darfTeilen: boolean
 }
 
-export const ALLE_RECHTE: Rechte = { alle: true, istAdmin: false, gesperrt: false, bereiche: new Set(BEREICHE.map((b) => b.key)) }
+/** Ohne Mehrbenutzer-Konto gibt es niemanden zum Teilen – daher `darfTeilen: false` */
+export const ALLE_RECHTE: Rechte = { alle: true, istAdmin: false, gesperrt: false, bereiche: new Set(BEREICHE.map((b) => b.key)), darfTeilen: false }
+
+/** Teilen und Übergeben: Abweichung je Nutzer vor Rolle; ohne Angabe nein */
+export function darfTeilen(profil: Pick<Profil, 'darfTeilen' | 'istAdmin' | 'gesperrt'>, rolle: Pick<Rolle, 'darfTeilen'> | undefined): boolean {
+  if (profil.gesperrt) return false
+  if (profil.istAdmin) return true
+  return profil.darfTeilen ?? rolle?.darfTeilen ?? false
+}
 
 /** Bereiche aus Rolle plus Freigaben minus Sperren; Unbekanntes wird ignoriert. */
 export function effektiveBereiche(rolle: readonly string[], an: readonly string[], aus: readonly string[]): Bereich[] {
@@ -60,10 +74,10 @@ export function effektiveBereiche(rolle: readonly string[], an: readonly string[
 /** Rechte eines angemeldeten Nutzers; ohne Profil (nicht angemeldet, kein Mehrbenutzer) gilt: alles erlaubt. */
 export function rechteAus(profil: Profil | null, rollen: readonly Rolle[]): Rechte {
   if (!profil) return ALLE_RECHTE
-  if (profil.gesperrt) return { alle: false, istAdmin: false, gesperrt: true, bereiche: new Set() }
-  if (profil.istAdmin) return { ...ALLE_RECHTE, istAdmin: true }
+  if (profil.gesperrt) return { alle: false, istAdmin: false, gesperrt: true, bereiche: new Set(), darfTeilen: false }
+  if (profil.istAdmin) return { ...ALLE_RECHTE, istAdmin: true, darfTeilen: true }
   const rolle = rollen.find((r) => r.id === profil.rolleId)
-  return { alle: false, istAdmin: false, gesperrt: false, bereiche: new Set(effektiveBereiche(rolle?.bereiche ?? [], profil.bereicheAn, profil.bereicheAus)) }
+  return { alle: false, istAdmin: false, gesperrt: false, bereiche: new Set(effektiveBereiche(rolle?.bereiche ?? [], profil.bereicheAn, profil.bereicheAus)), darfTeilen: darfTeilen(profil, rolle) }
 }
 
 export function darf(rechte: Rechte, bereich: Bereich): boolean {
@@ -95,4 +109,25 @@ export function bereichUmschalten(profil: Pick<Profil, 'bereicheAn' | 'bereicheA
   const inRolle = rolle.includes(bereich)
   if (an) return { bereicheAn: inRolle ? ohne(profil.bereicheAn) : [...ohne(profil.bereicheAn), bereich], bereicheAus: ohne(profil.bereicheAus) }
   return { bereicheAn: ohne(profil.bereicheAn), bereicheAus: inRolle ? [...ohne(profil.bereicheAus), bereich] : ohne(profil.bereicheAus) }
+}
+
+/** Freigabe-Kreis: zwei Nutzer, die miteinander teilen und sich Aufgaben übergeben dürfen (ungerichtet) */
+export interface KreisPaar {
+  a: string
+  b: string
+}
+
+/** Paar in fester Reihenfolge (kleinere ID zuerst), wie in der Datenbank */
+export function kreisPaar(x: string, y: string): KreisPaar {
+  return x < y ? { a: x, b: y } : { a: y, b: x }
+}
+
+export function imKreis(paare: readonly KreisPaar[], x: string, y: string): boolean {
+  const p = kreisPaar(x, y)
+  return paare.some((q) => q.a === p.a && q.b === p.b)
+}
+
+/** Alle Partner einer Person im Freigabe-Kreis */
+export function kreisPartner(paare: readonly KreisPaar[], id: string): string[] {
+  return paare.flatMap((p) => (p.a === id ? [p.b] : p.b === id ? [p.a] : []))
 }

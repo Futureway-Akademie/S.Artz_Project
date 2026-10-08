@@ -3,7 +3,7 @@
  * Übertragen wird ausschließlich der verschlüsselte Umschlag (siehe `istVerschluesselterUmschlag`).
  */
 import type { KiAufgabe } from '../../../supabase/functions/_gemeinsam/ki.ts'
-import type { Profil, Rolle } from '../../domain/bereiche.ts'
+import type { KreisPaar, Profil, Rolle } from '../../domain/bereiche.ts'
 import type { FreigabeUmschlag, VerschluesselterText } from '../freigabe/freigabeKrypto.ts'
 import { alsTresor } from '../tresorKrypto.ts'
 
@@ -51,6 +51,13 @@ export interface ErhalteneFreigabe {
   aktualisiertAm: string
 }
 
+/** Person, mit der ich teilen bzw. der ich Aufgaben übergeben darf */
+export interface KreisPartner {
+  userId: string
+  email: string
+  anzeigename: string
+}
+
 export type SpeicherAntwort = { ok: true; revision: number } | { ok: false; konflikt: true }
 
 export interface CloudDienst {
@@ -72,9 +79,9 @@ export interface CloudDienst {
   /** Nur für Admins: alle Profile */
   profile: () => Promise<Profil[]>
   /** Nur für Admins */
-  rolleSpeichern: (rolle: { id?: string; name: string; bereiche: string[] }) => Promise<Rolle>
+  rolleSpeichern: (rolle: { id?: string; name: string; bereiche: string[]; darfTeilen?: boolean }) => Promise<Rolle>
   rolleLoeschen: (id: string) => Promise<void>
-  profilAendern: (userId: string, aenderung: Partial<Pick<Profil, 'rolleId' | 'gesperrt' | 'bereicheAn' | 'bereicheAus' | 'istAdmin'>>) => Promise<void>
+  profilAendern: (userId: string, aenderung: Partial<Pick<Profil, 'rolleId' | 'gesperrt' | 'bereicheAn' | 'bereicheAus' | 'istAdmin' | 'darfTeilen'>>) => Promise<void>
   /** Einladung per Mail (über eine Supabase-Funktion, die den Admin prüft) */
   einladen: (email: string, rolleId: string | null, zurueck: string) => Promise<void>
 
@@ -102,6 +109,14 @@ export interface CloudDienst {
   freigabeSchreiben: (bereich: string, version: number, umschlag: FreigabeUmschlag, schluessel: Array<{ empfaengerId: string; verpackt: string }>) => Promise<void>
   freigabeEntfernen: (bereich: string) => Promise<void>
   freigabenFuerMich: () => Promise<ErhalteneFreigabe[]>
+
+  // --- Freigabe-Kreis (Roadmap v8): wer mit wem teilen und Aufgaben übergeben darf ---
+  /** Admin: alle Paare; sonst nur die eigenen */
+  freigabeKreis: () => Promise<KreisPaar[]>
+  /** Nur für Admins: Paar aufnehmen oder entfernen */
+  kreisPaarSetzen: (x: string, y: string, an: boolean) => Promise<void>
+  /** Wen ich zum Teilen auswählen darf (nicht gesperrt, im Kreis; Admin: alle) */
+  kreisPartner: () => Promise<KreisPartner[]>
 
   // --- Erinnerungen per Push (Roadmap v7): nur das Abo, keine Inhalte ---
   pushAbos: () => Promise<Array<{ endpoint: string; stunde: number }>>

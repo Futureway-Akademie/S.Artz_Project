@@ -10,7 +10,7 @@ export const RECHTE_KEY = `${STORAGE_KEY}:rechte`
 
 function rechteMerken(rechte: Rechte) {
   try {
-    localStorage.setItem(RECHTE_KEY, JSON.stringify({ alle: rechte.alle, istAdmin: rechte.istAdmin, gesperrt: rechte.gesperrt, bereiche: [...rechte.bereiche] }))
+    localStorage.setItem(RECHTE_KEY, JSON.stringify({ alle: rechte.alle, istAdmin: rechte.istAdmin, gesperrt: rechte.gesperrt, bereiche: [...rechte.bereiche], darfTeilen: rechte.darfTeilen }))
   } catch {
     // Ohne Speicher gelten die Rechte nur bis zum Neuladen
   }
@@ -18,9 +18,9 @@ function rechteMerken(rechte: Rechte) {
 
 function gemerkteRechte(): Rechte {
   try {
-    const wert = JSON.parse(localStorage.getItem(RECHTE_KEY) ?? 'null') as { alle?: boolean; istAdmin?: boolean; gesperrt?: boolean; bereiche?: string[] } | null
+    const wert = JSON.parse(localStorage.getItem(RECHTE_KEY) ?? 'null') as { alle?: boolean; istAdmin?: boolean; gesperrt?: boolean; bereiche?: string[]; darfTeilen?: boolean } | null
     if (!wert || wert.alle) return ALLE_RECHTE
-    return { alle: false, istAdmin: false, gesperrt: Boolean(wert.gesperrt), bereiche: new Set((wert.bereiche ?? []).filter(istBereich)) }
+    return { alle: false, istAdmin: false, gesperrt: Boolean(wert.gesperrt), bereiche: new Set((wert.bereiche ?? []).filter(istBereich)), darfTeilen: Boolean(wert.darfTeilen) && !wert.gesperrt }
   } catch {
     return ALLE_RECHTE
   }

@@ -190,6 +190,20 @@ describe('Barrierefreiheit (axe-core)', () => {
     window.history.replaceState(null, '', '/')
   })
 
+  it('Admin-Bereich mit Nutzern, Rollen und Freigabe-Kreis ohne Verstöße', async () => {
+    const { createFakeCloud } = await import('./fakeCloud.ts')
+    const p = (userId: string, email: string, extra = {}) => ({ userId, email, anzeigename: '', rolleId: 'r1', istAdmin: false, gesperrt: false, bereicheAn: [], bereicheAus: [], ...extra })
+    const fake = createFakeCloud({
+      nutzer: { id: 'u1', email: 'admin@example.org' },
+      profile: [p('u1', 'admin@example.org', { istAdmin: true, rolleId: null }), p('u2', 'kim@example.org', { darfTeilen: true }), p('u3', 'lea@example.org', { gesperrt: true })],
+      rollen: [{ id: 'r1', name: 'Kunde', bereiche: ['cockpit'], darfTeilen: false }],
+    })
+    fake.geteilt.kreis.push({ a: 'u2', b: 'u3' })
+    const { container } = renderApp('/admin', { cloud: fake.dienst })
+    expect(await screen.findAllByRole('group', { name: /Freigabe-Kreis/ }, { timeout: 5000 })).toHaveLength(2)
+    expect(await pruefe(container)).toEqual([])
+  }, 15_000)
+
   it('Fehlerseite bei defekten Daten ohne Verstöße', async () => {
     const { createFakeStorage } = await import('./fakes.ts')
     const { STORAGE_KEY } = await import('../data/storage.ts')

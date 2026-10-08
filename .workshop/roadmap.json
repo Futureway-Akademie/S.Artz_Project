@@ -2555,7 +2555,7 @@
       "description": "Nutzer teilen einzelne Projekte zum Ansehen und übergeben Aufgaben; der Absender bleibt informiert. Alles Ende-zu-Ende-verschlüsselt, nur innerhalb des vom Admin festgelegten Freigabe-Kreises.",
       "order": 20,
       "weight": 16,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-20-1",
@@ -2563,7 +2563,7 @@
           "description": "Admin legt fest, wer mit wem teilen und übergeben darf; Rollenrecht „darf teilen“; Durchsetzung per RLS.",
           "order": 1,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-14-5"
           ],
@@ -2575,13 +2575,19 @@
             "Typecheck, Lint, Tests und Build grün",
             "axe ohne Verstöße auf neuen Seiten und Dialogen"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T18:02:35Z",
+          "completedAt": "2026-10-08T18:15:43Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Freigabe-Kreis umgesetzt: Tabelle freigabe_kreis (ungerichtete Paare, nur Admin ändert, Nutzer sehen eigene Paare), Recht darf_teilen je Rolle und abweichend je Nutzer, Funktionen darf_teilen(), darf_teilen_mit(anderer) und meine_kreis_partner(); Empfänger-Schlüssel nur noch für erlaubte Partner. Admin-Bereich: Recht je Rolle und Nutzer, Kreis per Häkchen je Nutzer. Geprüft: PGlite-Regeltest (Recht, Kreis, Gesperrte, Löschen, Schlüssel-Schreiben), Bedienungstest Admin-Bereich mit Fake-Cloud aus Admin- und Nutzersicht, Domain-Tests, axe für den Admin-Bereich mit Kreis. Nachrichten-Tabelle folgt in task-20-3 und nutzt dieselbe Prüfung darf_teilen_mit. Browserprüfung nicht möglich, weil der Admin-Bereich ein eingerichtetes Supabase braucht (task-13-1). Nebenbei: wackeliger Push-Test wartet jetzt, bis der Knopf aktiv ist.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run",
+              "npm run build",
+              "npx vitest run src/test/datenschutz.test.ts"
+            ],
+            "checkedAt": "2026-10-08T18:15:43Z"
           }
         },
         {
@@ -2590,7 +2596,7 @@
           "description": "Knopf „Teilen“ auf der Projektseite; Empfänger aus dem Freigabe-Kreis sehen Projekt mit Aufgaben, Terminen, Fristen und Fortschritt nur lesend; jeder Nutzer mit Recht teilt eigene Projekte.",
           "order": 2,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-20-1"
           ],
@@ -2618,7 +2624,7 @@
           "description": "Nachrichten zwischen Nutzern, mit dem öffentlichen Schlüssel des Empfängers verschlüsselt; nur innerhalb des Freigabe-Kreises.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-20-1"
           ],
