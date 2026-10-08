@@ -2,11 +2,11 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v6, Fortschritt 100 % (126 von 126 Gewichtspunkten, 51 von 51 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v7, Fortschritt 64,62 % (126 von 195 Gewichtspunkten, 51 von 80 Tasks).
 
 ## Aktive Phase
 
-Alle Phasen abgeschlossen.
+Inbetriebnahme (phase-13).
 
 ## Aktive Aufgabe
 
@@ -60,7 +60,10 @@ Keine.
 
 ## Bereite nächste Aufgaben
 
-Keine.
+- task-13-1 – Supabase einrichten
+- task-13-2 – Automatische Tests auf GitHub (CI)
+- task-13-3 – Werkzeugkasten-Startvorlagen
+- task-17-1 – Google-Kalender lesen
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -176,6 +179,70 @@ Keine.
 | task-12-2 | Mails abrufen und zuordnen | ✅ erledigt |  |
 | task-12-3 | Abschlussprüfung Roadmap v6 | ✅ erledigt |  |
 
+### Inbetriebnahme
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-13-1 | Supabase einrichten | ▶️ startbar | – |
+| task-13-2 | Automatische Tests auf GitHub (CI) | ▶️ startbar | – |
+| task-13-3 | Werkzeugkasten-Startvorlagen | ▶️ startbar | – |
+
+### Mehrbenutzer und Rollen
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-14-1 | Datenmodell für Nutzer, Rollen und Rechte | ⏳ geplant | task-13-1 |
+| task-14-2 | Einladung und Erstanmeldung | ⏳ geplant | task-14-1 |
+| task-14-3 | Admin-Bereich | ⏳ geplant | task-14-1 |
+| task-14-4 | Navigation und Seiten nach Rechten | ⏳ geplant | task-14-3 |
+| task-14-5 | Geteilte Bereiche | ⏳ geplant | task-14-2, task-14-3 |
+
+### KI-Assistent
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-15-1 | KI-Zugang über Supabase-Funktion | ⏳ geplant | task-13-1 |
+| task-15-2 | Freigabe-Dialog und Protokoll | ⏳ geplant | task-15-1 |
+| task-15-3 | KI für Bewerbungen | ⏳ geplant | task-15-2 |
+| task-15-4 | KI für Mails und Verlauf | ⏳ geplant | task-15-2 |
+| task-15-5 | KI-Tagesplanung | ⏳ geplant | task-15-2 |
+| task-15-6 | Chat mit deinen Daten | ⏳ geplant | task-15-2 |
+
+### Präsentation 21.10.2026
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-16-1 | Demo-Daten, Ablauf und Folien | ⏳ geplant | task-14-4, task-15-3 |
+| task-16-2 | Generalprobe | ⏳ geplant | task-16-1 |
+
+### Anbindungen
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-17-1 | Google-Kalender lesen | ▶️ startbar | – |
+| task-17-2 | Termine in Google-Kalender eintragen | ⏳ geplant | task-17-1 |
+| task-17-3 | n8n und Make anbinden | ⏳ geplant | task-13-1 |
+| task-17-4 | Stellenanzeigen übernehmen | ⏳ geplant | task-15-2 |
+| task-17-5 | Dokumente | ⏳ geplant | task-13-1 |
+
+### Online und Handy
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-18-1 | Hosting in Deutschland | ⏳ geplant | task-13-1 |
+| task-18-2 | Als App installierbar (PWA) | ⏳ geplant | task-18-1 |
+| task-18-3 | Push-Erinnerungen ohne Inhalt | ⏳ geplant | task-18-2 |
+| task-18-4 | Handy-Bedienung feinschleifen | ⏳ geplant | task-18-1 |
+
+### Praxis und Abschluss
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-19-1 | Praxistest und Feinschliff | ⏳ geplant | task-16-2 |
+| task-19-2 | Datenschutzerklärung, Impressum, Nutzungsbedingungen | ⏳ geplant | task-18-1 |
+| task-19-3 | AVVs und Verzeichnis der Verarbeitungen | ⏳ geplant | task-19-2 |
+| task-19-4 | Abschlussprüfung Roadmap v7 | ⏳ geplant | task-13-2, task-13-3, task-14-5, task-15-4, task-15-5, task-15-6, task-17-2, task-17-3, task-17-4, task-17-5, task-18-3, task-18-4, task-19-1, task-19-3 |
+
 ## Blockiert
 
 Nichts.
@@ -200,4 +267,4 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-Roadmap v6 ist vollständig umgesetzt (task-5-6 auf Saschas Entscheidung abgebrochen: In der Git-Historie stehen nur Projekt-, Firmen- und Rollennamen sowie Kursdaten, keine Projektinhalte). Sascha: (1) PR #2 mergen, damit das Dashboard den aktuellen Stand zeigt; (2) Gmail nach docs/gmail-einrichtung.md und Supabase nach docs/supabase-einrichtung.md einrichten; (3) im Cockpit Passwort und Wiederherstellung einrichten. Neue Wünsche kommen als Roadmap v7.
+Roadmap v7 ist mit Sascha geplant: 29 neue Tasks in den Phasen 13–19. Die Präsentation am 21.10.2026 läuft lokal und braucht Supabase-Login/Datenbank, Mehrbenutzer mit Rollen und den KI-Assistenten. Als Nächstes task-13-1 „Supabase einrichten“ gemeinsam mit Sascha (Projekt in Frankfurt anlegen). Parallel sollte Sascha ein AWS-Konto anlegen und Claude in Bedrock (eu-central-1) freischalten lassen, weil task-15-1 das braucht und die Freischaltung dauern kann.

@@ -16,7 +16,7 @@ Es soll Saschas tatsächliche Arbeit unterstützen und nicht wie ein Standard-Ve
 
 ## Zielgruppe
 
-Sascha Artz als einziger Nutzer.
+Sascha Artz als Admin. Ab Roadmap v7 zusätzlich eingeladene Nutzer (Kunden, Team, Kursteilnehmer, Familie/Freunde) mit Rollen und je Nutzer freigeschalteten Bereichen.
 
 ## Zielplattform
 
@@ -32,11 +32,15 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 6. Kontakte & Leads, Postfach (Gmail, nur lesend, Roadmap v6), Bewerbungen
 7. PIKARTZ.AI
 8. Einstellungen
+9. Mehrbenutzer mit Rollen, Admin-Bereich und geteilten Bereichen (Roadmap v7)
+10. KI-Assistent: Bewerbungen, Mails und Verlauf, Tagesplanung, Chat mit den eigenen Daten – Claude über AWS Frankfurt, nur nach Freigabe (Roadmap v7)
+11. Anbindungen: Google-Kalender, n8n/Make, Stellenanzeigen, Dokumente (Roadmap v7)
+12. Online in Deutschland gehostet, als App auf dem Handy installierbar (Roadmap v7)
 
 ## Nicht-Ziele
 
-- kein Mehrbenutzer- oder Login-System
-- kein eigenes Server-Backend; Daten verschlüsselt im Browser, optional Ende-zu-Ende-verschlüsselt über Supabase synchronisiert (Roadmap v4)
+- keine offene Registrierung: neue Nutzer nur per Einladung durch den Admin
+- kein eigener Server neben Supabase; Daten verschlüsselt im Browser, Ende-zu-Ende-verschlüsselt über Supabase (Region Frankfurt) synchronisiert; serverseitige Funktionen (KI-Zugang, Webhooks) als Supabase-Funktionen
 - keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable usw.; einzige Ausnahme ist optional Gmail nur lesend (Roadmap v6), Zugangsdaten werden nie im Cockpit gespeichert
 - keine erfundenen Daten (Kennzahlen, Umsätze, Termine, Kontakte, Fortschritte)
 - keine dekorativen Diagramme oder Animationen ohne Funktion

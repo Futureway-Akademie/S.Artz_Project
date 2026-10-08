@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 6,
+  "roadmapVersion": 7,
   "status": "active",
   "phases": [
     {
@@ -1697,6 +1697,750 @@
               "npx vitest run"
             ],
             "checkedAt": "2026-10-07T23:52:32Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-13",
+      "title": "Inbetriebnahme",
+      "description": "Supabase gemeinsam einrichten, automatische Tests auf GitHub, Werkzeugkasten mit Startvorlagen.",
+      "order": 13,
+      "weight": 5,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-13-1",
+          "title": "Supabase einrichten",
+          "description": "Gemeinsam mit Sascha: Projekt in Region Central EU (Frankfurt), Tabellen aus supabase/schema.sql, Login per E-Mail-Link erlauben, Rücksprung-Adressen, .env.local füllen, Login und verschlüsselte Synchronisierung echt testen. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 1,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Supabase-Projekt in Frankfurt mit Tabelle tresor und RLS",
+            "Anmeldung per E-Mail-Link funktioniert lokal",
+            "Synchronisierung echt geprüft: Supabase enthält nur Chiffretext"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-13-2",
+          "title": "Automatische Tests auf GitHub (CI)",
+          "description": "GitHub Actions: Typecheck, Lint, Tests und Build bei jedem Push und Pull Request; Datenschutz-Wächter läuft mit.",
+          "order": 2,
+          "weight": 1,
+          "status": "ready",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Workflow läuft bei Push und PR",
+            "Fehlschlag bei roten Tests oder Wächter-Treffer"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-13-3",
+          "title": "Werkzeugkasten-Startvorlagen",
+          "description": "Neutrale Startvorlagen zum Übernehmen: Masterprompts, Claude-Code- und Git-Befehle, Anleitungen (MCP-Server, Supabase, Claude Code), Abo-Einträge zum Ausfüllen; nichts Persönliches im Repository.",
+          "order": 3,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Vorlagen per Klick übernehmbar",
+            "Keine persönlichen Inhalte im Repository (Wächter grün)"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-14",
+      "title": "Mehrbenutzer und Rollen",
+      "description": "Andere Nutzer nur per Einladung; Sascha als Admin vergibt Rollen und schaltet Bereiche je Nutzer frei oder sperrt Nutzer. Jeder hat eigene Daten, dazu geteilte Bereiche.",
+      "order": 14,
+      "weight": 16,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-14-1",
+          "title": "Datenmodell für Nutzer, Rollen und Rechte",
+          "description": "Supabase: Profile, Rollen-Vorlagen (Kunde, Mitarbeiter, Kursteilnehmer, Familie/Freunde), Bereichsrechte je Nutzer, Sperre, Admin-Kennzeichen; Zugriffsregeln (RLS) und Tests. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "Tabellen und RLS-Regeln für Profile, Rollen und Rechte",
+            "Nur der Admin ändert Rechte; Nutzer sehen nur eigene Rechte",
+            "Gesperrte Nutzer erhalten keine Daten"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-14-2",
+          "title": "Einladung und Erstanmeldung",
+          "description": "Admin lädt per E-Mail ein; Selbstregistrierung ist abgeschaltet; neuer Nutzer legt beim ersten Login seinen eigenen Tresor an. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-1"
+          ],
+          "definitionOfDone": [
+            "Einladung per Mail mit Rolle",
+            "Ohne Einladung keine Registrierung",
+            "Neuer Nutzer hat eigenen, getrennten Tresor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-14-3",
+          "title": "Admin-Bereich",
+          "description": "Nutzerliste, Rollen-Vorlagen bearbeiten, Rolle zuweisen, Bereiche je Nutzer ein- und ausschalten, Nutzer sperren und entsperren. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-1"
+          ],
+          "definitionOfDone": [
+            "Rollen anlegen und anpassen",
+            "Bereiche je Nutzer schaltbar, Änderung wirkt sofort",
+            "Nutzer sperren und entsperren"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-14-4",
+          "title": "Navigation und Seiten nach Rechten",
+          "description": "Nicht freigegebene Bereiche verschwinden aus Navigation, Suche, Schnellerfassung, Cockpit und Dashboard; direkte Aufrufe zeigen „Kein Zugriff“. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-3"
+          ],
+          "definitionOfDone": [
+            "Gesperrte Bereiche nirgends sichtbar",
+            "Direktaufruf zeigt „Kein Zugriff“"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-14-5",
+          "title": "Geteilte Bereiche",
+          "description": "Sascha gibt einzelne Bereiche seiner Daten an Nutzer frei: Bereichsschlüssel je berechtigtem Nutzer verpackt; beim Entziehen Schlüsseltausch, damit der Zugriff auch kryptografisch endet.",
+          "order": 5,
+          "weight": 5,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-2",
+            "task-14-3"
+          ],
+          "definitionOfDone": [
+            "Freigegebener Bereich für den Nutzer lesbar, sonst nichts",
+            "Nach Entzug kein Zugriff mehr auf neue Daten (Schlüsseltausch)",
+            "Supabase sieht weiterhin nur Chiffretext"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-15",
+      "title": "KI-Assistent",
+      "description": "Claude im Cockpit über AWS Bedrock (Frankfurt); Daten gehen nur nach Freigabe pro Aktion an die KI.",
+      "order": 15,
+      "weight": 14,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-15-1",
+          "title": "KI-Zugang über Supabase-Funktion",
+          "description": "Edge Function als Vermittler zu Claude auf AWS Bedrock (eu-central-1): Zugangsdaten nur serverseitig, nur angemeldete und berechtigte Nutzer, Kostenlimit je Nutzer, keine Speicherung der Inhalte. Voraussetzung: AWS-Konto mit Claude-Freischaltung (Sascha). Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "Kein KI-Schlüssel im Browser oder Repository",
+            "Nur berechtigte Nutzer, Kostenlimit greift",
+            "Verarbeitung in der EU (Frankfurt)"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-2",
+          "title": "Freigabe-Dialog und Protokoll",
+          "description": "Vor jedem KI-Aufruf Vorschau, welche Daten gesendet werden, mit Bestätigung; verschlüsseltes Protokoll der Aufrufe. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-1"
+          ],
+          "definitionOfDone": [
+            "Ohne Bestätigung wird nichts gesendet",
+            "Vorschau zeigt genau den gesendeten Text"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-3",
+          "title": "KI für Bewerbungen",
+          "description": "Anschreiben aus Stelle, Zielrolle und eigenen Angaben entwerfen; Antworten auf Mails formulieren; Entwurf übernehmen oder anpassen. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Anschreiben-Entwurf aus Bewerbung",
+            "Antwortentwurf zu einer Mail"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-4",
+          "title": "KI für Mails und Verlauf",
+          "description": "Mails und Verlauf zusammenfassen, nächsten Schritt und Wiedervorlage vorschlagen, per Klick übernehmen.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Zusammenfassung je Kontakt oder Bewerbung",
+            "Vorschlag als Wiedervorlage übernehmbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-5",
+          "title": "KI-Tagesplanung",
+          "description": "„Was soll ich heute tun?“: Vorschlag aus Fristen, Fokus, Terminen und Wiedervorlagen; in den Fokus übernehmen.",
+          "order": 5,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Tagesvorschlag im Cockpit",
+            "Übernahme in den Fokus"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-6",
+          "title": "Chat mit deinen Daten",
+          "description": "Fragen an die eigenen Daten; der Nutzer wählt die einbezogenen Bereiche; Antworten mit Links zu den Einträgen.",
+          "order": 6,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Bereichsauswahl vor dem Senden",
+            "Antworten verlinken die Quellen-Einträge"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-16",
+      "title": "Präsentation 21.10.2026",
+      "description": "Vorführbereit machen: fiktive Demo-Daten, Demo-Ablauf, Folien und Generalprobe.",
+      "order": 16,
+      "weight": 4,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-16-1",
+          "title": "Demo-Daten, Ablauf und Folien",
+          "description": "Fiktiver Demo-Bestand (keine echten Personen), Demo-Ablauf mit Mehrbenutzer und KI, Folien im PIKARTZ.AI-Design. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 1,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-4",
+            "task-15-3"
+          ],
+          "definitionOfDone": [
+            "Demo-Daten per Klick ladbar und wieder entfernbar",
+            "Ablaufplan und Folien liegen vor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-16-2",
+          "title": "Generalprobe",
+          "description": "Kompletter Demo-Durchlauf lokal, alle Prüfungen grün, Notfallplan ohne Netz. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-16-1"
+          ],
+          "definitionOfDone": [
+            "Demo-Durchlauf ohne Fehler",
+            "Typecheck, Lint, Tests und Build grün"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-17",
+      "title": "Anbindungen",
+      "description": "Google-Kalender, n8n/Make, Stellenanzeigen und Dokumente.",
+      "order": 17,
+      "weight": 13,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-17-1",
+          "title": "Google-Kalender lesen",
+          "description": "Termine aus Google-Kalender nur lesend im Kalender und Cockpit anzeigen; Token nur im Speicher.",
+          "order": 1,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Google-Termine im Kalender sichtbar",
+            "Ohne Einrichtung keine Verbindung"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-2",
+          "title": "Termine in Google-Kalender eintragen",
+          "description": "Termine aus dem Cockpit nach Bestätigung in Google-Kalender übertragen.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-17-1"
+          ],
+          "definitionOfDone": [
+            "Eintragen nur nach Bestätigung"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-3",
+          "title": "n8n und Make anbinden",
+          "description": "Workflows per Webhook über eine Supabase-Funktion starten und Status anzeigen; Webhook-Adressen geschützt, nie im Browser.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "Workflow aus dem Cockpit startbar",
+            "Status und letzte Ausführung sichtbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-4",
+          "title": "Stellenanzeigen übernehmen",
+          "description": "Stellenanzeige als Link oder Text einfügen; KI liest Firma, Stelle, Anforderungen und Kontakt aus und legt Bewerbung und Unternehmen an (nach Prüfung).",
+          "order": 4,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Bewerbung aus Anzeige mit Vorschau"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-5",
+          "title": "Dokumente",
+          "description": "Lebenslauf, Zeugnisse und Anschreiben verschlüsselt ablegen (Supabase Storage nur Chiffretext) und an Bewerbungen hängen.",
+          "order": 5,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "Dateien nur verschlüsselt gespeichert",
+            "Dokumente an Bewerbungen anhängbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-18",
+      "title": "Online und Handy",
+      "description": "Hosting in Deutschland, installierbar als App, Erinnerungen ohne Inhalt.",
+      "order": 18,
+      "weight": 9,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-18-1",
+          "title": "Hosting in Deutschland",
+          "description": "Ausliefern bei Hetzner oder IONOS mit automatischem Deploy aus GitHub; CSP und Sicherheitsheader.",
+          "order": 1,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "App unter eigener Adresse erreichbar",
+            "Deploy automatisch nach Merge"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-18-2",
+          "title": "Als App installierbar (PWA)",
+          "description": "Manifest, Icons, Offline-Start; auf Handy und PC installierbar.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-1"
+          ],
+          "definitionOfDone": [
+            "Installierbar auf Android und iOS",
+            "Startet offline mit lokalem Tresor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-18-3",
+          "title": "Push-Erinnerungen ohne Inhalt",
+          "description": "Web-Push mit „n Punkte fällig“ ohne Details; Details erst nach dem Entsperren.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-2"
+          ],
+          "definitionOfDone": [
+            "Push ohne personenbezogene Inhalte"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-18-4",
+          "title": "Handy-Bedienung feinschleifen",
+          "description": "Touch-Ziele, Navigation, Schnellerfassung und KI am Handy optimieren.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-1"
+          ],
+          "definitionOfDone": [
+            "Alle Bereiche bei 375 px bequem bedienbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-19",
+      "title": "Praxis und Abschluss",
+      "description": "Praxistest mit Feedback, rechtliche Grundlagen und Abschlussprüfung.",
+      "order": 19,
+      "weight": 8,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-19-1",
+          "title": "Praxistest und Feinschliff",
+          "description": "Sascha nutzt das Cockpit im Alltag; Feedback sammeln und umsetzen.",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-16-2"
+          ],
+          "definitionOfDone": [
+            "Feedback-Liste umgesetzt oder als neue Tasks geplant"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-2",
+          "title": "Datenschutzerklärung, Impressum, Nutzungsbedingungen",
+          "description": "Texte für die Nutzung durch andere (Mehrbenutzer, online).",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-1"
+          ],
+          "definitionOfDone": [
+            "Seiten in der App erreichbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-3",
+          "title": "AVVs und Verzeichnis der Verarbeitungen",
+          "description": "Klick-Anleitung je Anbieter (Supabase, AWS, Hetzner/IONOS); Verzeichnis der Verarbeitungen.",
+          "order": 3,
+          "weight": 1,
+          "status": "planned",
+          "dependsOn": [
+            "task-19-2"
+          ],
+          "definitionOfDone": [
+            "AVV je Anbieter abgeschlossen (Sascha)",
+            "Verzeichnis der Verarbeitungen liegt vor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-4",
+          "title": "Abschlussprüfung Roadmap v7",
+          "description": "Alle Prüfungen, Browser bei drei Breiten, Doku und Prüfprotokoll.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-2",
+            "task-13-3",
+            "task-14-5",
+            "task-15-4",
+            "task-15-5",
+            "task-15-6",
+            "task-17-2",
+            "task-17-3",
+            "task-17-4",
+            "task-17-5",
+            "task-18-3",
+            "task-18-4",
+            "task-19-1",
+            "task-19-3"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
           }
         }
       ]

@@ -214,3 +214,4 @@
 {"timestamp":"2026-10-07T23:52:32Z","type":"verification_passed","taskId":"task-12-3","summary":"Alle Prüfungen grün, Browserprüfung bei drei Breiten, Doku aktuell."}
 {"timestamp":"2026-10-07T23:52:32Z","type":"task_completed","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' abgeschlossen."}
 {"timestamp":"2026-10-08T07:24:27Z","type":"task_cancelled","taskId":"task-5-6","summary":"Task 'Git-Historie bereinigen' abgebrochen: Sascha hat entschieden, dass die Projekttitel, Firmennamen und Zielrollen in alten Commits nicht stören (keine Passwörter, Kontaktdaten oder Personennamen enthalten). Kein Force-Push nötig."}
+{"timestamp":"2026-10-08T08:48:24Z","type":"roadmap_updated","summary":"Roadmap v7 mit Sascha geplant: Inbetriebnahme, Mehrbenutzer und Rollen, KI-Assistent (Claude über AWS Frankfurt), Präsentation 21.10.2026, Anbindungen, Online und Handy, Praxis und Abschluss (29 neue Tasks)."}

@@ -544,9 +544,9 @@ Das Cockpit bildet Saschas tatsächliche Projekte ab, ohne private Details öffe
 - Alte Commits enthalten nur Namen (Projekttitel, zwei Firmen, Zielrollen) und Kursangaben, keine Projektinhalte; per Abgleich mit allen lokalen Detailtexten geprüft.
 - Sascha: „Die Daten stören mich nicht, solange es nur die Namen sind und nicht die Projekte an sich.“ Deshalb kein Umschreiben der Historie und kein Force-Push. Neue Inhalte bleiben wie bisher nur lokal (`seed.privat.ts`, Wächter-Test vor jedem Push).
 
-## 2026-10-08 – Planung Roadmap v7 (Zwischenstand, noch nicht in der Roadmap)
+## 2026-10-08 – Planung Roadmap v7 (bestätigt und eingetragen)
 
-Die Planung mit Sascha läuft. Sobald sie abgeschlossen und bestätigt ist, wird daraus Roadmap v7. Festgehalten bisher:
+Mit Sascha geplant und am 2026-10-08 bestätigt; eingetragen als Roadmap v7 (Phasen 13–19, 29 Tasks). Grundlagen:
 
 - **Zielbild:**
   - Arbeitsalltag, Portfolio-Projekt, späteres PIKARTZ.AI-Produkt und Lernprojekt – alles zusammen
@@ -564,7 +564,7 @@ Die Planung mit Sascha läuft. Sobald sie abgeschlossen und bestätigt ist, wird
   - KI im Cockpit
   - automatische Tests auf GitHub
   - weitere folgen in der Planung
-- **Datenschutz-Richtung (vorgeschlagen, noch nicht bestätigt):**
+- **Datenschutz-Grundlage (bestätigt):**
   - Hosting in Deutschland (Hetzner oder IONOS) statt Vercel
   - Supabase in der Region EU (Frankfurt)
   - KI über Claude auf AWS Bedrock Frankfurt; Alternativen Mistral oder Langdock
@@ -590,3 +590,9 @@ Die Planung mit Sascha läuft. Sobald sie abgeschlossen und bestätigt ist, wird
   - Technische Folge: Geteilte Bereiche brauchen gemeinsame Schlüssel pro Bereich, verpackt je berechtigtem Nutzer.
     - Beim Sperren oder Entziehen muss der Zugriff auch kryptografisch enden, also Schlüssel tauschen, nicht nur ausblenden.
     - Durchsetzung zusätzlich serverseitig (Supabase RLS).
+- **Präsentation 21.10.2026 (lokal reicht):**
+  - Muss laufen: Supabase-Login bzw. -Datenbank, Mehrbenutzer, KI-Assistent.
+  - Online und Handy sind ein Pluspunkt.
+  - Priorität bis dahin: Phasen 13–16, ★-Aufgaben zuerst. task-14-5 (geteilte Bereiche) und die Phasen 17–19 kommen danach.
+- **KI-Assistent – Funktionen:** Bewerbung, Mails und Verlauf, Tagesplanung, Chat mit den eigenen Daten. Alles nur nach Freigabe-Dialog.
+- **Anbindungen:** Google-Kalender, n8n/Make, Stellenanzeigen (Link oder Text), Dokumente.
