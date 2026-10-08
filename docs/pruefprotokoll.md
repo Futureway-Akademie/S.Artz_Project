@@ -202,3 +202,40 @@ Neu getestet:
 ## Nachtrag 2026-10-08: Git-Historie (task-5-6) abgebrochen
 
 Geprüft wurde die gesamte Historie aller Zweige gegen die privaten Begriffe und gegen alle 110 längeren Detailtexte der lokalen Projektdaten (Beschreibungen, Notizen, nächste Schritte). In alten Commits stehen nur Projekttitel, Kategorien und Stand, zwei Firmennamen, die drei Zielrollen und Kursangaben (Anbieter, Zeitraum, Unterrichtszeit, Module). Keine Projektbeschreibungen, Notizen oder Schritte, keine Personennamen, E-Mail-Adressen, Telefonnummern, Passwörter oder Schlüssel. Sascha hat entschieden, dass das nicht stört; ein Umschreiben der Historie mit Force-Push entfällt.
+
+---
+
+# Zwischenstand Roadmap v7 (2026-10-08)
+
+Ohne Saschas Konten umgesetzt und geprüft:
+- task-13-2 und task-13-3
+- task-14-1 bis task-14-5
+- task-15-1 bis task-15-6
+- task-16-1
+- task-17-1 bis task-17-5
+- task-18-2 bis task-18-4
+
+## Automatische Prüfungen
+
+| Befehl | Ergebnis |
+|---|---|
+| `npm run typecheck` | fehlerfrei |
+| `npm run lint` | fehlerfrei |
+| `npm test` | über 450 Tests grün, inklusive axe aller Seiten und Supabase-Regeln mit echtem Postgres (PGlite) |
+| `npm run build` | fehlerfrei; Vite meldet weiterhin, dass `advancedChunks` veraltet ist |
+| GitHub CI | läuft bei jedem Push (Typecheck, Lint, Tests, Build) |
+
+## Browser (gebaute App, eigener Speicherbereich auf Port 4173, Testdaten danach gelöscht)
+
+- **Handy (375 px):** Alle Seiten mit Demo-Daten geprüft, kein horizontaler Überlauf. Tippflächen auf Touch-Geräten mindestens 44 px; Ausnahme sind Tabellen-Umschalter und Monatstage mit 32 px.
+- **Desktop (1280 px):** KI-Assistent und Bewerbung mit Dokumenten-Panel geprüft.
+- **PWA:** Service Worker aktiv, App inklusive Assets zwischengespeichert.
+- **Folien:** im Browser geprüft.
+
+## Was nur live mit Sascha geht
+
+- Supabase (task-13-1): Login, Synchronisierung, Einladung, Regeln im echten Projekt
+- KI über AWS Bedrock: Live-Antworten
+- Hosting (task-18-1): Push auf dem Handy, Installation über https
+- Generalprobe (task-16-2) und Praxistest (task-19-1)
+- Rechtstexte und AVVs (task-19-2, task-19-3)

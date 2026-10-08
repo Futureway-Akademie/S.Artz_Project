@@ -135,6 +135,10 @@ public/brand/                 Logos unverändert
 | `/wissen`, `/wissen/:id` | Zweites Gehirn: Notizen, Tools, Erkenntnisse, Quellen, Lerntagebuch |
 | `/werkzeug`, `/werkzeug/:art`, `/werkzeug/:art/:id` | KI-Werkzeugkasten: Übersicht, Liste je Typ (prompts, befehle, agenten, skills, anleitungen, integrationen, workflows, abos), Detail |
 | `/postfach` | Gmail-Postfach: passende Mails abrufen, zuordnen, in den Verlauf übernehmen |
+| `/assistent` | KI-Assistent: Fragen an die eigenen Daten (Bereiche wählbar, Freigabe-Dialog) |
+| `/admin` | Nutzer & Rollen (nur Admin): einladen, Rollen, Bereiche je Nutzer, sperren, Bereiche teilen |
+| `/geteilt` | Geteilt mit mir (eingeladene Nutzer): vom Admin geteilte Bereiche, nur lesen |
+| `/bewerbungen/dokumente` | Dokumente: verschlüsselt ablegen, öffnen, an Bewerbungen hängen |
 | `/wiederherstellen#schluessel=…` | Einstieg über den Wiederherstellungslink (vor dem Entsperren) |
 | `/kalender` (`?ansicht=monat\|woche\|liste&datum=…`) | Kalender mit Terminen, Fristen, Wiedervorlagen, Kursaufgaben; .ics-Export |
 | `/kontakte` (`?faellig=1`, `?pruefen=1`), `/kontakte/:id` | Kontakte, Kontaktdetail mit Verlauf, Wiedervorlage, E-Mail, Datenschutz, Gesamtsicht |
@@ -164,6 +168,10 @@ public/brand/                 Logos unverändert
 - Tresor Version 2: zufälliger Datenschlüssel, verpackt per Passwort und optional per Wiederherstellungsschlüssel (der nur im #-Teil des Links in Saschas eigener Mail steht).
 - Optional Supabase (Roadmap v4): Login per E-Mail-Link, Ende-zu-Ende-verschlüsselte Synchronisierung; Supabase speichert nur E-Mail-Adresse und Chiffretext.
 - Optional Gmail (Roadmap v6): nur `gmail.readonly`, Anmeldung per Weiterleitung ohne Google-Skript, Token nur im Arbeitsspeicher; CSP öffnet dann genau `gmail.googleapis.com` und `oauth2.googleapis.com`. Einziges Modul mit `fetch`: `src/data/gmail/gmail.ts`.
+- **Mehrbenutzer (Roadmap v7):**
+  - Supabase-Tabellen `rollen`, `profile` (erstes Konto = Admin), `schluessel`, `freigaben`, `freigabe_schluessel`, `ki_nutzung`, `webhooks`, `push_abos`, dazu der Bucket `dokumente`.
+  - Alle Regeln (RLS, Spaltenrechte) stehen in `supabase/schema.sql` und sind mit PGlite getestet (`src/test/supabaseRegeln.test.ts`).
+  - Server-Funktionen in `supabase/functions`: `einladen`, `ki` (Claude über AWS Bedrock Frankfurt), `workflow` (n8n/Make), `erinnern` (Push).
 - Werkzeugkasten speichert nie Schlüssel: Eingaben, die wie Schlüssel oder Passwörter aussehen, werden erkannt und erst nach Entfernen oder ausdrücklicher Bestätigung gespeichert; bei Integrationen wird nur der Ablageort notiert.
 
 ### Datenmodell (Kern)
@@ -197,7 +205,9 @@ public/brand/                 Logos unverändert
 - **Werkzeug** (KI-Werkzeugkasten): Typ (`prompt | befehl | agent | skill | anleitung | integration | workflow | abo`), Titel, Wofür, Inhalt, Plattform/Zielmodell/Umgebung/Anbieter, Status, Version, Link, Auslöser, Schritte (mit Erledigt), Integration (Art, Ablageort der Zugangsdaten, Region, AVV), Abo (Kosten, Abrechnung, nächste Verlängerung, Kündigungsfrist), verknüpfte Werkzeuge, Projekte, Schlagworte
 - **Mail** (Postfach): Gmail-ID, Thread, Zeitpunkt, Von, An, Betreff, Auszug, Richtung, Kontakt/Unternehmen/Bewerbung, Status `neu | uebernommen | verworfen`; nach Übernahme oder Verwerfen werden die Inhalte gelöscht
 - **Einstellungen** zusätzlich: Zeitpunkt des letzten Mailabrufs
-- **AppData**: `schemaVersion: 9` plus alle Listen; Migrationen 1 → 9 ohne Datenverlust (v8 übernimmt Wissens-Prompts als Masterprompts mit gleicher ID)
+- **KI-Protokoll**: Zeitpunkt, Aufgabe, Zeichen, Tokens – nie der Inhalt
+- **Dokument**: Name, Typ, Größe, Pfad des verschlüsselten Inhalts (IndexedDB, angemeldet zusätzlich Supabase Storage), verknüpfte Bewerbungen
+- **AppData**: `schemaVersion: 11` plus alle Listen; Migrationen 1 → 11 ohne Datenverlust (v8 übernimmt Wissens-Prompts als Masterprompts mit gleicher ID)
 
 ### Zustand und Speicherung
 
