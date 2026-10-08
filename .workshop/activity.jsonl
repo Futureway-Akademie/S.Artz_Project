@@ -303,3 +303,8 @@
 {"timestamp":"2026-10-08T11:32:55Z","type":"task_started","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' gestartet."}
 {"timestamp":"2026-10-08T12:30:42Z","type":"verification_passed","taskId":"task-19-5","summary":"Elf Doku-Kapitel geprüft, Wächter grün; Reflexion als freigegebener Entwurf."}
 {"timestamp":"2026-10-08T12:30:42Z","type":"task_completed","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' abgeschlossen."}
+{"timestamp":"2026-10-08T17:27:21Z","type":"roadmap_updated","summary":"Roadmap v8 mit Sascha abgestimmt: Phasen 20 (Teilen und Übergeben), 21 (Anmeldung mit Google und Microsoft) und 22 (Microsoft 365 und Google Drive), 16 Tasks, 41 Gewichtspunkte."}
+{"timestamp":"2026-10-08T17:27:21Z","type":"task_ready","taskId":"task-20-1","summary":"Task 'Freigabe-Kreis' ist startbar."}
+{"timestamp":"2026-10-08T17:27:21Z","type":"task_ready","taskId":"task-21-1","summary":"Task 'Login nachschärfen' ist startbar."}
+{"timestamp":"2026-10-08T17:27:21Z","type":"task_ready","taskId":"task-22-1","summary":"Task 'Microsoft verbinden' ist startbar."}
+{"timestamp":"2026-10-08T17:27:21Z","type":"task_ready","taskId":"task-22-5","summary":"Task 'Dateien aus Google Drive' ist startbar."}

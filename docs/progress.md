@@ -1,10 +1,10 @@
 # Projektfortschritt
 
-Stand: 2026-10-08, Roadmap v7. Die maßgebliche Quelle ist `.workshop/roadmap.json`; der Fortschritt wird daraus nach Gewichtspunkten berechnet, nicht geschätzt. Den aktuellen Stand in Worten zeigt `.workshop/CURRENT_STATE.md`.
+Stand: 2026-10-08, Roadmap v8. Die maßgebliche Quelle ist `.workshop/roadmap.json`; der Fortschritt wird daraus nach Gewichtspunkten berechnet, nicht geschätzt. Den aktuellen Stand in Worten zeigt `.workshop/CURRENT_STATE.md`.
 
 ## Gesamt
 
-**92,89 %**: 183 von 197 Gewichtspunkten, 74 von 81 Tasks abgeschlossen.
+**76,89 %**: 183 von 238 Gewichtspunkten, 74 von 97 Tasks abgeschlossen.
 
 ## Phasen
 
@@ -29,6 +29,9 @@ Stand: 2026-10-08, Roadmap v7. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | 17. Anbindungen | abgeschlossen | 5 von 5 | 13 von 13 |
 | 18. Online und Handy | in Arbeit | 3 von 4 | 7 von 9 |
 | 19. Praxis und Abschluss | in Arbeit | 1 von 5 | 2 von 10 |
+| 20. Teilen und Übergeben | startbar | 0 von 6 | 0 von 16 |
+| 21. Anmeldung | startbar | 0 von 4 | 0 von 9 |
+| 22. Microsoft 365 und Google Drive anbinden | startbar | 0 von 6 | 0 von 16 |
 
 ## Offene Tasks
 
@@ -41,6 +44,22 @@ Stand: 2026-10-08, Roadmap v7. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | task-19-2 | Datenschutzerklärung, Impressum, Nutzungsbedingungen | geplant | 2 |
 | task-19-3 | AVVs und Verzeichnis der Verarbeitungen | geplant | 1 |
 | task-19-4 | Abschlussprüfung Roadmap v7 | geplant | 2 |
+| task-20-1 | Freigabe-Kreis | startbar | 2 |
+| task-20-2 | Einzelne Projekte teilen | geplant | 3 |
+| task-20-3 | Verschlüsselter Briefkasten | geplant | 3 |
+| task-20-4 | Aufgaben übergeben | geplant | 3 |
+| task-20-5 | Auf dem Laufenden bleiben | geplant | 3 |
+| task-20-6 | Abschlussprüfung Teilen und Übergeben | geplant | 2 |
+| task-21-1 | Login nachschärfen | startbar | 2 |
+| task-21-2 | Mit Google anmelden | geplant | 3 |
+| task-21-3 | Mit Microsoft anmelden | geplant | 2 |
+| task-21-4 | Anmeldemethoden verknüpfen und trennen | geplant | 2 |
+| task-22-1 | Microsoft verbinden | startbar | 3 |
+| task-22-2 | Outlook-Postfach | geplant | 3 |
+| task-22-3 | Outlook-Kalender | geplant | 3 |
+| task-22-4 | Dateien aus OneDrive | geplant | 3 |
+| task-22-5 | Dateien aus Google Drive | startbar | 2 |
+| task-22-6 | Abschlussprüfung Anmeldung und Anbindungen | geplant | 2 |
 
 Abgebrochen und nicht mitgezählt: task-5-6 (Git-Historie bereinigen, auf Saschas Entscheidung).
 
@@ -54,6 +73,7 @@ Abgebrochen und nicht mitgezählt: task-5-6 (Git-Historie bereinigen, auf Sascha
 | v5 | Dashboard |
 | v6 | KI-Werkzeugkasten, Gmail |
 | v7 | Inbetriebnahme, Mehrbenutzer, KI-Assistent, Präsentation, Anbindungen, Online und Handy, Praxis und Abschluss |
+| v8 | Teilen und Übergeben, Anmeldung mit Google und Microsoft, Microsoft 365 und Google Drive |
 
 ## Nächster Termin
 

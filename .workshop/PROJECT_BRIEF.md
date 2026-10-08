@@ -16,7 +16,7 @@ Es soll Saschas tatsächliche Arbeit unterstützen und nicht wie ein Standard-Ve
 
 ## Zielgruppe
 
-Sascha Artz als Admin. Ab Roadmap v7 zusätzlich eingeladene Nutzer (Kunden, Team, Kursteilnehmer, Familie/Freunde) mit Rollen und je Nutzer freigeschalteten Bereichen.
+Sascha Artz als Admin. Ab Roadmap v7 zusätzlich eingeladene Nutzer (Kunden, Team, Kursteilnehmer, Familie/Freunde) mit Rollen und je Nutzer freigeschalteten Bereichen. Ab Roadmap v8 auch Nutzer mit Microsoft-Konto und Outlook.
 
 ## Zielplattform
 
@@ -36,12 +36,15 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 10. KI-Assistent: Bewerbungen, Mails und Verlauf, Tagesplanung, Chat mit den eigenen Daten – Claude über AWS Frankfurt, nur nach Freigabe (Roadmap v7)
 11. Anbindungen: Google-Kalender, n8n/Make, Stellenanzeigen, Dokumente (Roadmap v7)
 12. Online in Deutschland gehostet, als App auf dem Handy installierbar (Roadmap v7)
+13. Projekte mit ausgewählten Nutzern zum Ansehen teilen, Aufgaben übergeben mit Rückmeldung (Roadmap v8)
+14. Anmeldung mit Google oder Microsoft für eingeladene Nutzer (Roadmap v8)
+15. Outlook-Postfach und -Kalender, Dateien aus OneDrive und Google Drive (Roadmap v8)
 
 ## Nicht-Ziele
 
 - keine offene Registrierung: neue Nutzer nur per Einladung durch den Admin
 - kein eigener Server neben Supabase; Daten verschlüsselt im Browser, Ende-zu-Ende-verschlüsselt über Supabase (Region Frankfurt) synchronisiert; serverseitige Funktionen (KI-Zugang, Webhooks) als Supabase-Funktionen
-- keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable usw.; einzige Ausnahme ist optional Gmail nur lesend (Roadmap v6), Zugangsdaten werden nie im Cockpit gespeichert
+- keine Verbindungen ohne ausdrückliche Zustimmung; optionale Anbindungen (Gmail, Google-Kalender und -Drive, Microsoft 365, n8n/Make) nur mit den nötigsten Rechten, Zugangsdaten werden nie im Cockpit gespeichert
 - keine erfundenen Daten (Kennzahlen, Umsätze, Termine, Kontakte, Fortschritte)
 - keine dekorativen Diagramme oder Animationen ohne Funktion
 

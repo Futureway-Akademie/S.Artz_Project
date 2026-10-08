@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v7, Fortschritt 92,89 % (183 von 197 Gewichtspunkten, 74 von 81 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v8, Fortschritt 76,89 % (183 von 238 Gewichtspunkten, 74 von 97 Tasks).
 
 ## Aktive Phase
 
@@ -63,6 +63,10 @@ Keine.
 
 - task-13-1 – Supabase einrichten
 - task-16-2 – Generalprobe
+- task-20-1 – Freigabe-Kreis
+- task-21-1 – Login nachschärfen
+- task-22-1 – Microsoft verbinden
+- task-22-5 – Dateien aus Google Drive
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -242,6 +246,37 @@ Keine.
 | task-19-3 | AVVs und Verzeichnis der Verarbeitungen | ⏳ geplant | task-19-2 |
 | task-19-4 | Abschlussprüfung Roadmap v7 | ⏳ geplant | task-19-1, task-19-3 |
 | task-19-5 | Projektdokumentation für die Workshop-Zentrale | ✅ erledigt |  |
+
+### Teilen und Übergeben
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-20-1 | Freigabe-Kreis | ▶️ startbar | – |
+| task-20-2 | Einzelne Projekte teilen | ⏳ geplant | task-20-1 |
+| task-20-3 | Verschlüsselter Briefkasten | ⏳ geplant | task-20-1 |
+| task-20-4 | Aufgaben übergeben | ⏳ geplant | task-20-3 |
+| task-20-5 | Auf dem Laufenden bleiben | ⏳ geplant | task-20-4 |
+| task-20-6 | Abschlussprüfung Teilen und Übergeben | ⏳ geplant | task-20-2, task-20-5 |
+
+### Anmeldung
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-21-1 | Login nachschärfen | ▶️ startbar | – |
+| task-21-2 | Mit Google anmelden | ⏳ geplant | task-21-1 |
+| task-21-3 | Mit Microsoft anmelden | ⏳ geplant | task-21-2 |
+| task-21-4 | Anmeldemethoden verknüpfen und trennen | ⏳ geplant | task-21-3 |
+
+### Microsoft 365 und Google Drive anbinden
+
+| Task | Aufgabe | Status | Wartet auf |
+|---|---|---|---|
+| task-22-1 | Microsoft verbinden | ▶️ startbar | – |
+| task-22-2 | Outlook-Postfach | ⏳ geplant | task-22-1 |
+| task-22-3 | Outlook-Kalender | ⏳ geplant | task-22-1 |
+| task-22-4 | Dateien aus OneDrive | ⏳ geplant | task-22-1 |
+| task-22-5 | Dateien aus Google Drive | ▶️ startbar | – |
+| task-22-6 | Abschlussprüfung Anmeldung und Anbindungen | ⏳ geplant | task-21-4, task-22-2, task-22-3, task-22-4, task-22-5 |
 
 ## Blockiert
 

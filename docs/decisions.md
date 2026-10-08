@@ -632,3 +632,26 @@ Mit Sascha geplant und am 2026-10-08 bestätigt; eingetragen als Roadmap v7 (Pha
   - Mistral bietet einen kostenlosen Einstiegstarif ohne Kreditkarte (Bestätigung per Handynummer, EU-Anbieter, mit Nutzungsgrenzen).
   - Ob Mistral im Gratistarif Daten zum Training nutzt, ist zu prüfen. Bis dahin im Gratistarif nur Demo-Daten senden.
   - Rechte, Budget, Freigabe-Dialog und Protokoll bleiben unverändert. Ein späterer Wechsel zu Claude geht ohne Umbau.
+
+## 2026-10-08 – Planung Roadmap v8 (bestätigt und eingetragen)
+
+Mit Sascha geplant und bestätigt; eingetragen als Roadmap v8 (Phasen 20–22, 16 Tasks, 41 Gewichtspunkte). Anlass: Wünsche aus dem Test und ein externer Arbeitsauftrag zur Authentifizierung, mit dem Bestand abgeglichen.
+
+- **Teilen und Übergeben (Phase 20):**
+  - Geteilte Projekte sind **nur zum Ansehen**: Stand, Aufgaben, Fristen und Fortschritt. Kein gemeinsames Bearbeiten.
+  - Teilen und Übergeben nur innerhalb eines **Freigabe-Kreises**, den der Admin festlegt; dazu ein Rollenrecht „darf teilen“.
+  - Aufgaben werden **übergeben** (wandern zum Empfänger). Annehmen oder Ablehnen mit optionalem Grund; bei Ablehnung Meldung an den Absender, die Aufgabe ist wieder seine.
+  - Der Absender bleibt informiert: Status kommt verschlüsselt zurück, Warnung im Cockpit bei überschrittener Frist, Push nur ohne Inhalt.
+  - Technik: verschlüsselter Briefkasten mit dem öffentlichen Schlüssel des Empfängers (Schlüsselpaare aus task-14-5). Der Server sieht nur, wer wem wann schreibt.
+- **Anmeldung (Phase 21):**
+  - Supabase Auth bleibt die einzige Auth-Lösung; Einladungspflicht bleibt, keine offene Registrierung.
+  - „Mit Google anmelden“ und „Mit Microsoft anmelden“ nur als Identitätsnachweis (keine Mail-, Kalender- oder Datei-Rechte im Login), Knöpfe nur sichtbar, wenn eingerichtet.
+  - Verknüpfen mit bestehenden Konten nur ausdrücklich in den Einstellungen; keine stille Zusammenführung allein über die E-Mail-Adresse. Das Verhalten der automatischen Verknüpfung von Supabase wird bei der Umsetzung geprüft.
+  - Das Tresor-Passwort bleibt: Login bestätigt nur die Identität, die Daten bleiben Ende-zu-Ende-verschlüsselt.
+  - Nicht übernommen aus dem Auftrag: Passwort-Login (E-Mail-Link reicht), Organisationen/Mandanten, Profilbild.
+- **Anbindungen (Phase 22):**
+  - Microsoft 365 für Outlook-Nutzer: Postfach (nur lesen), Kalender (lesen, Eintragen nach Bestätigung), Dateien aus OneDrive.
+  - Dateien aus Google Drive für Google-Nutzer.
+  - Jede Anbindung mit eigener Zustimmung nach dem Login, Token nur im Arbeitsspeicher, Dateien nur als verschlüsselte Kopie.
+  - Offen: ob die Microsoft-App-Registrierung eine Kreditkarte verlangt (vor task-21-3 bzw. task-22-1 klären).
+- **Reihenfolge:** Supabase (task-13-1) und die Generalprobe (task-16-2) für die Präsentation am 21.10.2026 bleiben vorrangig.

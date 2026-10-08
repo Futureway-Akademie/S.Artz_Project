@@ -36,7 +36,7 @@ Der erste lauffähige Stand (Roadmap v1/v2) umfasste:
 - CRM: Kontakte und Unternehmen, Verlauf, optionale Leads, Bewerbungen und Zielrollen
 - Export, Import und Zurücksetzen der Daten
 
-Danach wuchs das Projekt in Roadmap-Versionen weiter: Datenschutz (v3), Login und zweites Gehirn (v4), Dashboard (v5), KI-Werkzeugkasten und Gmail (v6), Mehrbenutzer, KI-Assistent und Handy (v7). Details in [features.md](features.md) und [progress.md](progress.md).
+Danach wuchs das Projekt in Roadmap-Versionen weiter: Datenschutz (v3), Login und zweites Gehirn (v4), Dashboard (v5), KI-Werkzeugkasten und Gmail (v6), Mehrbenutzer, KI-Assistent und Handy (v7), Teilen und Übergeben, Anmeldung mit Google und Microsoft, Microsoft 365 und Google Drive (v8, geplant). Details in [features.md](features.md) und [progress.md](progress.md).
 
 ## Nicht-Ziele
 

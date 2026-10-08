@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 7,
+  "roadmapVersion": 8,
   "status": "active",
   "phases": [
     {
@@ -2545,6 +2545,475 @@
               "npx vitest run src/test/datenschutz.test.ts"
             ],
             "checkedAt": "2026-10-08T12:30:42Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-20",
+      "title": "Teilen und Übergeben",
+      "description": "Nutzer teilen einzelne Projekte zum Ansehen und übergeben Aufgaben; der Absender bleibt informiert. Alles Ende-zu-Ende-verschlüsselt, nur innerhalb des vom Admin festgelegten Freigabe-Kreises.",
+      "order": 20,
+      "weight": 16,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-20-1",
+          "title": "Freigabe-Kreis",
+          "description": "Admin legt fest, wer mit wem teilen und übergeben darf; Rollenrecht „darf teilen“; Durchsetzung per RLS.",
+          "order": 1,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [
+            "task-14-5"
+          ],
+          "definitionOfDone": [
+            "Admin kann Paare im Freigabe-Kreis anlegen und entfernen",
+            "Rollenrecht „darf teilen“ je Rolle und Nutzer",
+            "RLS lässt Teilen und Nachrichten nur innerhalb des Kreises zu (PGlite-Test)",
+            "Gesperrte Nutzer verlieren jeden Zugriff",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-20-2",
+          "title": "Einzelne Projekte teilen",
+          "description": "Knopf „Teilen“ auf der Projektseite; Empfänger aus dem Freigabe-Kreis sehen Projekt mit Aufgaben, Terminen, Fristen und Fortschritt nur lesend; jeder Nutzer mit Recht teilt eigene Projekte.",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-20-1"
+          ],
+          "definitionOfDone": [
+            "Teilen pro Projekt an ausgewählte Nutzer",
+            "Empfänger sehen Stand, Aufgaben, Fristen und Fortschritt nur lesend",
+            "Verweise auf Kontakte, Bewerbungen, Leads und Zugangsdaten werden entfernt",
+            "Entziehen tauscht den Schlüssel; neue Stände sind für Entfernte nicht lesbar",
+            "Server sieht nur Chiffretext",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-20-3",
+          "title": "Verschlüsselter Briefkasten",
+          "description": "Nachrichten zwischen Nutzern, mit dem öffentlichen Schlüssel des Empfängers verschlüsselt; nur innerhalb des Freigabe-Kreises.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-20-1"
+          ],
+          "definitionOfDone": [
+            "Tabelle für Nachrichten mit RLS: nur Absender und Empfänger, nur im Kreis",
+            "Inhalt nur verschlüsselt (Check in der Datenbank)",
+            "Empfänger kann gelesene Nachrichten löschen",
+            "Zwei-Nutzer-Tests mit Fake-Cloud und PGlite",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-20-4",
+          "title": "Aufgaben übergeben",
+          "description": "Dialog „Übergeben an …“ mit Frist; Eingang „Neue Aufgaben für dich“ mit Annehmen oder Ablehnen (Grund optional); bei Ablehnung Meldung an den Absender und Aufgabe zurück.",
+          "order": 4,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-20-3"
+          ],
+          "definitionOfDone": [
+            "Übergeben mit Empfänger und Frist",
+            "Annehmen übernimmt die Aufgabe in die Daten des Empfängers",
+            "Ablehnen mit optionalem Grund; Absender bekommt Meldung im Cockpit, Aufgabe ist wieder seine",
+            "Keine Verweise auf personenbezogene Daten Dritter werden mitgeschickt",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-20-5",
+          "title": "Auf dem Laufenden bleiben",
+          "description": "Übersicht „Von mir übergeben“ mit Stand (wartet, angenommen, erledigt); Änderungen kommen automatisch zurück; Warnung im Cockpit bei überschrittener Frist; optional Push ohne Inhalt.",
+          "order": 5,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-20-4"
+          ],
+          "definitionOfDone": [
+            "Statusrückmeldungen (angenommen, erledigt, Frist geändert) kommen verschlüsselt zurück",
+            "Übersicht „Von mir übergeben“",
+            "Warnung im Cockpit, wenn die Frist überschritten und die Aufgabe nicht erledigt ist",
+            "Push nur ohne Inhalt",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-20-6",
+          "title": "Abschlussprüfung Teilen und Übergeben",
+          "description": "Alle Prüfungen, Zwei-Nutzer-Szenarien, Browser bei drei Breiten, Doku und Prüfprotokoll.",
+          "order": 6,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-20-2",
+            "task-20-5"
+          ],
+          "definitionOfDone": [
+            "Szenarien geprüft: teilen, entziehen, übergeben, ablehnen, Frist überschritten, Nutzer außerhalb des Kreises",
+            "Browser bei 375, 768 und 1280 px",
+            "Architektur, Entscheidungen, Prüfprotokoll und Doku-Kapitel aktuell",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-21",
+      "title": "Anmeldung",
+      "description": "Login nachschärfen; Anmeldung mit Google und Microsoft nur als Identitätsnachweis für eingeladene Nutzer; Tresor-Passwort bleibt.",
+      "order": 21,
+      "weight": 9,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-21-1",
+          "title": "Login nachschärfen",
+          "description": "Neutrale Fehlermeldungen ohne Auskunft über vorhandene Konten, Weiterleitungen nur an erlaubte Ziele, abgelaufene Anmeldung, Tests.",
+          "order": 1,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [
+            "task-14-2"
+          ],
+          "definitionOfDone": [
+            "Fehlermeldungen verraten nicht, ob ein Konto existiert",
+            "Rücksprungziele nur aus der Liste erlaubter Adressen (Test mit manipulierten Zielen)",
+            "Abgelaufene oder benutzte Links und abgelaufene Sitzungen werden verständlich behandelt",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-21-2",
+          "title": "Mit Google anmelden",
+          "description": "Google über Supabase Auth nur als Identität (openid, email, profile), nur für eingeladene Nutzer; Knopf nur wenn eingerichtet; keine Gmail-Berechtigungen im Login.",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-21-1"
+          ],
+          "definitionOfDone": [
+            "Nur Identitäts-Scopes, keine Gmail-Scopes, kein Offline-Zugriff",
+            "Nicht eingeladene Google-Konten werden abgewiesen, keine offene Registrierung",
+            "Knopf ausgeblendet, solange nicht eingerichtet; E-Mail-Link funktioniert weiter",
+            "Abbruch, verweigerte Zustimmung und Fehler werden verständlich behandelt",
+            "Google-Konten ohne @gmail.com funktionieren",
+            "Tresor-Passwort bleibt unabhängig vom Login",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-21-3",
+          "title": "Mit Microsoft anmelden",
+          "description": "Microsoft-Konten (privat und Firma) über Supabase Auth nur als Identität, nur für eingeladene Nutzer; Knopf nur wenn eingerichtet.",
+          "order": 3,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-21-2"
+          ],
+          "definitionOfDone": [
+            "Nur Identitäts-Scopes, keine Mail-, Kalender- oder Datei-Rechte",
+            "Private und Firmenkonten",
+            "Nicht eingeladene Konten werden abgewiesen",
+            "Knopf ausgeblendet, solange nicht eingerichtet",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-21-4",
+          "title": "Anmeldemethoden verknüpfen und trennen",
+          "description": "Google und Microsoft ausdrücklich in den Einstellungen mit dem bestehenden Konto verknüpfen und trennen; keine stille Zusammenführung allein über die E-Mail-Adresse.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-21-3"
+          ],
+          "definitionOfDone": [
+            "Verknüpfen nur nach Anmeldung am bestehenden Konto",
+            "Keine doppelten Konten bei wiederholten Rücksprüngen",
+            "Die letzte Anmeldemethode lässt sich nicht entfernen",
+            "Verhalten der automatischen Verknüpfung von Supabase geprüft und dokumentiert",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-22",
+      "title": "Microsoft 365 und Google Drive anbinden",
+      "description": "Outlook-Postfach, Outlook-Kalender und Dateien aus OneDrive und Google Drive; jeweils eigene Zustimmung nach dem Login, Token nur im Arbeitsspeicher.",
+      "order": 22,
+      "weight": 16,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-22-1",
+          "title": "Microsoft verbinden",
+          "description": "Eigene Zustimmung nach dem Login über Microsoft Graph, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für Microsoft, jederzeit trennbar.",
+          "order": 1,
+          "weight": 3,
+          "status": "ready",
+          "dependsOn": [
+            "task-12-1"
+          ],
+          "definitionOfDone": [
+            "Verbindung getrennt vom Login mit eigener Zustimmung",
+            "Nur die für die Funktion nötigen Berechtigungen",
+            "Token nur im Arbeitsspeicher, nie im Tresor oder Repository",
+            "CSP öffnet nur die Microsoft-Adressen, nur wenn eingerichtet",
+            "Trennen und Widerruf möglich",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-22-2",
+          "title": "Outlook-Postfach",
+          "description": "Nur lesend; nur Mails von und an Kontakte und Unternehmensdomains; zuordnen und in den Verlauf übernehmen wie bei Gmail; Postfach zeigt beide Quellen.",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-22-1"
+          ],
+          "definitionOfDone": [
+            "Nur Lesen",
+            "Abruf nur passender Mails",
+            "Zuordnung und Übernahme wie bei Gmail; Quelle sichtbar",
+            "Nach Übernahme oder Verwerfen werden Inhalte gelöscht",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-22-3",
+          "title": "Outlook-Kalender",
+          "description": "Termine lesen und in Kalender und Cockpit zeigen; Termine nach Bestätigung eintragen wie bei Google.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-22-1"
+          ],
+          "definitionOfDone": [
+            "Termine aus Outlook im Kalender und Cockpit",
+            "Eintragen nur nach Bestätigung",
+            "Keine Kalenderdaten außerhalb des Tresors gespeichert",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-22-4",
+          "title": "Dateien aus OneDrive",
+          "description": "Datei aus OneDrive auswählen und als verschlüsselte Kopie an Bewerbung oder Projekt hängen; OneDrive nur lesen.",
+          "order": 4,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-22-1",
+            "task-17-5"
+          ],
+          "definitionOfDone": [
+            "Nur Leserechte auf Dateien",
+            "Kopie wird verschlüsselt wie andere Dokumente gespeichert",
+            "In OneDrive wird nichts geändert",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-22-5",
+          "title": "Dateien aus Google Drive",
+          "description": "Datei aus Google Drive auswählen und als verschlüsselte Kopie an Bewerbung oder Projekt hängen; Drive nur lesen, eigene Zustimmung.",
+          "order": 5,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [
+            "task-12-1",
+            "task-17-5"
+          ],
+          "definitionOfDone": [
+            "Nur die engste passende Leseberechtigung",
+            "Kopie wird verschlüsselt wie andere Dokumente gespeichert",
+            "In Google Drive wird nichts geändert",
+            "Eigene Zustimmung, unabhängig von Login und Gmail",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-22-6",
+          "title": "Abschlussprüfung Anmeldung und Anbindungen",
+          "description": "Alle Prüfungen, Browser bei drei Breiten, Doku und Prüfprotokoll für Phase 21 und 22.",
+          "order": 6,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-21-4",
+            "task-22-2",
+            "task-22-3",
+            "task-22-4",
+            "task-22-5"
+          ],
+          "definitionOfDone": [
+            "Keine Mail-, Kalender- oder Datei-Berechtigungen im reinen Login (Test)",
+            "Keine Secrets oder Tokens im Repository, Log oder Tresor",
+            "Browser bei 375, 768 und 1280 px",
+            "Architektur, Entscheidungen, Prüfprotokoll, Einrichtungsanleitungen und Doku-Kapitel aktuell",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
           }
         }
       ]
