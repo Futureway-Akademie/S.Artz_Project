@@ -228,3 +228,7 @@
 {"timestamp":"2026-10-08T09:08:19Z","type":"task_ready","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' ist startbar."}
 {"timestamp":"2026-10-08T09:08:19Z","type":"task_ready","taskId":"task-14-3","summary":"Task 'Admin-Bereich' ist startbar."}
 {"timestamp":"2026-10-08T09:08:19Z","type":"task_started","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' gestartet."}
+{"timestamp":"2026-10-08T09:08:51Z","type":"task_started","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' gestartet."}
+{"timestamp":"2026-10-08T09:12:39Z","type":"verification_passed","taskId":"task-14-2","summary":"Einladungsprüfung, Erstanmeldung und Geräteschutz getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:12:39Z","type":"task_completed","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' abgeschlossen."}
+{"timestamp":"2026-10-08T09:12:39Z","type":"task_started","taskId":"task-14-3","summary":"Task 'Admin-Bereich' gestartet."}

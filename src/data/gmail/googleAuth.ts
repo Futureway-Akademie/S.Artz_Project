@@ -59,8 +59,9 @@ export function anmeldungStarten(ort: Pick<Location, 'origin' | 'assign'> = wind
 /** Wertet das Fragment nach dem Rücksprung aus; `null`, wenn es kein Google-Rücksprung ist. */
 export function rueckkehrAuswerten(hash: string, erwarteterState: string | null, jetzt: number): Rueckkehr | null {
   const p = new URLSearchParams(hash.replace(/^#/, ''))
-  if (!p.has('access_token') && !p.has('error')) return null
-  if (!p.get('state') || p.get('state') !== erwarteterState) return { art: 'fehler', grund: 'Die Anmeldung gehört nicht zu dieser Sitzung und wurde verworfen.' }
+  // Nur Rücksprünge mit State sind von Google; Supabase-Anmeldelinks (ohne State) bleiben unberührt
+  if (!p.has('state') || (!p.has('access_token') && !p.has('error'))) return null
+  if (p.get('state') !== erwarteterState) return { art: 'fehler', grund: 'Die Anmeldung gehört nicht zu dieser Sitzung und wurde verworfen.' }
   const fehler = p.get('error')
   if (fehler) return { art: 'fehler', grund: fehler === 'access_denied' ? 'Du hast den Zugriff bei Google abgelehnt.' : `Google meldet: ${fehler}` }
   const scope = p.get('scope') ?? ''

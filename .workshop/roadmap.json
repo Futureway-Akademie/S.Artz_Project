@@ -1822,7 +1822,7 @@
           "description": "Admin lädt per E-Mail ein; Selbstregistrierung ist abgeschaltet; neuer Nutzer legt beim ersten Login seinen eigenen Tresor an. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-14-1"
           ],
@@ -1831,13 +1831,17 @@
             "Ohne Einladung keine Registrierung",
             "Neuer Nutzer hat eigenen, getrennten Tresor"
           ],
-          "startedAt": "2026-10-08T09:08:19Z",
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:08:51Z",
+          "completedAt": "2026-10-08T09:12:39Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Supabase-Funktion einladen (nur aktiver Admin, Prüfung von Adresse, Rolle und Rücksprung; service_role nur serverseitig), Rolle über Metadaten ins Profil. Erstanmeldung: Begrüßung eingeladener Nutzer, eigener Tresor mit eigenem Passwort, Synchronisierung. Gerät mit fremdem Tresor: kein Abgleich, Hinweis und Abmelden. Behoben: Gmail-Rücksprung fängt Supabase-Anmeldelinks nicht mehr ab. Anleitung ergänzt. Tests grün; Live-Test in task-13-1.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:12:39Z"
           }
         },
         {
@@ -1846,7 +1850,7 @@
           "description": "Nutzerliste, Rollen-Vorlagen bearbeiten, Rolle zuweisen, Bereiche je Nutzer ein- und ausschalten, Nutzer sperren und entsperren. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 3,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-14-1"
           ],
@@ -1855,7 +1859,7 @@
             "Bereiche je Nutzer schaltbar, Änderung wirkt sofort",
             "Nutzer sperren und entsperren"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:12:39Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

@@ -18,6 +18,7 @@ const SYNC_TEXT: Record<SyncStatus, string> = {
   fehler: 'Synchronisierung fehlgeschlagen.',
   konflikt: 'Konflikt: bitte oben entscheiden.',
   fremd: 'In der Cloud liegen Daten mit anderem Passwort: bitte oben entscheiden.',
+  anderesKonto: 'Die Daten auf diesem Gerät gehören zu einem anderen Konto – keine Synchronisierung.',
 }
 
 /** Login für die Ende-zu-Ende-verschlüsselte Synchronisierung (Supabase, Anmeldung per E-Mail-Link). */

@@ -40,3 +40,22 @@ Die Tabelle lässt per Regel nur verschlüsselte Umschläge zu. Jede Person sieh
 
 - **Begrenzte Mails:** Der eingebaute Mailversand von Supabase ist für wenige Mails pro Stunde gedacht. Für den Eigengebrauch reicht das. Für mehr lässt sich unter *Authentication → SMTP* ein eigener Mailserver eintragen.
 - **Konto löschen:** Löschst du dein Konto in Supabase (*Authentication → Users*), wird der verschlüsselte Datensatz automatisch mitgelöscht.
+
+## Mehrbenutzer: Admin, Rollen und Einladungen
+
+Das Schema aus Schritt 3 legt zusätzlich Rollen, Profile und Zugriffsregeln an. Das Skript lässt sich gefahrlos erneut ausführen, z. B. nach einem Update.
+
+1. **Du wirst Admin:** Das **erste Konto**, das sich anmeldet, wird automatisch Admin. Melde dich deshalb als Erste/r an (Schritt 8), bevor du jemanden einlädst.
+2. **Selbstregistrierung abschalten:** direkt danach, wie in Schritt 6. Neue Nutzer kommen dann nur noch per Einladung.
+3. **Einladungs-Funktion bereitstellen:**
+   - mit der [Supabase CLI](https://supabase.com/docs/guides/cli): `supabase functions deploy einladen` (der Code liegt in `supabase/functions/einladen`)
+   - Secret setzen: `supabase secrets set ERLAUBTE_URSPRUENGE=http://localhost:5173` (weitere Adressen durch Komma getrennt)
+   - Die Funktion prüft, dass nur du als Admin einlädst. Den nötigen Server-Schlüssel stellt Supabase ihr selbst bereit; er steht nie in der App.
+4. **Einladungsmail anpassen (optional):** unter *Authentication → Emails → Invite user*, z. B. auf Deutsch.
+
+**Was eingeladene Nutzer sehen:**
+- Jeder hat einen **eigenen Tresor** mit eigenem Passwort. Weder du noch Supabase können ihn lesen.
+- Welche Bereiche sie sehen, legst du über Rollen und Freigaben im Admin-Bereich fest.
+- **Gesperrte** Nutzer kommen nicht mehr an ihre Cloud-Daten.
+
+**Ein Gerät, mehrere Konten:** Für jedes Konto ein eigenes Browserprofil nutzen. Meldet sich auf einem Gerät ein anderes Konto an, gleicht das Cockpit nicht ab und weist darauf hin.

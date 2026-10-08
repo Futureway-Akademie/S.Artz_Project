@@ -1,4 +1,5 @@
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { besitzerSetzen } from '../data/cloud/sync.ts'
 import type { FormEvent, ReactNode } from 'react'
 import { Wordmark } from '../components/brand/Wordmark.tsx'
 import { Button } from '../components/ui/Button.tsx'
@@ -208,6 +209,7 @@ export function TresorGate({ basis, children, iterationen = STANDARD_ITERATIONEN
           onZurueck={() => setPhase({ art: 'gesperrt' })}
           onLoeschen={() => {
             basis.removeItem(STORAGE_KEY)
+            besitzerSetzen(basis, null)
             setPhase({ art: 'einrichten', klartextVorhanden: false })
           }}
         />

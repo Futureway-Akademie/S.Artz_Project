@@ -29,6 +29,9 @@ describe('Google-Anmeldung (nur lesen)', () => {
     expect(rueckkehrAuswerten(hash({}), 'abc', jetzt)).toEqual({ art: 'verbunden', token: { wert: 'tok', gueltigBis: jetzt + 3539_000 } })
     expect(rueckkehrAuswerten(hash({}), 'anders', jetzt)).toMatchObject({ art: 'fehler' })
     expect(rueckkehrAuswerten(hash({}), null, jetzt)).toMatchObject({ art: 'fehler' })
+    // Supabase-Anmeldelink: access_token ohne State gehört nicht zu Google und bleibt unangetastet
+    expect(rueckkehrAuswerten('#access_token=sb&refresh_token=r&expires_in=3600&token_type=bearer&type=invite', 'abc', jetzt)).toBeNull()
+    expect(rueckkehrAuswerten('#error=access_denied&error_code=otp_expired', 'abc', jetzt)).toBeNull()
     expect(rueckkehrAuswerten(hash({ scope: 'email' }), 'abc', jetzt)).toMatchObject({ art: 'fehler', grund: expect.stringContaining('nicht erteilt') })
     expect(rueckkehrAuswerten('#error=access_denied&state=abc', 'abc', jetzt)).toEqual({ art: 'fehler', grund: 'Du hast den Zugriff bei Google abgelehnt.' })
   })
