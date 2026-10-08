@@ -233,3 +233,10 @@
   list-style: none;
   overflow-wrap: anywhere;
 }
+
+.panelAktionen {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}

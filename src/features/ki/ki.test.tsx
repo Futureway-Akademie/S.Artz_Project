@@ -113,3 +113,30 @@ describe('KI für Verlauf', () => {
     expect(gespeichert().kontakte[0]!.naechsteAktion).toEqual({ text: 'Angebot schicken', faelligAm: '2026-10-12' })
   })
 })
+
+describe('KI-Tagesplanung', () => {
+  afterEach(() => localStorage.clear())
+
+  it('schlägt Aufgaben vor und nimmt nur passende in den Fokus', async () => {
+    const { renderApp } = await import('../../test/renderApp.tsx')
+    const zeit = '2026-10-01T10:00:00.000Z'
+    const aufgabe = (id: string, titel: string) => ({ id, titel, notiz: '', erledigt: false, erledigtAm: null, faelligAm: '2026-10-01', bezug: { art: 'ohne' as const, id: null }, fokus: false, erstelltAm: zeit, geaendertAm: zeit })
+    const daten = { ...beispielSeed(), aufgaben: [aufgabe('a1', 'Portfolio'), aufgabe('a2', 'Rechnung')] }
+    const fake = createFakeCloud({ nutzer: { id: 'u1', email: 'admin@example.org' }, profile: [admin], kiAntwort: () => '1. [a2] Rechnung zuerst, überfällig\n2. [gibtsnicht] erfunden' })
+    const { gespeichert } = renderApp('/', { daten, cloud: fake.dienst })
+    fireEvent.click(await screen.findByRole('button', { name: 'Tag mit KI planen' }))
+    const dialog = await screen.findByRole('dialog', { name: 'KI: Tagesplanung' })
+    await act(async () => {
+      fireEvent.click(await within(dialog).findByRole('button', { name: 'Senden' }))
+    })
+    expect(fake.kiAnfragen[0]!.eingabe).toContain('[a1] Portfolio')
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Vorgeschlagene Aufgaben in den Fokus' }))
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(gespeichert().aufgaben.map((a) => [a.id, a.fokus])).toEqual([
+      ['a1', false],
+      ['a2', true],
+    ])
+  })
+})

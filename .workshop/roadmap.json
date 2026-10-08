@@ -2047,7 +2047,7 @@
           "description": "„Was soll ich heute tun?“: Vorschlag aus Fristen, Fokus, Terminen und Wiedervorlagen; in den Fokus übernehmen.",
           "order": 5,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2056,12 +2056,16 @@
             "Übernahme in den Fokus"
           ],
           "startedAt": "2026-10-08T09:36:57Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T09:39:16Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI-Tagesplanung: „Tag mit KI planen“ im Cockpit-Panel „Heute im Fokus“; Eingabe aus Terminen heute, bald fälligen und Fokus-Aufgaben sowie fälligen Wiedervorlagen (mit IDs); Übernahme nimmt nur tatsächlich vorhandene, offene Aufgaben in den Fokus (erfundene IDs werden ignoriert). Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:39:16Z"
           }
         },
         {
@@ -2070,7 +2074,7 @@
           "description": "Fragen an die eigenen Daten; der Nutzer wählt die einbezogenen Bereiche; Antworten mit Links zu den Einträgen.",
           "order": 6,
           "weight": 3,
-          "status": "ready",
+          "status": "in_progress",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2078,7 +2082,7 @@
             "Bereichsauswahl vor dem Senden",
             "Antworten verlinken die Quellen-Einträge"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:39:16Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

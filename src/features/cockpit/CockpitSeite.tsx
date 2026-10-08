@@ -1,4 +1,8 @@
 import { Link } from 'react-router'
+import { useState } from 'react'
+import { Button } from '../../components/ui/Button.tsx'
+import { idsAusAntwort, tagesplanEingabe } from '../../domain/selectors/kiEingaben.ts'
+import { KiDialog } from '../ki/KiDialog.tsx'
 import { useRechte } from '../../app/cloudContext.ts'
 import { NurMit } from '../../components/NurMit.tsx'
 import { darf } from '../../domain/bereiche.ts'
@@ -51,6 +55,7 @@ export function CockpitSeite() {
   const crm = selectCrmUebersicht(data, now)
   const sicherung = selectSicherungHinweis(data, now)
   const aboFristen = selectAboFristen(data, now)
+  const [kiPlan, setKiPlan] = useState(false)
 
   const abhaken = (a: Aufgabe) => {
     dispatch({ type: 'aendern', sammlung: 'aufgaben', id: a.id, aenderung: { erledigt: true } })
@@ -101,7 +106,19 @@ export function CockpitSeite() {
       </section>
 
       <NurMit bereich="aufgaben">
-      <Panel titel="Heute im Fokus" aktionen={<Link to="/aufgaben">Aufgaben</Link>}>
+      <Panel
+        titel="Heute im Fokus"
+        aktionen={
+          <span className={styles.panelAktionen}>
+            <NurMit bereich="ki">
+              <Button size="sm" variant="secondary" onClick={() => setKiPlan(true)}>
+                Tag mit KI planen
+              </Button>
+            </NurMit>
+            <Link to="/aufgaben">Aufgaben</Link>
+          </span>
+        }
+      >
         {fokus.fokus.length === 0 ? (
           <div className={styles.fokusLeer}>
             <p>Noch nichts im Fokus. Markiere bei Aufgaben „☆ Fokus“ – oder nimm einen Vorschlag:</p>
@@ -333,6 +350,20 @@ export function CockpitSeite() {
           )}
         </Panel>
       </div>
+      {kiPlan && (
+        <KiDialog
+          aufgabe="tagesplan"
+          eingabe={tagesplanEingabe(data, now)}
+          uebernehmenLabel="Vorgeschlagene Aufgaben in den Fokus"
+          onUebernehmen={(antwort) => {
+            const ids = new Set(idsAusAntwort(antwort))
+            const passend = data.aufgaben.filter((a) => ids.has(a.id) && !a.erledigt && !a.fokus)
+            for (const a of passend) dispatch({ type: 'aendern', sammlung: 'aufgaben', id: a.id, aenderung: { fokus: true } })
+            zeige(passend.length ? `${passend.length} ${passend.length === 1 ? 'Aufgabe' : 'Aufgaben'} in den Fokus genommen` : 'Keine weiteren Aufgaben für den Fokus')
+          }}
+          onSchliessen={() => setKiPlan(false)}
+        />
+      )}
     </Seite>
   )
 }
