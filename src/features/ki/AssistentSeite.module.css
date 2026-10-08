@@ -1,0 +1,51 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.bereiche {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0 var(--space-3);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.bereiche legend {
+  margin-bottom: var(--space-1);
+  font-weight: var(--font-weight-bold);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--control-height);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.check input {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-blue);
+}
+
+.frage {
+  margin: 0 0 var(--space-2);
+  font-weight: var(--font-weight-bold);
+}
+
+.antwort {
+  margin: 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.hinweis {
+  margin: var(--space-2) 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}

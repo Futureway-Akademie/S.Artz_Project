@@ -215,3 +215,91 @@
 {"timestamp":"2026-10-07T23:52:32Z","type":"task_completed","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' abgeschlossen."}
 {"timestamp":"2026-10-08T07:24:27Z","type":"task_cancelled","taskId":"task-5-6","summary":"Task 'Git-Historie bereinigen' abgebrochen: Sascha hat entschieden, dass die Projekttitel, Firmennamen und Zielrollen in alten Commits nicht stören (keine Passwörter, Kontaktdaten oder Personennamen enthalten). Kein Force-Push nötig."}
 {"timestamp":"2026-10-08T08:48:24Z","type":"roadmap_updated","summary":"Roadmap v7 mit Sascha geplant: Inbetriebnahme, Mehrbenutzer und Rollen, KI-Assistent (Claude über AWS Frankfurt), Präsentation 21.10.2026, Anbindungen, Online und Handy, Praxis und Abschluss (29 neue Tasks)."}
+{"timestamp":"2026-10-08T08:57:46Z","type":"task_started","taskId":"task-13-2","summary":"Task 'Automatische Tests auf GitHub (CI)' gestartet."}
+{"timestamp":"2026-10-08T09:00:32Z","type":"verification_passed","taskId":"task-13-2","summary":"CI-Lauf auf GitHub grün."}
+{"timestamp":"2026-10-08T09:00:32Z","type":"task_completed","taskId":"task-13-2","summary":"Task 'Automatische Tests auf GitHub (CI)' abgeschlossen."}
+{"timestamp":"2026-10-08T09:00:33Z","type":"task_started","taskId":"task-13-3","summary":"Task 'Werkzeugkasten-Startvorlagen' gestartet."}
+{"timestamp":"2026-10-08T09:01:46Z","type":"verification_passed","taskId":"task-13-3","summary":"Vorlagen-Übernahme getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:01:46Z","type":"task_completed","taskId":"task-13-3","summary":"Task 'Werkzeugkasten-Startvorlagen' abgeschlossen."}
+{"timestamp":"2026-10-08T09:02:04Z","type":"roadmap_updated","summary":"Roadmap-Korrektur: task-14-1, task-15-1, task-17-3 und task-17-5 hängen nicht mehr an task-13-1. Der Code wird gegen eine nachgebaute Supabase-Schnittstelle gebaut und getestet; der Live-Test erfolgt in task-13-1 gemeinsam mit Sascha (Saschas Auftrag: alles vorziehen, was ohne ihn geht)."}
+{"timestamp":"2026-10-08T09:03:36Z","type":"task_started","taskId":"task-14-1","summary":"Task 'Datenmodell für Nutzer, Rollen und Rechte' gestartet."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"verification_passed","taskId":"task-14-1","summary":"RLS-Regeln mit PGlite und Rechte-Logik getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_completed","taskId":"task-14-1","summary":"Task 'Datenmodell für Nutzer, Rollen und Rechte' abgeschlossen."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_ready","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' ist startbar."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_ready","taskId":"task-14-3","summary":"Task 'Admin-Bereich' ist startbar."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_started","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' gestartet."}
+{"timestamp":"2026-10-08T09:08:51Z","type":"task_started","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' gestartet."}
+{"timestamp":"2026-10-08T09:12:39Z","type":"verification_passed","taskId":"task-14-2","summary":"Einladungsprüfung, Erstanmeldung und Geräteschutz getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:12:39Z","type":"task_completed","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' abgeschlossen."}
+{"timestamp":"2026-10-08T09:12:39Z","type":"task_started","taskId":"task-14-3","summary":"Task 'Admin-Bereich' gestartet."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"verification_passed","taskId":"task-14-3","summary":"Admin-Bereich (Einladen, Rollen, Bereiche, Sperren) getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_completed","taskId":"task-14-3","summary":"Task 'Admin-Bereich' abgeschlossen."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_ready","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' ist startbar."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_ready","taskId":"task-14-5","summary":"Task 'Geteilte Bereiche' ist startbar."}
+{"timestamp":"2026-10-08T09:15:52Z","type":"task_started","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' gestartet."}
+{"timestamp":"2026-10-08T09:20:47Z","type":"verification_passed","taskId":"task-14-4","summary":"Rechte in Navigation, Seiten, Suche, Schnellerfassung, Cockpit und Dashboard getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:20:47Z","type":"task_completed","taskId":"task-14-4","summary":"Task 'Navigation und Seiten nach Rechten' abgeschlossen."}
+{"timestamp":"2026-10-08T09:21:18Z","type":"task_started","taskId":"task-15-1","summary":"Task 'KI-Zugang über Supabase-Funktion' gestartet."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"verification_passed","taskId":"task-15-1","summary":"KI-Rechte, Budget-Regeln, Anfrageprüfung und Verfügbarkeit getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"task_completed","taskId":"task-15-1","summary":"Task 'KI-Zugang über Supabase-Funktion' abgeschlossen."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"task_ready","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' ist startbar."}
+{"timestamp":"2026-10-08T09:27:05Z","type":"task_started","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' gestartet."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"verification_passed","taskId":"task-15-2","summary":"Freigabe, Bearbeiten vor dem Senden, Übernahme und Protokoll ohne Inhalt getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_completed","taskId":"task-15-2","summary":"Task 'Freigabe-Dialog und Protokoll' abgeschlossen."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-3","summary":"Task 'KI für Bewerbungen' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-4","summary":"Task 'KI für Mails und Verlauf' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-5","summary":"Task 'KI-Tagesplanung' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-15-6","summary":"Task 'Chat mit deinen Daten' ist startbar."}
+{"timestamp":"2026-10-08T09:30:10Z","type":"task_ready","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' ist startbar."}
+{"timestamp":"2026-10-08T09:30:11Z","type":"task_started","taskId":"task-15-3","summary":"Task 'KI für Bewerbungen' gestartet."}
+{"timestamp":"2026-10-08T09:34:36Z","type":"verification_passed","taskId":"task-15-3","summary":"Eingabetexte und Anschreiben-Ablauf getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:34:36Z","type":"task_completed","taskId":"task-15-3","summary":"Task 'KI für Bewerbungen' abgeschlossen."}
+{"timestamp":"2026-10-08T09:34:36Z","type":"task_ready","taskId":"task-16-1","summary":"Task 'Demo-Daten, Ablauf und Folien' ist startbar."}
+{"timestamp":"2026-10-08T09:34:37Z","type":"task_started","taskId":"task-15-4","summary":"Task 'KI für Mails und Verlauf' gestartet."}
+{"timestamp":"2026-10-08T09:36:57Z","type":"verification_passed","taskId":"task-15-4","summary":"Zusammenfassung mit Übernahme der Wiedervorlage getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:36:57Z","type":"task_completed","taskId":"task-15-4","summary":"Task 'KI für Mails und Verlauf' abgeschlossen."}
+{"timestamp":"2026-10-08T09:36:57Z","type":"task_started","taskId":"task-15-5","summary":"Task 'KI-Tagesplanung' gestartet."}
+{"timestamp":"2026-10-08T09:39:16Z","type":"verification_passed","taskId":"task-15-5","summary":"Tagesplanung mit Fokus-Übernahme getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:39:16Z","type":"task_completed","taskId":"task-15-5","summary":"Task 'KI-Tagesplanung' abgeschlossen."}
+{"timestamp":"2026-10-08T09:39:16Z","type":"task_started","taskId":"task-15-6","summary":"Task 'Chat mit deinen Daten' gestartet."}
+{"timestamp":"2026-10-08T09:42:39Z","type":"verification_passed","taskId":"task-15-6","summary":"Chat mit Bereichswahl, Datenschutz der Kontaktdaten und Verlinkung getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:42:39Z","type":"task_completed","taskId":"task-15-6","summary":"Task 'Chat mit deinen Daten' abgeschlossen."}
+{"timestamp":"2026-10-08T09:43:01Z","type":"task_started","taskId":"task-16-1","summary":"Task 'Demo-Daten, Ablauf und Folien' gestartet."}
+{"timestamp":"2026-10-08T09:47:42Z","type":"verification_passed","taskId":"task-16-1","summary":"Demo-Daten (gültig, entfernbar) getestet, Folien im Browser geprüft; alle Tests grün."}
+{"timestamp":"2026-10-08T09:47:42Z","type":"task_completed","taskId":"task-16-1","summary":"Task 'Demo-Daten, Ablauf und Folien' abgeschlossen."}
+{"timestamp":"2026-10-08T09:47:42Z","type":"task_ready","taskId":"task-16-2","summary":"Task 'Generalprobe' ist startbar."}
+{"timestamp":"2026-10-08T09:47:59Z","type":"task_started","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' gestartet."}
+{"timestamp":"2026-10-08T09:50:37Z","type":"verification_passed","taskId":"task-17-4","summary":"Ablauf Anzeige→KI→Prüfung→Anlage getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:50:37Z","type":"task_completed","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' abgeschlossen."}
+{"timestamp":"2026-10-08T09:50:59Z","type":"task_started","taskId":"task-17-1","summary":"Task 'Google-Kalender lesen' gestartet."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"verification_passed","taskId":"task-17-1","summary":"Kalender-Abfrage, Anzeige und „ohne Anmeldung keine Abfrage“ getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"task_completed","taskId":"task-17-1","summary":"Task 'Google-Kalender lesen' abgeschlossen."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"task_ready","taskId":"task-17-2","summary":"Task 'Termine in Google-Kalender eintragen' ist startbar."}
+{"timestamp":"2026-10-08T09:55:24Z","type":"task_started","taskId":"task-17-5","summary":"Task 'Dokumente' gestartet."}
+{"timestamp":"2026-10-08T09:55:44Z","type":"task_started","taskId":"task-17-5","summary":"Task 'Dokumente' gestartet."}
+{"timestamp":"2026-10-08T10:01:42Z","type":"verification_passed","taskId":"task-17-5","summary":"Verschlüsselung, Cloud-Rückholung, Löschen und Storage-Regeln getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:01:42Z","type":"task_completed","taskId":"task-17-5","summary":"Task 'Dokumente' abgeschlossen."}
+{"timestamp":"2026-10-08T10:02:14Z","type":"task_started","taskId":"task-17-3","summary":"Task 'n8n und Make anbinden' gestartet."}
+{"timestamp":"2026-10-08T10:05:27Z","type":"verification_passed","taskId":"task-17-3","summary":"Webhook-Rechte, Adressprüfung und Start-Ablauf getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:05:27Z","type":"task_completed","taskId":"task-17-3","summary":"Task 'n8n und Make anbinden' abgeschlossen."}
+{"timestamp":"2026-10-08T10:05:48Z","type":"task_started","taskId":"task-17-2","summary":"Task 'Termine in Google-Kalender eintragen' gestartet."}
+{"timestamp":"2026-10-08T10:08:59Z","type":"verification_passed","taskId":"task-17-2","summary":"Ereignisaufbau, Berechtigungsanfrage und Eintragen nach Bestätigung getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:08:59Z","type":"task_completed","taskId":"task-17-2","summary":"Task 'Termine in Google-Kalender eintragen' abgeschlossen."}
+{"timestamp":"2026-10-08T10:09:22Z","type":"roadmap_updated","summary":"Roadmap-Korrektur: task-18-2 (PWA) und task-18-4 (Handy-Bedienung) hängen nicht mehr an task-18-1 (Hosting); sie lassen sich lokal bauen und prüfen. Die Prüfung auf der Online-Adresse ist in task-18-1 aufgenommen."}
+{"timestamp":"2026-10-08T10:09:22Z","type":"task_started","taskId":"task-18-2","summary":"Task 'Als App installierbar (PWA)' gestartet."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"verification_passed","taskId":"task-18-2","summary":"PWA-Test (Manifest, Icons, Service Worker, CSP) und Browserprüfung; alle Tests grün."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"task_completed","taskId":"task-18-2","summary":"Task 'Als App installierbar (PWA)' abgeschlossen."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"task_ready","taskId":"task-18-3","summary":"Task 'Push-Erinnerungen ohne Inhalt' ist startbar."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"task_started","taskId":"task-18-4","summary":"Task 'Handy-Bedienung feinschleifen' gestartet."}
+{"timestamp":"2026-10-08T10:16:54Z","type":"verification_passed","taskId":"task-18-4","summary":"Browserprüfung bei 375 px (Überlauf, Tippflächen) vor und nach den Änderungen; alle Tests grün."}
+{"timestamp":"2026-10-08T10:16:54Z","type":"task_completed","taskId":"task-18-4","summary":"Task 'Handy-Bedienung feinschleifen' abgeschlossen."}
+{"timestamp":"2026-10-08T10:17:50Z","type":"task_started","taskId":"task-14-5","summary":"Task 'Geteilte Bereiche' gestartet."}
+{"timestamp":"2026-10-08T10:25:29Z","type":"verification_passed","taskId":"task-14-5","summary":"RLS, Kryptografie, Entzug und Ablauf Admin→Nutzer getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:25:29Z","type":"task_completed","taskId":"task-14-5","summary":"Task 'Geteilte Bereiche' abgeschlossen."}
+{"timestamp":"2026-10-08T10:26:03Z","type":"task_started","taskId":"task-18-3","summary":"Task 'Push-Erinnerungen ohne Inhalt' gestartet."}
+{"timestamp":"2026-10-08T10:29:51Z","type":"verification_passed","taskId":"task-18-3","summary":"Versandlogik, Text ohne Inhalte, Panel und Regeln getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T10:29:51Z","type":"task_completed","taskId":"task-18-3","summary":"Task 'Push-Erinnerungen ohne Inhalt' abgeschlossen."}
+{"timestamp":"2026-10-08T11:10:51Z","type":"roadmap_updated","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' ergänzt (elf Kapitel unter docs/), startbar."}
+{"timestamp":"2026-10-08T11:32:55Z","type":"task_started","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' gestartet."}
+{"timestamp":"2026-10-08T12:30:42Z","type":"verification_passed","taskId":"task-19-5","summary":"Elf Doku-Kapitel geprüft, Wächter grün; Reflexion als freigegebener Entwurf."}
+{"timestamp":"2026-10-08T12:30:42Z","type":"task_completed","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' abgeschlossen."}

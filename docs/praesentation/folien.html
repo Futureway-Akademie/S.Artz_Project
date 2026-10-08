@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PIKARTZ.AI Arbeitscockpit – Präsentation</title>
+    <style>
+      :root {
+        --blau: #2f5cff;
+        --blau-weich: #e8edff;
+        --dunkel: #0a0a0b;
+        --dunkel-hell: #1b1c20;
+        --grau: #4e525c;
+        --grau-hell: #a9aeb8;
+        --flaeche: #f6f7f9;
+        --rand: #dcdfe4;
+        --schrift: 'Liberation Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: var(--dunkel);
+        font-family: var(--schrift);
+        color: var(--dunkel);
+      }
+      .folie {
+        position: absolute;
+        inset: 0;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2.5vh;
+        padding: 7vh 8vw;
+        background: var(--flaeche);
+      }
+      .folie.aktiv {
+        display: flex;
+      }
+      .folie.dunkel {
+        background: var(--dunkel);
+        color: #fff;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(2.2rem, 6vw, 5rem);
+        line-height: 1.05;
+      }
+      h2 {
+        margin: 0;
+        font-size: clamp(1.6rem, 3.6vw, 3rem);
+        line-height: 1.1;
+      }
+      p,
+      li {
+        font-size: clamp(1rem, 1.7vw, 1.5rem);
+        line-height: 1.45;
+      }
+      .marke {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      .marke span,
+      .blau {
+        color: var(--blau);
+      }
+      .leise {
+        color: var(--grau);
+      }
+      .dunkel .leise {
+        color: var(--grau-hell);
+      }
+      ul {
+        margin: 0;
+        padding-left: 1.2em;
+      }
+      .raster {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        gap: 1.4vw;
+      }
+      .karte {
+        padding: 1.4vw 1.6vw;
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgb(10 10 11 / 6%), 0 4px 12px rgb(10 10 11 / 6%);
+      }
+      .dunkel .karte {
+        background: var(--dunkel-hell);
+        box-shadow: none;
+      }
+      .karte b {
+        display: block;
+        margin-bottom: 0.3em;
+        font-size: clamp(1rem, 1.6vw, 1.4rem);
+      }
+      .karte p {
+        margin: 0;
+        font-size: clamp(0.9rem, 1.3vw, 1.15rem);
+      }
+      .fluss {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+        gap: 1.2vw;
+      }
+      .pfeil {
+        color: var(--blau);
+        font-size: 2.2rem;
+        font-weight: 700;
+      }
+      .zahl {
+        font-size: clamp(2rem, 5vw, 4.2rem);
+        font-weight: 700;
+        color: var(--blau);
+        line-height: 1;
+      }
+      .raute {
+        width: 1.2rem;
+        height: 1.2rem;
+        background: var(--blau);
+        transform: rotate(45deg);
+        display: inline-block;
+        margin-right: 0.8rem;
+      }
+      .fuss {
+        position: fixed;
+        right: 2vw;
+        bottom: 1.5vh;
+        color: var(--grau-hell);
+        font-size: 0.9rem;
+        z-index: 2;
+      }
+      @media (max-width: 700px) {
+        .fluss {
+          grid-template-columns: 1fr;
+        }
+        .pfeil {
+          transform: rotate(90deg);
+          justify-self: center;
+        }
+      }
+      @media print {
+        .folie {
+          position: relative;
+          display: flex;
+          page-break-after: always;
+          min-height: 100vh;
+        }
+        .fuss {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="folie dunkel aktiv" aria-label="Titel">
+      <p class="marke">PIKARTZ<span>.AI</span></p>
+      <h1>Arbeitscockpit</h1>
+      <p class="leise">Alles verbunden. Nichts nach außen.</p>
+      <p><span class="raute" aria-hidden="true"></span>Sascha Artz · Präsentation am 21.10.2026</p>
+    </section>
+
+    <section class="folie" aria-label="Problem">
+      <h2>Das Problem</h2>
+      <ul>
+        <li>Projekte, Jobsuche, Weiterbildung und Kontakte liegen in vielen verschiedenen Tools.</li>
+        <li>Was ist heute wichtig? Wer wartet auf eine Antwort? Welche Frist läuft ab?</li>
+        <li>KI-Werkzeuge helfen – aber persönliche Daten sollen nicht einfach in fremde Dienste wandern.</li>
+      </ul>
+    </section>
+
+    <section class="folie" aria-label="Lösung">
+      <h2>Ein Cockpit für die eigene Arbeit</h2>
+      <div class="raster">
+        <div class="karte"><b>Cockpit &amp; Dashboard</b><p>Fokus, Woche, Fristen, Auswertungen</p></div>
+        <div class="karte"><b>Projekte &amp; Aufgaben</b><p>Nächste Schritte, Kalender, Termine</p></div>
+        <div class="karte"><b>Kontakte &amp; Bewerbungen</b><p>Verlauf, Wiedervorlagen, Pipeline, Postfach</p></div>
+        <div class="karte"><b>Lernen</b><p>Weiterbildung, Wissen, Lerntagebuch</p></div>
+        <div class="karte"><b>KI-Werkzeugkasten</b><p>Masterprompts, Agenten, Anleitungen, Abos</p></div>
+        <div class="karte"><b>KI-Assistent</b><p>Entwürfe, Zusammenfassungen, Tagesplan</p></div>
+      </div>
+    </section>
+
+    <section class="folie dunkel" aria-label="Live-Demo">
+      <h2>Live-Demo</h2>
+      <ul>
+        <li>Entsperren – Daten nur verschlüsselt im Browser</li>
+        <li>Tag mit KI planen – mit Freigabe-Dialog</li>
+        <li>Bewerbung: Anschreiben-Entwurf, Antwort auf eine Mail</li>
+        <li>Fragen an die eigenen Daten</li>
+        <li>Mehrbenutzer: Rolle, Freigabe, Sperre</li>
+      </ul>
+    </section>
+
+    <section class="folie" aria-label="Datenschutz">
+      <h2>Datenschutz als Architektur</h2>
+      <div class="fluss" role="img" aria-label="Browser verschlüsselt, Supabase speichert nur Chiffretext, KI nur nach Freigabe in Frankfurt">
+        <div class="karte"><b>Browser</b><p>AES-256, Passwort verlässt nie das Gerät</p></div>
+        <div class="pfeil" aria-hidden="true">→</div>
+        <div class="karte"><b>Supabase Frankfurt</b><p>nur Chiffretext, Zugriffsregeln je Konto</p></div>
+        <div class="pfeil" aria-hidden="true">→</div>
+        <div class="karte"><b>KI über AWS Frankfurt</b><p>nur der freigegebene Text, nichts gespeichert</p></div>
+      </div>
+      <p class="leise">Gmail nur lesend · Content-Security-Policy erlaubt nur diese Ziele · Löschen entfernt Personen vollständig (Art. 17)</p>
+    </section>
+
+    <section class="folie" aria-label="KI-Assistent">
+      <h2>KI mit Freigabe</h2>
+      <div class="raster">
+        <div class="karte"><b>Bewerbung</b><p>Anschreiben und Antworten als Entwurf</p></div>
+        <div class="karte"><b>Mails &amp; Verlauf</b><p>Zusammenfassung, nächster Schritt, Wiedervorlage</p></div>
+        <div class="karte"><b>Tagesplanung</b><p>Vorschlag aus Fristen, Terminen, Fokus</p></div>
+        <div class="karte"><b>Chat mit den Daten</b><p>Antworten mit Links zu den Einträgen</p></div>
+      </div>
+      <p class="leise">Vor jedem Aufruf siehst du genau den Text, der gesendet wird – und kannst ihn kürzen.</p>
+    </section>
+
+    <section class="folie" aria-label="Mehrbenutzer">
+      <h2>Mehrbenutzer mit Rollen</h2>
+      <ul>
+        <li>Neue Nutzer nur per Einladung – der Admin vergibt eine Rolle.</li>
+        <li>Bereiche je Nutzer ein- und ausschalten, Nutzer sperren.</li>
+        <li>Jeder hat seinen eigenen verschlüsselten Tresor – auch der Admin kann ihn nicht lesen.</li>
+        <li>Zugriffsregeln direkt in der Datenbank (Row Level Security).</li>
+      </ul>
+    </section>
+
+    <section class="folie" aria-label="Werkzeugkasten">
+      <h2>KI-Werkzeugkasten</h2>
+      <ul>
+        <li>Masterprompts mit Platzhaltern – ausfüllen, Vorschau, kopieren</li>
+        <li>Befehle, Agenten, Skills und Workflows – miteinander verknüpft</li>
+        <li>Anleitungen mit abhakbaren Schritten, Integrationen mit Datenschutz-Angaben</li>
+        <li>Modelle &amp; Abos: Monatskosten und Kündigungsfristen im Kalender</li>
+      </ul>
+    </section>
+
+    <section class="folie dunkel" aria-label="Qualität">
+      <h2>Qualität</h2>
+      <div class="raster">
+        <div class="karte"><div class="zahl">420+</div><p>automatische Tests</p></div>
+        <div class="karte"><div class="zahl">axe</div><p>Barrierefreiheit aller Seiten geprüft</p></div>
+        <div class="karte"><div class="zahl">RLS</div><p>Zugriffsregeln mit echtem Postgres getestet</p></div>
+        <div class="karte"><div class="zahl">CI</div><p>Prüfung bei jeder Änderung auf GitHub</p></div>
+      </div>
+    </section>
+
+    <section class="folie" aria-label="Technik">
+      <h2>Technik und Werkzeuge</h2>
+      <div class="raster">
+        <div class="karte"><b>Oberfläche</b><p>React, TypeScript, Vite</p></div>
+        <div class="karte"><b>Daten &amp; Login</b><p>Supabase (Frankfurt), Web Crypto</p></div>
+        <div class="karte"><b>KI</b><p>Claude über AWS Bedrock</p></div>
+        <div class="karte"><b>Entwicklung</b><p>Claude Code, Git, GitHub</p></div>
+      </div>
+    </section>
+
+    <section class="folie" aria-label="Ausblick">
+      <h2>Ausblick</h2>
+      <ul>
+        <li>Google-Kalender, n8n/Make, Stellenanzeigen per Link, Dokumente</li>
+        <li>Online in Deutschland gehostet, als App auf dem Handy</li>
+        <li>Erinnerungen per Push – ohne Inhalte</li>
+        <li>Praxistest und Feinschliff</li>
+      </ul>
+    </section>
+
+    <section class="folie dunkel" aria-label="Danke">
+      <p class="marke">PIKARTZ<span>.AI</span></p>
+      <h1>Danke!</h1>
+      <p class="leise">Fragen?</p>
+    </section>
+
+    <p class="fuss" aria-live="polite"><span id="nummer">1</span> / <span id="gesamt"></span></p>
+
+    <script>
+      const folien = [...document.querySelectorAll('.folie')]
+      let i = 0
+      document.getElementById('gesamt').textContent = folien.length
+      function zeige(n) {
+        i = Math.max(0, Math.min(folien.length - 1, n))
+        folien.forEach((f, k) => f.classList.toggle('aktiv', k === i))
+        document.getElementById('nummer').textContent = i + 1
+        location.hash = String(i + 1)
+      }
+      document.addEventListener('keydown', (e) => {
+        if (['ArrowRight', 'PageDown', ' '].includes(e.key)) zeige(i + 1)
+        if (['ArrowLeft', 'PageUp'].includes(e.key)) zeige(i - 1)
+        if (e.key === 'Home') zeige(0)
+        if (e.key === 'End') zeige(folien.length - 1)
+        if (e.key === 'f' || e.key === 'F') document.documentElement.requestFullscreen?.()
+      })
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return
+        zeige(e.clientX > window.innerWidth / 3 ? i + 1 : i - 1)
+      })
+      zeige(Number(location.hash.slice(1)) - 1 || 0)
+    </script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 
-export type SyncStatus = 'aus' | 'laeuft' | 'ok' | 'fehler' | 'konflikt' | 'fremd'
+export type SyncStatus = 'aus' | 'laeuft' | 'ok' | 'fehler' | 'konflikt' | 'fremd' | 'anderesKonto'
 
 export interface SyncValue {
   status: SyncStatus

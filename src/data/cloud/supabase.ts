@@ -4,11 +4,42 @@
  * Zu Supabase gehen nur: E-Mail-Adresse (Login) und der verschlüsselte Umschlag – nie Klartext.
  */
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { CloudDienst, CloudStand } from './cloud.ts'
+import type { Profil, Rolle } from '../../domain/bereiche.ts'
+import { istVerschluesselteDatei } from '../dateien.ts'
+import type { FreigabeUmschlag, VerschluesselterText } from '../freigabe/freigabeKrypto.ts'
+import type { CloudDienst, CloudStand, EigeneFreigabe, ErhalteneFreigabe, KiAntwort, WebhookInfo } from './cloud.ts'
 
 const URL_ = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 const TABELLE = 'tresor'
+const PROFIL_FELDER = 'user_id, email, anzeigename, rolle_id, ist_admin, gesperrt, bereiche_an, bereiche_aus'
+
+interface ProfilZeile {
+  user_id: string
+  email: string
+  anzeigename: string
+  rolle_id: string | null
+  ist_admin: boolean
+  gesperrt: boolean
+  bereiche_an: string[]
+  bereiche_aus: string[]
+}
+
+const alsProfil = (z: ProfilZeile): Profil => ({
+  userId: z.user_id,
+  email: z.email,
+  anzeigename: z.anzeigename,
+  rolleId: z.rolle_id,
+  istAdmin: z.ist_admin,
+  gesperrt: z.gesperrt,
+  bereicheAn: z.bereiche_an ?? [],
+  bereicheAus: z.bereiche_aus ?? [],
+})
+
+const pruefe = <T,>(antwort: { data: T; error: { message: string } | null }): T => {
+  if (antwort.error) throw new Error(antwort.error.message)
+  return antwort.data
+}
 
 let client: Promise<SupabaseClient> | null = null
 
@@ -98,4 +129,190 @@ export const supabaseDienst: CloudDienst = {
     const { error } = await (await holeClient()).from(TABELLE).delete().neq('revision', -1)
     if (error) throw new Error(error.message)
   },
+
+  async meinProfil() {
+    const c = await holeClient()
+    const { data: sitzung } = await c.auth.getSession()
+    const id = sitzung.session?.user.id
+    if (!id) return null
+    const zeile = pruefe(await c.from('profile').select(PROFIL_FELDER).eq('user_id', id).maybeSingle<ProfilZeile>())
+    return zeile ? alsProfil(zeile) : null
+  },
+
+  async rollen(): Promise<Rolle[]> {
+    const zeilen = pruefe(await (await holeClient()).from('rollen').select('id, name, bereiche').order('name'))
+    return (zeilen ?? []) as Rolle[]
+  },
+
+  async profile() {
+    const zeilen = pruefe(await (await holeClient()).from('profile').select(PROFIL_FELDER).order('email').returns<ProfilZeile[]>())
+    return (zeilen ?? []).map(alsProfil)
+  },
+
+  async rolleSpeichern(rolle) {
+    const c = await holeClient()
+    const zeile = rolle.id
+      ? pruefe(await c.from('rollen').update({ name: rolle.name, bereiche: rolle.bereiche }).eq('id', rolle.id).select('id, name, bereiche').single())
+      : pruefe(await c.from('rollen').insert({ name: rolle.name, bereiche: rolle.bereiche }).select('id, name, bereiche').single())
+    return zeile as Rolle
+  },
+
+  async rolleLoeschen(id) {
+    pruefe(await (await holeClient()).from('rollen').delete().eq('id', id))
+  },
+
+  async profilAendern(userId, a) {
+    const felder: Record<string, unknown> = {}
+    if (a.rolleId !== undefined) felder.rolle_id = a.rolleId
+    if (a.gesperrt !== undefined) felder.gesperrt = a.gesperrt
+    if (a.istAdmin !== undefined) felder.ist_admin = a.istAdmin
+    if (a.bereicheAn !== undefined) felder.bereiche_an = a.bereicheAn
+    if (a.bereicheAus !== undefined) felder.bereiche_aus = a.bereicheAus
+    // Die Datenbank lässt Änderungen nur durch den Admin zu (RLS); ohne Treffer gab es keine Berechtigung
+    const zeilen = pruefe(await (await holeClient()).from('profile').update(felder).eq('user_id', userId).select('user_id'))
+    if (!zeilen || zeilen.length === 0) throw new Error('Keine Berechtigung für diese Änderung.')
+  },
+
+  async einladen(email, rolleId, zurueck) {
+    const { error } = await (await holeClient()).functions.invoke('einladen', { body: { email, rolleId, zurueck } })
+    if (error) throw new Error(await fehlerText(error))
+  },
+
+  async ki(aufgabe, eingabe) {
+    const { data, error } = await (await holeClient()).functions.invoke('ki', { body: { aufgabe, eingabe } })
+    if (error) throw new Error(await fehlerText(error))
+    return data as KiAntwort
+  },
+
+  async dateiHochladen(pfad, daten) {
+    if (!istVerschluesselteDatei(daten)) throw new Error('Abgebrochen: Nur verschlüsselte Dateien dürfen das Gerät verlassen.')
+    const { c, id } = await mitNutzer()
+    const { error } = await c.storage.from(DOKUMENTE).upload(`${id}/${pfad}`, new Blob([daten as Uint8Array<ArrayBuffer>]), { upsert: true, contentType: 'application/octet-stream' })
+    if (error) throw new Error(error.message)
+  },
+
+  async dateiLaden(pfad) {
+    const { c, id } = await mitNutzer()
+    const { data, error } = await c.storage.from(DOKUMENTE).download(`${id}/${pfad}`)
+    if (error) return null
+    return new Uint8Array(await data.arrayBuffer())
+  },
+
+  async dateiLoeschen(pfad) {
+    const { c, id } = await mitNutzer()
+    const { error } = await c.storage.from(DOKUMENTE).remove([`${id}/${pfad}`])
+    if (error) throw new Error(error.message)
+  },
+
+  async webhooks(): Promise<WebhookInfo[]> {
+    const zeilen = pruefe(await (await holeClient()).from('webhooks').select('werkzeug_id, letzte_ausfuehrung, letzter_status, letzte_meldung'))
+    return (zeilen ?? []).map((z) => ({ werkzeugId: z.werkzeug_id as string, letzteAusfuehrung: z.letzte_ausfuehrung as string | null, letzterStatus: z.letzter_status as number | null, letzteMeldung: z.letzte_meldung as string }))
+  },
+
+  async webhookSpeichern(werkzeugId, url) {
+    const { c, id } = await mitNutzer()
+    // Erst ändern, sonst anlegen – die Adresse wird dabei nie gelesen
+    const geaendert = pruefe(await c.from('webhooks').update({ url }).eq('werkzeug_id', werkzeugId).select('werkzeug_id'))
+    if (!geaendert || geaendert.length === 0) pruefe(await c.from('webhooks').insert({ user_id: id, werkzeug_id: werkzeugId, url }))
+  },
+
+  async webhookEntfernen(werkzeugId) {
+    pruefe(await (await holeClient()).from('webhooks').delete().eq('werkzeug_id', werkzeugId))
+  },
+
+  async workflowStarten(werkzeugId, eingabe) {
+    const { data, error } = await (await holeClient()).functions.invoke('workflow', { body: { werkzeugId, eingabe } })
+    if (error) throw new Error(await fehlerText(error))
+    return data as { ok: boolean; status: number; meldung: string }
+  },
+
+  async eigeneSchluessel() {
+    const { c, id } = await mitNutzer()
+    const zeile = pruefe(await c.from('schluessel').select('oeffentlich').eq('user_id', id).maybeSingle())
+    if (!zeile) return null
+    const privat = pruefe(await c.rpc('eigener_privater_schluessel')) as VerschluesselterText | null
+    return privat ? { oeffentlich: zeile.oeffentlich as JsonWebKey, privatVerschluesselt: privat } : null
+  },
+
+  async schluesselSpeichern(oeffentlich, privatVerschluesselt) {
+    const { c, id } = await mitNutzer()
+    const geaendert = pruefe(await c.from('schluessel').update({ oeffentlich, privat_verschluesselt: privatVerschluesselt }).eq('user_id', id).select('user_id'))
+    if (!geaendert || geaendert.length === 0) pruefe(await c.from('schluessel').insert({ user_id: id, oeffentlich, privat_verschluesselt: privatVerschluesselt }))
+  },
+
+  async oeffentlicheSchluessel(userIds) {
+    if (userIds.length === 0) return {}
+    const zeilen = pruefe(await (await holeClient()).from('schluessel').select('user_id, oeffentlich').in('user_id', userIds))
+    return Object.fromEntries((zeilen ?? []).map((z) => [z.user_id as string, z.oeffentlich as JsonWebKey]))
+  },
+
+  async eigeneFreigaben(): Promise<EigeneFreigabe[]> {
+    const { c, id } = await mitNutzer()
+    const freigaben = pruefe(await c.from('freigaben').select('bereich, version').eq('besitzer_id', id)) ?? []
+    const schluessel = pruefe(await c.from('freigabe_schluessel').select('bereich, empfaenger_id, version').eq('besitzer_id', id)) ?? []
+    return freigaben.map((f) => ({
+      bereich: f.bereich as string,
+      version: f.version as number,
+      empfaenger: schluessel.filter((s) => s.bereich === f.bereich && s.version === f.version).map((s) => s.empfaenger_id as string),
+    }))
+  },
+
+  async freigabeSchreiben(bereich, version, umschlag, schluessel) {
+    const { c, id } = await mitNutzer()
+    pruefe(await c.from('freigaben').upsert({ besitzer_id: id, bereich, version, umschlag, aktualisiert_am: new Date().toISOString() }, { onConflict: 'besitzer_id,bereich' }))
+    pruefe(await c.from('freigabe_schluessel').delete().eq('besitzer_id', id).eq('bereich', bereich))
+    if (schluessel.length > 0) pruefe(await c.from('freigabe_schluessel').insert(schluessel.map((s) => ({ besitzer_id: id, bereich, empfaenger_id: s.empfaengerId, version, verpackt: s.verpackt }))))
+  },
+
+  async freigabeEntfernen(bereich) {
+    const { c, id } = await mitNutzer()
+    pruefe(await c.from('freigaben').delete().eq('besitzer_id', id).eq('bereich', bereich))
+  },
+
+  async freigabenFuerMich(): Promise<ErhalteneFreigabe[]> {
+    const { c, id } = await mitNutzer()
+    const schluessel = pruefe(await c.from('freigabe_schluessel').select('besitzer_id, bereich, version, verpackt').eq('empfaenger_id', id)) ?? []
+    if (schluessel.length === 0) return []
+    // Lesbar sind nur Freigaben, deren aktuelle Version zum eigenen Schlüssel passt (Regel in der Datenbank)
+    const freigaben = pruefe(await c.from('freigaben').select('besitzer_id, bereich, version, umschlag, aktualisiert_am').neq('besitzer_id', id)) ?? []
+    return freigaben.flatMap((f) => {
+      const s = schluessel.find((x) => x.besitzer_id === f.besitzer_id && x.bereich === f.bereich && x.version === f.version)
+      return s ? [{ besitzerId: f.besitzer_id as string, bereich: f.bereich as string, version: f.version as number, umschlag: f.umschlag as FreigabeUmschlag, verpackt: s.verpackt as string, aktualisiertAm: f.aktualisiert_am as string }] : []
+    })
+  },
+
+  async pushAbos() {
+    const zeilen = pruefe(await (await holeClient()).from('push_abos').select('endpoint, stunde')) ?? []
+    return zeilen.map((z) => ({ endpoint: z.endpoint as string, stunde: z.stunde as number }))
+  },
+
+  async pushSpeichern(abo, stunde) {
+    const { c, id } = await mitNutzer()
+    pruefe(await c.from('push_abos').upsert({ user_id: id, endpoint: abo.endpoint, p256dh: abo.p256dh, auth: abo.auth, stunde }, { onConflict: 'user_id,endpoint' }))
+  },
+
+  async pushEntfernen(endpoint) {
+    pruefe(await (await holeClient()).from('push_abos').delete().eq('endpoint', endpoint))
+  },
+}
+
+const DOKUMENTE = 'dokumente'
+
+async function mitNutzer() {
+  const c = await holeClient()
+  const { data } = await c.auth.getSession()
+  const id = data.session?.user.id
+  if (!id) throw new Error('Nicht angemeldet.')
+  return { c, id }
+}
+
+/** Fehlermeldung der Funktion („fehler“ im Antworttext) statt des allgemeinen HTTP-Fehlers */
+async function fehlerText(error: { message: string; context?: unknown }): Promise<string> {
+  try {
+    const kontext = error.context as Response | undefined
+    const inhalt = (await kontext?.json()) as { fehler?: string } | undefined
+    return inhalt?.fehler ?? error.message
+  } catch {
+    return error.message
+  }
 }

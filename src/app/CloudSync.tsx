@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button.tsx'
 import { TextField } from '../components/ui/Field.tsx'
 import { PasswortDialog } from '../components/ui/PasswortDialog.tsx'
 import type { CloudStand } from '../data/cloud/cloud.ts'
-import { abgleichen, hierBehalten, ladeSyncMeta, serverUebernehmen, speichereSyncMeta, vomServerHolen, type SyncErgebnis } from '../data/cloud/sync.ts'
+import { abgleichen, besitzer, besitzerSetzen, hierBehalten, ladeSyncMeta, serverUebernehmen, speichereSyncMeta, vomServerHolen, type SyncErgebnis } from '../data/cloud/sync.ts'
 import { FalschesPasswort } from '../data/krypto.ts'
 import { STORAGE_KEY, type KeyValueStorage } from '../data/storage.ts'
 import type { VerschluesselterSpeicher } from '../data/tresor.ts'
@@ -33,7 +33,10 @@ interface CloudSyncProps {
  */
 export function CloudSync({ basis, speicher, schreibZaehler, onUebernommen, onTresorErsetzen, children }: CloudSyncProps) {
   const cloud = useCloud()
-  const angemeldet = Boolean(cloud?.konfiguriert && cloud.nutzer)
+  const nutzerId = cloud?.konfiguriert ? (cloud.nutzer?.id ?? null) : null
+  // Gehört der Tresor auf diesem Gerät einem anderen Konto, wird nichts abgeglichen
+  const anderesKonto = nutzerId !== null && besitzer(basis) !== null && besitzer(basis) !== nutzerId
+  const angemeldet = nutzerId !== null && !anderesKonto
   const [status, setStatus] = useState<SyncStatus>('aus')
   const [fehler, setFehler] = useState<string | null>(null)
   const [server, setServer] = useState<CloudStand | null>(null)
@@ -68,6 +71,7 @@ export function CloudSync({ basis, speicher, schreibZaehler, onUebernommen, onTr
       try {
         await speicher.fertig()
         auswerten(await aktion())
+        besitzerSetzen(basis, nutzerId)
       } catch (error) {
         setStatus('fehler')
         setFehler(error instanceof Error ? error.message : String(error))
@@ -75,7 +79,7 @@ export function CloudSync({ basis, speicher, schreibZaehler, onUebernommen, onTr
         laeuft.current = false
       }
     },
-    [cloud, speicher, auswerten],
+    [cloud, speicher, auswerten, basis, nutzerId],
   )
 
   const jetztAbgleichen = useCallback(() => {
@@ -126,10 +130,23 @@ export function CloudSync({ basis, speicher, schreibZaehler, onUebernommen, onTr
     }
   }
 
-  const value: SyncValue = { status: angemeldet ? status : 'aus', letzteSync, fehler, jetztAbgleichen }
+  const value: SyncValue = { status: anderesKonto ? 'anderesKonto' : angemeldet ? status : 'aus', letzteSync, fehler, jetztAbgleichen }
 
   return (
     <SyncContext.Provider value={value}>
+      {anderesKonto && cloud && (
+        <div className={styles.konflikt} role="alert">
+          <p>
+            <strong>Die Daten auf diesem Gerät gehören zu einem anderen Konto.</strong> Angemeldet ist {cloud.nutzer?.email}. Es wird nichts
+            abgeglichen. Melde dich ab oder nutze für jedes Konto ein eigenes Browserprofil.
+          </p>
+          <div className={styles.aktionen}>
+            <Button size="sm" variant="secondary" onClick={() => void cloud.abmelden()}>
+              Abmelden
+            </Button>
+          </div>
+        </div>
+      )}
       {angemeldet && (status === 'konflikt' || status === 'fremd') && server && cloud && (
         <div className={styles.konflikt} role="alert">
           {status === 'konflikt' ? (
@@ -186,11 +203,36 @@ export function CloudEinstieg({ basis, onGeholt }: { basis: KeyValueStorage; onG
 
   if (!cloud?.konfiguriert) return null
 
+  // Eingeladene Nutzer: eigenes Passwort festlegen, eigener Tresor
+  if (cloud.nutzer && cloud.profil && !cloud.profil.istAdmin) {
+    return (
+      <section className={styles.karte} aria-labelledby="cloud-einstieg">
+        <h2 id="cloud-einstieg" className={styles.untertitel}>
+          Willkommen, {cloud.nutzer.email}
+        </h2>
+        <p>
+          Du wurdest eingeladen. Lege oben dein eigenes Passwort fest – damit werden deine Daten verschlüsselt. Niemand sonst kann sie lesen,
+          auch nicht der Admin.
+        </p>
+        <p>Schon auf einem anderen Gerät eingerichtet?</p>
+        <div>
+          <Button variant="secondary" onClick={() => void holen()} disabled={laeuft}>
+            Daten aus der Cloud laden
+          </Button>
+        </div>
+        {meldung && <p role="status">{meldung}</p>}
+      </section>
+    )
+  }
+
   const holen = async () => {
     setLaeuft(true)
     setMeldung(null)
     try {
-      if (await vomServerHolen(cloud.dienst, basis)) onGeholt()
+      if (await vomServerHolen(cloud.dienst, basis)) {
+        besitzerSetzen(basis, cloud.nutzer?.id ?? null)
+        onGeholt()
+      }
       else setMeldung('In der Cloud liegen noch keine Daten. Lege hier ein Passwort fest – die Daten werden danach hochgeladen.')
     } catch (error) {
       setMeldung(error instanceof Error ? error.message : String(error))

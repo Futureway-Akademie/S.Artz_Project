@@ -21,6 +21,8 @@ export function createEmptyData(): AppData {
     wissen: [],
     werkzeug: [],
     mails: [],
+    kiProtokoll: [],
+    dokumente: [],
     aktivitaeten: [],
     einstellungen: { anzeigename: '', letzteSicherungAm: null, letzterMailAbrufAm: null },
   }

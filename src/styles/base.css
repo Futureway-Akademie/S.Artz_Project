@@ -100,3 +100,26 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Touch-Geräte (Handy, Tablet): Tippflächen mindestens 44 px hoch für eigenständige Links
+ * in Kopfzeilen, Listen und Angaben; Fließtext-Links bleiben unverändert.
+ */
+@media (pointer: coarse) {
+  main [class*='aktionen' i] > a,
+  main [class*='meta' i] > a,
+  main [class*='haupt' i] > a,
+  main a[class*='titel' i],
+  main li a:not([class*='kachel' i]),
+  main dd > a,
+  main [role='note'] a,
+  main [role='status'] a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
+  main button {
+    min-height: 2.75rem;
+  }
+}

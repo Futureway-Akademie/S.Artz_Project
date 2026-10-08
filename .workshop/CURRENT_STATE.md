@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v7, Fortschritt 64,62 % (126 von 195 Gewichtspunkten, 51 von 80 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v7, Fortschritt 92,89 % (183 von 197 Gewichtspunkten, 74 von 81 Tasks).
 
 ## Aktive Phase
 
@@ -14,6 +14,7 @@ Keine.
 
 ## Zuletzt abgeschlossen
 
+- task-19-5 – Projektdokumentation für die Workshop-Zentrale (2026-10-08T12:30:42Z). Elf Kapitel unter docs/, Reflexion als Entwurf.
 - task-10-2 – Dashboard-Seite (2026-10-07T18:11:46Z). 11 Grafiken, Kennzahlen.
 - task-10-1 – Diagramm-Bausteine und Auswertungen (2026-10-07T18:06:13Z).
 - task-9-4 – Abschlussprüfung Roadmap v4 (2026-10-07T17:05:18Z). 322 Tests, 19 Seiten × 3 Breiten.
@@ -61,9 +62,7 @@ Keine.
 ## Bereite nächste Aufgaben
 
 - task-13-1 – Supabase einrichten
-- task-13-2 – Automatische Tests auf GitHub (CI)
-- task-13-3 – Werkzeugkasten-Startvorlagen
-- task-17-1 – Google-Kalender lesen
+- task-16-2 – Generalprobe
 
 ## Gesamtplan (aus roadmap.json)
 
@@ -184,55 +183,55 @@ Keine.
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
 | task-13-1 | Supabase einrichten | ▶️ startbar | – |
-| task-13-2 | Automatische Tests auf GitHub (CI) | ▶️ startbar | – |
-| task-13-3 | Werkzeugkasten-Startvorlagen | ▶️ startbar | – |
+| task-13-2 | Automatische Tests auf GitHub (CI) | ✅ erledigt |  |
+| task-13-3 | Werkzeugkasten-Startvorlagen | ✅ erledigt |  |
 
 ### Mehrbenutzer und Rollen
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-14-1 | Datenmodell für Nutzer, Rollen und Rechte | ⏳ geplant | task-13-1 |
-| task-14-2 | Einladung und Erstanmeldung | ⏳ geplant | task-14-1 |
-| task-14-3 | Admin-Bereich | ⏳ geplant | task-14-1 |
-| task-14-4 | Navigation und Seiten nach Rechten | ⏳ geplant | task-14-3 |
-| task-14-5 | Geteilte Bereiche | ⏳ geplant | task-14-2, task-14-3 |
+| task-14-1 | Datenmodell für Nutzer, Rollen und Rechte | ✅ erledigt |  |
+| task-14-2 | Einladung und Erstanmeldung | ✅ erledigt |  |
+| task-14-3 | Admin-Bereich | ✅ erledigt |  |
+| task-14-4 | Navigation und Seiten nach Rechten | ✅ erledigt |  |
+| task-14-5 | Geteilte Bereiche | ✅ erledigt |  |
 
 ### KI-Assistent
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-15-1 | KI-Zugang über Supabase-Funktion | ⏳ geplant | task-13-1 |
-| task-15-2 | Freigabe-Dialog und Protokoll | ⏳ geplant | task-15-1 |
-| task-15-3 | KI für Bewerbungen | ⏳ geplant | task-15-2 |
-| task-15-4 | KI für Mails und Verlauf | ⏳ geplant | task-15-2 |
-| task-15-5 | KI-Tagesplanung | ⏳ geplant | task-15-2 |
-| task-15-6 | Chat mit deinen Daten | ⏳ geplant | task-15-2 |
+| task-15-1 | KI-Zugang über Supabase-Funktion | ✅ erledigt |  |
+| task-15-2 | Freigabe-Dialog und Protokoll | ✅ erledigt |  |
+| task-15-3 | KI für Bewerbungen | ✅ erledigt |  |
+| task-15-4 | KI für Mails und Verlauf | ✅ erledigt |  |
+| task-15-5 | KI-Tagesplanung | ✅ erledigt |  |
+| task-15-6 | Chat mit deinen Daten | ✅ erledigt |  |
 
 ### Präsentation 21.10.2026
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-16-1 | Demo-Daten, Ablauf und Folien | ⏳ geplant | task-14-4, task-15-3 |
-| task-16-2 | Generalprobe | ⏳ geplant | task-16-1 |
+| task-16-1 | Demo-Daten, Ablauf und Folien | ✅ erledigt |  |
+| task-16-2 | Generalprobe | ▶️ startbar | – |
 
 ### Anbindungen
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
-| task-17-1 | Google-Kalender lesen | ▶️ startbar | – |
-| task-17-2 | Termine in Google-Kalender eintragen | ⏳ geplant | task-17-1 |
-| task-17-3 | n8n und Make anbinden | ⏳ geplant | task-13-1 |
-| task-17-4 | Stellenanzeigen übernehmen | ⏳ geplant | task-15-2 |
-| task-17-5 | Dokumente | ⏳ geplant | task-13-1 |
+| task-17-1 | Google-Kalender lesen | ✅ erledigt |  |
+| task-17-2 | Termine in Google-Kalender eintragen | ✅ erledigt |  |
+| task-17-3 | n8n und Make anbinden | ✅ erledigt |  |
+| task-17-4 | Stellenanzeigen übernehmen | ✅ erledigt |  |
+| task-17-5 | Dokumente | ✅ erledigt |  |
 
 ### Online und Handy
 
 | Task | Aufgabe | Status | Wartet auf |
 |---|---|---|---|
 | task-18-1 | Hosting in Deutschland | ⏳ geplant | task-13-1 |
-| task-18-2 | Als App installierbar (PWA) | ⏳ geplant | task-18-1 |
-| task-18-3 | Push-Erinnerungen ohne Inhalt | ⏳ geplant | task-18-2 |
-| task-18-4 | Handy-Bedienung feinschleifen | ⏳ geplant | task-18-1 |
+| task-18-2 | Als App installierbar (PWA) | ✅ erledigt |  |
+| task-18-3 | Push-Erinnerungen ohne Inhalt | ✅ erledigt |  |
+| task-18-4 | Handy-Bedienung feinschleifen | ✅ erledigt |  |
 
 ### Praxis und Abschluss
 
@@ -241,7 +240,8 @@ Keine.
 | task-19-1 | Praxistest und Feinschliff | ⏳ geplant | task-16-2 |
 | task-19-2 | Datenschutzerklärung, Impressum, Nutzungsbedingungen | ⏳ geplant | task-18-1 |
 | task-19-3 | AVVs und Verzeichnis der Verarbeitungen | ⏳ geplant | task-19-2 |
-| task-19-4 | Abschlussprüfung Roadmap v7 | ⏳ geplant | task-13-2, task-13-3, task-14-5, task-15-4, task-15-5, task-15-6, task-17-2, task-17-3, task-17-4, task-17-5, task-18-3, task-18-4, task-19-1, task-19-3 |
+| task-19-4 | Abschlussprüfung Roadmap v7 | ⏳ geplant | task-19-1, task-19-3 |
+| task-19-5 | Projektdokumentation für die Workshop-Zentrale | ✅ erledigt |  |
 
 ## Blockiert
 
@@ -267,4 +267,17 @@ Details in `docs/decisions.md`.
 
 ## Empfohlener nächster Schritt
 
-Roadmap v7 ist mit Sascha geplant: 29 neue Tasks in den Phasen 13–19. Die Präsentation am 21.10.2026 läuft lokal und braucht Supabase-Login/Datenbank, Mehrbenutzer mit Rollen und den KI-Assistenten. Als Nächstes task-13-1 „Supabase einrichten“ gemeinsam mit Sascha (Projekt in Frankfurt anlegen). Parallel sollte Sascha ein AWS-Konto anlegen und Claude in Bedrock (eu-central-1) freischalten lassen, weil task-15-1 das braucht und die Freischaltung dauern kann.
+Stand 2026-10-08: Alles, was ohne Saschas Konten möglich war, ist umgesetzt (92,82 %). PR #3 (chore/projekt-initialisierung → main) ist offen und wartet auf Saschas „merge“.
+
+Offene Entscheidung: KI-Anbieter.
+- Sascha hat keine Kreditkarte, deshalb geht AWS Bedrock (Claude) vorerst nicht.
+- Vorschlag: Die Supabase-Funktion „ki“ bekommt eine Anbieter-Auswahl (Mistral oder Claude über AWS) per Secret; Mistral-Gratistarif (EU) zunächst nur mit Demo-Daten, bis die Trainingsnutzung im Gratistarif geklärt ist.
+- Sascha hat noch nicht zugestimmt; nachfragen, dann umsetzen.
+
+Danach mit Sascha:
+- task-13-1: Supabase gemeinsam einrichten (Projekt in Frankfurt, schema.sql, Funktionen einladen, ki, workflow, erinnern bereitstellen) und dabei alles live prüfen
+- task-16-2: Generalprobe für die Präsentation am 21.10.2026 (docs/praesentation/)
+- task-18-1: Hosting in Deutschland
+- task-19-1 bis task-19-4: Praxistest, Rechtstexte, AVVs, Abschlussprüfung
+
+Werkzeuge für Agenten: scripts/workshop/ (Task starten und abschließen, CURRENT_STATE aktualisieren, prüfen und committen).

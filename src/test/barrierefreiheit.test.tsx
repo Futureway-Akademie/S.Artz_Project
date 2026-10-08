@@ -129,12 +129,16 @@ const SEITEN = [
   '/kontakte/leads',
   '/bewerbungen',
   '/bewerbungen/zielrollen',
+  '/bewerbungen/dokumente',
   '/bewerbungen/b1',
   '/bewerbungen?ansicht=pipeline',
   '/kontakte/leads/l1',
   '/kontakte/vorlagen',
   '/einstellungen',
   '/postfach',
+  '/assistent',
+  '/admin',
+  '/geteilt',
   '/gibt-es-nicht',
 ]
 

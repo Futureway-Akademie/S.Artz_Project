@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 9
+export const SCHEMA_VERSION = 11
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -334,7 +334,31 @@ export const sammlungen = [
   'wissen',
   'werkzeug',
   'mails',
+  'dokumente',
 ] as const
+
+/** Dokument (Lebenslauf, Zeugnis …): Inhalt liegt verschlüsselt im Dateispeicher, hier nur die Angaben */
+export const dokumentSchema = z.object({
+  ...meta,
+  name: z.string().min(1),
+  mime: z.string(),
+  /** Größe der Originaldatei in Bytes */
+  groesse: z.number().int().min(0),
+  /** Zufälliger Speicherpfad des verschlüsselten Inhalts */
+  pfad: z.string().min(1),
+  bewerbungIds: z.array(id),
+  notiz: z.string(),
+})
+
+/** Protokoll der KI-Aufrufe: was, wann, wie viel – nie der Inhalt */
+export const kiProtokollSchema = z.object({
+  id,
+  zeitpunkt,
+  aufgabe: z.enum(['anschreiben', 'antwort', 'zusammenfassung', 'tagesplan', 'chat', 'stellenanzeige']),
+  /** Anzahl gesendeter Zeichen */
+  zeichen: z.number().int().min(0),
+  tokens: z.number().int().min(0),
+})
 
 export const aktivitaetSchema = z.object({
   id,
@@ -376,6 +400,8 @@ export const appDataSchema = z.object({
   wissen: z.array(wissenSchema),
   werkzeug: z.array(werkzeugSchema),
   mails: z.array(mailSchema),
+  kiProtokoll: z.array(kiProtokollSchema),
+  dokumente: z.array(dokumentSchema),
   aktivitaeten: z.array(aktivitaetSchema),
   einstellungen: einstellungenSchema,
 })

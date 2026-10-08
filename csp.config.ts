@@ -2,10 +2,10 @@
  * Content-Security-Policy der gebauten App: Die App darf nichts von fremden Servern laden.
  * Einzige erlaubte Verbindung ist – falls eingerichtet – die eigene Supabase-Adresse für Login und
  * die Ende-zu-Ende-verschlüsselte Synchronisierung. Ohne Supabase-Konfiguration gibt es keine Verbindung.
- * Ist Gmail eingerichtet (VITE_GOOGLE_CLIENT_ID), kommen genau die Gmail-API und der Token-Widerruf hinzu.
+ * Ist Gmail eingerichtet (VITE_GOOGLE_CLIENT_ID), kommen genau die Gmail-API, die Kalender-API (www.googleapis.com) und der Token-Widerruf hinzu.
  * Nur im Build aktiv – der Dev-Server von Vite braucht Inline-Skripte und eine Websocket-Verbindung.
  */
-export const GMAIL_ZIELE = ['https://gmail.googleapis.com', 'https://oauth2.googleapis.com']
+export const GMAIL_ZIELE = ['https://gmail.googleapis.com', 'https://oauth2.googleapis.com', 'https://www.googleapis.com']
 
 export function contentSecurityPolicy(supabaseUrl?: string, opts: { gmail?: boolean } = {}): string {
   const ziele: string[] = []
@@ -27,7 +27,8 @@ export function contentSecurityPolicy(supabaseUrl?: string, opts: { gmail?: bool
     "media-src 'none'",
     "object-src 'none'",
     "frame-src 'none'",
-    "worker-src 'none'",
+    // Nur der eigene Service Worker (Offline-Start)
+    "worker-src 'self'",
     "manifest-src 'self'",
     "form-action 'none'",
     "base-uri 'none'",

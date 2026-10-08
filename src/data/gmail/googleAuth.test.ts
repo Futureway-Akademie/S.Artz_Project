@@ -10,7 +10,7 @@ describe('Google-Anmeldung (nur lesen)', () => {
   it('baut die Anmeldeadresse nur mit Leseberechtigung und Rücksprung zur App', () => {
     const url = new URL(anmeldeUrl('client-1', 'http://localhost:5173/', 'abc'))
     expect(url.origin + url.pathname).toBe('https://accounts.google.com/o/oauth2/v2/auth')
-    expect(Object.fromEntries(url.searchParams)).toMatchObject({ client_id: 'client-1', redirect_uri: 'http://localhost:5173/', response_type: 'token', scope: GMAIL_SCOPE, state: 'abc' })
+    expect(Object.fromEntries(url.searchParams)).toMatchObject({ client_id: 'client-1', redirect_uri: 'http://localhost:5173/', response_type: 'token', scope: `${GMAIL_SCOPE} https://www.googleapis.com/auth/calendar.readonly`, state: 'abc' })
   })
 
   it('merkt sich einen zufälligen State und leitet weiter', () => {
@@ -26,10 +26,13 @@ describe('Google-Anmeldung (nur lesen)', () => {
   it('wertet den Rücksprung aus und prüft State und Berechtigung', () => {
     expect(rueckkehrAuswerten('', 'abc', jetzt)).toBeNull()
     expect(rueckkehrAuswerten('#wiederherstellen=x', 'abc', jetzt)).toBeNull()
-    expect(rueckkehrAuswerten(hash({}), 'abc', jetzt)).toEqual({ art: 'verbunden', token: { wert: 'tok', gueltigBis: jetzt + 3539_000 } })
+    expect(rueckkehrAuswerten(hash({}), 'abc', jetzt)).toEqual({ art: 'verbunden', token: { wert: 'tok', scopes: [GMAIL_SCOPE], gueltigBis: jetzt + 3539_000 } })
     expect(rueckkehrAuswerten(hash({}), 'anders', jetzt)).toMatchObject({ art: 'fehler' })
     expect(rueckkehrAuswerten(hash({}), null, jetzt)).toMatchObject({ art: 'fehler' })
-    expect(rueckkehrAuswerten(hash({ scope: 'email' }), 'abc', jetzt)).toMatchObject({ art: 'fehler', grund: expect.stringContaining('nicht erteilt') })
+    // Supabase-Anmeldelink: access_token ohne State gehört nicht zu Google und bleibt unangetastet
+    expect(rueckkehrAuswerten('#access_token=sb&refresh_token=r&expires_in=3600&token_type=bearer&type=invite', 'abc', jetzt)).toBeNull()
+    expect(rueckkehrAuswerten('#error=access_denied&error_code=otp_expired', 'abc', jetzt)).toBeNull()
+    expect(rueckkehrAuswerten(hash({ scope: 'email' }), 'abc', jetzt)).toMatchObject({ art: 'fehler', grund: expect.stringContaining('keine Leseberechtigung') })
     expect(rueckkehrAuswerten('#error=access_denied&state=abc', 'abc', jetzt)).toEqual({ art: 'fehler', grund: 'Du hast den Zugriff bei Google abgelehnt.' })
   })
 
@@ -54,7 +57,7 @@ describe('Google-Anmeldung (nur lesen)', () => {
   })
 
   it('fragt mit Token nur Kopfzeilen ab und widerruft beim Trennen', async () => {
-    tokenSetzen({ wert: 'tok', gueltigBis: Date.now() + 60_000 })
+    tokenSetzen({ wert: 'tok', scopes: ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/calendar.readonly'], gueltigBis: Date.now() + 60_000 })
     const f = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ id: 'm1', threadId: 't1', internalDate: String(jetzt), snippet: 'Danke &amp; bis bald', labelIds: ['INBOX'], payload: { headers: [{ name: 'From', value: 'Kim <kim@example.org>' }, { name: 'Subject', value: 'Ihre Bewerbung' }, { name: 'To', value: 'ich@example.org, b@example.org' }] } })))
     const mail = await gmailDienst.holen('m1')
     const [url, init] = f.mock.calls[0]!
@@ -69,7 +72,7 @@ describe('Google-Anmeldung (nur lesen)', () => {
   })
 
   it('vergisst den Token, wenn Google ihn nicht mehr annimmt', async () => {
-    tokenSetzen({ wert: 'tok', gueltigBis: Date.now() + 60_000 })
+    tokenSetzen({ wert: 'tok', scopes: ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/calendar.readonly'], gueltigBis: Date.now() + 60_000 })
     const f = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('', { status: 401 }))
     await expect(gmailDienst.profil()).rejects.toBeInstanceOf(NichtAngemeldet)
     expect(aktuellerToken()).toBeNull()

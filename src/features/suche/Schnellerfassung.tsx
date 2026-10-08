@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useRechte } from '../../app/cloudContext.ts'
+import { darf, type Bereich } from '../../domain/bereiche.ts'
 import { matchPath, useLocation, useNavigate } from 'react-router'
 import { Button } from '../../components/ui/Button.tsx'
 import { Dialog } from '../../components/ui/Dialog.tsx'
@@ -16,14 +18,14 @@ import styles from './Suche.module.css'
 
 type Art = 'aufgabe' | 'termin' | 'kontakt' | 'unternehmen' | 'projekt' | 'bewerbung' | 'lead'
 
-const ARTEN: Array<{ art: Art; label: string }> = [
-  { art: 'aufgabe', label: 'Aufgabe' },
-  { art: 'termin', label: 'Termin' },
-  { art: 'kontakt', label: 'Kontakt' },
-  { art: 'unternehmen', label: 'Unternehmen' },
-  { art: 'projekt', label: 'Projekt' },
-  { art: 'bewerbung', label: 'Bewerbung' },
-  { art: 'lead', label: 'Lead' },
+const ARTEN: Array<{ art: Art; label: string; bereich: Bereich }> = [
+  { art: 'aufgabe', label: 'Aufgabe', bereich: 'aufgaben' },
+  { art: 'termin', label: 'Termin', bereich: 'aufgaben' },
+  { art: 'kontakt', label: 'Kontakt', bereich: 'kontakte' },
+  { art: 'unternehmen', label: 'Unternehmen', bereich: 'kontakte' },
+  { art: 'projekt', label: 'Projekt', bereich: 'projekte' },
+  { art: 'bewerbung', label: 'Bewerbung', bereich: 'bewerbungen' },
+  { art: 'lead', label: 'Lead', bereich: 'kontakte' },
 ]
 
 /** Bezug der aktuell geöffneten Detailseite, damit neue Aufgaben und Termine gleich verknüpft sind. */
@@ -48,6 +50,7 @@ export function Schnellerfassung({ onSchliessen }: { onSchliessen: () => void })
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const [art, setArt] = useState<Art | null>(null)
+  const rechte = useRechte()
   const bezug = bezugAusPfad(pathname)
   const info = bezugInfo(data, bezug)
   const vorgabeUnternehmenId = bezug.art === 'unternehmen' ? (bezug.id ?? undefined) : undefined
@@ -69,7 +72,7 @@ export function Schnellerfassung({ onSchliessen }: { onSchliessen: () => void })
         </p>
       )}
       <ul className={styles.auswahl} aria-label="Was möchtest du anlegen?">
-        {ARTEN.map((a) => (
+        {ARTEN.filter((a) => darf(rechte, a.bereich)).map((a) => (
           <li key={a.art}>
             <Button variant="secondary" onClick={() => setArt(a.art)}>
               {a.label}

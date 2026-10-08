@@ -9,6 +9,8 @@ export interface NavEintrag {
   icon: IconName
   /** Nur in der vollen Navigation, nicht in der Icon-Leiste */
   nurVoll?: boolean
+  /** Nur für angemeldete, eingeladene Nutzer (nicht für den Admin) */
+  nurEingeladene?: boolean
 }
 
 export interface NavGruppe {
@@ -25,6 +27,7 @@ export const NAV_GRUPPEN: NavGruppe[] = [
     eintraege: [
       { to: '/', label: 'Arbeitscockpit', kurz: 'Cockpit', icon: 'cockpit' },
       { to: '/dashboard', label: 'Dashboard', kurz: 'Dashboard', icon: 'dashboard' },
+      { to: '/assistent', label: 'KI-Assistent', kurz: 'KI', icon: 'agent' },
       { to: '/aufgaben', label: 'Aufgaben & Termine', kurz: 'Aufgaben', icon: 'aufgaben' },
       { to: '/kalender', label: 'Kalender', kurz: 'Kalender', icon: 'kalender' },
       { to: '/projekte', label: 'Projekte', kurz: 'Projekte', icon: 'projekte' },
@@ -52,12 +55,14 @@ export const NAV_GRUPPEN: NavGruppe[] = [
       { to: '/kontakte', label: 'Kontakte & Leads', kurz: 'Kontakte', icon: 'kontakte' },
       { to: '/postfach', label: 'Postfach', kurz: 'Postfach', icon: 'mail' },
       { to: '/bewerbungen', label: 'Bewerbungen', kurz: 'Bewerb.', icon: 'bewerbungen' },
+      { to: '/geteilt', label: 'Geteilt mit mir', kurz: 'Geteilt', icon: 'kontakte', nurEingeladene: true },
     ],
   },
   {
     titel: 'Marke & System',
     eintraege: [
       { to: '/pikartz-ai', label: 'PIKARTZ.AI', kurz: 'Marke', icon: 'marke' },
+      { to: '/admin', label: 'Nutzer & Rollen', kurz: 'Nutzer', icon: 'schloss' },
       { to: '/einstellungen', label: 'Einstellungen', kurz: 'Optionen', icon: 'einstellungen' },
     ],
   },

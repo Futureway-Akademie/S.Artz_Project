@@ -81,6 +81,25 @@ describe('Werkzeugkasten', () => {
   })
 
   describe('Bedienung', () => {
+    it('übernimmt Startvorlagen und erkennt bereits vorhandene', () => {
+      const { gespeichert } = renderApp('/werkzeug', { daten: { ...daten(), werkzeug: [werkzeug('x', 'befehl', { titel: 'Alle Prüfungen' })] } })
+      fireEvent.click(screen.getByRole('button', { name: 'Startvorlagen' }))
+      const dialog = screen.getByRole('dialog', { name: 'Startvorlagen' })
+      expect(within(dialog).getByRole('checkbox', { name: /Alle Prüfungen/ })).toBeDisabled()
+      fireEvent.click(within(dialog).getByRole('checkbox', { name: 'Code-Review' }))
+      const knopf = within(dialog).getByRole('button', { name: /^Übernehmen/ })
+      const anzahl = Number(knopf.textContent!.match(/\d+/)![0])
+      fireEvent.click(knopf)
+      act(() => {
+        window.dispatchEvent(new Event('pagehide'))
+      })
+      const titel = gespeichert().werkzeug.map((w) => w.titel)
+      expect(titel).toHaveLength(anzahl + 1)
+      expect(titel).toContain('MCP-Server in Claude Code einrichten')
+      expect(titel).not.toContain('Code-Review')
+      expect(titel.filter((t) => t === 'Alle Prüfungen')).toHaveLength(1)
+    })
+
     it('legt ein Abo mit Kosten und Frist an – Summe, Cockpit und Dashboard zeigen es', () => {
       vi.useFakeTimers({ toFake: ['Date'] })
       vi.setSystemTime(now)
@@ -235,5 +254,50 @@ describe('Werkzeugkasten', () => {
       expect(knopf).toHaveAttribute('aria-expanded', 'false')
       expect(within(nav).queryByRole('link', { name: 'Masterprompts' })).toBeNull()
     })
+  })
+})
+
+describe('Workflows starten (n8n, Make)', () => {
+  afterEach(() => localStorage.clear())
+
+  it('prüft Webhook-Adressen: nur https, keine Zugangsdaten, keine internen Ziele', async () => {
+    const { webhookAdressePruefen } = await import('../../../supabase/functions/_gemeinsam/pruefen.ts')
+    expect(webhookAdressePruefen('https://n8n.example.com/webhook/abc')).toBeNull()
+    expect(webhookAdressePruefen('http://n8n.example.com/webhook/abc')).toMatch(/https/)
+    expect(webhookAdressePruefen('https://nutzer:pw@n8n.example.com/x')).toMatch(/Zugangsdaten/)
+    for (const intern of ['https://localhost/x', 'https://127.0.0.1/x', 'https://10.0.0.5/x', 'https://192.168.1.2/x', 'https://169.254.169.254/latest', 'https://intranet/x', 'https://[::1]/x']) {
+      expect(webhookAdressePruefen(intern)).toMatch(/Interne/)
+    }
+  })
+
+  it('hinterlegt den Webhook geschützt, zeigt ihn nie wieder an und startet den Workflow', async () => {
+    const { createFakeCloud } = await import('../../test/fakeCloud.ts')
+    const admin = { userId: 'u1', email: 'admin@example.org', anzeigename: '', rolleId: null, istAdmin: true, gesperrt: false, bereicheAn: [], bereicheAus: [] }
+    const fake = createFakeCloud({ nutzer: { id: 'u1', email: 'admin@example.org' }, profile: [admin] })
+    const { gespeichert } = renderApp('/werkzeug/workflows/wf', { daten: { ...daten(), werkzeug: [werkzeug('wf', 'workflow', { titel: 'Kontaktanfragen' })] }, cloud: fake.dienst })
+    const panel = await screen.findByRole('region', { name: 'Ausführen' })
+    const feld = await within(panel).findByLabelText(/^Webhook-Adresse/)
+    fireEvent.change(feld, { target: { value: 'http://n8n.example.com/webhook/geheim' } })
+    await act(async () => {
+      fireEvent.click(within(panel).getByRole('button', { name: 'Webhook hinterlegen' }))
+    })
+    expect(within(panel).getByText(/Nur https-Adressen/)).toBeInTheDocument()
+    fireEvent.change(within(panel).getByLabelText(/^Webhook-Adresse/), { target: { value: 'https://n8n.example.com/webhook/geheim' } })
+    await act(async () => {
+      fireEvent.click(within(panel).getByRole('button', { name: 'Webhook hinterlegen' }))
+    })
+    expect(await within(panel).findByText(/Adresse nicht einsehbar/)).toBeInTheDocument()
+    expect(document.body.textContent).not.toContain('webhook/geheim')
+
+    fireEvent.change(within(panel).getByLabelText(/^Mitgeben/), { target: { value: 'Test' } })
+    await act(async () => {
+      fireEvent.click(within(panel).getByRole('button', { name: 'Workflow starten' }))
+    })
+    expect(fake.workflowAufrufe).toEqual([{ werkzeugId: 'wf', eingabe: 'Test', url: 'https://n8n.example.com/webhook/geheim' }])
+    expect(await within(panel).findByText(/Gestartet/)).toBeInTheDocument()
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(JSON.stringify(gespeichert())).not.toContain('webhook/geheim')
   })
 })

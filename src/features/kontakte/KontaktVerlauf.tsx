@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { NurMit } from '../../components/NurMit.tsx'
+import { antwortEingabe, naechsterSchrittAusAntwort, wiedervorlageAusAntwort, zusammenfassungEingabe } from '../../domain/selectors/kiEingaben.ts'
+import { KiDialog } from '../ki/KiDialog.tsx'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router'
 import { Button } from '../../components/ui/Button.tsx'
@@ -142,6 +145,9 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
   const [richtung, setRichtung] = useState<'eingang' | 'ausgang'>('ausgang')
   const [fehler, setFehler] = useState<string>()
   const [loeschen, setLoeschen] = useState<Interaktion | null>(null)
+
+  const [kiAntwort, setKiAntwort] = useState<Interaktion | null>(null)
+  const [kiZusammenfassung, setKiZusammenfassung] = useState(false)
   const [weiter, setWeiter] = useState(false)
 
   const eintraege = data.interaktionen
@@ -217,6 +223,33 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
 
       {weiter && <WieWeiter kontakt={kontakt} onFertig={() => setWeiter(false)} />}
 
+      {eintraege.length > 1 && (
+        <NurMit bereich="ki">
+          <div>
+            <Button size="sm" variant="secondary" onClick={() => setKiZusammenfassung(true)}>
+              Zusammenfassen mit KI
+            </Button>
+          </div>
+        </NurMit>
+      )}
+      {kiZusammenfassung && (
+        <KiDialog
+          aufgabe="zusammenfassung"
+          eingabe={zusammenfassungEingabe(data, { kontaktId: kontakt.id }, now)}
+          uebernehmenLabel="Als nächste Aktion übernehmen"
+          onUebernehmen={(antwort) => {
+            const schritt = naechsterSchrittAusAntwort(antwort)
+            if (!schritt) {
+              zeige('Kein nächster Schritt in der Antwort gefunden')
+              return
+            }
+            dispatch({ type: 'aendern', sammlung: 'kontakte', id: kontakt.id, aenderung: { naechsteAktion: { text: schritt, faelligAm: wiedervorlageAusAntwort(antwort) } } })
+            zeige('Nächste Aktion übernommen')
+          }}
+          onSchliessen={() => setKiZusammenfassung(false)}
+        />
+      )}
+
       {eintraege.length === 0 ? (
         <EmptyState title="Noch kein Verlauf">Halte Telefonate, E-Mails und Treffen in ein, zwei Sätzen fest.</EmptyState>
       ) : (
@@ -241,6 +274,15 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
                   </p>
                 )}
                 <p className={styles.text}>{i.text}</p>
+                {i.art === 'email' && i.richtung === 'eingang' && (
+                  <NurMit bereich="ki">
+                    <div>
+                      <Button size="sm" variant="ghost" onClick={() => setKiAntwort(i)}>
+                        Antwort mit KI
+                      </Button>
+                    </div>
+                  </NurMit>
+                )}
                 {projekt && (
                   <Link to={`/projekte/${projekt.id}`} className={styles.projekt}>
                     {projekt.titel}
@@ -278,6 +320,7 @@ function Verlauf({ kontakt }: { kontakt: Kontakt }) {
           <p>Der Eintrag vom {formatDatum(loeschen.datum)} wird endgültig gelöscht.</p>
         </ConfirmDialog>
       )}
+      {kiAntwort && <KiDialog aufgabe="antwort" eingabe={antwortEingabe(data, kiAntwort)} onSchliessen={() => setKiAntwort(null)} />}
     </>
   )
 }

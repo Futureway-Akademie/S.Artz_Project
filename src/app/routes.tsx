@@ -3,6 +3,7 @@ import { AppShell } from '../components/layout/AppShell.tsx'
 import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
 import { BewerbungDetailSeite } from '../features/bewerbungen/BewerbungDetailSeite.tsx'
 import { BewerbungenSeite } from '../features/bewerbungen/BewerbungenSeite.tsx'
+import { DokumenteSeite } from '../features/bewerbungen/Dokumente.tsx'
 import { ZielrollenSeite } from '../features/bewerbungen/ZielrollenSeite.tsx'
 import { DashboardSeite } from '../features/dashboard/DashboardSeite.tsx'
 import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
@@ -17,6 +18,9 @@ import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSe
 import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
 import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
+import { AssistentSeite } from '../features/ki/AssistentSeite.tsx'
+import { AdminSeite } from '../features/admin/AdminSeite.tsx'
+import { GeteiltSeite } from '../features/admin/GeteiltSeite.tsx'
 import { PostfachSeite } from '../features/postfach/PostfachSeite.tsx'
 import { NichtGefunden } from '../features/NichtGefunden.tsx'
 import { WerkzeugDetailSeite, WerkzeugListeSeite, WerkzeugUebersicht } from '../features/werkzeug/WerkzeugSeiten.tsx'
@@ -32,6 +36,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<CockpitSeite />} />
+        <Route path="assistent" element={<AssistentSeite />} />
         <Route path="dashboard" element={<DashboardSeite />} />
         <Route path="projekte">
           <Route index element={<ProjekteSeite />} />
@@ -63,9 +68,12 @@ export function AppRoutes() {
         <Route path="bewerbungen">
           <Route index element={<BewerbungenSeite />} />
           <Route path="zielrollen" element={<ZielrollenSeite />} />
+          <Route path="dokumente" element={<DokumenteSeite />} />
           <Route path=":id" element={<BewerbungDetailSeite />} />
         </Route>
         <Route path="postfach" element={<PostfachSeite />} />
+        <Route path="admin" element={<AdminSeite />} />
+        <Route path="geteilt" element={<GeteiltSeite />} />
         <Route path="einstellungen" element={<EinstellungenSeite />} />
         <Route path="*" element={<NichtGefunden />} />
       </Route>

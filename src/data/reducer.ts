@@ -5,6 +5,8 @@ import { aktivitaetText, geaenderteFelder, titelVon } from './activity.ts'
 
 /** Obergrenze, damit das Protokoll den Speicher nicht füllt. */
 export const MAX_AKTIVITAETEN = 500
+/** So viele KI-Aufrufe bleiben im Protokoll */
+export const MAX_KI_PROTOKOLL = 200
 
 type Liste<S extends Sammlung> = Array<Eintrag<S>>
 
@@ -83,6 +85,7 @@ export function loeschfolgen(data: AppData, sammlung: Sammlung, id: string): Loe
     case 'bewerbungen':
       add('entknuepft', 'interaktionen', data.interaktionen.filter((i) => i.bewerbungId === id))
       add('entknuepft', 'mails', data.mails.filter((m) => m.bewerbungId === id))
+      add('entknuepft', 'dokumente', data.dokumente.filter((d) => d.bewerbungIds.includes(id)))
       add('entknuepft', 'aufgaben', data.aufgaben.filter(bezogen('bewerbung')))
       add('entknuepft', 'termine', data.termine.filter(bezogen('bewerbung')))
       break
@@ -148,6 +151,7 @@ function loeschenMitFolgen(data: AppData, sammlung: Sammlung, id: string): AppDa
     case 'bewerbungen':
       next.interaktionen = next.interaktionen.map((i) => (i.bewerbungId === id ? { ...i, bewerbungId: null } : i))
       next.mails = next.mails.map((m) => (m.bewerbungId === id ? { ...m, bewerbungId: null } : m))
+      next.dokumente = next.dokumente.map((d) => (d.bewerbungIds.includes(id) ? { ...d, bewerbungIds: d.bewerbungIds.filter((b) => b !== id) } : d))
       next.aufgaben = next.aufgaben.map((a) => ohneBezug(a, 'bewerbung'))
       next.termine = next.termine.map((t) => ohneBezug(t, 'bewerbung'))
       break
@@ -255,6 +259,12 @@ function kernReducer(data: AppData, action: Action, meta: ActionMeta): AppData {
         bezug: { sammlung: null, id: null, titel: 'Einstellungen' },
         zusammenfassung: geaenderteFelder(data.einstellungen, neu).every((f) => f === 'letzteSicherungAm') ? 'Sicherung erstellt' : 'Einstellungen geändert',
       })
+    }
+
+    case 'kiProtokoll': {
+      if (!action.eintrag) return { ...data, kiProtokoll: [] }
+      const eintrag = { id: meta.newId(), zeitpunkt: meta.now.toISOString(), ...action.eintrag }
+      return { ...data, kiProtokoll: [eintrag, ...data.kiProtokoll].slice(0, MAX_KI_PROTOKOLL) }
     }
 
     case 'mailsAbgerufen': {

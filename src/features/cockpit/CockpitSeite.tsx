@@ -1,4 +1,11 @@
 import { Link } from 'react-router'
+import { useState } from 'react'
+import { Button } from '../../components/ui/Button.tsx'
+import { idsAusAntwort, tagesplanEingabe } from '../../domain/selectors/kiEingaben.ts'
+import { KiDialog } from '../ki/KiDialog.tsx'
+import { useRechte } from '../../app/cloudContext.ts'
+import { NurMit } from '../../components/NurMit.tsx'
+import { darf } from '../../domain/bereiche.ts'
 import { Diamond } from '../../components/brand/Diamond.tsx'
 import { Seite } from '../../components/layout/Seite.tsx'
 import { Badge } from '../../components/ui/Badge.tsx'
@@ -34,6 +41,7 @@ import styles from './CockpitSeite.module.css'
 
 export function CockpitSeite() {
   const { data, dispatch } = useStore()
+  const rechte = useRechte()
   const { zeige } = useToast()
   const now = useNow()
   const b = selectBegruessung(data, now)
@@ -47,6 +55,7 @@ export function CockpitSeite() {
   const crm = selectCrmUebersicht(data, now)
   const sicherung = selectSicherungHinweis(data, now)
   const aboFristen = selectAboFristen(data, now)
+  const [kiPlan, setKiPlan] = useState(false)
 
   const abhaken = (a: Aufgabe) => {
     dispatch({ type: 'aendern', sammlung: 'aufgaben', id: a.id, aenderung: { erledigt: true } })
@@ -96,7 +105,20 @@ export function CockpitSeite() {
         ))}
       </section>
 
-      <Panel titel="Heute im Fokus" aktionen={<Link to="/aufgaben">Aufgaben</Link>}>
+      <NurMit bereich="aufgaben">
+      <Panel
+        titel="Heute im Fokus"
+        aktionen={
+          <span className={styles.panelAktionen}>
+            <NurMit bereich="ki">
+              <Button size="sm" variant="secondary" onClick={() => setKiPlan(true)}>
+                Tag mit KI planen
+              </Button>
+            </NurMit>
+            <Link to="/aufgaben">Aufgaben</Link>
+          </span>
+        }
+      >
         {fokus.fokus.length === 0 ? (
           <div className={styles.fokusLeer}>
             <p>Noch nichts im Fokus. Markiere bei Aufgaben „☆ Fokus“ – oder nimm einen Vorschlag:</p>
@@ -141,8 +163,10 @@ export function CockpitSeite() {
           </ul>
         )}
       </Panel>
+      </NurMit>
 
       <div className={styles.raster}>
+        <NurMit bereich="aufgaben">
         <Panel titel="Nächste Schritte" aktionen={schritte.gesamt > 0 && <Link to="/aufgaben">Alle anzeigen ({schritte.gesamt})</Link>}>
           {schritte.eintraege.length === 0 ? (
             <EmptyState title="Keine offenen Schritte">Lege in einem Projekt den nächsten konkreten Schritt an.</EmptyState>
@@ -177,7 +201,9 @@ export function CockpitSeite() {
             </ul>
           )}
         </Panel>
+        </NurMit>
 
+        <NurMit bereich={['kalender', 'aufgaben']}>
         <Panel titel="Diese Woche" aktionen={<Link to="/kalender?ansicht=woche">Kalender</Link>}>
           {woche.every((tag) => tag.eintraege.length === 0) ? (
             <EmptyState title="Nichts in den nächsten 7 Tagen">Termine, Fristen und Wiedervorlagen erscheinen hier.</EmptyState>
@@ -204,8 +230,9 @@ export function CockpitSeite() {
             </ol>
           )}
         </Panel>
+        </NurMit>
 
-        {aboFristen.length > 0 && (
+        {aboFristen.length > 0 && darf(rechte, 'werkzeug') && (
           <Panel titel="Abo-Fristen" aktionen={<Link to="/werkzeug/abos">Modelle & Abos</Link>}>
             <ul className={styles.liste}>
               {aboFristen.map((t) => (
@@ -217,6 +244,7 @@ export function CockpitSeite() {
           </Panel>
         )}
 
+        <NurMit bereich="projekte">
         <Panel titel="Aktuelle Projekte" aktionen={<Link to="/projekte">Alle Projekte ({projekte.gesamt})</Link>}>
           {projekte.zeilen.length === 0 ? (
             <EmptyState title="Keine aktuellen Projekte" />
@@ -240,7 +268,9 @@ export function CockpitSeite() {
             </ul>
           )}
         </Panel>
+        </NurMit>
 
+        <NurMit bereich="weiterbildung">
         <Panel titel="Weiterbildung" aktionen={<Link to="/weiterbildung">Details</Link>}>
           {wb ? (
             <div className={styles.wb}>
@@ -265,7 +295,9 @@ export function CockpitSeite() {
             <EmptyState title="Keine Weiterbildung hinterlegt" />
           )}
         </Panel>
+        </NurMit>
 
+        <NurMit bereich={['kontakte', 'bewerbungen']}>
         <Panel titel="Kontakte & Bewerbungen">
           {crm.leer ? (
             <EmptyState title="Noch keine Kontakte, Bewerbungen oder Leads">
@@ -301,6 +333,7 @@ export function CockpitSeite() {
             </ul>
           )}
         </Panel>
+        </NurMit>
 
         <Panel titel="Letzte Aktivitäten">
           {aktivitaeten.length === 0 ? (
@@ -317,6 +350,20 @@ export function CockpitSeite() {
           )}
         </Panel>
       </div>
+      {kiPlan && (
+        <KiDialog
+          aufgabe="tagesplan"
+          eingabe={tagesplanEingabe(data, now)}
+          uebernehmenLabel="Vorgeschlagene Aufgaben in den Fokus"
+          onUebernehmen={(antwort) => {
+            const ids = new Set(idsAusAntwort(antwort))
+            const passend = data.aufgaben.filter((a) => ids.has(a.id) && !a.erledigt && !a.fokus)
+            for (const a of passend) dispatch({ type: 'aendern', sammlung: 'aufgaben', id: a.id, aenderung: { fokus: true } })
+            zeige(passend.length ? `${passend.length} ${passend.length === 1 ? 'Aufgabe' : 'Aufgaben'} in den Fokus genommen` : 'Keine weiteren Aufgaben für den Fokus')
+          }}
+          onSchliessen={() => setKiPlan(false)}
+        />
+      )}
     </Seite>
   )
 }

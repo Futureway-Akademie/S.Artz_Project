@@ -1707,7 +1707,7 @@
       "description": "Supabase gemeinsam einrichten, automatische Tests auf GitHub, Werkzeugkasten mit Startvorlagen.",
       "order": 13,
       "weight": 5,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-13-1",
@@ -1720,7 +1720,8 @@
           "definitionOfDone": [
             "Supabase-Projekt in Frankfurt mit Tabelle tresor und RLS",
             "Anmeldung per E-Mail-Link funktioniert lokal",
-            "Synchronisierung echt geprüft: Supabase enthält nur Chiffretext"
+            "Synchronisierung echt geprüft: Supabase enthält nur Chiffretext",
+            "Live geprüft: Mehrbenutzer-Tabellen und Regeln, Einladung, KI- und Webhook-Funktionen (sofern bis dahin gebaut)"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -1737,19 +1738,21 @@
           "description": "GitHub Actions: Typecheck, Lint, Tests und Build bei jedem Push und Pull Request; Datenschutz-Wächter läuft mit.",
           "order": 2,
           "weight": 1,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Workflow läuft bei Push und PR",
             "Fehlschlag bei roten Tests oder Wächter-Treffer"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T08:57:46Z",
+          "completedAt": "2026-10-08T09:00:32Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "GitHub-Actions-Workflow .github/workflows/ci.yml (Typecheck, Lint, Tests inkl. axe und Verbindungs-Wächter, Build) bei Push und PR; erster Lauf 37753386309 auf GitHub erfolgreich. Der Datenschutz-Wächter läuft lokal vor jedem Push, da die privaten Begriffe nicht im Repository liegen.",
+            "commands": [
+              "gh run watch 37753386309 --exit-status"
+            ],
+            "checkedAt": "2026-10-08T09:00:32Z"
           }
         },
         {
@@ -1758,19 +1761,23 @@
           "description": "Neutrale Startvorlagen zum Übernehmen: Masterprompts, Claude-Code- und Git-Befehle, Anleitungen (MCP-Server, Supabase, Claude Code), Abo-Einträge zum Ausfüllen; nichts Persönliches im Repository.",
           "order": 3,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Vorlagen per Klick übernehmbar",
             "Keine persönlichen Inhalte im Repository (Wächter grün)"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:00:33Z",
+          "completedAt": "2026-10-08T09:01:46Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Startvorlagen-Dialog im Werkzeugkasten mit 24 neutralen Vorlagen (Masterprompts, Befehle, Agent, Skill, Anleitungen inkl. MCP-Server und Supabase, Integrationen, Workflow, Abos ohne Beträge); Auswahl, bereits Vorhandenes wird erkannt. Wächter grün, Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:01:46Z"
           }
         }
       ]
@@ -1781,7 +1788,7 @@
       "description": "Andere Nutzer nur per Einladung; Sascha als Admin vergibt Rollen und schaltet Bereiche je Nutzer frei oder sperrt Nutzer. Jeder hat eigene Daten, dazu geteilte Bereiche.",
       "order": 14,
       "weight": 16,
-      "status": "planned",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-14-1",
@@ -1789,22 +1796,24 @@
           "description": "Supabase: Profile, Rollen-Vorlagen (Kunde, Mitarbeiter, Kursteilnehmer, Familie/Freunde), Bereichsrechte je Nutzer, Sperre, Admin-Kennzeichen; Zugriffsregeln (RLS) und Tests. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Tabellen und RLS-Regeln für Profile, Rollen und Rechte",
             "Nur der Admin ändert Rechte; Nutzer sehen nur eigene Rechte",
             "Gesperrte Nutzer erhalten keine Daten"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:03:36Z",
+          "completedAt": "2026-10-08T09:08:19Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "supabase/schema.sql erweitert: Tabellen rollen und profile, Funktionen ist_admin/ist_gesperrt, Profil-Trigger (erstes Konto = Admin, Eingeladene mit Rolle), Schutz für den letzten Admin, RLS (Rollen lesen alle, ändern nur Admin; Profile eigenes bzw. Admin), Tresor für Gesperrte gesperrt, Startrollen, mehrfach ausführbar. Mit echtem Postgres (PGlite, Supabase-auth nachgebildet) getestet: 7 Regeltests. Client: Bereiche, Rechteberechnung, Cloud-Schnittstelle um Profile/Rollen/Einladung erweitert (Supabase-Umsetzung und Fake), Rechte im CloudProvider mit Gerätecache. Live-Test in Supabase folgt in task-13-1.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:08:19Z"
           }
         },
         {
@@ -1813,7 +1822,7 @@
           "description": "Admin lädt per E-Mail ein; Selbstregistrierung ist abgeschaltet; neuer Nutzer legt beim ersten Login seinen eigenen Tresor an. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-14-1"
           ],
@@ -1822,13 +1831,17 @@
             "Ohne Einladung keine Registrierung",
             "Neuer Nutzer hat eigenen, getrennten Tresor"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:08:51Z",
+          "completedAt": "2026-10-08T09:12:39Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Supabase-Funktion einladen (nur aktiver Admin, Prüfung von Adresse, Rolle und Rücksprung; service_role nur serverseitig), Rolle über Metadaten ins Profil. Erstanmeldung: Begrüßung eingeladener Nutzer, eigener Tresor mit eigenem Passwort, Synchronisierung. Gerät mit fremdem Tresor: kein Abgleich, Hinweis und Abmelden. Behoben: Gmail-Rücksprung fängt Supabase-Anmeldelinks nicht mehr ab. Anleitung ergänzt. Tests grün; Live-Test in task-13-1.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:12:39Z"
           }
         },
         {
@@ -1837,7 +1850,7 @@
           "description": "Nutzerliste, Rollen-Vorlagen bearbeiten, Rolle zuweisen, Bereiche je Nutzer ein- und ausschalten, Nutzer sperren und entsperren. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-14-1"
           ],
@@ -1846,13 +1859,17 @@
             "Bereiche je Nutzer schaltbar, Änderung wirkt sofort",
             "Nutzer sperren und entsperren"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:12:39Z",
+          "completedAt": "2026-10-08T09:15:52Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Admin-Seite /admin (Nutzer & Rollen): einladen mit Rolle, Nutzerkarten mit Rolle, Bereichen je Nutzer (Abweichungen von der Rolle gekennzeichnet), Sperren mit Bestätigung und Entsperren; Rollen anlegen, Bereiche je Rolle, löschen. Nur für Admins, sonst Hinweis. Tests mit nachgebauter Cloud grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:15:52Z"
           }
         },
         {
@@ -1861,7 +1878,7 @@
           "description": "Nicht freigegebene Bereiche verschwinden aus Navigation, Suche, Schnellerfassung, Cockpit und Dashboard; direkte Aufrufe zeigen „Kein Zugriff“. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-14-3"
           ],
@@ -1869,13 +1886,17 @@
             "Gesperrte Bereiche nirgends sichtbar",
             "Direktaufruf zeigt „Kein Zugriff“"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:15:52Z",
+          "completedAt": "2026-10-08T09:20:47Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Navigation (voll, Icon-Leiste, Menü) zeigt nur freigegebene Bereiche, Admin-Eintrag „Nutzer & Rollen“ nur für Admins; Seitenschutz: Direktaufruf zeigt „Kein Zugriff“, ohne Cockpit-Recht Weiterleitung zum ersten freien Bereich, Gesperrte sehen nur einen Hinweis; Suche, Schnellerfassung, Cockpit-Panels und Dashboard-Kacheln/-Grafiken nach Rechten. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:20:47Z"
           }
         },
         {
@@ -1884,7 +1905,7 @@
           "description": "Sascha gibt einzelne Bereiche seiner Daten an Nutzer frei: Bereichsschlüssel je berechtigtem Nutzer verpackt; beim Entziehen Schlüsseltausch, damit der Zugriff auch kryptografisch endet.",
           "order": 5,
           "weight": 5,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-14-2",
             "task-14-3"
@@ -1894,13 +1915,17 @@
             "Nach Entzug kein Zugriff mehr auf neue Daten (Schlüsseltausch)",
             "Supabase sieht weiterhin nur Chiffretext"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:17:50Z",
+          "completedAt": "2026-10-08T10:25:29Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Geteilte Bereiche Ende-zu-Ende-verschlüsselt: Schlüsselpaar je Nutzer (RSA-OAEP 3072, privat mit Tresor-Datenschlüssel verschlüsselt), Bereichsschlüssel (AES-256) je Empfänger verpackt, neue Version bei jeder Aktualisierung; SQL: schluessel (öffentlich lesbar, privat nur per Funktion), freigaben und freigabe_schluessel mit RLS (nur aktiver Admin teilt, Empfänger nur mit Schlüssel der aktuellen Version, Gesperrte nie), mit PGlite getestet. Teilbar: Projekte, Aufgaben/Termine, Wissen, Werkzeugkasten (ohne Personenbezüge und Schlüssel-Ablageorte). Admin-Bereich: Auswahl je Nutzer; automatisches Neu-Verschlüsseln nach Änderungen; Seite „Geteilt mit mir“ für Eingeladene. Ende-zu-Ende-Test Teilen→Lesen→Entzug grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:25:29Z"
           }
         }
       ]
@@ -1911,7 +1936,7 @@
       "description": "Claude im Cockpit über AWS Bedrock (Frankfurt); Daten gehen nur nach Freigabe pro Aktion an die KI.",
       "order": 15,
       "weight": 14,
-      "status": "planned",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-15-1",
@@ -1919,22 +1944,24 @@
           "description": "Edge Function als Vermittler zu Claude auf AWS Bedrock (eu-central-1): Zugangsdaten nur serverseitig, nur angemeldete und berechtigte Nutzer, Kostenlimit je Nutzer, keine Speicherung der Inhalte. Voraussetzung: AWS-Konto mit Claude-Freischaltung (Sascha). Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Kein KI-Schlüssel im Browser oder Repository",
             "Nur berechtigte Nutzer, Kostenlimit greift",
             "Verarbeitung in der EU (Frankfurt)"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:21:18Z",
+          "completedAt": "2026-10-08T09:27:05Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Supabase-Funktion ki: Claude über AWS Bedrock eu-central-1 (Converse), nur angemeldete Nutzer mit Bereich „ki“ (SQL-Funktion darf_bereich), Monatsbudget je Nutzer (ki_nutzung, Buchung nur serverseitig), feste Systemanweisungen je Aufgabe auf dem Server, keine Inhaltsspeicherung, AWS-Zugang nur als Secret. Client: Cloud-Schnittstelle ki, useKi mit Verfügbarkeitsgrund. Regeln mit PGlite getestet, Anfrageprüfung und Verfügbarkeit getestet; Anleitung docs/ki-einrichtung.md. Live-Test braucht AWS-Konto (Sascha).",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:27:05Z"
           }
         },
         {
@@ -1943,7 +1970,7 @@
           "description": "Vor jedem KI-Aufruf Vorschau, welche Daten gesendet werden, mit Bestätigung; verschlüsseltes Protokoll der Aufrufe. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-15-1"
           ],
@@ -1951,13 +1978,17 @@
             "Ohne Bestätigung wird nichts gesendet",
             "Vorschau zeigt genau den gesendeten Text"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:27:05Z",
+          "completedAt": "2026-10-08T09:30:10Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI-Freigabe-Dialog: zeigt den zu sendenden Text (bearbeitbar, Längengrenze), sendet erst nach Bestätigung, Ergebnis bearbeitbar, kopieren oder übernehmen, Verbrauch und Restbudget; ohne Verfügbarkeit Hinweis statt Senden. Schema v10 mit kiProtokoll (Aufgabe, Zeichen, Tokens – ohne Inhalt), Migration 9→10, Protokoll in den Einstellungen mit Leeren. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:30:10Z"
           }
         },
         {
@@ -1966,7 +1997,7 @@
           "description": "Anschreiben aus Stelle, Zielrolle und eigenen Angaben entwerfen; Antworten auf Mails formulieren; Entwurf übernehmen oder anpassen. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -1974,13 +2005,17 @@
             "Anschreiben-Entwurf aus Bewerbung",
             "Antwortentwurf zu einer Mail"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:30:11Z",
+          "completedAt": "2026-10-08T09:34:36Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI für Bewerbungen: „Anschreiben mit KI“ auf der Bewerbungsseite (Eingabe aus Stelle, Firma, Ansprechpartner, Zielrolle, Notizen; Stärken als Platzhalter), Übernahme in die Notizen; „Antwort mit KI“ für empfangene Mails im Verlauf und im Postfach. Eingabetexte in kiEingaben.ts, getestet; Ablauf Bewerbung→Entwurf→Notizen getestet.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:34:36Z"
           }
         },
         {
@@ -1989,7 +2024,7 @@
           "description": "Mails und Verlauf zusammenfassen, nächsten Schritt und Wiedervorlage vorschlagen, per Klick übernehmen.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -1997,13 +2032,17 @@
             "Zusammenfassung je Kontakt oder Bewerbung",
             "Vorschlag als Wiedervorlage übernehmbar"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:34:37Z",
+          "completedAt": "2026-10-08T09:36:57Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI für Mails und Verlauf: „Zusammenfassen mit KI“ im Kontakt-Verlauf (übernimmt nächste Aktion mit Wiedervorlage) und auf der Bewerbung (übernimmt nächsten Schritt und Wiedervorlage); Antwort wird nach „Nächster Schritt“/„Wiedervorlage“ ausgewertet. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:36:57Z"
           }
         },
         {
@@ -2012,7 +2051,7 @@
           "description": "„Was soll ich heute tun?“: Vorschlag aus Fristen, Fokus, Terminen und Wiedervorlagen; in den Fokus übernehmen.",
           "order": 5,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2020,13 +2059,17 @@
             "Tagesvorschlag im Cockpit",
             "Übernahme in den Fokus"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:36:57Z",
+          "completedAt": "2026-10-08T09:39:16Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "KI-Tagesplanung: „Tag mit KI planen“ im Cockpit-Panel „Heute im Fokus“; Eingabe aus Terminen heute, bald fälligen und Fokus-Aufgaben sowie fälligen Wiedervorlagen (mit IDs); Übernahme nimmt nur tatsächlich vorhandene, offene Aufgaben in den Fokus (erfundene IDs werden ignoriert). Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:39:16Z"
           }
         },
         {
@@ -2035,7 +2078,7 @@
           "description": "Fragen an die eigenen Daten; der Nutzer wählt die einbezogenen Bereiche; Antworten mit Links zu den Einträgen.",
           "order": 6,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2043,13 +2086,17 @@
             "Bereichsauswahl vor dem Senden",
             "Antworten verlinken die Quellen-Einträge"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:39:16Z",
+          "completedAt": "2026-10-08T09:42:39Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Neue Seite „KI-Assistent“ (/assistent, Bereich ki, in der Navigation): Frage stellen, Bereiche wählen (Projekte, Aufgaben/Termine, Kontakte ohne E-Mail/Telefon, Bewerbungen, Leads, Wissen, Werkzeugkasten), kompakte Datenzeilen mit IDs, Kürzung bei Überlänge, Freigabe-Dialog; Antwort mit Links zu den genannten Einträgen. Tests inkl. axe grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:42:39Z"
           }
         }
       ]
@@ -2060,7 +2107,7 @@
       "description": "Vorführbereit machen: fiktive Demo-Daten, Demo-Ablauf, Folien und Generalprobe.",
       "order": 16,
       "weight": 4,
-      "status": "planned",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-16-1",
@@ -2068,7 +2115,7 @@
           "description": "Fiktiver Demo-Bestand (keine echten Personen), Demo-Ablauf mit Mehrbenutzer und KI, Folien im PIKARTZ.AI-Design. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-14-4",
             "task-15-3"
@@ -2077,13 +2124,17 @@
             "Demo-Daten per Klick ladbar und wieder entfernbar",
             "Ablaufplan und Folien liegen vor"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:43:01Z",
+          "completedAt": "2026-10-08T09:47:42Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Fiktive Demo-Daten (Firmen, Kontakte, Bewerbungen, Verlauf mit Mail, Lead, Aufgaben, Termine, Wissen, Werkzeuge, Abo) relativ zu heute, Präfix demo-, per Klick in den Einstellungen hinzufügen und vollständig entfernen (eigene Daten bleiben, Verweise werden gelöst); Demo-Ablauf docs/praesentation/ablauf.md mit Vorbereitung und Notfallplan; Folien docs/praesentation/folien.html (12 Folien im PIKARTZ.AI-Design, Tastatur, Vollbild, Druck). Wächter und Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:47:42Z"
           }
         },
         {
@@ -2092,7 +2143,7 @@
           "description": "Kompletter Demo-Durchlauf lokal, alle Prüfungen grün, Notfallplan ohne Netz. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-16-1"
           ],
@@ -2117,7 +2168,7 @@
       "description": "Google-Kalender, n8n/Make, Stellenanzeigen und Dokumente.",
       "order": 17,
       "weight": 13,
-      "status": "ready",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-17-1",
@@ -2125,19 +2176,23 @@
           "description": "Termine aus Google-Kalender nur lesend im Kalender und Cockpit anzeigen; Token nur im Speicher.",
           "order": 1,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Google-Termine im Kalender sichtbar",
             "Ohne Einrichtung keine Verbindung"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:50:59Z",
+          "completedAt": "2026-10-08T09:55:24Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Google-Kalender nur lesend: Anmeldung fragt zusätzlich calendar.readonly an (erteilte Berechtigungen im Token, Prüfung je Abfrage), Kalender-Abfrage nur mit Titel, Start und Ort, Termine nur im Arbeitsspeicher; im Kalender als eigene Art „Google“ (Filter nur bei Verbindung); CSP-Ausnahme um www.googleapis.com ergänzt, Quelltext-Wächter angepasst; Filterbeschriftung für Abo/Google korrigiert; Anleitung ergänzt. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:55:24Z"
           }
         },
         {
@@ -2146,20 +2201,24 @@
           "description": "Termine aus dem Cockpit nach Bestätigung in Google-Kalender übertragen.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-17-1"
           ],
           "definitionOfDone": [
             "Eintragen nur nach Bestätigung"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:05:48Z",
+          "completedAt": "2026-10-08T10:08:59Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Termine in Google-Kalender eintragen: Button je Termin (Aufgaben → Termine) mit Bestätigung; Schreibberechtigung calendar.events wird nur beim ersten Mal per Weiterleitung angefragt (Hinweis auf erneutes Entsperren); übertragen werden nur Titel, Datum, Uhrzeit (1 Stunde, Zeitzone Berlin) bzw. ganztägig, Ort. Quelltext-Wächter: zweiter POST nur mit Schreibberechtigung, kein PUT/PATCH/DELETE. Anleitung ergänzt; Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:08:59Z"
           }
         },
         {
@@ -2168,21 +2227,23 @@
           "description": "Workflows per Webhook über eine Supabase-Funktion starten und Status anzeigen; Webhook-Adressen geschützt, nie im Browser.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Workflow aus dem Cockpit startbar",
             "Status und letzte Ausführung sichtbar"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:02:14Z",
+          "completedAt": "2026-10-08T10:05:27Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "n8n/Make: Tabelle webhooks mit Spaltenrechten (Adresse nur schreiben, nie lesen; RLS je Konto; nur https), Supabase-Funktion workflow (Bereich automationen, Adressprüfung gegen interne Ziele und Zugangsdaten, kein Folgen von Umleitungen, Zeitlimit, Status und Zeitpunkt gespeichert). Werkzeug-Detail „Ausführen“ für Workflows: Webhook hinterlegen, starten mit optionaler Eingabe, letzter Status, entfernen. Regeln mit PGlite, Adressprüfung und Ablauf getestet; Anleitung ergänzt.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:05:27Z"
           }
         },
         {
@@ -2191,20 +2252,24 @@
           "description": "Stellenanzeige als Link oder Text einfügen; KI liest Firma, Stelle, Anforderungen und Kontakt aus und legt Bewerbung und Unternehmen an (nach Prüfung).",
           "order": 4,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
           "definitionOfDone": [
             "Bewerbung aus Anzeige mit Vorschau"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:47:59Z",
+          "completedAt": "2026-10-08T09:50:37Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "„Aus Stellenanzeige“ auf der Bewerbungsseite: Anzeigentext und Link einfügen, KI liest Stelle, Firma, Ort, Anforderungen, Ansprechpartner, E-Mail, Frist als JSON aus (tolerant geparst), Prüf-Formular zum Anpassen, dann Anlage von Bewerbung (geplant, Frist als Wiedervorlage), Unternehmen (vorhandene werden verknüpft) und Ansprechpartner (Rechtsgrundlage Anbahnung). Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:50:37Z"
           }
         },
         {
@@ -2213,21 +2278,23 @@
           "description": "Lebenslauf, Zeugnisse und Anschreiben verschlüsselt ablegen (Supabase Storage nur Chiffretext) und an Bewerbungen hängen.",
           "order": 5,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Dateien nur verschlüsselt gespeichert",
             "Dokumente an Bewerbungen anhängbar"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:55:44Z",
+          "completedAt": "2026-10-08T10:01:42Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Dokumente: Dateien (max. 10 MB) werden im Browser mit dem Datenschlüssel des Tresors verschlüsselt (AES-GCM, Kennung PKZ1), lokal in IndexedDB und – angemeldet – zusätzlich in Supabase Storage (privater Bucket, je Konto eigener Ordner, Gesperrte ohne Zugriff, Regeln mit PGlite getestet) gespeichert; Speicher lehnen Klartext ab. Schema v11 mit Sammlung dokumente (Name, Typ, Größe, Pfad, Bewerbungen). Seite Bewerbungen → Dokumente (hinzufügen, öffnen, löschen überall) und Panel auf der Bewerbung (hinzufügen, vorhandene anhängen, lösen). Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:01:42Z"
           }
         }
       ]
@@ -2238,7 +2305,7 @@
       "description": "Hosting in Deutschland, installierbar als App, Erinnerungen ohne Inhalt.",
       "order": 18,
       "weight": 9,
-      "status": "planned",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-18-1",
@@ -2252,7 +2319,8 @@
           ],
           "definitionOfDone": [
             "App unter eigener Adresse erreichbar",
-            "Deploy automatisch nach Merge"
+            "Deploy automatisch nach Merge",
+            "PWA und Handy-Bedienung auf der Online-Adresse geprüft (https)"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -2269,21 +2337,23 @@
           "description": "Manifest, Icons, Offline-Start; auf Handy und PC installierbar.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
-          "dependsOn": [
-            "task-18-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Installierbar auf Android und iOS",
             "Startet offline mit lokalem Tresor"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:09:22Z",
+          "completedAt": "2026-10-08T10:12:27Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "PWA: Manifest (Name, Start, standalone, Farben), Icons aus dem Logo (192, 512, maskable, Apple-Touch), Service Worker nur für eigene Dateien (Seiten netzwerk-zuerst mit Offline-Rückfall, versionierte Dateien aus dem Speicher; fremde Anfragen unberührt), Registrierung nur im Build, CSP worker-src 'self'. Im Browser geprüft: Service Worker aktiv, App inkl. Assets zwischengespeichert, Seite kontrolliert; danach aufgeräumt. Tests grün. Installation auf dem Handy folgt mit https (task-18-1).",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:12:27Z"
           }
         },
         {
@@ -2292,20 +2362,24 @@
           "description": "Web-Push mit „n Punkte fällig“ ohne Details; Details erst nach dem Entsperren.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-18-2"
           ],
           "definitionOfDone": [
             "Push ohne personenbezogene Inhalte"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:26:03Z",
+          "completedAt": "2026-10-08T10:29:51Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Push-Erinnerungen ohne Inhalt: Tabelle push_abos (nur eigenes Abo, nur https, RLS mit PGlite getestet), Supabase-Funktion erinnern (stündlich per Cron mit Geheimnis, einmal täglich ab gewählter Stunde in Berliner Zeit, fester Text ohne Daten, abgelaufene Abos werden gelöscht), Service Worker zeigt Benachrichtigung und öffnet die App, Einstellungs-Panel zum Ein- und Ausschalten mit Uhrzeit (nur angemeldet und wo unterstützt). Anleitung docs/push-einrichtung.md. Live-Test braucht https-Hosting und VAPID-Schlüssel (Sascha).",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:29:51Z"
           }
         },
         {
@@ -2314,20 +2388,22 @@
           "description": "Touch-Ziele, Navigation, Schnellerfassung und KI am Handy optimieren.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
-          "dependsOn": [
-            "task-18-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Alle Bereiche bei 375 px bequem bedienbar"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:12:27Z",
+          "completedAt": "2026-10-08T10:16:54Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Handy-Bedienung: automatische Prüfung aller Seiten bei 375 px mit Demo-Daten (gebaute App, Touch-Emulation): kein horizontaler Überlauf; Tippflächen auf Touch-Geräten mind. 44 px für eigenständige Links (Kopfzeilen, Listen, Angaben, Hinweise) und Knöpfe, kleine Knöpfe mit voller Tippfläche, Unter-Navigation bricht um statt abgeschnitten zu werden, Kalender-Filter mit größeren Häkchen. Rest: Tabellen-Umschalter und Monatstage 32 px (über WCAG-Minimum 24 px). Testdaten danach gelöscht. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:16:54Z"
           }
         }
       ]
@@ -2337,8 +2413,8 @@
       "title": "Praxis und Abschluss",
       "description": "Praxistest mit Feedback, rechtliche Grundlagen und Abschlussprüfung.",
       "order": 19,
-      "weight": 8,
-      "status": "planned",
+      "weight": 10,
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-19-1",
@@ -2441,6 +2517,34 @@
             "summary": null,
             "commands": [],
             "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-5",
+          "title": "Projektdokumentation für die Workshop-Zentrale",
+          "description": "Elf Kapitel unter docs/ (setup, idea, audience, features, architecture, decisions, usage, tests, limitations, progress, reflection), aus vorhandenen Quellen zusammengeführt; ohne private Projektinhalte.",
+          "order": 5,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Alle elf Kapiteldateien unter docs/ vorhanden und mit Inhalt gefüllt",
+            "Inhalte stimmen mit Roadmap, Architektur, Entscheidungen und Prüfprotokoll überein",
+            "Keine privaten Projektinhalte; Datenschutz-Wächter grün",
+            "Reflexion von Sascha verfasst oder freigegeben"
+          ],
+          "startedAt": "2026-10-08T11:32:55Z",
+          "completedAt": "2026-10-08T12:30:42Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Elf Kapitel unter docs/ vorhanden (setup, idea, audience, features, architecture, decisions, usage, tests, limitations, progress, reflection); Inhalte mit Roadmap, Architektur, Entscheidungen, Prüfprotokoll und Datenbankschema abgeglichen, Knopfnamen in usage.md mit der App geprüft; Datenschutz-Wächter grün; Reflexion bleibt auf Saschas ausdrückliche Freigabe vorerst Entwurf mit Leitfragen, Sascha prüft sie am Ende. Nebenbei: wackeliger Test der Push-Erinnerung (erinnerungen.test.tsx) wartet jetzt auf asynchrone Updates.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run",
+              "npx vitest run src/test/datenschutz.test.ts"
+            ],
+            "checkedAt": "2026-10-08T12:30:42Z"
           }
         }
       ]

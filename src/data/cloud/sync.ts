@@ -10,6 +10,17 @@ import { alsTresor, tresorOeffnenMitSchluessel, type TresorUmschlag, type Tresor
 import { istVerschluesselterUmschlag, type CloudDienst, type CloudStand } from './cloud.ts'
 
 export const SYNC_KEY = `${STORAGE_KEY}:sync`
+/** Konto, dem der Tresor auf diesem Gerät gehört – verhindert Abgleich mit einem fremden Konto */
+export const BESITZER_KEY = `${STORAGE_KEY}:besitzer`
+
+export function besitzer(basis: KeyValueStorage): string | null {
+  return basis.getItem(BESITZER_KEY)
+}
+
+export function besitzerSetzen(basis: KeyValueStorage, nutzerId: string | null): void {
+  if (nutzerId) basis.setItem(BESITZER_KEY, nutzerId)
+  else basis.removeItem(BESITZER_KEY)
+}
 
 export interface SyncMeta {
   /** Revision des Server-Stands, auf dem der lokale Stand beruht; null = noch nie synchronisiert */

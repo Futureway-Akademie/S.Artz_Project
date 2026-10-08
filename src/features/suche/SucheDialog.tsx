@@ -1,4 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { useRechte } from '../../app/cloudContext.ts'
+import { darfPfad } from '../../domain/bereiche.ts'
 import type { KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router'
 import { Dialog } from '../../components/ui/Dialog.tsx'
@@ -19,7 +21,8 @@ export function SucheDialog({ onSchliessen }: { onSchliessen: () => void }) {
   useEffect(() => {
     eingabeRef.current?.focus()
   }, [])
-  const treffer = useMemo(() => suche(data, eingabe), [data, eingabe])
+  const rechte = useRechte()
+  const treffer = useMemo(() => suche(data, eingabe).filter((t) => darfPfad(rechte, t.link)), [data, eingabe, rechte])
   const aktuell = treffer[Math.min(aktiv, treffer.length - 1)]
 
   const oeffnen = (link: string) => {
