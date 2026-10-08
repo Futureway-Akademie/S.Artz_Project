@@ -2301,7 +2301,7 @@
       "description": "Hosting in Deutschland, installierbar als App, Erinnerungen ohne Inhalt.",
       "order": 18,
       "weight": 9,
-      "status": "planned",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-18-1",
@@ -2315,7 +2315,8 @@
           ],
           "definitionOfDone": [
             "App unter eigener Adresse erreichbar",
-            "Deploy automatisch nach Merge"
+            "Deploy automatisch nach Merge",
+            "PWA und Handy-Bedienung auf der Online-Adresse geprüft (https)"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -2332,21 +2333,23 @@
           "description": "Manifest, Icons, Offline-Start; auf Handy und PC installierbar.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
-          "dependsOn": [
-            "task-18-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Installierbar auf Android und iOS",
             "Startet offline mit lokalem Tresor"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:09:22Z",
+          "completedAt": "2026-10-08T10:12:27Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "PWA: Manifest (Name, Start, standalone, Farben), Icons aus dem Logo (192, 512, maskable, Apple-Touch), Service Worker nur für eigene Dateien (Seiten netzwerk-zuerst mit Offline-Rückfall, versionierte Dateien aus dem Speicher; fremde Anfragen unberührt), Registrierung nur im Build, CSP worker-src 'self'. Im Browser geprüft: Service Worker aktiv, App inkl. Assets zwischengespeichert, Seite kontrolliert; danach aufgeräumt. Tests grün. Installation auf dem Handy folgt mit https (task-18-1).",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:12:27Z"
           }
         },
         {
@@ -2355,7 +2358,7 @@
           "description": "Web-Push mit „n Punkte fällig“ ohne Details; Details erst nach dem Entsperren.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-18-2"
           ],
@@ -2377,14 +2380,12 @@
           "description": "Touch-Ziele, Navigation, Schnellerfassung und KI am Handy optimieren.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
-          "dependsOn": [
-            "task-18-1"
-          ],
+          "status": "in_progress",
+          "dependsOn": [],
           "definitionOfDone": [
             "Alle Bereiche bei 375 px bequem bedienbar"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T10:12:27Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",

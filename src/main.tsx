@@ -12,6 +12,11 @@ if (!root) throw new Error('Element #root fehlt in index.html')
 // Rücksprung von Google: Token übernehmen und sofort aus der Adresse entfernen
 if (googleKonfiguriert()) rueckkehrVerarbeiten()
 
+// Offline-Start und Installation als App (nur im fertigen Build)
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => void navigator.serviceWorker.register('/sw.js'))
+}
+
 createRoot(root).render(
   <StrictMode>
     <App />

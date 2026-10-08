@@ -27,7 +27,8 @@ export function contentSecurityPolicy(supabaseUrl?: string, opts: { gmail?: bool
     "media-src 'none'",
     "object-src 'none'",
     "frame-src 'none'",
-    "worker-src 'none'",
+    // Nur der eigene Service Worker (Offline-Start)
+    "worker-src 'self'",
     "manifest-src 'self'",
     "form-action 'none'",
     "base-uri 'none'",

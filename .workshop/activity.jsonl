@@ -285,3 +285,9 @@
 {"timestamp":"2026-10-08T10:05:48Z","type":"task_started","taskId":"task-17-2","summary":"Task 'Termine in Google-Kalender eintragen' gestartet."}
 {"timestamp":"2026-10-08T10:08:59Z","type":"verification_passed","taskId":"task-17-2","summary":"Ereignisaufbau, Berechtigungsanfrage und Eintragen nach Bestätigung getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T10:08:59Z","type":"task_completed","taskId":"task-17-2","summary":"Task 'Termine in Google-Kalender eintragen' abgeschlossen."}
+{"timestamp":"2026-10-08T10:09:22Z","type":"roadmap_updated","summary":"Roadmap-Korrektur: task-18-2 (PWA) und task-18-4 (Handy-Bedienung) hängen nicht mehr an task-18-1 (Hosting); sie lassen sich lokal bauen und prüfen. Die Prüfung auf der Online-Adresse ist in task-18-1 aufgenommen."}
+{"timestamp":"2026-10-08T10:09:22Z","type":"task_started","taskId":"task-18-2","summary":"Task 'Als App installierbar (PWA)' gestartet."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"verification_passed","taskId":"task-18-2","summary":"PWA-Test (Manifest, Icons, Service Worker, CSP) und Browserprüfung; alle Tests grün."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"task_completed","taskId":"task-18-2","summary":"Task 'Als App installierbar (PWA)' abgeschlossen."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"task_ready","taskId":"task-18-3","summary":"Task 'Push-Erinnerungen ohne Inhalt' ist startbar."}
+{"timestamp":"2026-10-08T10:12:27Z","type":"task_started","taskId":"task-18-4","summary":"Task 'Handy-Bedienung feinschleifen' gestartet."}
