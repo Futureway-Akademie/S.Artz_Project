@@ -6,7 +6,7 @@ PIKARTZ.AI – Arbeitscockpit
 
 ## Idee / Problem
 
-Saschas Arbeit (Automationsprojekte, Weiterbildung „KI Automations Spezialist“, Marke PIKARTZ.AI, Kontakte, Bewerbungen) ist über viele Tools verteilt. Das Cockpit beantwortet:
+Saschas Arbeit (Automationsprojekte, Weiterbildung, Marke PIKARTZ.AI, Kontakte, Bewerbungen) ist über viele Tools verteilt. Das Cockpit beantwortet:
 
 - Woran arbeite ich gerade?
 - Was ist der nächste konkrete Schritt?
@@ -16,7 +16,7 @@ Es soll Saschas tatsächliche Arbeit unterstützen und nicht wie ein Standard-Ve
 
 ## Zielgruppe
 
-Sascha Artz als einziger Nutzer.
+Sascha Artz als Admin. Ab Roadmap v7 zusätzlich eingeladene Nutzer (Kunden, Team, Kursteilnehmer, Familie/Freunde) mit Rollen und je Nutzer freigeschalteten Bereichen.
 
 ## Zielplattform
 
@@ -24,21 +24,24 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 
 ## Kernfunktionen
 
-1. Arbeitscockpit
-2. Projekte
+1. Arbeitscockpit und Dashboard
+2. Projekte, Aufgaben & Termine, Kalender
 3. Automationen
-4. Weiterbildung
-5. PIKARTZ.AI
-6. Aufgaben
-7. Kontakte & Leads
-8. Bewerbungen
-9. Einstellungen
+4. KI-Werkzeugkasten: Masterprompts, Befehle, Agenten, Skills, Anleitungen, Integrationen, Workflows, Modelle & Abos (Roadmap v6)
+5. Weiterbildung und Wissen (zweites Gehirn)
+6. Kontakte & Leads, Postfach (Gmail, nur lesend, Roadmap v6), Bewerbungen
+7. PIKARTZ.AI
+8. Einstellungen
+9. Mehrbenutzer mit Rollen, Admin-Bereich und geteilten Bereichen (Roadmap v7)
+10. KI-Assistent: Bewerbungen, Mails und Verlauf, Tagesplanung, Chat mit den eigenen Daten – Claude über AWS Frankfurt, nur nach Freigabe (Roadmap v7)
+11. Anbindungen: Google-Kalender, n8n/Make, Stellenanzeigen, Dokumente (Roadmap v7)
+12. Online in Deutschland gehostet, als App auf dem Handy installierbar (Roadmap v7)
 
 ## Nicht-Ziele
 
-- kein Mehrbenutzer- oder Login-System
-- kein Server-Backend und keine dauerhafte oder sichere Speicherung (Demo-Modus mit localStorage)
-- keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable usw.
+- keine offene Registrierung: neue Nutzer nur per Einladung durch den Admin
+- kein eigener Server neben Supabase; Daten verschlüsselt im Browser, Ende-zu-Ende-verschlüsselt über Supabase (Region Frankfurt) synchronisiert; serverseitige Funktionen (KI-Zugang, Webhooks) als Supabase-Funktionen
+- keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable usw.; einzige Ausnahme ist optional Gmail nur lesend (Roadmap v6), Zugangsdaten werden nie im Cockpit gespeichert
 - keine erfundenen Daten (Kennzahlen, Umsätze, Termine, Kontakte, Fortschritte)
 - keine dekorativen Diagramme oder Animationen ohne Funktion
 
@@ -46,7 +49,7 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 
 Eine lauffähige App mit:
 
-- responsiver Navigation über alle neun Bereiche
+- responsiver Navigation über alle Bereiche (seit Roadmap v6 in Gruppen)
 - berechnetem Arbeitscockpit
 - bearbeitbaren Projekten, Aufgaben und Weiterbildungsaufgaben
 - Automationsübersicht und PIKARTZ.AI-Designregeln
@@ -64,13 +67,18 @@ Eine lauffähige App mit:
 
 ## Vorbefüllte Inhalte (nur belegt)
 
-- Projekte: die 12 Projekte aus Saschas Projekt-Übersicht (Stand 2026-10-07) mit Kategorie, Status und „zuletzt aktiv“; Beschreibung, Notizen und nächste Schritte ohne Frist nur aus der lokalen, nicht versionierten Datei `src/data/seed.privat.ts` (Roadmap v2, ersetzt die ursprünglich angenommenen 5 Projekte)
-- Weiterbildung „KI Automations Spezialist“ der FutureWay KI Akademie GmbH, 03.08.–18.12.2026, Mo–Fr 09:00–16:05, 800 UE, mit Modulen, ohne eingetragene Kursaufgaben oder Fortschritte
-- Zielrollen: Prompt Engineer, KI-Anwendungsspezialist, Grafikdesigner mit Social-Media- oder E-Commerce-Fokus
+- Projekte mit Kategorie, Status, „zuletzt aktiv“, Beschreibung, Notizen und nächsten Schritten ohne Frist – nur aus der lokalen, nicht versionierten Datei `src/data/seed.privat.ts`
+- Die laufende Weiterbildung mit Zeitraum, Unterrichtszeit, Umfang und Modulen (Details nur lokal), ohne eingetragene Kursaufgaben oder Fortschritte
+- Drei Zielrollen (Titel nur lokal)
 - Designregeln des PIKARTZ.AI Präsentations-Systems
 - keine Kontakte, Unternehmen, Leads, Bewerbungen, Termine oder Aktivitäten
 
-Maßgebliche Quelle ist `docs/sources/arbeitskontext.md`. Saschas Projekt-Übersicht selbst bleibt lokal.
+Alle persönlichen Startdaten liegen nur lokal (`src/data/seed.privat.ts`). Das Repository ist öffentlich und enthält keine persönlichen Inhalte.
+
+## Datenschutz (Roadmap v3)
+
+- keine Information von außen einsehbar: keine externen Verbindungen, Daten verschlüsselt im Browser, Sicherungen verschlüsselt
+- DSGVO: Rechtsgrundlage und Zweck je Kontakt, Auskunft, vollständiges Löschen, Prüfhinweis für ruhende Kontakte
 
 ## Definition of Done
 

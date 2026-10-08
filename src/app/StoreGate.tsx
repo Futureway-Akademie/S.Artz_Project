@@ -3,24 +3,18 @@ import type { ReactNode } from 'react'
 import { Wordmark } from '../components/brand/Wordmark.tsx'
 import { Button } from '../components/ui/Button.tsx'
 import { ErrorState } from '../components/ui/States.tsx'
+import { PasswortDialog } from '../components/ui/PasswortDialog.tsx'
+import { herunterladen } from '../data/exportImport.ts'
+import { sicherungDateiname, sicherungErstellen } from '../data/sicherung.ts'
 import { LADEFEHLER_TEXT } from '../data/storage.ts'
 import { useStore } from '../data/storeContext.ts'
 import styles from './StoreGate.module.css'
-
-function rohdatenHerunterladen(rohdaten: string) {
-  const blob = new Blob([rohdaten], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `pikartz-rohdaten-${new Date().toISOString().slice(0, 10)}.json`
-  link.click()
-  URL.revokeObjectURL(url)
-}
 
 /** Zeigt bei unlesbaren Daten einen Fehlerzustand statt der App. */
 export function StoreGate({ children }: { children: ReactNode }) {
   const { zustand, zuruecksetzen } = useStore()
   const [bestaetigen, setBestaetigen] = useState(false)
+  const [sichern, setSichern] = useState(false)
 
   if (zustand.phase === 'bereit') return children
 
@@ -32,8 +26,8 @@ export function StoreGate({ children }: { children: ReactNode }) {
         title={LADEFEHLER_TEXT[zustand.grund]}
         action={
           <div className={styles.aktionen}>
-            <Button variant="secondary" onClick={() => rohdatenHerunterladen(zustand.rohdaten)}>
-              Rohdaten exportieren
+            <Button variant="secondary" onClick={() => setSichern(true)}>
+              Rohdaten verschlüsselt sichern
             </Button>
             {bestaetigen ? (
               <>
@@ -63,6 +57,19 @@ export function StoreGate({ children }: { children: ReactNode }) {
         )}
         {zustand.details && <p className={styles.details}>Details: {zustand.details}</p>}
       </ErrorState>
+      {sichern && (
+        <PasswortDialog
+          titel="Rohdaten verschlüsselt sichern"
+          neu
+          bestaetigenLabel="Sicherung herunterladen"
+          onSchliessen={() => setSichern(false)}
+          onAbsenden={async (passwort) => {
+            herunterladen(await sicherungErstellen(zustand.rohdaten, passwort), sicherungDateiname(new Date(), 'rohdaten'))
+            setSichern(false)
+            return null
+          }}
+        />
+      )}
     </main>
   )
 }

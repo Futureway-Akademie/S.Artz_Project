@@ -13,6 +13,7 @@
 }
 
 .titelblock {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -20,6 +21,10 @@
 
 .titel {
   font-size: var(--font-size-2xl);
+  /* Lange deutsche Wörter (z. B. Titel von Prompts) umbrechen statt abschneiden */
+  overflow-wrap: break-word;
+  hyphens: auto;
+  min-width: 0;
 }
 
 .titel:focus {

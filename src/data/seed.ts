@@ -1,15 +1,14 @@
-import type { AppData, Aufgabe, Projekt } from '../domain/types.ts'
+import type { AppData, Aufgabe, Kurs, Projekt } from '../domain/types.ts'
 import { createEmptyData } from './empty.ts'
+import { standardVorlagen } from './vorlagen.ts'
 
 /**
  * Ausgangsdaten beim ersten Start und nach „Zurücksetzen“.
  *
- * Quelle: Saschas Projekt-Übersicht (Stand 2026-10-07), zusammengefasst in
- * docs/sources/arbeitskontext.md, plus Designregeln und Zielrollen aus dem Projektbrief.
- *
- * Das Repository ist öffentlich. Hier stehen je Projekt nur Titel, Kategorie, Status und
- * „zuletzt aktiv“. Beschreibungen, Tools, Notizen und nächste Schritte liegen lokal in
- * `seed.privat.ts` (von Git ignoriert) und werden eingebunden, wenn die Datei existiert.
+ * Das Repository ist öffentlich. Deshalb stehen hier nur neutrale Inhalte (Designregeln und
+ * Demo-Deck der Marke). Persönliche Startdaten – Projekte, Weiterbildung, Zielrollen und
+ * Anzeigename – liegen lokal in `seed.privat.ts` (von Git ignoriert) und werden eingebunden,
+ * wenn die Datei existiert. Ohne sie startet die App leer.
  * Es gibt bewusst keine Fristen, Termine, Kontakte, Unternehmen, Bewerbungen, Leads oder Aktivitäten.
  */
 
@@ -24,24 +23,19 @@ export interface ProjektQuelle {
   erledigt?: string[]
 }
 
-const PROJEKTE: ProjektKern[] = [
-  { id: 'seed-projekt-diamond-world', titel: 'Diamond World (Videospiel)', kategorie: 'Privat / Kreativ', status: 'in_arbeit', zuletztAktiv: '2026-10-07' },
-  { id: 'seed-projekt-portfolio-website', titel: 'PikArtz Portfolio-Website', kategorie: 'Karriere', status: 'in_arbeit', zuletztAktiv: '2026-10-01' },
-  { id: 'seed-projekt-kleinanzeigen', titel: 'Kleinanzeigen / Keller-Sammlung', kategorie: 'Privat', status: 'in_arbeit', zuletztAktiv: '2026-09-18' },
-  { id: 'seed-projekt-amazon-gallery', titel: 'Amazon Gallery Generator (Bud Voyage Easy-Grow-Kit)', kategorie: 'E-Commerce', status: 'in_arbeit', zuletztAktiv: '2026-09-07' },
-  { id: 'seed-projekt-weiterbildungs-tagebuch', titel: 'KI-Weiterbildung: Tagebuch → Schulungsplattform', kategorie: 'Weiterbildung', status: 'in_arbeit', zuletztAktiv: '2026-09-07' },
-  { id: 'seed-projekt-lebenslauf', titel: 'Lebenslauf Optimierung', kategorie: 'Karriere', status: 'abgeschlossen', zuletztAktiv: '2026-09-07' },
-  { id: 'seed-projekt-karriere-booster', titel: 'Karriere Booster (LinkedIn)', kategorie: 'Karriere', status: 'in_arbeit', zuletztAktiv: '2026-09-07' },
-  { id: 'seed-projekt-jobsuche', titel: 'Jobsuche Festanstellung', kategorie: 'Karriere', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
-  { id: 'seed-projekt-ci-skills', titel: 'CI-Skills (ci-entwurf / ci-board)', kategorie: 'KI-Agenten', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
-  { id: 'seed-projekt-datenschutz-agent', titel: 'Datenschutz-Agent (DSGVO)', kategorie: 'KI-Agenten', status: 'idee', zuletztAktiv: '2026-08-19' },
-  { id: 'seed-projekt-handwerker-leadmagnet', titel: 'Handwerker-Leadmagnet (navis5)', kategorie: 'Kundenprojekt', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
-  { id: 'seed-projekt-fidelio-homepage', titel: 'Fidelio-Homepage', kategorie: 'Kundenprojekt / Verein', status: 'in_arbeit', zuletztAktiv: '2026-08-19' },
-]
+export interface StartDaten {
+  anzeigename: string
+  projekte: ProjektQuelle[]
+  kurse: Array<Omit<Kurs, 'erstelltAm' | 'geaendertAm'>>
+  /** Titel der Zielrollen */
+  zielrollen: string[]
+}
 
-/** Lokale Details, falls `seed.privat.ts` existiert (sonst leer, z. B. im öffentlichen Repository). */
-const privateModule = import.meta.glob<{ PROJEKT_DETAILS: ProjektQuelle[] }>('./seed.privat.ts', { eager: true })
-export const LOKALE_DETAILS: ProjektQuelle[] = Object.values(privateModule)[0]?.PROJEKT_DETAILS ?? []
+export const LEERE_STARTDATEN: StartDaten = { anzeigename: '', projekte: [], kurse: [], zielrollen: [] }
+
+/** Lokale Startdaten, falls `seed.privat.ts` existiert (sonst leer, z. B. im öffentlichen Repository). */
+const privateModule = import.meta.glob<{ STARTDATEN: StartDaten }>('./seed.privat.ts', { eager: true })
+export const LOKALE_STARTDATEN: StartDaten = Object.values(privateModule)[0]?.STARTDATEN ?? LEERE_STARTDATEN
 
 const DESIGNREGELN: Array<{ titel: string; beschreibung: string }> = [
   { titel: 'Wortmarke', beschreibung: 'Wortmarke „PIKARTZ.AI“; „.AI“ in Blau #2F5CFF' },
@@ -59,12 +53,6 @@ const DESIGNREGELN: Array<{ titel: string; beschreibung: string }> = [
   },
 ]
 
-const ZIELROLLEN = [
-  'Prompt Engineer',
-  'KI-Anwendungsspezialist',
-  'Grafikdesigner mit Social-Media- oder E-Commerce-Fokus',
-]
-
 function slug(text: string): string {
   return text
     .toLowerCase()
@@ -74,28 +62,11 @@ function slug(text: string): string {
     .slice(0, 40)
 }
 
-/**
- * @param details Projektdetails (Beschreibung, Tools, Notizen, nächste Schritte); Standard: lokale Datei.
- *   Der Kern (Titel, Kategorie, Status, zuletzt aktiv) kommt immer aus dem Repository.
- */
-export function createSeedData(now: Date = new Date(), details: ProjektQuelle[] = LOKALE_DETAILS): AppData {
+/** @param start Persönliche Startdaten; Standard: lokale Datei `seed.privat.ts`. */
+export function createSeedData(now: Date = new Date(), start: StartDaten = LOKALE_STARTDATEN): AppData {
   const zeit = now.toISOString()
   const meta = { erstelltAm: zeit, geaendertAm: zeit }
-
-  const quellen: ProjektQuelle[] = PROJEKTE.map((kern) => {
-    const detail = details.find((d) => d.projekt.id === kern.id)
-    return {
-      projekt: {
-        beschreibung: detail?.projekt.beschreibung ?? '',
-        tools: detail?.projekt.tools ?? [],
-        bestandteile: detail?.projekt.bestandteile ?? [],
-        notizen: detail?.projekt.notizen ?? '',
-        ...kern,
-      },
-      offen: detail?.offen,
-      erledigt: detail?.erledigt,
-    }
-  })
+  const quellen = start.projekte
 
   const projekte: Projekt[] = quellen.map(({ projekt }) => ({
     beschreibung: '',
@@ -103,6 +74,8 @@ export function createSeedData(now: Date = new Date(), details: ProjektQuelle[] 
     bestandteile: [],
     notizen: '',
     automation: null,
+    auftraggeberId: null,
+    schlagworte: [],
     ...projekt,
     ...meta,
   }))
@@ -114,6 +87,7 @@ export function createSeedData(now: Date = new Date(), details: ProjektQuelle[] 
       titel,
       notiz: '',
       erledigt: istErledigt,
+      fokus: false,
       erledigtAm: null,
       faelligAm: null,
       bezug: { art: 'projekt', id: projekt.id },
@@ -129,31 +103,7 @@ export function createSeedData(now: Date = new Date(), details: ProjektQuelle[] 
     ...createEmptyData(),
     projekte,
     aufgaben,
-    kurse: [
-      {
-        id: 'seed-kurs-ki-automations-spezialist',
-        titel: 'KI Automations Spezialist',
-        anbieter: 'FutureWay KI Akademie GmbH',
-        beschreibung: 'Vollzeit Online-Live',
-        unterrichtszeit: 'Mo–Fr 09:00–16:05',
-        umfang: '800 UE',
-        module: [
-          'KI (Langdock, Claude, Mistral)',
-          'Automatisierung (n8n, Make, Claude Code)',
-          'Software (Supabase, Azure, Vercel, Hetzner)',
-          'Portfolio-Projekt',
-          'Zertifizierungen (Abschlusstest + Microsoft AI-901)',
-          'Karriere-Coaching',
-        ],
-        startMonat: '2026-08',
-        endeMonat: '2026-12',
-        startDatum: '2026-08-03',
-        endeDatum: '2026-12-18',
-        arbeitstage: [1, 2, 3, 4, 5],
-        codePraefix: 'KIAutomSpez',
-        ...meta,
-      },
-    ],
+    kurse: start.kurse.map((kurs) => ({ ...kurs, ...meta })),
     designregeln: DESIGNREGELN.map((regel, index) => ({
       id: `seed-designregel-${index + 1}`,
       reihenfolge: index + 1,
@@ -170,12 +120,13 @@ export function createSeedData(now: Date = new Date(), details: ProjektQuelle[] 
         ...meta,
       },
     ],
-    zielrollen: ZIELROLLEN.map((titel, index) => ({
+    zielrollen: start.zielrollen.map((titel, index) => ({
       id: `seed-zielrolle-${index + 1}`,
       titel,
       notiz: '',
       ...meta,
     })),
-    einstellungen: { anzeigename: 'Sascha' },
+    vorlagen: standardVorlagen(zeit),
+    einstellungen: { anzeigename: start.anzeigename, letzteSicherungAm: null, letzterMailAbrufAm: null },
   }
 }

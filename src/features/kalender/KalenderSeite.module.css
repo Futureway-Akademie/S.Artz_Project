@@ -1,0 +1,264 @@
+.leiste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.blaettern {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.zeitraum {
+  margin-left: var(--space-2);
+  font-size: var(--font-size-lg);
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-left: var(--space-2);
+  border-left: 4px solid var(--art-farbe);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Farbe je Art (nur als Zusatz, nie allein bedeutungstragend) */
+.art_termin {
+  --art-farbe: var(--color-blue);
+}
+
+.art_aufgabe {
+  --art-farbe: var(--color-warning);
+}
+
+.art_wiedervorlage {
+  --art-farbe: var(--color-success);
+}
+
+.art_abo {
+  --art-farbe: var(--color-danger);
+}
+
+.art_kursaufgabe {
+  --art-farbe: var(--text-muted);
+}
+
+/* --- Monat --- */
+.monat {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.monat th {
+  padding: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  text-align: left;
+}
+
+.zelle {
+  height: 3.25rem;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  vertical-align: top;
+}
+
+.fremd {
+  background: var(--color-surface);
+}
+
+.fremd .tagNummer {
+  color: var(--text-muted);
+}
+
+.kurstag {
+  box-shadow: inset 0 3px 0 var(--color-blue-soft);
+}
+
+.gewaehlt {
+  outline: 2px solid var(--color-blue);
+  outline-offset: -2px;
+}
+
+.tagNummer {
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0 var(--space-1);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-dark);
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+}
+
+.tagNummer:hover {
+  background: var(--color-blue-soft);
+}
+
+.tagNummer.heute {
+  background: var(--color-blue);
+  color: var(--color-white);
+}
+
+.punkte {
+  display: inline-block;
+  min-width: 1.25rem;
+  margin-left: var(--space-1);
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--color-dark);
+  color: var(--color-white);
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
+.zellListe {
+  display: none;
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mehr {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.auswahl {
+  margin-top: var(--space-4);
+}
+
+/* --- Einträge --- */
+.eintrag {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  min-width: 0;
+  padding-left: var(--space-2);
+  border-left: 4px solid var(--art-farbe);
+}
+
+.zellListe .eintrag {
+  display: block;
+  overflow: hidden;
+  font-size: var(--font-size-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eintragKnopf {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-blue-strong);
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.erledigt .eintragKnopf {
+  text-decoration: line-through;
+}
+
+.zusatz {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* --- Tage (Woche, Liste, Auswahl) --- */
+.woche {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tag {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+}
+
+.tagKopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.tagTitel {
+  font-size: var(--font-size-md);
+}
+
+.tagTitel.heute {
+  color: var(--color-blue-strong);
+}
+
+.kurs {
+  color: var(--text-muted);
+  font-weight: normal;
+}
+
+.tagesListe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tagesListe li {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+.artLabel {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.leer {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+@media (min-width: 900px) {
+  .zelle {
+    height: 6.5rem;
+  }
+
+  .punkte {
+    display: none;
+  }
+
+  .zellListe {
+    display: block;
+  }
+}

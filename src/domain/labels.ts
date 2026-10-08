@@ -29,6 +29,16 @@ export const KONTEXT: Record<Kontakt['kontext'], string> = {
   sonstiges: 'Sonstiges',
 }
 
+/** Rechtsgrundlagen nach Art. 6 Abs. 1 DSGVO, die für ein persönliches CRM in Frage kommen. */
+export const RECHTSGRUNDLAGE: Record<NonNullable<Kontakt['rechtsgrundlage']>, { label: string; hinweis: string }> = {
+  einwilligung: { label: 'Einwilligung (Art. 6 Abs. 1 a)', hinweis: 'Die Person hat zugestimmt; sie kann jederzeit widerrufen.' },
+  vertrag: { label: 'Vertrag oder Anbahnung (Art. 6 Abs. 1 b)', hinweis: 'Für einen Auftrag, ein Angebot oder eine Bewerbung nötig.' },
+  berechtigtes_interesse: {
+    label: 'Berechtigtes Interesse (Art. 6 Abs. 1 f)',
+    hinweis: 'Geschäftlicher Kontakt, den die Person erwarten kann, z. B. nach einem Gespräch.',
+  },
+}
+
 export const INTERAKTION_ART: Record<Interaktion['art'], string> = {
   email: 'E-Mail',
   telefonat: 'Telefonat',

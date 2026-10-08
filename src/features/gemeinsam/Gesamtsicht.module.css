@@ -1,0 +1,60 @@
+.knoepfe {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.abschnitte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.titel {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-md);
+}
+
+.liste {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zeile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.zeile:last-child {
+  border-bottom: none;
+}
+
+.link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-blue-strong);
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.text {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.leise {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}

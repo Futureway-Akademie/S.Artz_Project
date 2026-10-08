@@ -1,3 +1,4 @@
+import { SCHEMA_VERSION } from './schema.ts'
 import { createFakeStorage } from '../test/fakes.ts'
 import { createEmptyData } from './empty.ts'
 import { migrate } from './migrations.ts'
@@ -14,7 +15,7 @@ describe('loadAppData', () => {
 
   it('lädt gültige Daten', () => {
     const data = createEmptyData()
-    data.einstellungen.anzeigename = 'Sascha'
+    data.einstellungen.anzeigename = 'Alex'
     const ergebnis = loadAppData(createFakeStorage({ [STORAGE_KEY]: JSON.stringify(data) }))
     expect(ergebnis).toEqual({ status: 'ok', data })
   })
@@ -59,11 +60,12 @@ describe('migrate', () => {
     expect(migrate(data)).toEqual({ ok: true, value: data })
   })
 
-  it('hebt Version 1 auf Version 2 an (Projekt-Kategorie, „zuletzt aktiv“, Kursdetails)', () => {
+  it('hebt Version 1 schrittweise auf die aktuelle Version an (Projekt-Kategorie, Kursdetails, letzte Sicherung)', () => {
     const zeit = '2026-10-07T10:00:00.000Z'
     const v1 = {
       ...createEmptyData(),
       schemaVersion: 1,
+      einstellungen: { anzeigename: 'Alt' },
       projekte: [
         {
           id: 'p1',
@@ -88,7 +90,7 @@ describe('migrate', () => {
           startDatum: null,
           endeDatum: null,
           arbeitstage: [1, 2, 3, 4, 5],
-          codePraefix: 'KIAutomSpez',
+          codePraefix: 'KURS',
           erstelltAm: zeit,
           geaendertAm: zeit,
         },
@@ -97,10 +99,89 @@ describe('migrate', () => {
     const ergebnis = parseAppData(JSON.stringify(v1))
     expect(ergebnis.status).toBe('ok')
     if (ergebnis.status === 'ok') {
-      expect(ergebnis.data.schemaVersion).toBe(2)
+      expect(ergebnis.data.schemaVersion).toBe(SCHEMA_VERSION)
+      expect(ergebnis.data.einstellungen).toEqual({ anzeigename: 'Alt', letzteSicherungAm: null, letzterMailAbrufAm: null })
       expect(ergebnis.data.projekte[0]).toMatchObject({ titel: 'Altes Projekt', kategorie: '', zuletztAktiv: null })
       expect(ergebnis.data.kurse[0]).toMatchObject({ beschreibung: '', unterrichtszeit: '', umfang: '', module: [] })
     }
+  })
+})
+
+describe('Migration 3 → 4', () => {
+  it('ergänzt bei Kontakten Rechtsgrundlage und Zweck, ohne Daten zu verlieren', () => {
+    const zeit = '2026-10-07T10:00:00.000Z'
+    const ohneDsgvo = {
+      id: 'k1', name: 'Kim', rolle: '', unternehmenId: null, email: 'kim@example.org', telefon: '', linkedinUrl: '', kontext: 'jobsuche',
+      herkunft: '', notiz: 'bleibt', projektIds: [], naechsteAktion: null, erstelltAm: zeit, geaendertAm: zeit,
+    }
+    const v3 = { ...createEmptyData(), schemaVersion: 3, kontakte: [ohneDsgvo] }
+    const ergebnis = parseAppData(JSON.stringify(v3))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status === 'ok') expect(ergebnis.data.kontakte[0]).toMatchObject({ notiz: 'bleibt', rechtsgrundlage: null, zweck: '' })
+  })
+})
+
+describe('Migration 4 → 5', () => {
+  it('ergänzt Verknüpfungen, Wiedervorlagen, E-Mail-Felder, Fokus und Schlagworte', () => {
+    const zeit = '2026-10-07T10:00:00.000Z'
+    const m = { erstelltAm: zeit, geaendertAm: zeit }
+    const v4 = {
+      ...createEmptyData(),
+      schemaVersion: 4,
+      aufgaben: [{ id: 'a1', titel: 'A', notiz: '', erledigt: false, erledigtAm: null, faelligAm: null, bezug: { art: 'ohne', id: null }, ...m }],
+      interaktionen: [{ id: 'i1', kontaktId: 'k1', art: 'notiz', datum: '2026-10-01', text: 'bleibt', projektId: null, ...m }],
+      leads: [{ id: 'l1', titel: 'L', kontaktId: null, unternehmenId: null, status: 'neu', betragEur: 5, naechsterSchritt: '', notiz: '', ...m }],
+    }
+    const ergebnis = parseAppData(JSON.stringify(v4))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status !== 'ok') return
+    expect(ergebnis.data.aufgaben[0]!.fokus).toBe(false)
+    expect(ergebnis.data.interaktionen[0]).toMatchObject({ text: 'bleibt', bewerbungId: null, leadId: null, betreff: '', richtung: null })
+    expect(ergebnis.data.leads[0]).toMatchObject({ betragEur: 5, projektId: null, wiedervorlageAm: null })
+  })
+})
+
+describe('Migration 5 → 6', () => {
+  it('legt die Startvorlagen an, ohne vorhandene Daten zu ändern', () => {
+    const v5 = { ...createEmptyData(), schemaVersion: 5, einstellungen: { anzeigename: 'X', letzteSicherungAm: null, letzterMailAbrufAm: null } } as Record<string, unknown>
+    delete v5.vorlagen
+    const ergebnis = parseAppData(JSON.stringify(v5))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status !== 'ok') return
+    expect(ergebnis.data.vorlagen).toHaveLength(3)
+    expect(ergebnis.data.einstellungen.anzeigename).toBe('X')
+  })
+})
+
+describe('Migration 6 → 7', () => {
+  it('legt das zweite Gehirn leer an', () => {
+    const v6 = { ...createEmptyData(), schemaVersion: 6 } as Record<string, unknown>
+    delete v6.wissen
+    const ergebnis = parseAppData(JSON.stringify(v6))
+    expect(ergebnis.status === 'ok' && ergebnis.data.wissen).toEqual([])
+  })
+})
+
+describe('Migration 7 → 8', () => {
+  it('übernimmt Prompts aus dem Wissen als Masterprompts, ohne Daten zu verlieren', () => {
+    const zeit = '2026-10-01T09:00:00.000Z'
+    const prompt = { id: 'w1', typ: 'prompt', titel: 'Klassifizieren', inhalt: 'Ordne zu …', thema: 'Prompting', quelle: 'Kurstag 12', schlagworte: ['n8n'], datum: null, projektIds: ['p1'], kursId: null, kursAufgabeIds: [], erstelltAm: zeit, geaendertAm: zeit }
+    const notiz = { ...prompt, id: 'w2', typ: 'notiz', titel: 'Notiz' }
+    const v7 = {
+      ...createEmptyData(),
+      schemaVersion: 7,
+      wissen: [prompt, notiz],
+      aktivitaeten: [{ id: 'a1', zeitpunkt: zeit, art: 'angelegt', bezug: { sammlung: 'wissen', id: 'w1', titel: 'Klassifizieren' }, zusammenfassung: 'x' }],
+    } as Record<string, unknown>
+    delete v7.werkzeug
+    const ergebnis = parseAppData(JSON.stringify(v7))
+    expect(ergebnis.status).toBe('ok')
+    if (ergebnis.status !== 'ok') return
+    expect(ergebnis.data.wissen.map((w) => w.id)).toEqual(['w2'])
+    expect(ergebnis.data.werkzeug).toEqual([
+      expect.objectContaining({ id: 'w1', typ: 'prompt', titel: 'Klassifizieren', inhalt: 'Ordne zu …', link: 'Kurstag 12', schlagworte: ['n8n', 'Prompting'], projektIds: ['p1'], erstelltAm: zeit }),
+    ])
+    expect(ergebnis.data.aktivitaeten[0]!.bezug.sammlung).toBe('werkzeug')
   })
 })
 

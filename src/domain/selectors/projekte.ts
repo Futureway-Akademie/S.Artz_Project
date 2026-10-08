@@ -1,4 +1,5 @@
 import { nachFrist } from '../dates.ts'
+import { hatSchlagwort } from './schlagworte.ts'
 import type { AppData, Aufgabe, Projekt, ProjektStatus } from '../types.ts'
 
 export interface ProjektSchritte {
@@ -23,9 +24,10 @@ export interface ProjektFilter {
   suche: string
   status: StatusFilter
   kategorie: string
+  schlagwort: string
 }
 
-export const LEERER_FILTER: ProjektFilter = { suche: '', status: 'alle', kategorie: '' }
+export const LEERER_FILTER: ProjektFilter = { suche: '', status: 'alle', kategorie: '', schlagwort: '' }
 
 export interface ProjektZeile {
   projekt: Projekt
@@ -45,9 +47,10 @@ const STATUS_REIHENFOLGE: Record<ProjektStatus | 'ohne', number> = {
 function passt(projekt: Projekt, filter: ProjektFilter): boolean {
   if (filter.status !== 'alle' && (projekt.status ?? 'ohne') !== filter.status) return false
   if (filter.kategorie && projekt.kategorie !== filter.kategorie) return false
+  if (!hatSchlagwort(projekt, filter.schlagwort)) return false
   const suche = filter.suche.trim().toLowerCase()
   if (!suche) return true
-  return [projekt.titel, projekt.beschreibung, projekt.kategorie, projekt.notizen, ...projekt.tools]
+  return [projekt.titel, projekt.beschreibung, projekt.kategorie, projekt.notizen, ...projekt.tools, ...projekt.schlagworte]
     .join(' ')
     .toLowerCase()
     .includes(suche)

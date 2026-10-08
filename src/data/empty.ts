@@ -17,7 +17,11 @@ export function createEmptyData(): AppData {
     leads: [],
     zielrollen: [],
     bewerbungen: [],
+    vorlagen: [],
+    wissen: [],
+    werkzeug: [],
+    mails: [],
     aktivitaeten: [],
-    einstellungen: { anzeigename: '' },
+    einstellungen: { anzeigename: '', letzteSicherungAm: null, letzterMailAbrufAm: null },
   }
 }

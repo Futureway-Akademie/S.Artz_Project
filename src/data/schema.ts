@@ -5,7 +5,7 @@ import { z } from 'zod'
  * Validiert gespeicherte Daten (localStorage) und JSON-Importe.
  */
 
-export const SCHEMA_VERSION = 2
+export const SCHEMA_VERSION = 9
 
 const id = z.string().min(1)
 /** Kalenderdatum `YYYY-MM-DD`, lokal interpretiert. */
@@ -23,7 +23,7 @@ const meta = {
 }
 
 export const bezugSchema = z.object({
-  art: z.enum(['ohne', 'projekt', 'weiterbildung', 'kontakt']),
+  art: z.enum(['ohne', 'projekt', 'weiterbildung', 'kontakt', 'unternehmen', 'lead', 'bewerbung']),
   id: id.nullable(),
 })
 
@@ -61,6 +61,9 @@ export const projektSchema = z.object({
   bestandteile: z.array(z.string()),
   notizen: z.string(),
   automation: automationProfilSchema.nullable(),
+  /** Auftraggeber (Unternehmen); Ansprechpartner sind Kontakte mit diesem Projekt in `projektIds` */
+  auftraggeberId: id.nullable(),
+  schlagworte: z.array(z.string()),
 })
 
 export const aufgabeSchema = z.object({
@@ -71,6 +74,8 @@ export const aufgabeSchema = z.object({
   erledigtAm: zeitpunkt.nullable(),
   faelligAm: datum.nullable(),
   bezug: bezugSchema,
+  /** Für heute im Fokus */
+  fokus: z.boolean(),
 })
 
 export const terminSchema = z.object({
@@ -88,7 +93,7 @@ export const kursSchema = z.object({
   titel: z.string().min(1),
   anbieter: z.string(),
   beschreibung: z.string(),
-  /** z. B. „Mo–Fr 09:00–16:05“ */
+  /** z. B. „Mo–Fr 09:00–16:00“ */
   unterrichtszeit: z.string(),
   /** z. B. „800 UE“ */
   umfang: z.string(),
@@ -134,6 +139,7 @@ export const unternehmenSchema = z.object({
   branche: z.string(),
   website: z.string(),
   notiz: z.string(),
+  schlagworte: z.array(z.string()),
 })
 
 export const naechsteAktionSchema = z.object({
@@ -154,6 +160,11 @@ export const kontaktSchema = z.object({
   notiz: z.string(),
   projektIds: z.array(id),
   naechsteAktion: naechsteAktionSchema.nullable(),
+  /** DSGVO Art. 6 Abs. 1: a) Einwilligung, b) Vertrag/Anbahnung, f) berechtigtes Interesse; null = noch nicht festgelegt */
+  rechtsgrundlage: z.enum(['einwilligung', 'vertrag', 'berechtigtes_interesse']).nullable(),
+  /** Wozu die Daten gespeichert werden (Zweckbindung) */
+  zweck: z.string(),
+  schlagworte: z.array(z.string()),
 })
 
 export const interaktionSchema = z.object({
@@ -163,6 +174,11 @@ export const interaktionSchema = z.object({
   datum,
   text: z.string().min(1),
   projektId: id.nullable(),
+  bewerbungId: id.nullable(),
+  leadId: id.nullable(),
+  /** Nur bei E-Mails: Betreff und Richtung */
+  betreff: z.string(),
+  richtung: z.enum(['eingang', 'ausgang']).nullable(),
 })
 
 export const leadSchema = z.object({
@@ -174,6 +190,8 @@ export const leadSchema = z.object({
   betragEur: z.number().min(0).nullable(),
   naechsterSchritt: z.string(),
   notiz: z.string(),
+  projektId: id.nullable(),
+  wiedervorlageAm: datum.nullable(),
 })
 
 export const zielrolleSchema = z.object({
@@ -194,6 +212,108 @@ export const bewerbungSchema = z.object({
   link: z.string(),
   naechsterSchritt: z.string(),
   notiz: z.string(),
+  wiedervorlageAm: datum.nullable(),
+})
+
+/** E-Mail-Vorlage mit Platzhaltern wie {{name}} */
+export const vorlageSchema = z.object({
+  ...meta,
+  titel: z.string().min(1),
+  betreff: z.string(),
+  text: z.string(),
+})
+
+/** Zweites Gehirn: Wissen zu KI und Weiterbildung */
+export const wissenSchema = z.object({
+  ...meta,
+  typ: z.enum(['notiz', 'tool', 'erkenntnis', 'quelle', 'tagebuch']),
+  titel: z.string().min(1),
+  inhalt: z.string(),
+  /** Freies Thema, z. B. „Prompting“, „n8n“ */
+  thema: z.string(),
+  /** Link oder Herkunft */
+  quelle: z.string(),
+  schlagworte: z.array(z.string()),
+  /** Datum, beim Lerntagebuch der Kurstag */
+  datum: datum.nullable(),
+  projektIds: z.array(id),
+  kursId: id.nullable(),
+  kursAufgabeIds: z.array(id),
+})
+
+export const werkzeugTypen = ['prompt', 'befehl', 'agent', 'skill', 'anleitung', 'integration', 'workflow', 'abo'] as const
+
+export const schrittSchema = z.object({
+  text: z.string().min(1),
+  erledigt: z.boolean(),
+})
+
+/** Nur Angaben, nie Zugangsdaten: wo der Schlüssel liegt, nicht der Schlüssel selbst. */
+export const integrationAngabenSchema = z.object({
+  art: z.enum(['mcp', 'api', 'app', 'sonstige']),
+  /** z. B. „Passwortmanager, Eintrag Supabase“ */
+  schluesselOrt: z.string(),
+  /** Speicher- bzw. Verarbeitungsort, z. B. „EU (Frankfurt)“ */
+  region: z.string(),
+  /** Auftragsverarbeitungsvertrag (Art. 28 DSGVO) */
+  avv: z.enum(['ja', 'nein', 'nicht_noetig']).nullable(),
+})
+
+export const aboAngabenSchema = z.object({
+  kostenEur: z.number().min(0).nullable(),
+  intervall: z.enum(['monatlich', 'jaehrlich', 'nutzung', 'kostenlos']),
+  naechsteVerlaengerung: datum.nullable(),
+  /** Kündigungsfrist in Tagen vor der Verlängerung */
+  kuendigungsfristTage: z.number().int().min(0).nullable(),
+})
+
+/** KI-Werkzeugkasten: Masterprompts, Befehle, Agenten, Skills, Anleitungen, Integrationen, Workflows, Modelle & Abos */
+export const werkzeugSchema = z.object({
+  ...meta,
+  typ: z.enum(werkzeugTypen),
+  titel: z.string().min(1),
+  /** Wofür ist es da? */
+  beschreibung: z.string(),
+  /** Prompt, Befehl, Systemprompt oder freie Notiz */
+  inhalt: z.string(),
+  /** Zielmodell, Umgebung, Plattform oder Anbieter – je nach Typ */
+  plattform: z.string(),
+  status: z.enum(['geplant', 'in_arbeit', 'aktiv', 'archiviert']),
+  /** Versionsnotiz, z. B. „v3 – mit Beispielen“ */
+  version: z.string(),
+  /** Doku- oder Quell-Link */
+  link: z.string(),
+  /** Auslöser bei Workflows, Einsatzfall bei Agenten */
+  ausloeser: z.string(),
+  schritte: z.array(schrittSchema),
+  integration: integrationAngabenSchema.nullable(),
+  abo: aboAngabenSchema.nullable(),
+  /** Verknüpfte Werkzeuge, z. B. Integrationen eines Agenten */
+  werkzeugIds: z.array(id),
+  projektIds: z.array(id),
+  schlagworte: z.array(z.string()),
+})
+
+/**
+ * Aus Gmail abgerufene Mail (nur Kopfzeilen und Auszug). Nach Übernahme oder Verwerfen bleiben nur
+ * Gmail-ID und Status, damit sie nicht erneut abgerufen wird (Datenminimierung).
+ */
+export const mailSchema = z.object({
+  ...meta,
+  gmailId: z.string().min(1),
+  threadId: z.string(),
+  zeitpunkt,
+  von: z.string(),
+  an: z.array(z.string()),
+  betreff: z.string(),
+  auszug: z.string(),
+  richtung: z.enum(['eingang', 'ausgang']),
+  kontaktId: id.nullable(),
+  unternehmenId: id.nullable(),
+  bewerbungId: id.nullable(),
+  status: z.enum(['neu', 'uebernommen', 'verworfen']),
+  /** Verlaufseintrag nach der Übernahme */
+  interaktionId: id.nullable(),
 })
 
 export const sammlungen = [
@@ -210,6 +330,10 @@ export const sammlungen = [
   'leads',
   'zielrollen',
   'bewerbungen',
+  'vorlagen',
+  'wissen',
+  'werkzeug',
+  'mails',
 ] as const
 
 export const aktivitaetSchema = z.object({
@@ -227,6 +351,10 @@ export const aktivitaetSchema = z.object({
 
 export const einstellungenSchema = z.object({
   anzeigename: z.string(),
+  /** Zeitpunkt der letzten verschlüsselten Sicherung (Export) */
+  letzteSicherungAm: z.iso.datetime().nullable(),
+  /** Letzter erfolgreicher Mailabruf (Gmail); der nächste Abruf beginnt dort */
+  letzterMailAbrufAm: z.iso.datetime().nullable(),
 })
 
 export const appDataSchema = z.object({
@@ -244,6 +372,10 @@ export const appDataSchema = z.object({
   leads: z.array(leadSchema),
   zielrollen: z.array(zielrolleSchema),
   bewerbungen: z.array(bewerbungSchema),
+  vorlagen: z.array(vorlageSchema),
+  wissen: z.array(wissenSchema),
+  werkzeug: z.array(werkzeugSchema),
+  mails: z.array(mailSchema),
   aktivitaeten: z.array(aktivitaetSchema),
   einstellungen: einstellungenSchema,
 })

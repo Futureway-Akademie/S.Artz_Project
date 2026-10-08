@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "roadmapVersion": 2,
+  "roadmapVersion": 7,
   "status": "active",
   "phases": [
     {
@@ -201,7 +201,7 @@
         {
           "id": "task-1-7",
           "title": "Startdaten auf Projekt-Übersicht umstellen",
-          "description": "Seed auf Saschas Projekt-Übersicht (lokale Datei projekte-uebersicht.md, Stand 2026-10-07) umstellen: 12 Projekte mit Kategorie, Status, zuletzt aktiv und nächsten Schritten; Weiterbildungsdetails; Schema-Version 2 mit Migration.",
+          "description": "Seed auf die lokale Projekt-Übersicht umstellen: 12 Projekte mit Kategorie, Status, zuletzt aktiv und nächsten Schritten; Weiterbildungsdetails; Schema-Version 2 mit Migration.",
           "order": 7,
           "weight": 2,
           "status": "completed",
@@ -227,7 +227,7 @@
               "npm run lint",
               "npm test",
               "npm run build",
-              "vitest: einmaliger Abgleich Seed gegen C:/Users/Sascha/Downloads/projekte-uebersicht.md (temporär, nicht im Repo)",
+              "vitest: einmaliger Abgleich Seed gegen lokale Projekt-Übersicht (temporär, nicht im Repo)",
               "Browser: localStorage geprüft"
             ],
             "checkedAt": "2026-10-07T12:27:52Z"
@@ -241,7 +241,7 @@
       "description": "Projekte, Aufgaben und Termine, Automationen, Weiterbildung, PIKARTZ.AI-Bereich und Arbeitscockpit.",
       "order": 2,
       "weight": 16,
-      "status": "ready",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-2-1",
@@ -249,7 +249,7 @@
           "description": "Projektliste und -detail mit Bearbeiten, Tools, Notizen, nächsten Schritten (offen/erledigt) und manuellem Projektstatus.",
           "order": 1,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6",
@@ -263,12 +263,18 @@
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
           "startedAt": "2026-10-07T12:14:35Z",
-          "completedAt": null,
+          "completedAt": "2026-10-07T13:02:50Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 108 Tests grün, davon 9 Bedienungstests der Projektseiten: Liste mit Status/Kategorie/Zählern ohne Prozent, Suche/Status-/Kategorie-Filter mit Zurücksetzen, Anlegen mit Pflichtfeldprüfung und Sprung zur Detailseite, Rückfrage 'Änderungen verwerfen?', nächste Schritte hinzufügen/erledigen/wieder öffnen/bearbeiten mit Frist, Status bleibt dabei unverändert, manuelle Statusänderung, Bearbeiten ohne Änderung erzeugt keine Aktivität, Löschen nur nach Bestätigung mit genannten Folgen, unbekanntes Projekt. Aktivitätsprotokoll in den Tests geprüft. Browser: Liste bei 399 px, Detailseite zweispaltig bei 1280 px ohne Überlauf, Dialog modal mit Fokus, Esc schließt und gibt Fokus zurück, Rückfrage bei Änderungen; keine Konsolenfehler nach Neuladen.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /projekte und Detailseite bei 399 und 1280 px, Tastatur (Escape) und Skriptprüfung"
+            ],
+            "checkedAt": "2026-10-07T13:02:50Z"
           }
         },
         {
@@ -277,7 +283,7 @@
           "description": "Zentrale Aufgaben- und Terminverwaltung mit Anlegen, Bearbeiten, Erledigen, Suche, Filter, optionaler Frist und Bezug zu Projekt oder Weiterbildung.",
           "order": 2,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -289,13 +295,19 @@
             "Bezug zu Projekt oder Weiterbildung ist wählbar",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:24:28Z",
+          "completedAt": "2026-10-07T13:27:52Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 136 Tests grün, davon 9 für Aufgaben & Termine: Filter nach Status, Fristlage (überfällig, heute, 7 Tage, ohne), Bezug (Projekt, Weiterbildung, Kontakt, einzelnes Projekt) und Suche; Gruppierung nach Fristlage; Aufgabe mit Frist und Weiterbildungsbezug anlegen, erledigen, Aktivitäten; 'Noch keine Frist hinterlegt' bei fehlender Frist; Termine mit Pflichtdatum und optionaler Uhrzeit anlegen, bearbeiten, nach Bestätigung löschen; Tabs per Pfeiltaste. Browser bei 1622 px: 39 offene Aufgaben in Gruppe 'Ohne Frist', Tabs korrekt, kein Überlauf.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /aufgaben per Skript"
+            ],
+            "checkedAt": "2026-10-07T13:27:52Z"
           }
         },
         {
@@ -304,7 +316,7 @@
           "description": "Übersicht der Automationen nach Plattform und Projekt mit Modell, Datenquellen, Schwellenwerten und Routing-Logik; Verbindungsstatus ehrlich als nicht verbunden.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-2-1"
           ],
@@ -314,40 +326,52 @@
             "Es wird keine aktive externe Verbindung behauptet",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:16:17Z",
+          "completedAt": "2026-10-07T13:19:49Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 127 Tests grün, davon 7 für Automationen: Selektoren gruppieren nach Plattform (feste Reihenfolge n8n, Make.com, Sonstige) und nach Projekt, Routing-Text mit Fallback; ehrlicher Leerzustand ohne erfasste Automation; Erfassen mit Pflicht- und Zahlenprüfung, Anzeige von Modell, Datenquellen, Schwelle, Routing und Routing-Stand, immer 'Nicht verbunden' und nie 'Verbunden'; Umschalten der Gruppierung; Bearbeiten und Entfernen nach Bestätigung; Aktivität 'Projekt … geändert: Automation'. Browser bei 399 px: Leerzustand ohne Überlauf, Erfassen-Dialog im Vollbild mit 12 wählbaren Projekten, ohne zu speichern geschlossen.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /automationen bei 399 px, Dialog öffnen und mit Escape schließen"
+            ],
+            "checkedAt": "2026-10-07T13:19:49Z"
           }
         },
         {
           "id": "task-2-4",
           "title": "Weiterbildung",
-          "description": "Bereich für 'KI Automations Spezialist' (Aug–Dez 2026) mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
+          "description": "Bereich für die laufende Weiterbildung mit Aufgaben im ID-Format, Arbeitstagen Mo–Fr und Fortschritt nur aus erledigten Einträgen.",
           "order": 4,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
           ],
           "definitionOfDone": [
             "Kurs mit Zeitraum wird angezeigt",
-            "Aufgaben mit IDs im Format KIAutomSpez_X_YY können angelegt und bearbeitet werden",
+            "Aufgaben mit IDs im Format KURS_X_YY können angelegt und bearbeitet werden",
             "Arbeitstage Mo–Fr werden aus dem Gerätedatum berechnet und getestet",
             "Fortschritt ergibt sich nur aus eingetragenen Erledigungen, sonst Leerzustand",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:27:52Z",
+          "completedAt": "2026-10-07T13:31:09Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 146 Tests grün, davon 10 für Weiterbildung: Arbeitstage Mo–Fr aus dem Gerätedatum (03.08.–18.12.2026 = 100, am 07.10.2026 Kurstag 48, 47 vergangen, 53 verbleibend), Wochenende, vor/nach Kurs, Ableitung aus Monaten; Fortschritt nur aus erledigten Kursaufgaben, sonst Leerzustand; Code-Format KURS_X_YY mit Vorschlag und Duplikatprüfung; Kursdaten bearbeiten mit Datumsprüfung. Browser (Desktop): Kacheln, Kursdaten und Module sichtbar, Fortschritt als Leerzustand.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /weiterbildung (Screenshot Desktop)"
+            ],
+            "checkedAt": "2026-10-07T13:31:09Z"
           }
         },
         {
@@ -356,7 +380,7 @@
           "description": "Eigener Bereich für Marke und Präsentations-System mit allen hinterlegten Designregeln und dem Demo-Deck Modul 1, Tag 1.",
           "order": 5,
           "weight": 2,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-1-5",
             "task-1-6"
@@ -367,13 +391,19 @@
             "Wortmarke mit blauem '.AI' korrekt dargestellt",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:10:54Z",
+          "completedAt": "2026-10-07T13:13:08Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 112 Tests grün, davon 4 für den PIKARTZ.AI-Bereich: Wortmarke mit separatem blauen '.AI', beide Logos, drei Markenfarben; alle 7 hinterlegten Designregeln in Reihenfolge; Regeln bearbeiten, ergänzen, verschieben und nach Bestätigung löschen mit Aktivitätsprotokoll; Präsentations-System beschrieben, Demo-Deck Modul 1/Tag 1 ohne erfundenen Inhalt, Deck bearbeitbar mit Zahlenprüfung. Browser bei 399 px: Wortmarke auf dunklem Band, Logos unverzerrt geladen, 7 Regeln, kein horizontaler Überlauf.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /pikartz-ai bei 399 px per Screenshot und Skript"
+            ],
+            "checkedAt": "2026-10-07T13:13:08Z"
           }
         },
         {
@@ -382,7 +412,7 @@
           "description": "Dashboard mit Begrüßung und Tagesübersicht, nächsten Schritten, aktuellen Projekten, Weiterbildung, anstehenden Aufgaben und Terminen sowie letzten Aktivitäten.",
           "order": 6,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-2-1",
             "task-2-2",
@@ -395,13 +425,19 @@
             "Letzte Aktivitäten zeigen nur echte Änderungen",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:31:09Z",
+          "completedAt": "2026-10-07T13:33:59Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 157 Tests grün, davon 11 für das Arbeitscockpit: Selektoren für Begrüßung (Tageszeit, Name, Datum de-DE), Tagesübersicht (heute fällig, überfällig inkl. Wiedervorlagen, Termine heute, offene Schritte, Kurstag), nächste Schritte (überfällig → mit Frist → ohne Frist, inkl. Wiedervorlagen), aktuelle Projekte ohne abgeschlossene und ohne Prozent, Anstehendes 7 Tage (Aufgaben, Termine, Kursaufgaben), letzte Aktivitäten; Seite mit Gerätedatum (fixiert 07.10.2026), Leerzustände ohne erfundene Werte, echte Änderung erscheint als Aktivität. Browser (Desktop): Begrüßung mit gespeichertem Anzeigenamen, Kurstag 48 von 100, Kacheln und Listen.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: / (Screenshot Desktop)"
+            ],
+            "checkedAt": "2026-10-07T13:33:59Z"
           }
         }
       ]
@@ -412,7 +448,7 @@
       "description": "Kontakte und Unternehmen, Kommunikationsverlauf, Leads, Bewerbungen mit Zielrollen und Cockpit-Integration.",
       "order": 3,
       "weight": 10,
-      "status": "planned",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-3-1",
@@ -420,7 +456,7 @@
           "description": "Kontakte und Unternehmen anlegen, bearbeiten, suchen und miteinander verknüpfen.",
           "order": 1,
           "weight": 3,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-2-6"
           ],
@@ -428,15 +464,23 @@
             "Kontakte und Unternehmen können angelegt, bearbeitet und gelöscht werden (mit Bestätigung)",
             "Suche funktioniert",
             "Kontakte können Unternehmen zugeordnet werden",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "npm run build, lint, typecheck und test laufen fehlerfrei",
+            "Kontakte haben Kontext-Kategorie (Jobsuche, Weiterbildung, PIKARTZ.AI, Sonstiges), Herkunft und LinkedIn-URL; Filter nach Kontext",
+            "Unternehmen zeigen verknüpfte Kontakte, Bewerbungen und Leads"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:34:00Z",
+          "completedAt": "2026-10-07T13:37:48Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 162 Tests grün, davon 5 für Kontakte und Unternehmen: leerer Start ohne vorbefüllte Kontakte/Unternehmen; Unternehmen anlegen, Kontakt aus dem Unternehmen heraus mit Rolle, Kontext, Herkunft und LinkedIn (URL-Prüfung) anlegen; Unternehmensdetail zeigt verknüpfte Kontakte, Bewerbungen, Leads; Suche und Kontext-Filter; Unternehmen löschen nach Bestätigung, Kontakte bleiben ohne Zuordnung; Kontakt löschen nach Bestätigung. Browser: /kontakte mit Unternavigation (aria-current), Leerzustand, kein Überlauf.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /kontakte per Skript"
+            ],
+            "checkedAt": "2026-10-07T13:37:48Z"
           }
         },
         {
@@ -445,22 +489,29 @@
           "description": "Notizen, Kommunikationsverlauf, nächste Aktion und Projektbezug je Kontakt erfassen.",
           "order": 2,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-3-1"
           ],
           "definitionOfDone": [
             "Verlaufseinträge können erfasst und angezeigt werden",
             "Nächste Aktion und Projektbezug sind pflegbar",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "npm run build, lint, typecheck und test laufen fehlerfrei",
+            "Wiedervorlage (nächste Aktion mit optionalem Datum) erscheint im Cockpit unter „Nächste Schritte“; ohne Datum „Noch keine Frist hinterlegt“",
+            "Verlaufseinträge mit Art (E-Mail, Telefonat, Treffen, Nachricht, Notiz), Datum und optionalem Projektbezug; im Projektdetail erscheinen zugeordnete Kontakte"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:37:48Z",
+          "completedAt": "2026-10-07T13:40:31Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 166 Tests grün, davon 4 für Verlauf und nächste Aktion: Wiedervorlage mit Pflichttext und optionalem Datum ('Noch keine Frist hinterlegt' / 'Heute fällig'), erscheint im Cockpit unter Nächste Schritte mit Link zum Kontakt, 'Erledigt' entfernt sie; Verlaufseinträge mit Art, Datum (Vorgabe Gerätedatum), Inhalt und Projektbezug, Löschen nach Bestätigung, Aktivität; Projektzuordnung per Checkbox, Kontakt erscheint im Projektdetail; Filter 'Mit fälliger Aktion' und Sortierung nach Wiedervorlage. Browser: nicht gesondert geprüft, um keine Testdaten in Saschas lokalen Daten anzulegen; Abdeckung über Bedienungstests.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:40:31Z"
           }
         },
         {
@@ -469,7 +520,7 @@
           "description": "Optionale Leadverwaltung mit Status; Geldbetrag optional und leer zulässig.",
           "order": 3,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-3-1"
           ],
@@ -478,13 +529,18 @@
             "Leerer Betrag ist zulässig und wird nicht als 0 dargestellt",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-07T13:40:31Z",
+          "completedAt": "2026-10-07T13:42:38Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 172 Tests grün, davon 6 für Leads: Statusfilter (offen, alle, einzelner Status) und Sortierung; Summe nur über Leads mit Betrag, ohne Beträge null statt 0; deutsches Zahlenformat lesen/schreiben; leerer Betrag wird als 'Kein Betrag' angezeigt, nie als 0 €; Betragsprüfung mit Fehlermeldung; Bearbeiten und Leeren eines Betrags. Keine Prognosen oder Abschlusswahrscheinlichkeiten.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:42:38Z"
           }
         },
         {
@@ -493,14 +549,1178 @@
           "description": "Bewerbungen und Zielrollen verwalten; drei bekannte Zielrollen vorbefüllt, keine Bewerbungen erfunden.",
           "order": 4,
           "weight": 2,
-          "status": "planned",
+          "status": "completed",
           "dependsOn": [
             "task-3-1"
           ],
           "definitionOfDone": [
             "Zielrollen und Bewerbungen können angelegt und bearbeitet werden",
             "Drei Zielrollen vorhanden, keine vorbefüllten Bewerbungen",
+            "npm run build, lint, typecheck und test laufen fehlerfrei",
+            "Bewerbungen mit Status (Geplant, Beworben, Im Gespräch, Angebot, Absage, Zurückgezogen), Zielrolle, Ansprechpartner (Kontakt), Quelle, Datum, Link und nächstem Schritt"
+          ],
+          "startedAt": "2026-10-07T13:42:38Z",
+          "completedAt": "2026-10-07T13:45:34Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 176 Tests grün, davon 4 für Bewerbungen und Zielrollen: drei vorbefüllte Zielrollen, keine vorbefüllten Bewerbungen; Bewerbung mit Zielrolle, Status, Datum, Quelle (Vorschläge inkl. Jobsuche-Assistent) und Link anlegen; Standardfilter 'laufend', Filter nach Status und Zielrolle, Statusübersicht; Pflichtfeld- und Linkprüfung; Löschen nach Bestätigung; Zielrollen anlegen und bearbeiten mit Zähler je Rolle. Platzhalter-Komponente entfernt, alle neun Bereiche sind umgesetzt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:45:34Z"
+          }
+        },
+        {
+          "id": "task-3-5",
+          "title": "Cockpit-Bereich für Kontakte und Bewerbungen",
+          "description": "Kompakter Bereich im Arbeitscockpit mit berechneten Angaben zu Kontakten und Bewerbungen.",
+          "order": 5,
+          "weight": 1,
+          "status": "completed",
+          "dependsOn": [
+            "task-3-2",
+            "task-3-4"
+          ],
+          "definitionOfDone": [
+            "Angaben werden aus gespeicherten Daten berechnet",
+            "Leerzustand bei fehlenden Kontakten oder Bewerbungen",
             "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T13:45:34Z",
+          "completedAt": "2026-10-07T13:48:02Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 179 Tests grün, davon 3 für den CRM-Bereich im Cockpit: selectCrmUebersicht berechnet fällige Wiedervorlagen (heute/überfällig), laufende Bewerbungen nach Status, offene Leads mit Summe nur über hinterlegte Beträge; Leerzustand ohne CRM-Daten; Link 'Fällige Wiedervorlagen' öffnet die Kontaktliste mit aktivem Filter (?faellig=1).",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T13:48:02Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "title": "Abschluss",
+      "description": "Einstellungen, Zustände und Barrierefreiheit, End-to-End- und Responsive-Prüfung, Dokumentation.",
+      "order": 4,
+      "weight": 6,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-4-1",
+          "title": "Einstellungen",
+          "description": "Anzeigename, JSON-Export, JSON-Import, Zurücksetzen mit Bestätigung und Demo-Hinweis.",
+          "order": 1,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-1-4",
+            "task-1-6"
+          ],
+          "definitionOfDone": [
+            "Export erzeugt eine JSON-Datei mit allen Daten",
+            "Import validiert Daten und zeigt Fehler verständlich",
+            "Zurücksetzen erfordert Bestätigung",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T13:13:09Z",
+          "completedAt": "2026-10-07T13:16:03Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 120 Tests grün, davon 8 für Einstellungen: Export/Import-Rundlauf ohne Datenverlust; verständliche Fehler für leere Datei, kein JSON, fehlende Version, neuere Version, falsches Format (mit Details); Demo-Hinweis und Datenstand; Anzeigename speichern mit Aktivität; Export erzeugt JSON-Datei mit allen Daten (Dateiname pikartz-cockpit-export-JJJJ-MM-TT.json); Import erst nach Prüfung und Bestätigung; ungültige Datei ändert nichts; Zurücksetzen erst nach Bestätigung, danach Ausgangsdaten und Name. Browser bei 399 px: vier Abschnitte ohne Überlauf, Zurücksetzen-Dialog nennt den Datenstand, Abbrechen schließt und gibt den Fokus zurück. Export im Browser nicht ausgelöst (würde eine Datei herunterladen), per Test abgedeckt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: /einstellungen bei 399 px, Zurücksetzen-Dialog öffnen und abbrechen"
+            ],
+            "checkedAt": "2026-10-07T13:16:03Z"
+          }
+        },
+        {
+          "id": "task-4-2",
+          "title": "Zustände und Barrierefreiheit",
+          "description": "Bestätigungen und Toasts, Fehler beim Speichern, Tastaturbedienung, Fokusführung und Kontraste prüfen und ergänzen.",
+          "order": 2,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-3-5",
+            "task-4-1"
+          ],
+          "definitionOfDone": [
+            "Lade-, Leer-, Fehler- und Bestätigungszustände in allen Bereichen vorhanden",
+            "Alle Aktionen per Tastatur erreichbar, Fokus sichtbar",
+            "Kontraste erfüllen WCAG AA",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T13:48:03Z",
+          "completedAt": "2026-10-07T13:50:37Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 206 Tests grün. Neu: axe-core-Prüfung (WCAG 2.1 A/AA, Best Practices) aller 17 Seiten mit Beispieldaten, 5 Seiten im Leerzustand, Formulardialog mit Fehlern und Fehlerseite – 0 Verstöße; Gegenprobe bestätigt, dass axe Fehler erkennt. Kontraste über Token-Kontrasttest (WCAG AA); keine festen Textfarben außerhalb der Tokens. Jede Löschaktion hat einen Bestätigungsdialog (Code-Suche). Tests für Speicherfehler-Hinweis, Änderung in anderem Tab und flüchtigen Betrieb. Browser: auf /, /projekte, /aufgaben, /kontakte, /einstellungen, /weiterbildung haben alle 234 fokussierbaren Elemente bei Tastaturfokus einen sichtbaren Fokusring. Ladezustand entfällt, da synchron geladen wird (dokumentiert).",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "grep: Farben außerhalb tokens.css, Löschaktionen ohne ConfirmDialog",
+              "Browser: Fokusring-Prüfung per Skript nach Tab-Taste auf 6 Seiten"
+            ],
+            "checkedAt": "2026-10-07T13:50:37Z"
+          }
+        },
+        {
+          "id": "task-4-3",
+          "title": "End-to-End-Prüfung und Dokumentation",
+          "description": "Alle Bereiche bei mobilen, Tablet- und Desktop-Breiten prüfen; docs/architecture.md und docs/decisions.md aktualisieren.",
+          "order": 3,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-4-2"
+          ],
+          "definitionOfDone": [
+            "Alle neun Bereiche manuell bei 375, 768 und 1280 px geprüft und dokumentiert",
+            "docs/architecture.md beschreibt die umgesetzte Architektur",
+            "npm run build, lint, typecheck und test laufen fehlerfrei"
+          ],
+          "startedAt": "2026-10-07T13:50:37Z",
+          "completedAt": "2026-10-07T13:53:39Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, build fehlerfrei; 206 Tests grün. Browser-Prüfung aller 14 Seiten (alle neun Bereiche plus Unterseiten) bei 375, 768 und 1280 px: korrekte Überschrift, passende Navigation (Topbar/Icon-Leiste/Sidebar), aktiver Bereich markiert, kein horizontaler Überlauf, keine Laufzeit- oder Konsolenfehler; Cockpit-Screenshot bei 375 px. Ergebnisse in docs/pruefprotokoll.md dokumentiert. docs/architecture.md beschreibt die umgesetzte Architektur (Ordnerstruktur, Routen, Qualitätssicherung), README mit Startanleitung.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "Browser: 14 Seiten × 3 Breiten per Skript, Screenshot Cockpit 375 px, Konsolenprüfung"
+            ],
+            "checkedAt": "2026-10-07T13:53:39Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-5",
+      "title": "Datenschutz und Sicherheit",
+      "description": "Keine persönliche Information von außen einsehbar, Daten verschlüsselt, DSGVO-Funktionen für Kontaktdaten.",
+      "order": 5,
+      "weight": 16,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-5-1",
+          "title": "Persönliche Daten aus dem Repository entfernen",
+          "description": "Alle persönlichen Startdaten (Projekte, Kurs, Zielrollen, Anzeigename) nur noch lokal in seed.privat.ts; Code, Tests und Doku neutral.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Kein persönlicher Begriff in versionierten Dateien (automatischer Test)",
+            "Öffentliche Startdaten sind neutral, lokale Startdaten werden eingebunden",
+            "Tests nutzen fiktive Beispieldaten"
+          ],
+          "startedAt": "2026-10-07T14:21:19Z",
+          "completedAt": "2026-10-07T14:36:03Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Persönliche Startdaten (Projekte, Kurs, Zielrollen, Anzeigename) stehen nur in der ignorierten src/data/seed.privat.ts; öffentlicher Seed enthält nur Designregeln und Demo-Deck. Tests nutzen fiktive Beispieldaten (src/test/beispielStart.ts). Wächter src/test/datenschutz.test.ts prüft alle versionierten Dateien gegen die lokalen Begriffe: 0 Funde. docs/sources/arbeitskontext.md entfernt, Doku neutralisiert. typecheck, lint, 205 Tests und build fehlerfrei. Historienbereinigung als task-5-6 ausgelagert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npx vitest run src/test/datenschutz.test.ts",
+              "git check-ignore src/data/seed.privat.ts"
+            ],
+            "checkedAt": "2026-10-07T14:36:03Z"
+          }
+        },
+        {
+          "id": "task-5-2",
+          "title": "Keine Verbindung nach außen",
+          "description": "Content-Security-Policy ohne externe Ziele, kein Referrer, externe Links ohne Opener; per Test belegt.",
+          "order": 2,
+          "weight": 1,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-1"
+          ],
+          "definitionOfDone": [
+            "CSP verbietet Verbindungen zu fremden Servern",
+            "Test prüft index.html und Quellcode auf externe Abrufe",
+            "Externe Links öffnen mit noopener/noreferrer"
+          ],
+          "startedAt": "2026-10-07T14:36:30Z",
+          "completedAt": "2026-10-07T14:40:06Z",
+          "verification": {
+            "status": "passed",
+            "summary": "CSP (csp.config.ts) per Vite-Plugin im Build: default-src/script-src 'self', connect-src 'none', form-action 'none', keine fremden Hosts; Referrer no-referrer; ExternerLink mit noopener/noreferrer und nur http(s). Test keineVerbindung.test.tsx (5 Tests) grün; gebaute App im Browser geprüft: lädt fehlerfrei, fetch nach außen blockiert. 210 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: fetch('https://example.org') → blockiert"
+            ],
+            "checkedAt": "2026-10-07T14:40:06Z"
+          }
+        },
+        {
+          "id": "task-5-3",
+          "title": "Verschlüsselung mit Passwort und automatischer Sperre",
+          "description": "Daten im Browser nur verschlüsselt (AES-GCM, PBKDF2) speichern; Passwort beim ersten Start festlegen; Sperre nach Inaktivität; Passwort ändern.",
+          "order": 3,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-1"
+          ],
+          "definitionOfDone": [
+            "Im Browser-Speicher steht kein Klartext",
+            "Ohne richtiges Passwort sind die Daten nicht lesbar",
+            "Bestehende Klartext-Daten werden beim Festlegen verschlüsselt übernommen",
+            "Automatische Sperre nach einstellbarer Inaktivität",
+            "Passwort ändern möglich, Hinweis auf fehlende Wiederherstellung"
+          ],
+          "startedAt": "2026-10-07T14:40:28Z",
+          "completedAt": "2026-10-07T14:49:23Z",
+          "verification": {
+            "status": "passed",
+            "summary": "AES-GCM-256 mit PBKDF2-SHA-256 (600 000 Runden) über Web Crypto; VerschluesselterSpeicher schreibt nur verschlüsselt, Klartext nur im Arbeitsspeicher; TresorGate mit Einrichten (inkl. Übernahme vorhandener Klartext-Daten), Entsperren, Passwort vergessen, automatischer Sperre (5/15/30/60 min) und Jetzt sperren; Passwort ändern in den Einstellungen. 15 neue Tests (Krypto, Speicher, Bedienung, axe) grün; insgesamt 226 Tests, typecheck, lint, build fehlerfrei; im Browser (Build) geprüft: localStorage enthält nur den Umschlag, nach Neuladen gesperrt, Entsperren funktioniert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: Passwort festlegen, localStorage prüfen, neu laden, entsperren"
+            ],
+            "checkedAt": "2026-10-07T14:49:23Z"
+          }
+        },
+        {
+          "id": "task-5-4",
+          "title": "Verschlüsselte Sicherung und Erinnerung",
+          "description": "Export und Import nur verschlüsselt, Erinnerung an regelmäßige Sicherung, dauerhaften Browser-Speicher anfordern.",
+          "order": 4,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-3"
+          ],
+          "definitionOfDone": [
+            "Exportdatei ist verschlüsselt",
+            "Import fragt nach dem Passwort der Sicherung",
+            "Cockpit erinnert an fällige Sicherung"
+          ],
+          "startedAt": "2026-10-07T14:49:35Z",
+          "completedAt": "2026-10-07T14:55:21Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Sicherung nur verschlüsselt (eigenes Passwort, AES-GCM/PBKDF2), Import erkennt verschlüsselte Dateien und fragt nach dem Passwort, Rohdaten-Sicherung auf der Fehlerseite verschlüsselt; Schema v3 mit letzteSicherungAm (Migration 2→3), Cockpit-Erinnerung ohne Sicherung oder ab 7 Tagen, navigator.storage.persist beim Entsperren. 230 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T14:55:21Z"
+          }
+        },
+        {
+          "id": "task-5-5",
+          "title": "DSGVO-Funktionen für Kontakte",
+          "description": "Rechtsgrundlage und Zweck je Kontakt, Auskunft je Person, vollständiges Löschen inkl. Protokoll, Prüfhinweis für ruhende Kontakte, Datenschutzhinweis.",
+          "order": 5,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-3"
+          ],
+          "definitionOfDone": [
+            "Rechtsgrundlage und Zweck je Kontakt erfassbar",
+            "Auskunft (Art. 15) als Datei je Person",
+            "Löschen entfernt den Namen auch aus dem Aktivitätsprotokoll",
+            "Hinweis auf Kontakte ohne Aktivität seit 12 Monaten",
+            "Datenschutzhinweis in den Einstellungen"
+          ],
+          "startedAt": "2026-10-07T14:55:27Z",
+          "completedAt": "2026-10-07T15:04:28Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Schema v4: Rechtsgrundlage (Art. 6 Abs. 1 a/b/f) und Zweck je Kontakt mit Migration; Datenschutz-Panel auf der Kontaktseite mit Hinweisen und Auskunft nach Art. 15 als Textdatei; Löschen entfernt Name und E-Mail aus dem Aktivitätsprotokoll; Prüfbedarf (12 Monate ohne Aktivität oder fehlende Angaben) mit Hinweis und Filter; Datenschutzhinweis in den Einstellungen. 240 Tests (inkl. axe), typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:04:28Z"
+          }
+        },
+        {
+          "id": "task-5-6",
+          "title": "Git-Historie bereinigen",
+          "description": "Persönliche Begriffe aus allen alten Commits entfernen (Rewrite + Force-Push von main und Arbeitszweig); Reste in Pull-Request-Kopien über den GitHub-Support löschen lassen. Blockiert: Force-Push mit umgeschriebener Historie braucht Saschas ausdrückliche Freigabe in den Claude-Code-Berechtigungen (vom Sicherheitssystem blockiert); alternativ stellt der Dozent das Repository auf privat.",
+          "order": 6,
+          "weight": 1,
+          "status": "cancelled",
+          "dependsOn": [
+            "task-5-1"
+          ],
+          "definitionOfDone": [
+            "Kein persönlicher Begriff in einem Commit auf GitHub",
+            "GitHub-Support-Anfrage für Pull-Request-Kopien gestellt"
+          ],
+          "startedAt": "2026-10-07T14:35:47Z",
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-5-7",
+          "title": "Passwort-Wiederherstellung per E-Mail-Link",
+          "description": "Wiederherstellungsschlüssel, den Sascha sich über das eigene Mailprogramm als Link schickt (Schlüssel im #-Teil des Links, erreicht nie einen Server). Klick auf den Link öffnet die App, nach Bestätigung wird ein neues Passwort gesetzt; die Daten bleiben erhalten. Datenschlüssel-Format (Version 2) mit Umstellung ohne Datenverlust.",
+          "order": 7,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-3"
+          ],
+          "definitionOfDone": [
+            "Daten werden mit einem Datenschlüssel verschlüsselt, der per Passwort und per Wiederherstellungsschlüssel geöffnet werden kann (Umstellung ohne Datenverlust)",
+            "Einrichten in den Einstellungen: Mail an sich selbst mit Wiederherstellungslink",
+            "Passwort vergessen: Klick auf den Link öffnet die App, Bestätigung, neues Passwort, Daten bleiben erhalten",
+            "Der Wiederherstellungsschlüssel wird nie an einen Server übertragen (Test)",
+            "Datenschutzhinweis und Doku ergänzt"
+          ],
+          "startedAt": "2026-10-07T16:29:27Z",
+          "completedAt": "2026-10-07T16:39:58Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Tresor-Format v2 mit Datenschlüssel (per Passwort und optional per Wiederherstellungsschlüssel verpackt), Umstellung von v1 beim Entsperren; Einrichten in den Einstellungen mit Mail an sich selbst (mailto), Schlüssel nur im Link-Fragment; Wiederherstellen über den Link mit neuem Passwort, Daten bleiben erhalten; neuer Link macht alten ungültig; Hinweise in Sperr- und Einrichtungsbildschirm. 302 Tests inkl. axe, typecheck, lint, build fehlerfrei; im Browser (Build) vollständig durchgespielt.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: Wiederherstellung einrichten, Link öffnen, neues Passwort"
+            ],
+            "checkedAt": "2026-10-07T16:39:58Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-6",
+      "title": "Alles verbinden",
+      "description": "Jeder Eintrag zeigt alles, was zu ihm gehört; überall schnell erfassen und finden.",
+      "order": 6,
+      "weight": 9,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-6-1",
+          "title": "Verknüpfungen erweitern",
+          "description": "Projekte mit Auftraggeber und Ansprechpartnern; Aufgaben, Termine und Verlauf auch mit Bewerbungen, Leads und Unternehmen verknüpfbar.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-5"
+          ],
+          "definitionOfDone": [
+            "Projekt hat Auftraggeber und Ansprechpartner",
+            "Bezug von Aufgaben und Terminen umfasst Bewerbung, Lead und Unternehmen",
+            "Verlaufseinträge können Bewerbung oder Lead zugeordnet werden",
+            "Datenmigration ohne Datenverlust"
+          ],
+          "startedAt": "2026-10-07T15:04:35Z",
+          "completedAt": "2026-10-07T15:13:03Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Schema v5 mit Migration 4→5: Projekt-Auftraggeber, Bezug unternehmen/lead/bewerbung für Aufgaben und Termine, Verlauf mit Bewerbung/Lead und E-Mail-Betreff/Richtung, Lead mit Projekt und Wiedervorlage, Bewerbung mit Wiedervorlage, Fokus und Schlagworte vorbereitet. Löschen löst die neuen Verknüpfungen. Dialoge und Projektseite angepasst. 245 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:13:03Z"
+          }
+        },
+        {
+          "id": "task-6-2",
+          "title": "Gesamtsicht auf jeder Detailseite",
+          "description": "Kontakt, Unternehmen und Projekt zeigen alle zugehörigen Aufgaben, Termine, Verlaufseinträge, Bewerbungen, Leads und Projekte.",
+          "order": 2,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "Detailseiten zeigen alle verknüpften Einträge mit Links",
+            "Neue verknüpfte Einträge direkt von der Detailseite anlegen"
+          ],
+          "startedAt": "2026-10-07T15:13:10Z",
+          "completedAt": "2026-10-07T15:18:48Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Gesamtsicht (selectVerknuepft + Gesamtsicht-Komponente) auf Kontakt-, Unternehmens-, Projekt-, Bewerbungs- und Lead-Seiten mit offenen Aufgaben, Terminen, Verlauf und verknüpften Einträgen inkl. indirekter Verknüpfungen; Schnellanlage von Aufgabe und Termin mit Bezug; neue Detailseiten /bewerbungen/:id und /kontakte/leads/:id; axe auf allen Seiten ohne Verstöße. 252 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:18:48Z"
+          }
+        },
+        {
+          "id": "task-6-3",
+          "title": "Globale Suche und Schnellerfassung",
+          "description": "Suche über alle Bereiche (Strg+K) und Schnellerfassung von Aufgabe, Termin und Kontakt an jeder Stelle.",
+          "order": 3,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "Suche findet Einträge aller Bereiche und öffnet sie",
+            "Tastenkürzel Strg+K",
+            "Schnellerfassung von Aufgabe, Termin und Kontakt aus der Navigation"
+          ],
+          "startedAt": "2026-10-07T15:18:54Z",
+          "completedAt": "2026-10-07T15:26:08Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Globale Suche über alle Bereiche (Relevanz, akzentunabhängig, alle Wörter) als zugängliche Combobox mit Strg/Cmd+K und Knöpfen in Topbar, Icon-Leiste und Sidebar; Schnellerfassung für sieben Arten mit Verknüpfung zur geöffneten Detailseite. Im Browser (Build) bei 375/768/1280 px geprüft, Fokusfehler gefunden und behoben. 257 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: Strg+K, Suche, Enter, Breiten 375/768/1280"
+            ],
+            "checkedAt": "2026-10-07T15:26:08Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-7",
+      "title": "Kalender, Mails und Bewerbungen",
+      "description": "Kalender über alles, E-Mail-Verlauf und Vorlagen ohne Postfachanbindung, Übersicht über alle Bewerbungen.",
+      "order": 7,
+      "weight": 8,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-7-1",
+          "title": "Kalender",
+          "description": "Monats-, Wochen- und Listenansicht mit Terminen, Fristen, Wiedervorlagen und Kurstagen; Export als .ics-Datei.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "Monats-, Wochen- und Listenansicht",
+            "Zeigt Termine, Aufgabenfristen, Wiedervorlagen von Kontakten, Bewerbungen und Leads",
+            "Einträge anklickbar und direkt anlegbar",
+            "Export als .ics-Datei"
+          ],
+          "startedAt": "2026-10-07T15:26:14Z",
+          "completedAt": "2026-10-07T15:32:44Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Kalenderbereich /kalender mit Monat (zugängliche Tabelle, Tagesauswahl, Kurstage), Woche und Liste; Termine, Fristen, Wiedervorlagen (Kontakt, Bewerbung, Lead) und Kursaufgaben mit Filter; Anlegen am Tag, Bearbeiten per Klick; .ics-Export nach RFC 5545 mit Hinweis auf fehlende Verschlüsselung. Im Browser bei 1280 und 375 px geprüft. 267 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: /kalender bei 1280 und 375 px"
+            ],
+            "checkedAt": "2026-10-07T15:32:44Z"
+          }
+        },
+        {
+          "id": "task-7-2",
+          "title": "E-Mails",
+          "description": "E-Mails als Verlaufseinträge mit Betreff, Vorlagen mit Platzhaltern, Entwurf im eigenen Mailprogramm öffnen; keine Postfachanbindung.",
+          "order": 2,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-6-1"
+          ],
+          "definitionOfDone": [
+            "E-Mail im Verlauf mit Betreff und Richtung erfassen",
+            "Vorlagen verwalten, Platzhalter für Name, Unternehmen, Stelle",
+            "Entwurf öffnet sich im eigenen Mailprogramm",
+            "Keine Verbindung zu einem Postfach"
+          ],
+          "startedAt": "2026-10-07T15:32:50Z",
+          "completedAt": "2026-10-07T15:38:28Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Schema v6 mit Sammlung vorlagen (Migration legt drei neutrale Startvorlagen an); Vorlagenverwaltung unter Kontakte & Leads; Platzhalter name/vorname/unternehmen/stelle/absender/datum mit Meldung offener Platzhalter; E-Mail schreiben beim Kontakt öffnet Entwurf per mailto im eigenen Mailprogramm und hält ihn optional als ausgehende E-Mail mit Betreff und Bewerbung im Verlauf fest; keine Postfachanbindung. 276 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:38:28Z"
+          }
+        },
+        {
+          "id": "task-7-3",
+          "title": "Bewerbungsübersicht",
+          "description": "Pipeline-Ansicht nach Status, Kennzahlen, Wiedervorlage mit Datum, Detailseite je Bewerbung mit Verlauf und Terminen.",
+          "order": 3,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-6-2"
+          ],
+          "definitionOfDone": [
+            "Pipeline-Ansicht nach Status mit Statuswechsel",
+            "Kennzahlen (laufend, Gespräche, Absagen, Antwortquote)",
+            "Wiedervorlage mit Datum, im Cockpit und Kalender",
+            "Detailseite je Bewerbung mit Verlauf, Terminen und Aufgaben"
+          ],
+          "startedAt": "2026-10-07T15:38:35Z",
+          "completedAt": "2026-10-07T15:46:05Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Kennzahlen (laufend, Gespräche, Antwortquote, ohne Rückmeldung seit 14 Tagen, fällige Wiedervorlagen, Absagen), Pipeline-Ansicht je Status mit zugänglichem Statuswechsel an der Karte, Wiedervorlagen laufender Bewerbungen und offener Leads im Cockpit und Kalender, Statuswechsel auf der Detailseite. 282 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:46:05Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-8",
+      "title": "Fokus und Alltag",
+      "description": "Cockpit für den Tag, Beziehungspflege, Ordnung und Abschlussprüfung.",
+      "order": 8,
+      "weight": 8,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-8-1",
+          "title": "Cockpit-Fokus",
+          "description": "Fokus-Markierung für Aufgaben, Abhaken direkt im Cockpit, Wochenvorschau.",
+          "order": 1,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-7-1"
+          ],
+          "definitionOfDone": [
+            "Aufgaben als Fokus markieren, Fokusliste im Cockpit",
+            "Abhaken im Cockpit",
+            "Wochenvorschau der nächsten 7 Tage"
+          ],
+          "startedAt": "2026-10-07T15:46:11Z",
+          "completedAt": "2026-10-07T15:51:08Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Heute im Fokus (Fokus-Markierung mit aria-pressed in Aufgabenliste und Cockpit, Vorschläge aus Überfälligem und heute Fälligem), Abhaken direkt im Cockpit (Fokus und Nächste Schritte), Wochenvorschau Diese Woche aus denselben Kalenderdaten. 286 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:51:08Z"
+          }
+        },
+        {
+          "id": "task-8-2",
+          "title": "Beziehungspflege",
+          "description": "Letzter Kontakt und Funkstille-Hinweis, nächste Aktion direkt nach einem Verlaufseintrag, „zuletzt aktiv“ automatisch.",
+          "order": 2,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-7-2"
+          ],
+          "definitionOfDone": [
+            "Letzter Kontakt je Kontakt sichtbar, Funkstille-Hinweis",
+            "Nach Verlaufseintrag nächste Aktion setzen",
+            "Projekt „zuletzt aktiv“ automatisch"
+          ],
+          "startedAt": "2026-10-07T15:51:15Z",
+          "completedAt": "2026-10-07T15:57:21Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Letzter Kontakt je Kontakt in Liste und Detailseite, Funkstille ab 60 Tagen mit Badge und Filter, „Wie geht es weiter?“ nach jedem Verlaufseintrag mit 1-Klick-Wiedervorlage, „zuletzt aktiv“ von Projekten automatisch im Reducer (nie rückwärts, ohne Protokolleintrag). 290 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T15:57:21Z"
+          }
+        },
+        {
+          "id": "task-8-3",
+          "title": "Schlagworte und Dubletten",
+          "description": "Schlagworte für Kontakte, Unternehmen und Projekte mit Filter; Warnung bei möglichen Dubletten.",
+          "order": 3,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-6-2"
+          ],
+          "definitionOfDone": [
+            "Schlagworte erfassen und filtern",
+            "Warnung bei gleichem Namen oder gleicher E-Mail"
+          ],
+          "startedAt": "2026-10-07T15:57:27Z",
+          "completedAt": "2026-10-07T16:02:12Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Schlagworte für Kontakte, Unternehmen und Projekte mit Erfassung, Anzeige und Filter (schreibweisenunabhängig), Suche über Schlagworte; nicht blockierende Dubletten-Warnung bei Kontakten (Name/E-Mail) und Projekten (Titel). 295 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T16:02:12Z"
+          }
+        },
+        {
+          "id": "task-8-4",
+          "title": "Abschlussprüfung Roadmap v3",
+          "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px, Doku und Prüfprotokoll aktualisieren.",
+          "order": 4,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-8-1",
+            "task-8-2",
+            "task-8-3",
+            "task-7-3",
+            "task-5-4"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Alle Seiten bei drei Breiten geprüft",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
+          ],
+          "startedAt": "2026-10-07T16:02:18Z",
+          "completedAt": "2026-10-07T16:05:39Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, 295 Tests (inkl. axe auf allen Seiten und Dialogen, Datenschutz-Wächter, CSP-Test) und build fehlerfrei; gebaute App im Browser auf allen 19 Seiten bei 375, 768 und 1280 px geprüft (h1, aktive Navigation, kein Überlauf, keine Laufzeitfehler); localStorage enthält nur den verschlüsselten Umschlag; Architektur, Entscheidungen, README und Prüfprotokoll aktualisiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: 19 Seiten × 3 Breiten, localStorage-Prüfung"
+            ],
+            "checkedAt": "2026-10-07T16:05:39Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-9",
+      "title": "Login, verschlüsselte Datenbank und zweites Gehirn",
+      "description": "Anmeldung und geräteübergreifende Speicherung über Supabase – Ende-zu-Ende-verschlüsselt, Supabase sieht nur Chiffretext; Wissensbereich für KI und Weiterbildung.",
+      "order": 9,
+      "weight": 12,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-9-1",
+          "title": "Supabase-Anbindung und Login",
+          "description": "Supabase-Client mit Konfiguration über .env.local, Login per E-Mail-Link (ohne zweites Passwort), Abmelden, SQL-Schema mit Row Level Security im Repository, CSP-Ausnahme nur für die eigene Supabase-Adresse; ohne Konfiguration bleibt die App lokal und ohne Verbindung.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-7"
+          ],
+          "definitionOfDone": [
+            "Login per E-Mail-Link und Abmelden",
+            "SQL-Schema (Tabelle tresor) mit Row Level Security unter supabase/",
+            "CSP erlaubt nur die konfigurierte Supabase-Adresse, ohne Konfiguration keine Verbindung (Test)",
+            "Anleitung zur Einrichtung in docs/"
+          ],
+          "startedAt": "2026-10-07T16:47:49Z",
+          "completedAt": "2026-10-07T16:56:21Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Supabase-Anbindung über CloudDienst-Schnittstelle (einziges Netzwerkmodul src/data/cloud/supabase.ts, Bibliothek nur bei Konfiguration nachgeladen), Login per E-Mail-Link mit Abmelden in Einstellungen, SQL-Schema mit Row Level Security und Check-Constraint nur für verschlüsselte Umschläge (supabase/schema.sql), CSP: ohne Konfiguration connect-src 'none', mit Konfiguration nur die eigene https-Adresse (Build mit Testwerten geprüft), Anleitung docs/supabase-einrichtung.md, .env.example. 315 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "VITE_SUPABASE_URL=… vite build (CSP und Chunk geprüft)"
+            ],
+            "checkedAt": "2026-10-07T16:56:21Z"
+          }
+        },
+        {
+          "id": "task-9-2",
+          "title": "Verschlüsselte Synchronisierung",
+          "description": "Der verschlüsselte Umschlag wird nach Änderungen zu Supabase hochgeladen und beim Entsperren abgeglichen; Konflikte zwischen Geräten werden erkannt und angezeigt; Supabase speichert nur Chiffretext.",
+          "order": 2,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-9-1"
+          ],
+          "definitionOfDone": [
+            "Nach Änderungen wird nur der verschlüsselte Umschlag hochgeladen",
+            "Neuerer Stand auf dem Server wird beim Entsperren übernommen",
+            "Konflikt (beide Seiten geändert) wird angezeigt, nichts geht stillschweigend verloren",
+            "Test: Upload enthält keinen Klartext"
+          ],
+          "startedAt": "2026-10-07T16:56:28Z",
+          "completedAt": "2026-10-07T17:02:09Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Abgleich mit Revisionsnummer (Hochladen, Übernehmen, Konflikt mit Auswahl, fremder Tresor mit Passwort öffnen oder überschreiben), Upload nur des verschlüsselten Umschlags mit Prüfung, automatisch nach Entsperren/Anmelden, nach Änderungen und bei Sichtbarkeit, manuell in den Einstellungen mit Status; neues Gerät: anmelden, Daten aus der Cloud laden, mit Passwort entsperren. Tests: Logik (5) und Zwei-Geräte-Ablauf inkl. Konflikt (2); 322 Tests, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T17:02:09Z"
+          }
+        },
+        {
+          "id": "task-9-3",
+          "title": "Zweites Gehirn: Wissen zu KI und Weiterbildung",
+          "description": "Neuer Bereich Wissen: Notizen, Prompts, Tools, Erkenntnisse, Quellen und Lerntagebuch je Kurstag; Themen und Schlagworte; Verknüpfung mit Projekten, Kurs und Kursaufgaben; Suche (Strg+K) und Gesamtsicht.",
+          "order": 3,
+          "weight": 4,
+          "status": "completed",
+          "dependsOn": [
+            "task-5-7"
+          ],
+          "definitionOfDone": [
+            "Wissenseinträge anlegen, bearbeiten, löschen (Typ, Thema, Inhalt, Quelle, Schlagworte)",
+            "Lerntagebuch je Kurstag",
+            "Verknüpfung mit Projekten, Kurs und Kursaufgaben, sichtbar in der Gesamtsicht",
+            "Filter nach Typ, Thema und Schlagwort; Suche über Strg+K"
+          ],
+          "startedAt": "2026-10-07T16:40:16Z",
+          "completedAt": "2026-10-07T16:47:42Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Schema v7 mit Sammlung wissen (Notiz, Prompt, Tool, Erkenntnis, Quelle, Lerntagebuch; Thema, Quelle, Schlagworte, Datum, Verknüpfung mit Projekten, Kurs, Kursaufgaben); Bereich /wissen mit Filtern und Detailseite (Inhalt kopieren); Lerntagebuch je Kurstag auf der Weiterbildungsseite; Wissen in Projekt-Gesamtsicht und Suche; Löschfolgen lösen Verknüpfungen. 311 Tests inkl. axe, typecheck, lint, build fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build"
+            ],
+            "checkedAt": "2026-10-07T16:47:42Z"
+          }
+        },
+        {
+          "id": "task-9-4",
+          "title": "Abschlussprüfung Roadmap v4",
+          "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
+          "order": 4,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-9-1",
+            "task-9-2",
+            "task-9-3"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Neue Seiten bei drei Breiten geprüft",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
+          ],
+          "startedAt": "2026-10-07T17:02:16Z",
+          "completedAt": "2026-10-07T17:05:18Z",
+          "verification": {
+            "status": "passed",
+            "summary": "typecheck, lint, 322 Tests (inkl. axe, Datenschutz-Wächter, CSP- und Netzwerkmodul-Test, Zwei-Geräte-Synchronisierung) und build fehlerfrei (Bibliotheken als eigenes Paket, keine Größenwarnung); gebaute App auf 19 Seiten bei 375/768/1280 px ohne Überlauf und Laufzeitfehler, localStorage nur mit verschlüsseltem Umschlag v2; Architektur, Entscheidungen, Constraints, README und Prüfprotokoll aktualisiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: 19 Seiten × 3 Breiten"
+            ],
+            "checkedAt": "2026-10-07T17:05:18Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-10",
+      "title": "Dashboard",
+      "description": "Grafische Auswertung aller Bereiche – selbst gezeichnete, barrierefreie SVG-Diagramme ohne Fremddienste, berechnet aus den eigenen Daten.",
+      "order": 10,
+      "weight": 7,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-10-1",
+          "title": "Diagramm-Bausteine und Auswertungen",
+          "description": "SVG-Diagramme (Balken, Ring, Wochenverlauf, Fortschritt, Aktivitäts-Heatmap) mit Legende, Werten und Tabellenansicht; reine Auswertungs-Selektoren für alle Bereiche.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Diagramme ohne Fremdbibliothek, nur mit Farben aus den Design-Tokens",
+            "Jedes Diagramm mit Titel, Legende mit Werten und umschaltbarer Tabellenansicht",
+            "Auswertungs-Selektoren mit Tests (Projekte, Aufgaben je Woche, Bewerbungen, Leads, Weiterbildung, Kontakte, Wissen, Aktivität)"
+          ],
+          "startedAt": "2026-10-07T18:01:29Z",
+          "completedAt": "2026-10-07T18:06:13Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Eigene SVG-/HTML-Diagramme ohne Fremdbibliothek (Balken, Ring, Wochenverlauf, Fortschritt, Heatmap, Kennzahl) mit Farben aus den Tokens, Titel, Legende mit Werten und Anteilen und umschaltbarer Tabellenansicht; Auswertungs-Selektoren für Projekte, Aufgaben je Woche, Bewerbungstrichter, Leads mit Summen, Kontakte, Kontaktpflege, Wissen, Kursaufgaben, Aktivität je Tag und Kennzahlen. 7 neue Tests inkl. axe; 329 Tests grün, typecheck und lint fehlerfrei.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test"
+            ],
+            "checkedAt": "2026-10-07T18:06:13Z"
+          }
+        },
+        {
+          "id": "task-10-2",
+          "title": "Dashboard-Seite",
+          "description": "Neue Seite /dashboard mit Kennzahlen und allen Diagrammen, Links in die Bereiche, responsiv bei 375/768/1280 px; Prüfung und Doku.",
+          "order": 2,
+          "weight": 4,
+          "status": "completed",
+          "dependsOn": [
+            "task-10-1"
+          ],
+          "definitionOfDone": [
+            "Dashboard in der Navigation, Kennzahlen und Diagramme aller Bereiche",
+            "Leerzustände ohne Daten, keine erfundenen Werte",
+            "axe ohne Verstöße, Browserprüfung bei drei Breiten",
+            "Architektur, Entscheidungen und Prüfprotokoll aktualisiert"
+          ],
+          "startedAt": "2026-10-07T18:06:19Z",
+          "completedAt": "2026-10-07T18:11:46Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Seite /dashboard (Navigation nach dem Cockpit) mit 8 Kennzahl-Kacheln (verlinkt) und 11 Grafiken: Aufgaben je Woche, Aktivitäts-Heatmap, Projekte nach Status/Kategorie, Bewerbungstrichter und -status, Leads mit Summen, Kontakte nach Kontext, Kontaktpflege, Weiterbildung, Wissen; Leerzustände ohne erfundene Werte; Tabellenansicht je Grafik. Tests (Seite, Leerzustand, axe) grün, 331 Tests insgesamt; im Browser bei 375/768/1280 px ohne Überlauf geprüft; Entscheidungen dokumentiert.",
+            "commands": [
+              "npm run typecheck",
+              "npm run lint",
+              "npm test",
+              "npm run build",
+              "npm run preview + Browser: /dashboard bei 375/768/1280 px"
+            ],
+            "checkedAt": "2026-10-07T18:11:46Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-11",
+      "title": "KI-Werkzeugkasten",
+      "description": "Eigener Sidebar-Bereich für Masterprompts, Befehle, Agenten und Skills, Anleitungen zum Installieren und Implementieren, Integrationen (MCP, API, Apps), Workflows sowie Modelle und Abos.",
+      "order": 11,
+      "weight": 12,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-11-1",
+          "title": "Werkzeugkasten: Datenmodell und Navigation",
+          "description": "Schema v8 mit Sammlung werkzeug (Typen prompt, befehl, agent, skill, anleitung, integration, workflow, abo), Übernahme der Wissens-Prompts, Sidebar mit Gruppen und eigenem Bereich je Typ, Suche und Verknüpfung mit Projekten.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Schema v8 mit Migration ohne Datenverlust (Prompts aus Wissen übernommen)",
+            "Sidebar gegliedert in Gruppen, Werkzeugkasten mit Unterpunkten",
+            "Liste, Filter, Detailseite und Dialog je Typ; Suche (Strg+K) findet Einträge"
+          ],
+          "startedAt": "2026-10-07T18:13:50Z",
+          "completedAt": "2026-10-07T23:15:57Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Schema v8 mit Sammlung werkzeug und Migration 7→8 (Wissens-Prompts werden Masterprompts, Aktivitäten umgehängt, getestet). Sidebar in Gruppen mit einklappbarem KI-Werkzeugkasten (8 Unterpunkte, Icon-Leiste mit einem Eintrag). Übersicht, Liste mit Filter, Detailseite und Dialog je Typ; Suche, Projekt-Gesamtsicht und Löschfolgen erweitert. tsc, eslint, 346 Tests inkl. axe der neuen Seiten grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:15:57Z"
+          }
+        },
+        {
+          "id": "task-11-2",
+          "title": "Masterprompts und Befehle",
+          "description": "Masterprompts mit Platzhaltern zum Ausfüllen, Vorschau und Kopieren, Zielmodell und Versionsnotiz; Befehle mit Umgebung (Terminal, Claude Code, Git …) und Kopierknopf.",
+          "order": 2,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Platzhalter {{…}} werden erkannt und als Felder zum Ausfüllen angeboten",
+            "Ausgefüllter Prompt bzw. Befehl lässt sich kopieren",
+            "Zielmodell bzw. Umgebung und Versionsnotiz erfassbar"
+          ],
+          "startedAt": "2026-10-07T23:15:57Z",
+          "completedAt": "2026-10-07T23:19:56Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Masterprompts und Befehle: Platzhalter {{…}} werden erkannt (ohne Dubletten) und als Felder angeboten, Vorschau, Ausgefüllt kopieren (Werte nur im Speicher), Kopierknopf in der Liste; Zielmodell/Umgebung und Versionsnotiz im Dialog. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:19:56Z"
+          }
+        },
+        {
+          "id": "task-11-3",
+          "title": "Agenten, Skills und Workflows",
+          "description": "Agenten mit Rolle, Systemprompt, Plattform, Werkzeugen (verknüpfte Integrationen) und Status; Skills; Workflows (n8n, Make) mit Auslöser, Schritten und Export-Notiz.",
+          "order": 3,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Agent mit Rolle, Systemprompt, Plattform, Status und verknüpften Integrationen",
+            "Skills und Workflows mit Plattform, Auslöser und Schritten",
+            "Verknüpfungen in beide Richtungen sichtbar"
+          ],
+          "startedAt": "2026-10-07T23:19:56Z",
+          "completedAt": "2026-10-07T23:23:42Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Agenten (Einsatzfall, Systemprompt, Plattform, Status, verknüpfte Integrationen zuerst angeboten), Skills (Auslöser), Workflows (Auslöser, Ablauf-Schritte). Verknüpfungen zwischen Werkzeugen in beide Richtungen sichtbar; Schritte zeilenweise mit erhaltenem Erledigt-Status. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:23:42Z"
+          }
+        },
+        {
+          "id": "task-11-4",
+          "title": "Anleitungen und Integrationen",
+          "description": "Anleitungen zum Installieren oder Implementieren mit abhakbaren Schritten und Fortschritt; Integrationen (MCP-Server, API, App) mit Status, Doku-Link, Ablageort der Zugangsdaten (nie der Schlüssel selbst) und Datenschutz-Angaben.",
+          "order": 4,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Anleitung mit Schritten zum Abhaken und Fortschrittsanzeige",
+            "Integration mit Art, Status, Doku-Link, Datenschutz (Region, AVV) und Hinweis, wo der Schlüssel liegt",
+            "Warnung, wenn etwas wie ein Schlüssel oder Passwort eingegeben wird"
+          ],
+          "startedAt": "2026-10-07T23:23:42Z",
+          "completedAt": "2026-10-07T23:27:07Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Anleitungen mit abhakbaren Schritten und Fortschrittsbalken; Integrationen mit Art (MCP/API/App), Status, Doku-Link, Ablageort der Zugangsdaten, Region und AVV samt Hinweis. Schlüssel-/Passwort-Erkennung in allen Feldern: Warnung, Speichern erst nach Entfernen oder Bestätigung. Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:27:07Z"
+          }
+        },
+        {
+          "id": "task-11-5",
+          "title": "Modelle und Abos",
+          "description": "Modelle und Abos mit Anbieter, Kosten pro Monat, Abrechnung, Verlängerung und Kündigungsfrist; Summe im Dashboard, Kündigungsfristen im Kalender und Cockpit.",
+          "order": 5,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Abo mit Kosten, Intervall, nächster Verlängerung und Kündigungsfrist",
+            "Monatliche Gesamtkosten im Werkzeugkasten und Dashboard",
+            "Kündigungsfrist erscheint im Kalender und im Cockpit"
+          ],
+          "startedAt": "2026-10-07T23:27:07Z",
+          "completedAt": "2026-10-07T23:33:45Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Modelle & Abos: Kosten, Abrechnung (monatlich/jährlich/Nutzung/kostenlos), nächste Verlängerung (fortgeschrieben, Monatsende begrenzt) und Kündigungsfrist. Monatssumme in Abo-Liste, Werkzeugkasten-Übersicht und Dashboard (Kennzahl + Diagramm je Abo, plus Werkzeugkasten nach Typ). Letzte Kündigungstage und Verlängerungen im Kalender (neue Art Abo) und in der Cockpit-Woche, dazu Panel Abo-Fristen (30 Tage). Tests inkl. axe grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:33:45Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-12",
+      "title": "Gmail-Anbindung",
+      "description": "Nur lesender Abruf von Mails aus Gmail direkt aus dem Browser (OAuth), Zuordnung zu Kontakten, Unternehmen und Bewerbungen; Mails verschlüsselt im Tresor.",
+      "order": 12,
+      "weight": 8,
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "task-12-1",
+          "title": "Google-Anmeldung (nur lesend)",
+          "description": "OAuth-Weiterleitung zu Google ohne fremdes Skript, Berechtigung gmail.readonly, Token nur im Arbeitsspeicher, CSP-Ausnahme nur für die Gmail-API bei Konfiguration; Einrichtungsanleitung.",
+          "order": 1,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-11-1"
+          ],
+          "definitionOfDone": [
+            "Anmeldung bei Google per Weiterleitung, nur Leseberechtigung",
+            "Ohne Konfiguration keine Verbindung (Test)",
+            "Anleitung zur Einrichtung des Google-Cloud-Projekts"
+          ],
+          "startedAt": "2026-10-07T23:33:45Z",
+          "completedAt": "2026-10-07T23:38:46Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Google-Anmeldung per Weiterleitung (OAuth implicit, kein Google-Skript), nur gmail.readonly, State-Prüfung, Token nur im Arbeitsspeicher und sofort aus der Adresse entfernt; Gmail-Modul als einziges Netzwerkmodul (nur Kopfzeilen, Widerruf beim Trennen); CSP-Ausnahme nur für gmail.googleapis.com und oauth2.googleapis.com bei gesetzter Client-ID; Einstellungs-Panel; Anleitung docs/gmail-einrichtung.md. Tests (Ohne Konfiguration keine Verbindung, CSP, Quelltext-Prüfung) grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:38:46Z"
+          }
+        },
+        {
+          "id": "task-12-2",
+          "title": "Mails abrufen und zuordnen",
+          "description": "Abruf nur passender Mails (Absender oder Empfänger sind Kontakte oder Unternehmensdomains, optional Suchbegriff), Speicherung im Tresor, automatische Zuordnung zu Kontakt und Bewerbung, Posteingang zum Übernehmen in den Verlauf.",
+          "order": 2,
+          "weight": 3,
+          "status": "completed",
+          "dependsOn": [
+            "task-12-1"
+          ],
+          "definitionOfDone": [
+            "Abruf nur passender Mails (Datenminimierung)",
+            "Zuordnung zu Kontakt, Unternehmen und Bewerbung",
+            "Übernahme als E-Mail-Verlaufseintrag; Mails erscheinen in der Gesamtsicht"
+          ],
+          "startedAt": "2026-10-07T23:38:46Z",
+          "completedAt": "2026-10-07T23:47:13Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Schema v9 mit Sammlung mails und letzterMailAbrufAm. Abruf nur passender Mails (Kontaktadressen und Unternehmensdomains, ohne Freemail-Anbieter, ab letztem Abruf bzw. 90 Tage), nur Kopfzeilen und Auszug; nicht zuordenbare Mails werden nicht gespeichert. Automatische Zuordnung zu Kontakt, Unternehmen und laufender Bewerbung; Postfach-Seite (Sidebar) zum Übernehmen in den Verlauf, optional mit neuem Kontakt (Rechtsgrundlage Anbahnung bei Bewerbung), oder Verwerfen; danach wird der Mailinhalt gelöscht. Neue Mails in der Gesamtsicht und in der DSGVO-Auskunft; Löschen eines Kontakts löscht seine Mails. Tests inkl. axe grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:47:13Z"
+          }
+        },
+        {
+          "id": "task-12-3",
+          "title": "Abschlussprüfung Roadmap v6",
+          "description": "Typecheck, Lint, Tests, Build, axe, Browserprüfung bei 375/768/1280 px; Doku und Prüfprotokoll.",
+          "order": 3,
+          "weight": 2,
+          "status": "completed",
+          "dependsOn": [
+            "task-11-2",
+            "task-11-3",
+            "task-11-4",
+            "task-11-5",
+            "task-12-2"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Neue Seiten bei drei Breiten geprüft",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
+          ],
+          "startedAt": "2026-10-07T23:47:13Z",
+          "completedAt": "2026-10-07T23:52:32Z",
+          "verification": {
+            "status": "passed",
+            "summary": "Typecheck, Lint, 383 Tests (inkl. axe der neuen Seiten), Build fehlerfrei. Gebaute App auf Port 4173 bei 375/768/1280 px geprüft (Werkzeugkasten, Masterprompt ausfüllen, Abo mit Fristen, Cockpit, Dashboard, Postfach): kein Überlauf, keine Konsolenfehler, nur localhost-Anfragen; abgeschnittene lange Seitentitel gefunden und behoben. Testdaten gelöscht. Architektur, Entscheidungen, Prüfprotokoll, README und Projektbrief aktualisiert.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-07T23:52:32Z"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-13",
+      "title": "Inbetriebnahme",
+      "description": "Supabase gemeinsam einrichten, automatische Tests auf GitHub, Werkzeugkasten mit Startvorlagen.",
+      "order": 13,
+      "weight": 5,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-13-1",
+          "title": "Supabase einrichten",
+          "description": "Gemeinsam mit Sascha: Projekt in Region Central EU (Frankfurt), Tabellen aus supabase/schema.sql, Login per E-Mail-Link erlauben, Rücksprung-Adressen, .env.local füllen, Login und verschlüsselte Synchronisierung echt testen. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 1,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Supabase-Projekt in Frankfurt mit Tabelle tresor und RLS",
+            "Anmeldung per E-Mail-Link funktioniert lokal",
+            "Synchronisierung echt geprüft: Supabase enthält nur Chiffretext"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -512,20 +1732,37 @@
           }
         },
         {
-          "id": "task-3-5",
-          "title": "Cockpit-Bereich für Kontakte und Bewerbungen",
-          "description": "Kompakter Bereich im Arbeitscockpit mit berechneten Angaben zu Kontakten und Bewerbungen.",
-          "order": 5,
+          "id": "task-13-2",
+          "title": "Automatische Tests auf GitHub (CI)",
+          "description": "GitHub Actions: Typecheck, Lint, Tests und Build bei jedem Push und Pull Request; Datenschutz-Wächter läuft mit.",
+          "order": 2,
           "weight": 1,
-          "status": "planned",
-          "dependsOn": [
-            "task-3-2",
-            "task-3-4"
-          ],
+          "status": "ready",
+          "dependsOn": [],
           "definitionOfDone": [
-            "Angaben werden aus gespeicherten Daten berechnet",
-            "Leerzustand bei fehlenden Kontakten oder Bewerbungen",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "Workflow läuft bei Push und PR",
+            "Fehlschlag bei roten Tests oder Wächter-Treffer"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-13-3",
+          "title": "Werkzeugkasten-Startvorlagen",
+          "description": "Neutrale Startvorlagen zum Übernehmen: Masterprompts, Claude-Code- und Git-Befehle, Anleitungen (MCP-Server, Supabase, Claude Code), Abo-Einträge zum Ausfüllen; nichts Persönliches im Repository.",
+          "order": 3,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Vorlagen per Klick übernehmbar",
+            "Keine persönlichen Inhalte im Repository (Wächter grün)"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -539,29 +1776,27 @@
       ]
     },
     {
-      "id": "phase-4",
-      "title": "Abschluss",
-      "description": "Einstellungen, Zustände und Barrierefreiheit, End-to-End- und Responsive-Prüfung, Dokumentation.",
-      "order": 4,
-      "weight": 6,
-      "status": "ready",
+      "id": "phase-14",
+      "title": "Mehrbenutzer und Rollen",
+      "description": "Andere Nutzer nur per Einladung; Sascha als Admin vergibt Rollen und schaltet Bereiche je Nutzer frei oder sperrt Nutzer. Jeder hat eigene Daten, dazu geteilte Bereiche.",
+      "order": 14,
+      "weight": 16,
+      "status": "planned",
       "tasks": [
         {
-          "id": "task-4-1",
-          "title": "Einstellungen",
-          "description": "Anzeigename, JSON-Export, JSON-Import, Zurücksetzen mit Bestätigung und Demo-Hinweis.",
+          "id": "task-14-1",
+          "title": "Datenmodell für Nutzer, Rollen und Rechte",
+          "description": "Supabase: Profile, Rollen-Vorlagen (Kunde, Mitarbeiter, Kursteilnehmer, Familie/Freunde), Bereichsrechte je Nutzer, Sperre, Admin-Kennzeichen; Zugriffsregeln (RLS) und Tests. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
-          "weight": 2,
-          "status": "ready",
+          "weight": 3,
+          "status": "planned",
           "dependsOn": [
-            "task-1-4",
-            "task-1-6"
+            "task-13-1"
           ],
           "definitionOfDone": [
-            "Export erzeugt eine JSON-Datei mit allen Daten",
-            "Import validiert Daten und zeigt Fehler verständlich",
-            "Zurücksetzen erfordert Bestätigung",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "Tabellen und RLS-Regeln für Profile, Rollen und Rechte",
+            "Nur der Admin ändert Rechte; Nutzer sehen nur eigene Rechte",
+            "Gesperrte Nutzer erhalten keine Daten"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -573,21 +1808,148 @@
           }
         },
         {
-          "id": "task-4-2",
-          "title": "Zustände und Barrierefreiheit",
-          "description": "Bestätigungen und Toasts, Fehler beim Speichern, Tastaturbedienung, Fokusführung und Kontraste prüfen und ergänzen.",
+          "id": "task-14-2",
+          "title": "Einladung und Erstanmeldung",
+          "description": "Admin lädt per E-Mail ein; Selbstregistrierung ist abgeschaltet; neuer Nutzer legt beim ersten Login seinen eigenen Tresor an. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 2,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-1"
+          ],
+          "definitionOfDone": [
+            "Einladung per Mail mit Rolle",
+            "Ohne Einladung keine Registrierung",
+            "Neuer Nutzer hat eigenen, getrennten Tresor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-14-3",
+          "title": "Admin-Bereich",
+          "description": "Nutzerliste, Rollen-Vorlagen bearbeiten, Rolle zuweisen, Bereiche je Nutzer ein- und ausschalten, Nutzer sperren und entsperren. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-1"
+          ],
+          "definitionOfDone": [
+            "Rollen anlegen und anpassen",
+            "Bereiche je Nutzer schaltbar, Änderung wirkt sofort",
+            "Nutzer sperren und entsperren"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-14-4",
+          "title": "Navigation und Seiten nach Rechten",
+          "description": "Nicht freigegebene Bereiche verschwinden aus Navigation, Suche, Schnellerfassung, Cockpit und Dashboard; direkte Aufrufe zeigen „Kein Zugriff“. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-3"
+          ],
+          "definitionOfDone": [
+            "Gesperrte Bereiche nirgends sichtbar",
+            "Direktaufruf zeigt „Kein Zugriff“"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-14-5",
+          "title": "Geteilte Bereiche",
+          "description": "Sascha gibt einzelne Bereiche seiner Daten an Nutzer frei: Bereichsschlüssel je berechtigtem Nutzer verpackt; beim Entziehen Schlüsseltausch, damit der Zugriff auch kryptografisch endet.",
+          "order": 5,
+          "weight": 5,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-2",
+            "task-14-3"
+          ],
+          "definitionOfDone": [
+            "Freigegebener Bereich für den Nutzer lesbar, sonst nichts",
+            "Nach Entzug kein Zugriff mehr auf neue Daten (Schlüsseltausch)",
+            "Supabase sieht weiterhin nur Chiffretext"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-15",
+      "title": "KI-Assistent",
+      "description": "Claude im Cockpit über AWS Bedrock (Frankfurt); Daten gehen nur nach Freigabe pro Aktion an die KI.",
+      "order": 15,
+      "weight": 14,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-15-1",
+          "title": "KI-Zugang über Supabase-Funktion",
+          "description": "Edge Function als Vermittler zu Claude auf AWS Bedrock (eu-central-1): Zugangsdaten nur serverseitig, nur angemeldete und berechtigte Nutzer, Kostenlimit je Nutzer, keine Speicherung der Inhalte. Voraussetzung: AWS-Konto mit Claude-Freischaltung (Sascha). Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "Kein KI-Schlüssel im Browser oder Repository",
+            "Nur berechtigte Nutzer, Kostenlimit greift",
+            "Verarbeitung in der EU (Frankfurt)"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-2",
+          "title": "Freigabe-Dialog und Protokoll",
+          "description": "Vor jedem KI-Aufruf Vorschau, welche Daten gesendet werden, mit Bestätigung; verschlüsseltes Protokoll der Aufrufe. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 2,
           "status": "planned",
           "dependsOn": [
-            "task-3-5",
-            "task-4-1"
+            "task-15-1"
           ],
           "definitionOfDone": [
-            "Lade-, Leer-, Fehler- und Bestätigungszustände in allen Bereichen vorhanden",
-            "Alle Aktionen per Tastatur erreichbar, Fokus sichtbar",
-            "Kontraste erfüllen WCAG AA",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "Ohne Bestätigung wird nichts gesendet",
+            "Vorschau zeigt genau den gesendeten Text"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -599,19 +1961,478 @@
           }
         },
         {
-          "id": "task-4-3",
-          "title": "End-to-End-Prüfung und Dokumentation",
-          "description": "Alle Bereiche bei mobilen, Tablet- und Desktop-Breiten prüfen; docs/architecture.md und docs/decisions.md aktualisieren.",
+          "id": "task-15-3",
+          "title": "KI für Bewerbungen",
+          "description": "Anschreiben aus Stelle, Zielrolle und eigenen Angaben entwerfen; Antworten auf Mails formulieren; Entwurf übernehmen oder anpassen. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 2,
           "status": "planned",
           "dependsOn": [
-            "task-4-2"
+            "task-15-2"
           ],
           "definitionOfDone": [
-            "Alle neun Bereiche manuell bei 375, 768 und 1280 px geprüft und dokumentiert",
-            "docs/architecture.md beschreibt die umgesetzte Architektur",
-            "npm run build, lint, typecheck und test laufen fehlerfrei"
+            "Anschreiben-Entwurf aus Bewerbung",
+            "Antwortentwurf zu einer Mail"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-4",
+          "title": "KI für Mails und Verlauf",
+          "description": "Mails und Verlauf zusammenfassen, nächsten Schritt und Wiedervorlage vorschlagen, per Klick übernehmen.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Zusammenfassung je Kontakt oder Bewerbung",
+            "Vorschlag als Wiedervorlage übernehmbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-5",
+          "title": "KI-Tagesplanung",
+          "description": "„Was soll ich heute tun?“: Vorschlag aus Fristen, Fokus, Terminen und Wiedervorlagen; in den Fokus übernehmen.",
+          "order": 5,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Tagesvorschlag im Cockpit",
+            "Übernahme in den Fokus"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-15-6",
+          "title": "Chat mit deinen Daten",
+          "description": "Fragen an die eigenen Daten; der Nutzer wählt die einbezogenen Bereiche; Antworten mit Links zu den Einträgen.",
+          "order": 6,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Bereichsauswahl vor dem Senden",
+            "Antworten verlinken die Quellen-Einträge"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-16",
+      "title": "Präsentation 21.10.2026",
+      "description": "Vorführbereit machen: fiktive Demo-Daten, Demo-Ablauf, Folien und Generalprobe.",
+      "order": 16,
+      "weight": 4,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-16-1",
+          "title": "Demo-Daten, Ablauf und Folien",
+          "description": "Fiktiver Demo-Bestand (keine echten Personen), Demo-Ablauf mit Mehrbenutzer und KI, Folien im PIKARTZ.AI-Design. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 1,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-14-4",
+            "task-15-3"
+          ],
+          "definitionOfDone": [
+            "Demo-Daten per Klick ladbar und wieder entfernbar",
+            "Ablaufplan und Folien liegen vor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-16-2",
+          "title": "Generalprobe",
+          "description": "Kompletter Demo-Durchlauf lokal, alle Prüfungen grün, Notfallplan ohne Netz. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-16-1"
+          ],
+          "definitionOfDone": [
+            "Demo-Durchlauf ohne Fehler",
+            "Typecheck, Lint, Tests und Build grün"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-17",
+      "title": "Anbindungen",
+      "description": "Google-Kalender, n8n/Make, Stellenanzeigen und Dokumente.",
+      "order": 17,
+      "weight": 13,
+      "status": "ready",
+      "tasks": [
+        {
+          "id": "task-17-1",
+          "title": "Google-Kalender lesen",
+          "description": "Termine aus Google-Kalender nur lesend im Kalender und Cockpit anzeigen; Token nur im Speicher.",
+          "order": 1,
+          "weight": 2,
+          "status": "ready",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Google-Termine im Kalender sichtbar",
+            "Ohne Einrichtung keine Verbindung"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-2",
+          "title": "Termine in Google-Kalender eintragen",
+          "description": "Termine aus dem Cockpit nach Bestätigung in Google-Kalender übertragen.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-17-1"
+          ],
+          "definitionOfDone": [
+            "Eintragen nur nach Bestätigung"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-3",
+          "title": "n8n und Make anbinden",
+          "description": "Workflows per Webhook über eine Supabase-Funktion starten und Status anzeigen; Webhook-Adressen geschützt, nie im Browser.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "Workflow aus dem Cockpit startbar",
+            "Status und letzte Ausführung sichtbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-4",
+          "title": "Stellenanzeigen übernehmen",
+          "description": "Stellenanzeige als Link oder Text einfügen; KI liest Firma, Stelle, Anforderungen und Kontakt aus und legt Bewerbung und Unternehmen an (nach Prüfung).",
+          "order": 4,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-15-2"
+          ],
+          "definitionOfDone": [
+            "Bewerbung aus Anzeige mit Vorschau"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-17-5",
+          "title": "Dokumente",
+          "description": "Lebenslauf, Zeugnisse und Anschreiben verschlüsselt ablegen (Supabase Storage nur Chiffretext) und an Bewerbungen hängen.",
+          "order": 5,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "Dateien nur verschlüsselt gespeichert",
+            "Dokumente an Bewerbungen anhängbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-18",
+      "title": "Online und Handy",
+      "description": "Hosting in Deutschland, installierbar als App, Erinnerungen ohne Inhalt.",
+      "order": 18,
+      "weight": 9,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-18-1",
+          "title": "Hosting in Deutschland",
+          "description": "Ausliefern bei Hetzner oder IONOS mit automatischem Deploy aus GitHub; CSP und Sicherheitsheader.",
+          "order": 1,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-1"
+          ],
+          "definitionOfDone": [
+            "App unter eigener Adresse erreichbar",
+            "Deploy automatisch nach Merge"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-18-2",
+          "title": "Als App installierbar (PWA)",
+          "description": "Manifest, Icons, Offline-Start; auf Handy und PC installierbar.",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-1"
+          ],
+          "definitionOfDone": [
+            "Installierbar auf Android und iOS",
+            "Startet offline mit lokalem Tresor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-18-3",
+          "title": "Push-Erinnerungen ohne Inhalt",
+          "description": "Web-Push mit „n Punkte fällig“ ohne Details; Details erst nach dem Entsperren.",
+          "order": 3,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-2"
+          ],
+          "definitionOfDone": [
+            "Push ohne personenbezogene Inhalte"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-18-4",
+          "title": "Handy-Bedienung feinschleifen",
+          "description": "Touch-Ziele, Navigation, Schnellerfassung und KI am Handy optimieren.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-1"
+          ],
+          "definitionOfDone": [
+            "Alle Bereiche bei 375 px bequem bedienbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase-19",
+      "title": "Praxis und Abschluss",
+      "description": "Praxistest mit Feedback, rechtliche Grundlagen und Abschlussprüfung.",
+      "order": 19,
+      "weight": 8,
+      "status": "planned",
+      "tasks": [
+        {
+          "id": "task-19-1",
+          "title": "Praxistest und Feinschliff",
+          "description": "Sascha nutzt das Cockpit im Alltag; Feedback sammeln und umsetzen.",
+          "order": 1,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-16-2"
+          ],
+          "definitionOfDone": [
+            "Feedback-Liste umgesetzt oder als neue Tasks geplant"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-2",
+          "title": "Datenschutzerklärung, Impressum, Nutzungsbedingungen",
+          "description": "Texte für die Nutzung durch andere (Mehrbenutzer, online).",
+          "order": 2,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-18-1"
+          ],
+          "definitionOfDone": [
+            "Seiten in der App erreichbar"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-3",
+          "title": "AVVs und Verzeichnis der Verarbeitungen",
+          "description": "Klick-Anleitung je Anbieter (Supabase, AWS, Hetzner/IONOS); Verzeichnis der Verarbeitungen.",
+          "order": 3,
+          "weight": 1,
+          "status": "planned",
+          "dependsOn": [
+            "task-19-2"
+          ],
+          "definitionOfDone": [
+            "AVV je Anbieter abgeschlossen (Sascha)",
+            "Verzeichnis der Verarbeitungen liegt vor"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-4",
+          "title": "Abschlussprüfung Roadmap v7",
+          "description": "Alle Prüfungen, Browser bei drei Breiten, Doku und Prüfprotokoll.",
+          "order": 4,
+          "weight": 2,
+          "status": "planned",
+          "dependsOn": [
+            "task-13-2",
+            "task-13-3",
+            "task-14-5",
+            "task-15-4",
+            "task-15-5",
+            "task-15-6",
+            "task-17-2",
+            "task-17-3",
+            "task-17-4",
+            "task-17-5",
+            "task-18-3",
+            "task-18-4",
+            "task-19-1",
+            "task-19-3"
+          ],
+          "definitionOfDone": [
+            "Alle automatischen Prüfungen grün",
+            "Architektur, Entscheidungen und Prüfprotokoll aktuell"
           ],
           "startedAt": null,
           "completedAt": null,

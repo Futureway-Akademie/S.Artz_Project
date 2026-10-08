@@ -1,0 +1,158 @@
+.band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-dark);
+}
+
+.diamant {
+  color: var(--color-blue);
+}
+
+.markenRaster {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.figur {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.figur figcaption {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.hell,
+.dunkel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 9rem;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.hell {
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+}
+
+.dunkel {
+  background: var(--color-dark);
+}
+
+.unter {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-md);
+}
+
+.farben {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.farbe {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.feld {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 0 1px rgb(10 10 11 / 0.1);
+}
+
+.hinweis {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.schriftBold {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+}
+
+.regeln {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.regel {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.regel:last-child {
+  border-bottom: none;
+}
+
+.regel > * + * {
+  margin-top: var(--space-2);
+}
+
+.regelText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.regelAktionen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.decks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.deck {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+@media (min-width: 768px) {
+  .markenRaster {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .farben {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .regel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .regel > * + * {
+    margin-top: 0;
+  }
+}

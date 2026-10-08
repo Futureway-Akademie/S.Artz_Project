@@ -9,18 +9,18 @@ interface SammlungInfo {
   felder: Record<string, string>
 }
 
-const gemeinsam = { notiz: 'Notiz', notizen: 'Notizen', beschreibung: 'Beschreibung', titel: 'Titel', status: 'Status' }
+const gemeinsam = { schlagworte: 'Schlagworte', notiz: 'Notiz', notizen: 'Notizen', beschreibung: 'Beschreibung', titel: 'Titel', status: 'Status' }
 
 export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
   projekte: {
     einzahl: 'Projekt',
     titel: (p: Eintrag<'projekte'>) => p.titel,
-    felder: { ...gemeinsam, tools: 'Tools', bestandteile: 'Bestandteile', automation: 'Automation' },
+    felder: { ...gemeinsam, tools: 'Tools', bestandteile: 'Bestandteile', automation: 'Automation', auftraggeberId: 'Auftraggeber', kategorie: 'Kategorie', zuletztAktiv: 'Zuletzt aktiv' },
   },
   aufgaben: {
     einzahl: 'Aufgabe',
     titel: (a: Eintrag<'aufgaben'>) => a.titel,
-    felder: { ...gemeinsam, faelligAm: 'Frist', bezug: 'Bezug', erledigt: 'Erledigt' },
+    felder: { ...gemeinsam, faelligAm: 'Frist', bezug: 'Bezug', erledigt: 'Erledigt', fokus: 'Fokus' },
   },
   termine: {
     einzahl: 'Termin',
@@ -67,12 +67,14 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
       herkunft: 'Herkunft',
       projektIds: 'Projekte',
       naechsteAktion: 'Nächste Aktion',
+      rechtsgrundlage: 'Rechtsgrundlage',
+      zweck: 'Zweck',
     },
   },
   interaktionen: {
     einzahl: 'Verlaufseintrag',
     titel: (i: Eintrag<'interaktionen'>) => i.text.slice(0, 60),
-    felder: { ...gemeinsam, art: 'Art', datum: 'Datum', text: 'Text', projektId: 'Projekt' },
+    felder: { ...gemeinsam, art: 'Art', datum: 'Datum', text: 'Text', projektId: 'Projekt', bewerbungId: 'Bewerbung', leadId: 'Lead', betreff: 'Betreff', richtung: 'Richtung' },
   },
   leads: {
     einzahl: 'Lead',
@@ -83,6 +85,8 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
       unternehmenId: 'Unternehmen',
       betragEur: 'Betrag',
       naechsterSchritt: 'Nächster Schritt',
+      projektId: 'Projekt',
+      wiedervorlageAm: 'Wiedervorlage',
     },
   },
   zielrollen: {
@@ -103,7 +107,42 @@ export const SAMMLUNG_INFO: Record<Sammlung, SammlungInfo> = {
       beworbenAm: 'Bewerbungsdatum',
       link: 'Link',
       naechsterSchritt: 'Nächster Schritt',
+      wiedervorlageAm: 'Wiedervorlage',
     },
+  },
+  vorlagen: {
+    einzahl: 'E-Mail-Vorlage',
+    titel: (v: Eintrag<'vorlagen'>) => v.titel,
+    felder: { ...gemeinsam, betreff: 'Betreff', text: 'Text' },
+  },
+  wissen: {
+    einzahl: 'Wissenseintrag',
+    titel: (w: Eintrag<'wissen'>) => w.titel,
+    felder: { ...gemeinsam, typ: 'Typ', inhalt: 'Inhalt', thema: 'Thema', quelle: 'Quelle', datum: 'Datum', projektIds: 'Projekte', kursId: 'Kurs', kursAufgabeIds: 'Kursaufgaben' },
+  },
+  werkzeug: {
+    einzahl: 'Werkzeug',
+    titel: (w: Eintrag<'werkzeug'>) => w.titel,
+    felder: {
+      ...gemeinsam,
+      typ: 'Typ',
+      inhalt: 'Inhalt',
+      plattform: 'Plattform',
+      version: 'Version',
+      link: 'Link',
+      ausloeser: 'Auslöser',
+      schritte: 'Schritte',
+      integration: 'Integration',
+      abo: 'Abo',
+      werkzeugIds: 'Verknüpfte Werkzeuge',
+      projektIds: 'Projekte',
+    },
+  },
+  mails: {
+    einzahl: 'E-Mail',
+    // Ohne Betreff und Absender: Das Protokoll soll keine Inhalte Dritter enthalten
+    titel: (m: Eintrag<'mails'>) => `vom ${m.zeitpunkt.slice(8, 10)}.${m.zeitpunkt.slice(5, 7)}.${m.zeitpunkt.slice(0, 4)}`,
+    felder: { ...gemeinsam, kontaktId: 'Kontakt', unternehmenId: 'Unternehmen', bewerbungId: 'Bewerbung', interaktionId: 'Verlauf', von: 'Absender', an: 'Empfänger', betreff: 'Betreff', auszug: 'Auszug' },
   },
 }
 

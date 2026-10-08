@@ -39,3 +39,179 @@
 {"timestamp":"2026-10-07T12:27:52Z","type":"verification_passed","taskId":"task-1-7","summary":"typecheck, lint, test (93) und build fehlerfrei; Seed gegen Projekt-Übersicht abgeglichen."}
 {"timestamp":"2026-10-07T12:27:52Z","type":"task_completed","taskId":"task-1-7","summary":"Task 'Startdaten auf Projekt-Übersicht umstellen' abgeschlossen."}
 {"timestamp":"2026-10-07T12:27:52Z","type":"task_unblocked","taskId":"task-2-1","summary":"Task 'Projekte' fortgesetzt, Startdaten-Umstellung (task-1-7) abgeschlossen."}
+{"timestamp":"2026-10-07T13:02:50Z","type":"verification_passed","taskId":"task-2-1","summary":"typecheck, lint, test (108) und build fehlerfrei; Browser-Prüfung der Projektseiten."}
+{"timestamp":"2026-10-07T13:02:50Z","type":"task_completed","taskId":"task-2-1","summary":"Task 'Projekte' abgeschlossen."}
+{"timestamp":"2026-10-07T13:02:50Z","type":"task_ready","taskId":"task-2-3","summary":"Task 'Automationen' ist startbar."}
+{"timestamp":"2026-10-07T13:10:54Z","type":"task_started","taskId":"task-2-5","summary":"Task 'PIKARTZ.AI-Bereich' gestartet."}
+{"timestamp":"2026-10-07T13:13:08Z","type":"verification_passed","taskId":"task-2-5","summary":"typecheck, lint, test (112) und build fehlerfrei; Browser-Prüfung PIKARTZ.AI-Bereich."}
+{"timestamp":"2026-10-07T13:13:08Z","type":"task_completed","taskId":"task-2-5","summary":"Task 'PIKARTZ.AI-Bereich' abgeschlossen."}
+{"timestamp":"2026-10-07T13:13:09Z","type":"task_started","taskId":"task-4-1","summary":"Task 'Einstellungen' gestartet."}
+{"timestamp":"2026-10-07T13:16:03Z","type":"verification_passed","taskId":"task-4-1","summary":"typecheck, lint, test (120) und build fehlerfrei; Browser-Prüfung Einstellungen."}
+{"timestamp":"2026-10-07T13:16:03Z","type":"task_completed","taskId":"task-4-1","summary":"Task 'Einstellungen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:16:17Z","type":"task_started","taskId":"task-2-3","summary":"Task 'Automationen' gestartet."}
+{"timestamp":"2026-10-07T13:19:49Z","type":"verification_passed","taskId":"task-2-3","summary":"typecheck, lint, test (127) und build fehlerfrei; Browser-Prüfung Automationen."}
+{"timestamp":"2026-10-07T13:19:49Z","type":"task_completed","taskId":"task-2-3","summary":"Task 'Automationen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:24:28Z","type":"task_started","taskId":"task-2-2","summary":"Task 'Aufgaben und Termine' gestartet."}
+{"timestamp":"2026-10-07T13:27:52Z","type":"verification_passed","taskId":"task-2-2","summary":"typecheck, lint, test (136) und build fehlerfrei; Browser-Prüfung Aufgaben & Termine."}
+{"timestamp":"2026-10-07T13:27:52Z","type":"task_completed","taskId":"task-2-2","summary":"Task 'Aufgaben und Termine' abgeschlossen."}
+{"timestamp":"2026-10-07T13:27:52Z","type":"task_started","taskId":"task-2-4","summary":"Task 'Weiterbildung' gestartet."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"verification_passed","taskId":"task-2-4","summary":"typecheck, lint, test (146) und build fehlerfrei; Browser-Prüfung Weiterbildung."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"task_completed","taskId":"task-2-4","summary":"Task 'Weiterbildung' abgeschlossen."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"task_ready","taskId":"task-2-6","summary":"Task 'Arbeitscockpit' ist startbar."}
+{"timestamp":"2026-10-07T13:31:09Z","type":"task_started","taskId":"task-2-6","summary":"Task 'Arbeitscockpit' gestartet."}
+{"timestamp":"2026-10-07T13:33:59Z","type":"verification_passed","taskId":"task-2-6","summary":"typecheck, lint, test (157) und build fehlerfrei; Browser-Prüfung Arbeitscockpit."}
+{"timestamp":"2026-10-07T13:33:59Z","type":"task_completed","taskId":"task-2-6","summary":"Task 'Arbeitscockpit' abgeschlossen."}
+{"timestamp":"2026-10-07T13:33:59Z","type":"task_ready","taskId":"task-3-1","summary":"Task 'Kontakte und Unternehmen' ist startbar."}
+{"timestamp":"2026-10-07T13:34:00Z","type":"task_started","taskId":"task-3-1","summary":"Task 'Kontakte und Unternehmen' gestartet."}
+{"timestamp":"2026-10-07T13:34:19Z","type":"roadmap_updated","taskId":"task-3-1","summary":"Definition of Done von 'Kontakte und Unternehmen' laut docs/architecture.md ergänzt."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"verification_passed","taskId":"task-3-1","summary":"typecheck, lint, test (162) und build fehlerfrei; Browser-Prüfung Kontakte."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_completed","taskId":"task-3-1","summary":"Task 'Kontakte und Unternehmen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_ready","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' ist startbar."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_ready","taskId":"task-3-3","summary":"Task 'Leads' ist startbar."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_ready","taskId":"task-3-4","summary":"Task 'Bewerbungen und Zielrollen' ist startbar."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"task_started","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' gestartet."}
+{"timestamp":"2026-10-07T13:37:48Z","type":"roadmap_updated","taskId":"task-3-2","summary":"Definition of Done von 'Kommunikationsverlauf und nächste Aktion' laut docs/architecture.md ergänzt."}
+{"timestamp":"2026-10-07T13:40:31Z","type":"verification_passed","taskId":"task-3-2","summary":"typecheck, lint, test (166) und build fehlerfrei."}
+{"timestamp":"2026-10-07T13:40:31Z","type":"task_completed","taskId":"task-3-2","summary":"Task 'Kommunikationsverlauf und nächste Aktion' abgeschlossen."}
+{"timestamp":"2026-10-07T13:40:31Z","type":"task_started","taskId":"task-3-3","summary":"Task 'Leads' gestartet."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"verification_passed","taskId":"task-3-3","summary":"typecheck, lint, test (172) und build fehlerfrei."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"task_completed","taskId":"task-3-3","summary":"Task 'Leads' abgeschlossen."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"task_started","taskId":"task-3-4","summary":"Task 'Bewerbungen und Zielrollen' gestartet."}
+{"timestamp":"2026-10-07T13:42:38Z","type":"roadmap_updated","taskId":"task-3-4","summary":"Definition of Done von 'Bewerbungen und Zielrollen' laut docs/architecture.md ergänzt."}
+{"timestamp":"2026-10-07T13:45:34Z","type":"verification_passed","taskId":"task-3-4","summary":"typecheck, lint, test (176) und build fehlerfrei."}
+{"timestamp":"2026-10-07T13:45:34Z","type":"task_completed","taskId":"task-3-4","summary":"Task 'Bewerbungen und Zielrollen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:45:34Z","type":"task_ready","taskId":"task-3-5","summary":"Task 'Cockpit-Bereich für Kontakte und Bewerbungen' ist startbar."}
+{"timestamp":"2026-10-07T13:45:34Z","type":"task_started","taskId":"task-3-5","summary":"Task 'Cockpit-Bereich für Kontakte und Bewerbungen' gestartet."}
+{"timestamp":"2026-10-07T13:48:02Z","type":"verification_passed","taskId":"task-3-5","summary":"typecheck, lint, test (179) und build fehlerfrei."}
+{"timestamp":"2026-10-07T13:48:02Z","type":"task_completed","taskId":"task-3-5","summary":"Task 'Cockpit-Bereich für Kontakte und Bewerbungen' abgeschlossen."}
+{"timestamp":"2026-10-07T13:48:02Z","type":"task_ready","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' ist startbar."}
+{"timestamp":"2026-10-07T13:48:03Z","type":"task_started","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' gestartet."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"verification_passed","taskId":"task-4-2","summary":"typecheck, lint, test (206, inkl. axe-core auf allen Seiten) und build fehlerfrei; Fokusprüfung im Browser."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"task_completed","taskId":"task-4-2","summary":"Task 'Zustände und Barrierefreiheit' abgeschlossen."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"task_ready","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' ist startbar."}
+{"timestamp":"2026-10-07T13:50:37Z","type":"task_started","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' gestartet."}
+{"timestamp":"2026-10-07T13:53:39Z","type":"verification_passed","taskId":"task-4-3","summary":"typecheck, lint, test (206) und build fehlerfrei; alle Seiten bei 375/768/1280 px geprüft."}
+{"timestamp":"2026-10-07T13:53:39Z","type":"task_completed","taskId":"task-4-3","summary":"Task 'End-to-End-Prüfung und Dokumentation' abgeschlossen."}
+{"timestamp":"2026-10-07T14:21:19Z","type":"roadmap_updated","summary":"Roadmap v3: Phasen 5–8 (Datenschutz, Verbindungen, Kalender/Mails/Bewerbungen, Fokus) nach Freigabe ergänzt."}
+{"timestamp":"2026-10-07T14:21:19Z","type":"task_started","taskId":"task-5-1","summary":"Task 'Persönliche Daten aus dem Repository entfernen' gestartet."}
+{"timestamp":"2026-10-07T14:35:20Z","type":"roadmap_updated","taskId":"task-5-6","summary":"Historienbereinigung als eigener Task task-5-6 ausgelagert (blockiert: Force-Push braucht Freigabe)."}
+{"timestamp":"2026-10-07T14:36:03Z","type":"verification_passed","taskId":"task-5-1","summary":"Repository ohne persönliche Begriffe (Wächter-Test grün); 205 Tests, typecheck, lint, build fehlerfrei."}
+{"timestamp":"2026-10-07T14:36:03Z","type":"task_completed","taskId":"task-5-1","summary":"Task 'Persönliche Daten aus dem Repository entfernen' abgeschlossen."}
+{"timestamp":"2026-10-07T14:36:03Z","type":"task_ready","taskId":"task-5-2","summary":"Task 'Keine Verbindung nach außen' ist startbar."}
+{"timestamp":"2026-10-07T14:36:03Z","type":"task_ready","taskId":"task-5-3","summary":"Task 'Verschlüsselung mit Passwort und automatischer Sperre' ist startbar."}
+{"timestamp":"2026-10-07T14:40:06Z","type":"verification_passed","taskId":"task-5-2","summary":"CSP aktiv, Abruf nach außen im Browser blockiert; 210 Tests grün."}
+{"timestamp":"2026-10-07T14:40:06Z","type":"task_completed","taskId":"task-5-2","summary":"Task 'Keine Verbindung nach außen' abgeschlossen."}
+{"timestamp":"2026-10-07T14:40:28Z","type":"task_started","taskId":"task-5-3","summary":"Task 'Verschlüsselung mit Passwort und automatischer Sperre' gestartet."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"verification_passed","taskId":"task-5-3","summary":"Daten nur verschlüsselt gespeichert, Sperre und Passwortwechsel; 226 Tests grün, im Browser geprüft."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"task_completed","taskId":"task-5-3","summary":"Task 'Verschlüsselung mit Passwort und automatischer Sperre' abgeschlossen."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"task_ready","taskId":"task-5-4","summary":"Task 'Verschlüsselte Sicherung und Erinnerung' ist startbar."}
+{"timestamp":"2026-10-07T14:49:23Z","type":"task_ready","taskId":"task-5-5","summary":"Task 'DSGVO-Funktionen für Kontakte' ist startbar."}
+{"timestamp":"2026-10-07T14:49:35Z","type":"task_started","taskId":"task-5-4","summary":"Task 'Verschlüsselte Sicherung und Erinnerung' gestartet."}
+{"timestamp":"2026-10-07T14:55:21Z","type":"verification_passed","taskId":"task-5-4","summary":"Sicherungen verschlüsselt, Import mit Passwort, Erinnerung im Cockpit; 230 Tests grün."}
+{"timestamp":"2026-10-07T14:55:21Z","type":"task_completed","taskId":"task-5-4","summary":"Task 'Verschlüsselte Sicherung und Erinnerung' abgeschlossen."}
+{"timestamp":"2026-10-07T14:55:27Z","type":"task_started","taskId":"task-5-5","summary":"Task 'DSGVO-Funktionen für Kontakte' gestartet."}
+{"timestamp":"2026-10-07T15:04:28Z","type":"verification_passed","taskId":"task-5-5","summary":"Rechtsgrundlage, Auskunft, vollständiges Löschen, Prüfhinweis; 240 Tests grün."}
+{"timestamp":"2026-10-07T15:04:28Z","type":"task_completed","taskId":"task-5-5","summary":"Task 'DSGVO-Funktionen für Kontakte' abgeschlossen."}
+{"timestamp":"2026-10-07T15:04:28Z","type":"task_ready","taskId":"task-6-1","summary":"Task 'Verknüpfungen erweitern' ist startbar."}
+{"timestamp":"2026-10-07T15:04:35Z","type":"task_started","taskId":"task-6-1","summary":"Task 'Verknüpfungen erweitern' gestartet."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"verification_passed","taskId":"task-6-1","summary":"Alle Bereiche untereinander verknüpfbar, Migration ohne Datenverlust; 245 Tests grün."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_completed","taskId":"task-6-1","summary":"Task 'Verknüpfungen erweitern' abgeschlossen."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-6-2","summary":"Task 'Gesamtsicht auf jeder Detailseite' ist startbar."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-6-3","summary":"Task 'Globale Suche und Schnellerfassung' ist startbar."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-7-1","summary":"Task 'Kalender' ist startbar."}
+{"timestamp":"2026-10-07T15:13:03Z","type":"task_ready","taskId":"task-7-2","summary":"Task 'E-Mails' ist startbar."}
+{"timestamp":"2026-10-07T15:13:10Z","type":"task_started","taskId":"task-6-2","summary":"Task 'Gesamtsicht auf jeder Detailseite' gestartet."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"verification_passed","taskId":"task-6-2","summary":"Jede Detailseite zeigt alles Zugehörige; Bewerbungs- und Lead-Detailseiten; 252 Tests grün."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"task_completed","taskId":"task-6-2","summary":"Task 'Gesamtsicht auf jeder Detailseite' abgeschlossen."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"task_ready","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' ist startbar."}
+{"timestamp":"2026-10-07T15:18:48Z","type":"task_ready","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' ist startbar."}
+{"timestamp":"2026-10-07T15:18:54Z","type":"task_started","taskId":"task-6-3","summary":"Task 'Globale Suche und Schnellerfassung' gestartet."}
+{"timestamp":"2026-10-07T15:26:08Z","type":"verification_passed","taskId":"task-6-3","summary":"Suche (Strg+K) und Schnellerfassung überall; im Browser geprüft; 257 Tests grün."}
+{"timestamp":"2026-10-07T15:26:08Z","type":"task_completed","taskId":"task-6-3","summary":"Task 'Globale Suche und Schnellerfassung' abgeschlossen."}
+{"timestamp":"2026-10-07T15:26:14Z","type":"task_started","taskId":"task-7-1","summary":"Task 'Kalender' gestartet."}
+{"timestamp":"2026-10-07T15:32:44Z","type":"verification_passed","taskId":"task-7-1","summary":"Kalender mit Monat/Woche/Liste und .ics-Export; 267 Tests grün."}
+{"timestamp":"2026-10-07T15:32:44Z","type":"task_completed","taskId":"task-7-1","summary":"Task 'Kalender' abgeschlossen."}
+{"timestamp":"2026-10-07T15:32:44Z","type":"task_ready","taskId":"task-8-1","summary":"Task 'Cockpit-Fokus' ist startbar."}
+{"timestamp":"2026-10-07T15:32:50Z","type":"task_started","taskId":"task-7-2","summary":"Task 'E-Mails' gestartet."}
+{"timestamp":"2026-10-07T15:38:28Z","type":"verification_passed","taskId":"task-7-2","summary":"E-Mail-Vorlagen und Entwürfe im eigenen Mailprogramm, Verlauf mit Betreff; 276 Tests grün."}
+{"timestamp":"2026-10-07T15:38:28Z","type":"task_completed","taskId":"task-7-2","summary":"Task 'E-Mails' abgeschlossen."}
+{"timestamp":"2026-10-07T15:38:28Z","type":"task_ready","taskId":"task-8-2","summary":"Task 'Beziehungspflege' ist startbar."}
+{"timestamp":"2026-10-07T15:38:35Z","type":"task_started","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' gestartet."}
+{"timestamp":"2026-10-07T15:46:05Z","type":"verification_passed","taskId":"task-7-3","summary":"Bewerbungs-Pipeline, Kennzahlen, Wiedervorlagen im Cockpit; 282 Tests grün."}
+{"timestamp":"2026-10-07T15:46:05Z","type":"task_completed","taskId":"task-7-3","summary":"Task 'Bewerbungsübersicht' abgeschlossen."}
+{"timestamp":"2026-10-07T15:46:11Z","type":"task_started","taskId":"task-8-1","summary":"Task 'Cockpit-Fokus' gestartet."}
+{"timestamp":"2026-10-07T15:51:08Z","type":"verification_passed","taskId":"task-8-1","summary":"Fokus, Abhaken und Wochenvorschau im Cockpit; 286 Tests grün."}
+{"timestamp":"2026-10-07T15:51:08Z","type":"task_completed","taskId":"task-8-1","summary":"Task 'Cockpit-Fokus' abgeschlossen."}
+{"timestamp":"2026-10-07T15:51:15Z","type":"task_started","taskId":"task-8-2","summary":"Task 'Beziehungspflege' gestartet."}
+{"timestamp":"2026-10-07T15:57:21Z","type":"verification_passed","taskId":"task-8-2","summary":"Letzter Kontakt, Funkstille, nächste Aktion nach Gespräch, zuletzt aktiv automatisch; 290 Tests grün."}
+{"timestamp":"2026-10-07T15:57:21Z","type":"task_completed","taskId":"task-8-2","summary":"Task 'Beziehungspflege' abgeschlossen."}
+{"timestamp":"2026-10-07T15:57:27Z","type":"task_started","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' gestartet."}
+{"timestamp":"2026-10-07T16:02:12Z","type":"verification_passed","taskId":"task-8-3","summary":"Schlagworte mit Filter und Dubletten-Warnung; 295 Tests grün."}
+{"timestamp":"2026-10-07T16:02:12Z","type":"task_completed","taskId":"task-8-3","summary":"Task 'Schlagworte und Dubletten' abgeschlossen."}
+{"timestamp":"2026-10-07T16:02:12Z","type":"task_ready","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' ist startbar."}
+{"timestamp":"2026-10-07T16:02:18Z","type":"task_started","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' gestartet."}
+{"timestamp":"2026-10-07T16:05:39Z","type":"verification_passed","taskId":"task-8-4","summary":"Abschlussprüfung v3 bestanden: 295 Tests, 19 Seiten × 3 Breiten, Daten nur verschlüsselt."}
+{"timestamp":"2026-10-07T16:05:39Z","type":"task_completed","taskId":"task-8-4","summary":"Task 'Abschlussprüfung Roadmap v3' abgeschlossen."}
+{"timestamp":"2026-10-07T16:29:27Z","type":"roadmap_updated","taskId":"task-5-7","summary":"Neuer Task task-5-7: Passwort-Wiederherstellung per E-Mail über Supabase (Wunsch von Sascha)."}
+{"timestamp":"2026-10-07T16:29:27Z","type":"task_started","taskId":"task-5-7","summary":"Task 'Passwort-Wiederherstellung per E-Mail (Supabase)' gestartet."}
+{"timestamp":"2026-10-07T16:33:12Z","type":"roadmap_updated","summary":"Roadmap v4: Phase 9 (Login, verschlüsselte Datenbank über Supabase, zweites Gehirn für KI und Weiterbildung) auf Saschas Wunsch ergänzt; task-5-7 auf Wiederherstellung per Mail-Link ohne Server-Schlüssel präzisiert."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"verification_passed","taskId":"task-5-7","summary":"Passwort-Wiederherstellung per Mail-Link ohne Server-Schlüssel; 302 Tests grün, im Browser geprüft."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"task_completed","taskId":"task-5-7","summary":"Task 'Passwort-Wiederherstellung per E-Mail-Link' abgeschlossen."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"task_ready","taskId":"task-9-1","summary":"Task 'Supabase-Anbindung und Login' ist startbar."}
+{"timestamp":"2026-10-07T16:39:58Z","type":"task_ready","taskId":"task-9-3","summary":"Task 'Zweites Gehirn: Wissen zu KI und Weiterbildung' ist startbar."}
+{"timestamp":"2026-10-07T16:40:16Z","type":"task_started","taskId":"task-9-3","summary":"Task 'Zweites Gehirn: Wissen zu KI und Weiterbildung' gestartet."}
+{"timestamp":"2026-10-07T16:47:42Z","type":"verification_passed","taskId":"task-9-3","summary":"Zweites Gehirn mit Lerntagebuch, verknüpft und durchsuchbar; 311 Tests grün."}
+{"timestamp":"2026-10-07T16:47:42Z","type":"task_completed","taskId":"task-9-3","summary":"Task 'Zweites Gehirn: Wissen zu KI und Weiterbildung' abgeschlossen."}
+{"timestamp":"2026-10-07T16:47:49Z","type":"task_started","taskId":"task-9-1","summary":"Task 'Supabase-Anbindung und Login' gestartet."}
+{"timestamp":"2026-10-07T16:56:21Z","type":"verification_passed","taskId":"task-9-1","summary":"Supabase-Login per E-Mail-Link, RLS-Schema, CSP-Ausnahme nur bei Konfiguration; 315 Tests grün."}
+{"timestamp":"2026-10-07T16:56:21Z","type":"task_completed","taskId":"task-9-1","summary":"Task 'Supabase-Anbindung und Login' abgeschlossen."}
+{"timestamp":"2026-10-07T16:56:21Z","type":"task_ready","taskId":"task-9-2","summary":"Task 'Verschlüsselte Synchronisierung' ist startbar."}
+{"timestamp":"2026-10-07T16:56:28Z","type":"task_started","taskId":"task-9-2","summary":"Task 'Verschlüsselte Synchronisierung' gestartet."}
+{"timestamp":"2026-10-07T17:02:09Z","type":"verification_passed","taskId":"task-9-2","summary":"Ende-zu-Ende-verschlüsselte Synchronisierung mit Konfliktauswahl; 322 Tests grün."}
+{"timestamp":"2026-10-07T17:02:09Z","type":"task_completed","taskId":"task-9-2","summary":"Task 'Verschlüsselte Synchronisierung' abgeschlossen."}
+{"timestamp":"2026-10-07T17:02:09Z","type":"task_ready","taskId":"task-9-4","summary":"Task 'Abschlussprüfung Roadmap v4' ist startbar."}
+{"timestamp":"2026-10-07T17:02:16Z","type":"task_started","taskId":"task-9-4","summary":"Task 'Abschlussprüfung Roadmap v4' gestartet."}
+{"timestamp":"2026-10-07T17:05:18Z","type":"verification_passed","taskId":"task-9-4","summary":"Abschlussprüfung v4 bestanden: 322 Tests, 19 Seiten × 3 Breiten."}
+{"timestamp":"2026-10-07T17:05:18Z","type":"task_completed","taskId":"task-9-4","summary":"Task 'Abschlussprüfung Roadmap v4' abgeschlossen."}
+{"timestamp":"2026-10-07T18:01:29Z","type":"roadmap_updated","summary":"Roadmap v5: Phase 10 Dashboard (grafische Auswertung) auf Saschas Wunsch ergänzt."}
+{"timestamp":"2026-10-07T18:01:29Z","type":"task_started","taskId":"task-10-1","summary":"Task 'Diagramm-Bausteine und Auswertungen' gestartet."}
+{"timestamp":"2026-10-07T18:06:13Z","type":"verification_passed","taskId":"task-10-1","summary":"Diagramm-Bausteine und Auswertungen; 329 Tests grün."}
+{"timestamp":"2026-10-07T18:06:13Z","type":"task_completed","taskId":"task-10-1","summary":"Task 'Diagramm-Bausteine und Auswertungen' abgeschlossen."}
+{"timestamp":"2026-10-07T18:06:13Z","type":"task_ready","taskId":"task-10-2","summary":"Task 'Dashboard-Seite' ist startbar."}
+{"timestamp":"2026-10-07T18:06:19Z","type":"task_started","taskId":"task-10-2","summary":"Task 'Dashboard-Seite' gestartet."}
+{"timestamp":"2026-10-07T18:11:46Z","type":"verification_passed","taskId":"task-10-2","summary":"Dashboard mit 11 Grafiken und Kennzahlen; 331 Tests grün, im Browser geprüft."}
+{"timestamp":"2026-10-07T18:11:46Z","type":"task_completed","taskId":"task-10-2","summary":"Task 'Dashboard-Seite' abgeschlossen."}
+{"timestamp":"2026-10-07T18:13:50Z","type":"roadmap_updated","summary":"Roadmap v6: Phase 11 KI-Werkzeugkasten und Phase 12 Gmail-Anbindung nach Saschas Entscheidung (alle Punkte, Gmail) ergänzt."}
+{"timestamp":"2026-10-07T18:13:50Z","type":"task_started","taskId":"task-11-1","summary":"Task 'Werkzeugkasten: Datenmodell und Navigation' gestartet."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"verification_passed","taskId":"task-11-1","summary":"Typecheck, Lint und 346 Tests (inkl. axe für Werkzeugkasten-Seiten) grün."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"task_completed","taskId":"task-11-1","summary":"Task 'Werkzeugkasten: Datenmodell und Navigation' abgeschlossen."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"task_ready","taskId":"task-11-2","summary":"Task 'Masterprompts und Befehle' ist startbar."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"task_ready","taskId":"task-11-3","summary":"Task 'Agenten, Skills und Workflows' ist startbar."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"task_ready","taskId":"task-11-4","summary":"Task 'Anleitungen und Integrationen' ist startbar."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"task_ready","taskId":"task-11-5","summary":"Task 'Modelle und Abos' ist startbar."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"task_ready","taskId":"task-12-1","summary":"Task 'Google-Anmeldung (nur lesend)' ist startbar."}
+{"timestamp":"2026-10-07T23:15:57Z","type":"task_started","taskId":"task-11-2","summary":"Task 'Masterprompts und Befehle' gestartet."}
+{"timestamp":"2026-10-07T23:19:56Z","type":"verification_passed","taskId":"task-11-2","summary":"Platzhalter, Vorschau und Kopieren getestet; alle Tests grün."}
+{"timestamp":"2026-10-07T23:19:56Z","type":"task_completed","taskId":"task-11-2","summary":"Task 'Masterprompts und Befehle' abgeschlossen."}
+{"timestamp":"2026-10-07T23:19:56Z","type":"task_started","taskId":"task-11-3","summary":"Task 'Agenten, Skills und Workflows' gestartet."}
+{"timestamp":"2026-10-07T23:23:42Z","type":"verification_passed","taskId":"task-11-3","summary":"Agent-Integration-Verknüpfung, Workflow-Ablauf und Schritt-Logik getestet."}
+{"timestamp":"2026-10-07T23:23:42Z","type":"task_completed","taskId":"task-11-3","summary":"Task 'Agenten, Skills und Workflows' abgeschlossen."}
+{"timestamp":"2026-10-07T23:23:42Z","type":"task_started","taskId":"task-11-4","summary":"Task 'Anleitungen und Integrationen' gestartet."}
+{"timestamp":"2026-10-07T23:27:07Z","type":"verification_passed","taskId":"task-11-4","summary":"Integration, Schlüsselwarnung und Anleitungsschritte getestet; alle Tests grün."}
+{"timestamp":"2026-10-07T23:27:07Z","type":"task_completed","taskId":"task-11-4","summary":"Task 'Anleitungen und Integrationen' abgeschlossen."}
+{"timestamp":"2026-10-07T23:27:07Z","type":"task_started","taskId":"task-11-5","summary":"Task 'Modelle und Abos' gestartet."}
+{"timestamp":"2026-10-07T23:33:45Z","type":"verification_passed","taskId":"task-11-5","summary":"Abo-Rechnung, Fristen, Kalender, Cockpit, Dashboard und Dialog getestet; alle Tests grün."}
+{"timestamp":"2026-10-07T23:33:45Z","type":"task_completed","taskId":"task-11-5","summary":"Task 'Modelle und Abos' abgeschlossen."}
+{"timestamp":"2026-10-07T23:33:45Z","type":"task_started","taskId":"task-12-1","summary":"Task 'Google-Anmeldung (nur lesend)' gestartet."}
+{"timestamp":"2026-10-07T23:38:46Z","type":"verification_passed","taskId":"task-12-1","summary":"Google-Anmeldung, Gmail-Modul, CSP und Panel getestet; alle Tests grün."}
+{"timestamp":"2026-10-07T23:38:46Z","type":"task_completed","taskId":"task-12-1","summary":"Task 'Google-Anmeldung (nur lesend)' abgeschlossen."}
+{"timestamp":"2026-10-07T23:38:46Z","type":"task_ready","taskId":"task-12-2","summary":"Task 'Mails abrufen und zuordnen' ist startbar."}
+{"timestamp":"2026-10-07T23:38:46Z","type":"task_started","taskId":"task-12-2","summary":"Task 'Mails abrufen und zuordnen' gestartet."}
+{"timestamp":"2026-10-07T23:47:13Z","type":"verification_passed","taskId":"task-12-2","summary":"Zuordnung, Abruf, Übernahme, Löschfolgen und Postfach-Seite getestet; alle Tests grün."}
+{"timestamp":"2026-10-07T23:47:13Z","type":"task_completed","taskId":"task-12-2","summary":"Task 'Mails abrufen und zuordnen' abgeschlossen."}
+{"timestamp":"2026-10-07T23:47:13Z","type":"task_ready","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' ist startbar."}
+{"timestamp":"2026-10-07T23:47:13Z","type":"task_started","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' gestartet."}
+{"timestamp":"2026-10-07T23:52:32Z","type":"verification_passed","taskId":"task-12-3","summary":"Alle Prüfungen grün, Browserprüfung bei drei Breiten, Doku aktuell."}
+{"timestamp":"2026-10-07T23:52:32Z","type":"task_completed","taskId":"task-12-3","summary":"Task 'Abschlussprüfung Roadmap v6' abgeschlossen."}
+{"timestamp":"2026-10-08T07:24:27Z","type":"task_cancelled","taskId":"task-5-6","summary":"Task 'Git-Historie bereinigen' abgebrochen: Sascha hat entschieden, dass die Projekttitel, Firmennamen und Zielrollen in alten Commits nicht stören (keine Passwörter, Kontaktdaten oder Personennamen enthalten). Kein Force-Push nötig."}
+{"timestamp":"2026-10-08T08:48:24Z","type":"roadmap_updated","summary":"Roadmap v7 mit Sascha geplant: Inbetriebnahme, Mehrbenutzer und Rollen, KI-Assistent (Claude über AWS Frankfurt), Präsentation 21.10.2026, Anbindungen, Online und Handy, Praxis und Abschluss (29 neue Tasks)."}

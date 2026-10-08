@@ -28,5 +28,5 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# Private Startdaten (Saschas Projektdetails) – nur lokal, nie committen
+# Persönliche Startdaten – nur lokal, nie committen
 src/data/seed.privat.ts

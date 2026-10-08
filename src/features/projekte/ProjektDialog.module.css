@@ -1,0 +1,10 @@
+.zeile {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .zeile {
+    grid-template-columns: 1fr 1fr;
+  }
+}

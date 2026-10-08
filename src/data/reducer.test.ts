@@ -14,12 +14,15 @@ const projekt: Neu<'projekte'> = {
   bestandteile: [],
   notizen: 'Kern-Pipeline fertig',
   automation: null,
+  auftraggeberId: null,
+  schlagworte: [],
 }
 
 const aufgabe = (projektId: string): Neu<'aufgaben'> => ({
   titel: 'Routing testen',
   notiz: '',
   erledigt: false,
+  fokus: false,
   erledigtAm: null,
   faelligAm: null,
   bezug: { art: 'projekt', id: projektId },
@@ -105,7 +108,7 @@ describe('reducer: löschen', () => {
   function crmDaten() {
     const { meta, data: start, projektId } = mitProjekt()
     let data: AppData = reducer(start, { type: 'anlegen', sammlung: 'aufgaben', daten: aufgabe(projektId) }, meta)
-    data = reducer(data, { type: 'anlegen', sammlung: 'unternehmen', daten: { name: 'Beispiel GmbH', branche: '', website: '', notiz: '' } }, meta)
+    data = reducer(data, { type: 'anlegen', sammlung: 'unternehmen', daten: { name: 'Beispiel GmbH', branche: '', website: '', notiz: '', schlagworte: [] } }, meta)
     const unternehmenId = data.unternehmen[0]!.id
     data = reducer(
       data,
@@ -124,6 +127,9 @@ describe('reducer: löschen', () => {
           notiz: '',
           projektIds: [projektId],
           naechsteAktion: null,
+          rechtsgrundlage: null,
+          zweck: '',
+          schlagworte: [],
         },
       },
       meta,
@@ -131,7 +137,7 @@ describe('reducer: löschen', () => {
     const kontaktId = data.kontakte[0]!.id
     data = reducer(
       data,
-      { type: 'anlegen', sammlung: 'interaktionen', daten: { kontaktId, art: 'telefonat', datum: '2026-10-07', text: 'Erstgespräch', projektId } },
+      { type: 'anlegen', sammlung: 'interaktionen', daten: { kontaktId, art: 'telefonat', datum: '2026-10-07', text: 'Erstgespräch', projektId, bewerbungId: null, leadId: null, betreff: '', richtung: null } },
       meta,
     )
     return { meta, data, projektId, unternehmenId, kontaktId }
@@ -173,14 +179,14 @@ describe('reducer: Einstellungen und Ersetzen', () => {
     const meta = createMeta()
     const data = createEmptyData()
     expect(reducer(data, { type: 'einstellungen', aenderung: { anzeigename: '' } }, meta)).toBe(data)
-    const next = reducer(data, { type: 'einstellungen', aenderung: { anzeigename: 'Sascha' } }, meta)
-    expect(next.einstellungen.anzeigename).toBe('Sascha')
+    const next = reducer(data, { type: 'einstellungen', aenderung: { anzeigename: 'Alex' } }, meta)
+    expect(next.einstellungen.anzeigename).toBe('Alex')
     expect(next.aktivitaeten).toHaveLength(1)
   })
 
   it('ersetzt alle Daten ohne Aktivität', () => {
     const meta = createMeta()
-    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Import' } }
+    const neu = { ...createEmptyData(), einstellungen: { anzeigename: 'Import', letzteSicherungAm: null, letzterMailAbrufAm: null } }
     expect(reducer(createEmptyData(), { type: 'ersetzen', daten: neu }, meta)).toBe(neu)
   })
 
@@ -192,5 +198,45 @@ describe('reducer: Einstellungen und Ersetzen', () => {
     }
     expect(data.aktivitaeten).toHaveLength(MAX_AKTIVITAETEN)
     expect(data.aktivitaeten[0]!.bezug.titel).toBe(`Rolle ${MAX_AKTIVITAETEN + 4}`)
+  })
+})
+
+describe('Verknüpfungen (Schema v5)', () => {
+  const zeit = '2026-10-07T10:00:00.000Z'
+  const m = { erstelltAm: zeit, geaendertAm: zeit }
+  const basis = (): AppData => ({
+    ...createEmptyData(),
+    unternehmen: [{ id: 'u1', name: 'Kunde GmbH', branche: '', website: '', notiz: '', schlagworte: [], ...m }],
+    projekte: [{ id: 'p1', titel: 'Relaunch', kategorie: '', beschreibung: '', status: null, zuletztAktiv: null, tools: [], bestandteile: [], notizen: '', automation: null, auftraggeberId: 'u1', schlagworte: [], ...m }],
+    leads: [{ id: 'l1', titel: 'Workshop', kontaktId: null, unternehmenId: 'u1', status: 'neu', betragEur: null, naechsterSchritt: '', notiz: '', projektId: 'p1', wiedervorlageAm: null, ...m }],
+    bewerbungen: [{ id: 'b1', stelle: 'Analyst', unternehmenId: 'u1', zielrolleId: null, kontaktId: null, status: 'beworben', quelle: '', beworbenAm: null, link: '', naechsterSchritt: '', notiz: '', wiedervorlageAm: null, ...m }],
+    interaktionen: [{ id: 'i1', kontaktId: 'k1', art: 'email', datum: '2026-10-01', text: 'Unterlagen', projektId: null, bewerbungId: 'b1', leadId: 'l1', betreff: 'Bewerbung', richtung: 'ausgang', ...m }],
+    aufgaben: [
+      { id: 'a1', titel: 'Nachfassen', notiz: '', erledigt: false, fokus: false, erledigtAm: null, faelligAm: null, bezug: { art: 'bewerbung', id: 'b1' }, ...m },
+      { id: 'a2', titel: 'Angebot', notiz: '', erledigt: false, fokus: false, erledigtAm: null, faelligAm: null, bezug: { art: 'lead', id: 'l1' }, ...m },
+    ],
+    termine: [{ id: 't1', titel: 'Kick-off', datum: '2026-10-10', uhrzeit: null, ort: '', notiz: '', bezug: { art: 'unternehmen', id: 'u1' }, ...m }],
+  })
+
+  it('löst beim Löschen eines Unternehmens Auftraggeber und Bezüge, ohne Einträge zu löschen', () => {
+    const d = reducer(basis(), { type: 'loeschen', sammlung: 'unternehmen', id: 'u1' }, createMeta())
+    expect(d.projekte[0]!.auftraggeberId).toBeNull()
+    expect(d.termine[0]!.bezug).toEqual({ art: 'ohne', id: null })
+    expect(d.leads[0]!.unternehmenId).toBeNull()
+  })
+
+  it('löst beim Löschen einer Bewerbung bzw. eines Leads Verlauf und Aufgaben', () => {
+    let d = reducer(basis(), { type: 'loeschen', sammlung: 'bewerbungen', id: 'b1' }, createMeta())
+    expect(d.interaktionen[0]!.bewerbungId).toBeNull()
+    expect(d.aufgaben.find((a) => a.id === 'a1')!.bezug.art).toBe('ohne')
+    d = reducer(d, { type: 'loeschen', sammlung: 'leads', id: 'l1' }, createMeta())
+    expect(d.interaktionen[0]!.leadId).toBeNull()
+    expect(d.aufgaben.find((a) => a.id === 'a2')!.bezug.art).toBe('ohne')
+  })
+
+  it('löst beim Löschen eines Projekts den Lead', () => {
+    const d = reducer(basis(), { type: 'loeschen', sammlung: 'projekte', id: 'p1' }, createMeta())
+    expect(d.leads[0]!.projektId).toBeNull()
+    expect(appDataSchema.safeParse(d).success).toBe(true)
   })
 })

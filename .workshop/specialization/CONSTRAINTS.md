@@ -8,9 +8,11 @@ Keine Ausnahme: Es ist höchstens ein Task `in_progress`.
 
 ## Daten und Speicherung
 
-- kein Backend, keine Anmeldung; Speicherung nur in `localStorage`, sichtbar als Demo-Modus gekennzeichnet
+- Werkzeuge: Claude Pro, Claude Code, Claude Design, Lovable, Git, GitHub, Supabase
+- Daten im Browser nur verschlüsselt; optional Supabase für Login und Ende-zu-Ende-verschlüsselte Synchronisierung (nur E-Mail-Adresse und Chiffretext beim Anbieter, Region EU)
 - keine echten Verbindungen zu n8n, Make.com, HubSpot, SeaTable oder anderen Diensten
-- vorbefüllt wird nur, was in `docs/sources/arbeitskontext.md` belegt ist; Kennzahlen werden immer berechnet
+- vorbefüllt wird nur Belegtes; persönliche Startdaten nur lokal in `src/data/seed.privat.ts`, nie im Repository (Wächter-Test); Kennzahlen werden immer berechnet
+- keine Verbindung nach außen außer – falls eingerichtet – zur eigenen Supabase-Adresse; keine Telemetrie, keine fremden Skripte oder Schriften
 
 ## Abhängigkeiten
 

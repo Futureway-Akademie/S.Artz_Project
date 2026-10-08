@@ -3,18 +3,21 @@ import { MemoryRouter } from 'react-router'
 import { AppRoutes } from './app/routes.tsx'
 import { StoreGate } from './app/StoreGate.tsx'
 import { NAVIGATION } from './components/layout/navigation.ts'
-import { createSeedData } from './data/seed.ts'
+import { beispielSeed } from './test/beispielStart.ts'
 import { STORAGE_KEY } from './data/storage.ts'
 import { StoreProvider } from './data/store.tsx'
+import { ToastProvider } from './components/ui/Toast.tsx'
 import { createFakeStorage } from './test/fakes.ts'
 
 function renderApp(pfad = '/', storage = createFakeStorage()) {
   return render(
-    <StoreProvider storage={storage} createInitialData={() => createSeedData()}>
+    <StoreProvider storage={storage} createInitialData={() => beispielSeed()}>
       <StoreGate>
-        <MemoryRouter initialEntries={[pfad]}>
-          <AppRoutes />
-        </MemoryRouter>
+        <ToastProvider>
+          <MemoryRouter initialEntries={[pfad]}>
+            <AppRoutes />
+          </MemoryRouter>
+        </ToastProvider>
       </StoreGate>
     </StoreProvider>,
   )
@@ -30,11 +33,11 @@ function hauptnavigation() {
 const navLink = (name: string) => within(hauptnavigation()).getByRole('link', { name, hidden: true })
 
 describe('App-Shell', () => {
-  it('erreicht alle neun Bereiche über die Navigation', () => {
+  it('erreicht alle Bereiche und Werkzeugkasten-Unterpunkte über die Navigation', () => {
     renderApp()
     const links = within(hauptnavigation()).getAllByRole('link', { hidden: true })
     expect(links.map((l) => l.textContent)).toEqual(NAVIGATION.map((n) => n.label))
-    expect(NAVIGATION).toHaveLength(9)
+    expect(NAVIGATION).toHaveLength(22)
 
     for (const eintrag of NAVIGATION) {
       fireEvent.click(navLink(eintrag.label))
@@ -43,7 +46,7 @@ describe('App-Shell', () => {
       )
       expect(navLink(eintrag.label)).toHaveAttribute('aria-current', 'page')
     }
-  })
+  }, 20_000)
 
   it('setzt den Fokus nach einem Seitenwechsel auf die Überschrift', () => {
     renderApp()
@@ -61,7 +64,7 @@ describe('App-Shell', () => {
 
   it('kennzeichnet den Demo-Modus sichtbar', () => {
     renderApp()
-    expect(screen.getByRole('note', { name: 'Demo-Hinweis' })).toHaveTextContent('Demo-Modus.')
+    expect(screen.getByRole('note', { name: 'Speicherhinweis' })).toHaveTextContent('Demo-Modus.')
   })
 
   it('öffnet und schließt das mobile Menü und gibt den Fokus zurück', () => {
@@ -95,7 +98,7 @@ describe('StoreGate', () => {
     const storage = createFakeStorage({ [STORAGE_KEY]: '{kaputt' })
     renderApp('/', storage)
     expect(screen.getByRole('heading', { level: 1, name: 'Daten konnten nicht geladen werden' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Rohdaten exportieren' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Rohdaten verschlüsselt sichern' })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Zurücksetzen' }))
     fireEvent.click(screen.getByRole('button', { name: 'Ja, Daten zurücksetzen' }))

@@ -1,0 +1,285 @@
+.diagramm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+}
+
+.kopf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.titel {
+  font-size: var(--font-size-md);
+}
+
+.aktionen {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.umschalten {
+  min-height: 2rem;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  color: var(--color-dark);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.umschalten[aria-pressed='true'] {
+  background: var(--color-blue-soft);
+  border-color: var(--color-blue);
+}
+
+.zusammenfassung {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.tabelle {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.tabelle th,
+.tabelle td {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.tabelle td {
+  text-align: right;
+}
+
+/* Balken */
+.balkenListe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.balkenZeile {
+  display: grid;
+  grid-template-columns: minmax(6rem, 34%) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.balkenLabel {
+  overflow-wrap: anywhere;
+}
+
+.balkenSpur {
+  height: 0.875rem;
+  border-radius: 999px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.balken {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: 999px;
+}
+
+.balkenWert {
+  min-width: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  text-align: right;
+}
+
+/* Ring */
+.ring {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ringSvg {
+  flex: 0 0 auto;
+  width: 9rem;
+  height: 9rem;
+}
+
+.ringSumme {
+  fill: var(--color-dark);
+  font-size: 8px;
+  font-weight: var(--font-weight-bold);
+}
+
+.ringEinheit {
+  fill: var(--text-muted);
+  font-size: 3px;
+}
+
+.legende {
+  display: flex;
+  flex: 1 1 10rem;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-sm);
+}
+
+.legende li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legendeLabel {
+  overflow-wrap: anywhere;
+}
+
+.anteil {
+  color: var(--text-muted);
+}
+
+.farbe {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+/* Wochenverlauf */
+.verlauf {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.verlaufSvg {
+  width: 100%;
+  height: 11rem;
+}
+
+.achse {
+  fill: var(--text-muted);
+  font-size: 4px;
+}
+
+.legendeZeile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-sm);
+}
+
+.legendeZeile li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Fortschritt */
+.fortschritt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+}
+
+.fortschrittKopf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.fortschrittSpur {
+  height: 0.75rem;
+  border-radius: 999px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.fortschrittBalken {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-blue);
+}
+
+/* Heatmap */
+.heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.heatmapSvg {
+  width: 100%;
+  max-height: 9rem;
+}
+
+.heatmapLegende {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* Kennzahlen */
+.kennzahl {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+}
+
+.kennzahlWert {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+.kennzahlLabel {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.kennzahlHinweis {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.warnung .kennzahlWert {
+  color: var(--color-danger);
+}

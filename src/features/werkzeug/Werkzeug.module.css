@@ -1,0 +1,138 @@
+.kacheln {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.kachel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+  color: var(--color-dark);
+  text-decoration: none;
+}
+
+.kachel:hover {
+  box-shadow: 0 0 0 2px var(--color-blue-soft), var(--shadow-raised);
+}
+
+.kachel:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-blue);
+  outline: none;
+}
+
+.kachelKopf {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-blue);
+}
+
+.kachelTitel {
+  flex: 1;
+  color: var(--color-dark);
+  font-weight: var(--font-weight-bold);
+}
+
+.anzahl {
+  color: var(--color-dark);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.25rem;
+}
+
+.kachelText {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* Prompts und Befehle: Zeilen und Einrückung bleiben exakt erhalten */
+.inhalt {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--font-size-sm);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.hinweis {
+  margin: 0 0 var(--space-3);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.felder {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.vorschauTitel {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.knoepfe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.schritte {
+  display: flex;
+  flex-direction: column;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schritte .erledigt {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.ablauf {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.warnung {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-soft);
+  color: var(--color-dark);
+  font-size: var(--font-size-sm);
+}
+
+.warnung p {
+  margin: 0;
+}
+
+.fehler {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-bold);
+}
+
+.summe {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-blue-soft);
+  color: var(--color-dark);
+}

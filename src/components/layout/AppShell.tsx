@@ -1,22 +1,42 @@
 import { useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router'
+import { useTresor } from '../../app/tresorContext.ts'
 import { useStore } from '../../data/storeContext.ts'
 import { Wordmark } from '../brand/Wordmark.tsx'
 import { Button } from '../ui/Button.tsx'
 import { Icon } from '../ui/Icon.tsx'
 import styles from './AppShell.module.css'
+import { Schnellerfassung } from '../../features/suche/Schnellerfassung.tsx'
+import { SucheDialog } from '../../features/suche/SucheDialog.tsx'
 import { SEITENTITEL_ID } from './ids.ts'
 import { NavDrawer } from './NavDrawer.tsx'
 import { NavList } from './NavList.tsx'
 
 function DemoBanner() {
   const { persistenz } = useStore()
+  const tresor = useTresor()
   return (
-    <div className={styles.demo} role="note" aria-label="Demo-Hinweis">
-      <strong>Demo-Modus.</strong>{' '}
-      {persistenz === 'lokal'
-        ? 'Die Daten werden nur in diesem Browser gespeichert – nicht sicher und nicht dauerhaft. Sichere sie regelmäßig über den Export in den Einstellungen.'
-        : 'Der Browser-Speicher ist nicht verfügbar. Änderungen gehen beim Schließen der Seite verloren.'}
+    <div className={styles.demo} role="note" aria-label="Speicherhinweis">
+      <span>
+        {persistenz !== 'lokal' ? (
+          <>
+            <strong>Nicht gespeichert.</strong> Der Browser-Speicher ist nicht verfügbar. Änderungen gehen beim Schließen der Seite verloren.
+          </>
+        ) : tresor ? (
+          <>
+            <strong>Verschlüsselt.</strong> Die Daten liegen nur in diesem Browser. Sichere sie regelmäßig über den Export in den Einstellungen.
+          </>
+        ) : (
+          <>
+            <strong>Demo-Modus.</strong> Die Daten werden nur in diesem Browser gespeichert. Sichere sie regelmäßig über den Export in den Einstellungen.
+          </>
+        )}
+      </span>
+      {tresor && (
+        <Button size="sm" variant="secondary" onClick={tresor.sperren}>
+          Jetzt sperren
+        </Button>
+      )}
     </div>
   )
 }
@@ -43,8 +63,45 @@ function StatusHinweise() {
   )
 }
 
+/** Suchen und Neu anlegen – in der Topbar nur als Icon, in der Icon-Leiste mit Kurzlabel, in der Sidebar mit Text. */
+function Werkzeuge({ variante, onSuchen, onNeu }: { variante: 'topbar' | 'rail' | 'voll'; onSuchen: () => void; onNeu: () => void }) {
+  const kurz = variante !== 'voll'
+  return (
+    <div className={`${styles.werkzeuge} ${styles[`werkzeuge_${variante}`]}`}>
+      <button type="button" className={styles.werkzeug} onClick={onSuchen} aria-label={kurz ? 'Suchen (Strg+K)' : undefined} title="Suchen (Strg+K)">
+        <Icon name="suche" size={variante === 'topbar' ? 22 : 20} />
+        {variante === 'rail' && <span className={styles.werkzeugKurz}>Suche</span>}
+        {variante === 'voll' && (
+          <span>
+            Suchen <kbd className={styles.kbd}>Strg K</kbd>
+          </span>
+        )}
+      </button>
+      <button type="button" className={styles.werkzeug} onClick={onNeu} aria-label={kurz ? 'Neu anlegen' : undefined}>
+        <Icon name="plus" size={variante === 'topbar' ? 22 : 20} />
+        {variante === 'rail' && <span className={styles.werkzeugKurz}>Neu</span>}
+        {variante === 'voll' && <span>Neu anlegen</span>}
+      </button>
+    </div>
+  )
+}
+
 export function AppShell() {
   const [menueOffen, setMenueOffen] = useState(false)
+  const [suchen, setSuchen] = useState(false)
+  const [neu, setNeu] = useState(false)
+
+  // Strg+K bzw. Cmd+K öffnet die Suche von überall
+  useEffect(() => {
+    const taste = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setSuchen(true)
+      }
+    }
+    window.addEventListener('keydown', taste)
+    return () => window.removeEventListener('keydown', taste)
+  }, [])
   const menueButton = useRef<HTMLButtonElement>(null)
   const location = useLocation()
   const ersteSeite = useRef(true)
@@ -71,6 +128,8 @@ export function AppShell() {
 
       <header className={styles.topbar}>
         <Wordmark tone="dark" />
+        <span className={styles.topbarRechts}>
+          <Werkzeuge variante="topbar" onSuchen={() => setSuchen(true)} onNeu={() => setNeu(true)} />
         <button
           ref={menueButton}
           type="button"
@@ -81,6 +140,7 @@ export function AppShell() {
         >
           <Icon name="menue" size={24} />
         </button>
+        </span>
       </header>
       <NavDrawer offen={menueOffen} onSchliessen={menueSchliessen} />
 
@@ -92,6 +152,12 @@ export function AppShell() {
           <span className={styles.markeKurz} aria-hidden="true">
             P<span className={styles.ai}>.AI</span>
           </span>
+        </div>
+        <div className={styles.navVoll}>
+          <Werkzeuge variante="voll" onSuchen={() => setSuchen(true)} onNeu={() => setNeu(true)} />
+        </div>
+        <div className={styles.navRail}>
+          <Werkzeuge variante="rail" onSuchen={() => setSuchen(true)} onNeu={() => setNeu(true)} />
         </div>
         <nav aria-label="Hauptnavigation" className={styles.navVoll}>
           <NavList variante="voll" />
@@ -108,6 +174,8 @@ export function AppShell() {
           <Outlet />
         </main>
       </div>
+      {suchen && <SucheDialog onSchliessen={() => setSuchen(false)} />}
+      {neu && <Schnellerfassung onSchliessen={() => setNeu(false)} />}
     </div>
   )
 }

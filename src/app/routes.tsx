@@ -1,64 +1,72 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from '../components/layout/AppShell.tsx'
-import { NichtGefunden, Platzhalter } from '../features/Platzhalter.tsx'
+import { AufgabenSeite } from '../features/aufgaben/AufgabenSeite.tsx'
+import { BewerbungDetailSeite } from '../features/bewerbungen/BewerbungDetailSeite.tsx'
+import { BewerbungenSeite } from '../features/bewerbungen/BewerbungenSeite.tsx'
+import { ZielrollenSeite } from '../features/bewerbungen/ZielrollenSeite.tsx'
+import { DashboardSeite } from '../features/dashboard/DashboardSeite.tsx'
+import { CockpitSeite } from '../features/cockpit/CockpitSeite.tsx'
+import { AutomationenSeite } from '../features/automationen/AutomationenSeite.tsx'
+import { EinstellungenSeite } from '../features/einstellungen/EinstellungenSeite.tsx'
+import { KalenderSeite } from '../features/kalender/KalenderSeite.tsx'
+import { KontaktDetailSeite } from '../features/kontakte/KontaktDetailSeite.tsx'
+import { KontakteSeite } from '../features/kontakte/KontakteSeite.tsx'
+import { LeadDetailSeite } from '../features/kontakte/LeadDetailSeite.tsx'
+import { LeadsSeite } from '../features/kontakte/LeadsSeite.tsx'
+import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSeite.tsx'
+import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
+import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
+import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
+import { PostfachSeite } from '../features/postfach/PostfachSeite.tsx'
+import { NichtGefunden } from '../features/NichtGefunden.tsx'
+import { WerkzeugDetailSeite, WerkzeugListeSeite, WerkzeugUebersicht } from '../features/werkzeug/WerkzeugSeiten.tsx'
+import { WeiterbildungSeite } from '../features/weiterbildung/WeiterbildungSeite.tsx'
+import { WissenDetailSeite } from '../features/wissen/WissenDetailSeite.tsx'
+import { WissenSeite } from '../features/wissen/WissenSeite.tsx'
+import { ProjektDetailSeite } from '../features/projekte/ProjektDetailSeite.tsx'
+import { ProjekteSeite } from '../features/projekte/ProjekteSeite.tsx'
 
-/** Alle Routen der App. Platzhalter werden durch die Bereichs-Tasks ersetzt. */
+/** Alle Routen der App: Bereiche, Werkzeugkasten, Unterseiten und „Seite nicht gefunden“. */
 export function AppRoutes() {
   return (
     <Routes>
       <Route element={<AppShell />}>
-        <Route
-          index
-          element={
-            <Platzhalter
-              titel="Arbeitscockpit"
-              inhalt="Hier siehst du künftig deine Tagesübersicht, nächste Schritte, aktuelle Projekte, die Weiterbildung und die letzten Aktivitäten."
-            />
-          }
-        />
+        <Route index element={<CockpitSeite />} />
+        <Route path="dashboard" element={<DashboardSeite />} />
         <Route path="projekte">
-          <Route
-            index
-            element={<Platzhalter titel="Projekte" inhalt="Hier verwaltest du künftig deine Projekte mit Tools, Notizen, nächsten Schritten und Status." />}
-          />
-          <Route path=":id" element={<Platzhalter titel="Projekt" inhalt="Hier erscheinen künftig die Details eines Projekts." />} />
+          <Route index element={<ProjekteSeite />} />
+          <Route path=":id" element={<ProjektDetailSeite />} />
         </Route>
-        <Route
-          path="automationen"
-          element={<Platzhalter titel="Automationen" inhalt="Hier erscheinen künftig deine Automationen nach Plattform und Projekt." />}
-        />
-        <Route
-          path="weiterbildung"
-          element={<Platzhalter titel="Weiterbildung" inhalt="Hier begleitest du künftig die Weiterbildung „KI Automations Spezialist“." />}
-        />
-        <Route
-          path="pikartz-ai"
-          element={<Platzhalter titel="PIKARTZ.AI" inhalt="Hier stehen künftig die Marke, die Designregeln und das Präsentations-System." />}
-        />
-        <Route
-          path="aufgaben"
-          element={<Platzhalter titel="Aufgaben & Termine" inhalt="Hier verwaltest du künftig Aufgaben und Termine mit optionaler Frist und Bezug." />}
-        />
+        <Route path="automationen" element={<AutomationenSeite />} />
+        <Route path="weiterbildung" element={<WeiterbildungSeite />} />
+        <Route path="pikartz-ai" element={<MarkeSeite />} />
+        <Route path="aufgaben" element={<AufgabenSeite />} />
+        <Route path="kalender" element={<KalenderSeite />} />
+        <Route path="wissen">
+          <Route index element={<WissenSeite />} />
+          <Route path=":id" element={<WissenDetailSeite />} />
+        </Route>
+        <Route path="werkzeug">
+          <Route index element={<WerkzeugUebersicht />} />
+          <Route path=":art" element={<WerkzeugListeSeite />} />
+          <Route path=":art/:id" element={<WerkzeugDetailSeite />} />
+        </Route>
         <Route path="kontakte">
-          <Route
-            index
-            element={<Platzhalter titel="Kontakte & Leads" inhalt="Hier pflegst du künftig Kontakte mit Verlauf und nächster Aktion." />}
-          />
-          <Route path="unternehmen" element={<Platzhalter titel="Unternehmen" inhalt="Hier erscheinen künftig Unternehmen mit verknüpften Kontakten." />} />
-          <Route path="leads" element={<Platzhalter titel="Leads" inhalt="Hier verwaltest du künftig optionale Leads rund um PIKARTZ.AI." />} />
-          <Route path=":id" element={<Platzhalter titel="Kontakt" inhalt="Hier erscheinen künftig die Details eines Kontakts." />} />
+          <Route index element={<KontakteSeite />} />
+          <Route path="unternehmen" element={<UnternehmenSeite />} />
+          <Route path="unternehmen/:id" element={<UnternehmenDetailSeite />} />
+          <Route path="leads" element={<LeadsSeite />} />
+          <Route path="leads/:id" element={<LeadDetailSeite />} />
+          <Route path="vorlagen" element={<VorlagenSeite />} />
+          <Route path=":id" element={<KontaktDetailSeite />} />
         </Route>
         <Route path="bewerbungen">
-          <Route
-            index
-            element={<Platzhalter titel="Bewerbungen" inhalt="Hier verfolgst du künftig deine Bewerbungen nach Status." />}
-          />
-          <Route path="zielrollen" element={<Platzhalter titel="Zielrollen" inhalt="Hier erscheinen künftig deine Zielrollen." />} />
+          <Route index element={<BewerbungenSeite />} />
+          <Route path="zielrollen" element={<ZielrollenSeite />} />
+          <Route path=":id" element={<BewerbungDetailSeite />} />
         </Route>
-        <Route
-          path="einstellungen"
-          element={<Platzhalter titel="Einstellungen" inhalt="Hier kannst du künftig deinen Namen ändern sowie Daten exportieren, importieren und zurücksetzen." />}
-        />
+        <Route path="postfach" element={<PostfachSeite />} />
+        <Route path="einstellungen" element={<EinstellungenSeite />} />
         <Route path="*" element={<NichtGefunden />} />
       </Route>
     </Routes>

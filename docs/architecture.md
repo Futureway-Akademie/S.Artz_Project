@@ -1,6 +1,6 @@
 # Architektur
 
-Status: geplant und von Sascha freigegeben (2026-10-07). Noch nicht umgesetzt. Die Umsetzung erfolgt Task für Task laut `.workshop/roadmap.json`.
+Status: von Sascha freigegeben und vollständig umgesetzt (2026-10-07, Roadmap v2, alle 21 Tasks). Abweichungen und Präzisierungen stehen in `docs/decisions.md`, das Prüfprotokoll in `docs/pruefprotokoll.md`.
 
 ## Teil A – CRM-Konzept: Was ergibt für Sascha Sinn?
 
@@ -18,7 +18,7 @@ Saschas Kontakte kommen aus drei Lebensbereichen:
 
 Im CRM sind **keine dieser Kontakte vorbefüllt**. Die Tabelle beschreibt nur, wofür das CRM gebaut wird.
 
-### Was sinnvoll ist (wird gebaut)
+### Was sinnvoll ist (umgesetzt)
 
 1. **Kontakte mit Kontext** (task-3-1)
    - Felder: Name, Rolle, Unternehmen, E-Mail, Telefon, LinkedIn-URL, Notiz
@@ -40,7 +40,7 @@ Im CRM sind **keine dieser Kontakte vorbefüllt**. Die Tabelle beschreibt nur, w
 6. **Bewerbungen als eigene Pipeline** (task-3-4)
    - Status: Geplant → Beworben → Im Gespräch → Angebot / Absage / Zurückgezogen
    - Je Bewerbung: Stelle, Unternehmen, Zielrolle, Ansprechpartner (Kontakt), Bewerbungsdatum, Link zur Ausschreibung, nächster Schritt, Notiz
-   - Verknüpft mit den 3 **Zielrollen** (vorbefüllt): Prompt Engineer, KI-Anwendungsspezialist, Grafikdesigner Social Media / E-Commerce
+   - Verknüpft mit den 3 **Zielrollen** (lokal vorbefüllt)
    - **Bezug zum n8n Jobsuche-Assistenten**: Feld „Quelle“ (z. B. „Jobsuche-Assistent“, „LinkedIn“, „Direkt“). Nur Freitext, keine Live-Anbindung.
 7. **Leads, optional und schlank** (task-3-3)
    - Für Anfragen rund um PIKARTZ.AI (Schulung, Automation)
@@ -80,26 +80,91 @@ Die Felder Kontext-Kategorie, Herkunft, LinkedIn-URL, Ansprechpartner und Quelle
 - Vitest + Testing Library + jsdom, Zeitzone `TZ=Europe/Berlin` in den Tests
 - Datumsfelder als `YYYY-MM-DD` (lokal geparst), Zeitpunkte als ISO; `now` wird an Reducer und Selektoren übergeben
 
-### Ordnerstruktur
+### Ordnerstruktur (umgesetzt, Roadmap v3)
 
 ```
+csp.config.ts                 Content-Security-Policy (per Vite-Plugin nur im Build; mit Supabase genau eine Ausnahme)
+supabase/schema.sql           Tabelle tresor mit Row Level Security und Check „nur verschlüsselt“
+.env.example                  Vorlage für .env.local (Supabase-Adresse und anon key)
 src/
-├─ main.tsx, App.tsx          Router, StoreProvider, StoreGate (laden/Fehler)
-├─ styles/                    tokens.css, fonts.css, base.css
-├─ domain/                    types.ts, labels.ts, dates.ts, kurs.ts, format.ts,
-│                             selectors/{cockpit,projekte,aufgaben,weiterbildung,
-│                             automationen,crm,aktivitaeten}.ts (+ Tests)
-├─ data/                      schema.ts (zod), migrations.ts, storage.ts, seed.ts,
-│                             actions.ts, reducer.ts, activity.ts, store.tsx
-├─ hooks/                     useNow, usePageHeading, useForm
-├─ components/layout|brand|ui AppShell, Sidebar, NavDrawer, SkipLink, DemoBanner,
-│                             Wordmark, Logo (Platzhalter), Diamond, Button, Field*,
-│                             Dialog, ConfirmDialog, Toast, EmptyState, ErrorState,
-│                             LoadingState, SearchFilterBar, Tabs, DueLabel, TagInput
-└─ features/                  cockpit, projekte, automationen, weiterbildung, marke,
-                              aufgaben, kontakte, bewerbungen, einstellungen
-public/brand/ (Logos unverändert), public/fonts/ (nur wenn bereitgestellt), docs/sources/ (MD)
+├─ main.tsx, App.tsx          CloudProvider → TresorGate → CloudSync → StoreProvider → StoreGate → ToastProvider → BrowserRouter
+├─ app/                       routes.tsx, TresorGate (Passwort, Sperre, Wiederherstellung), tresorContext,
+│                             CloudProvider/cloudContext (Login), CloudSync/syncContext (Abgleich),
+│                             StoreGate (Fehlerseite bei defekten Daten)
+├─ styles/                    tokens.css, fonts.css, base.css, contrast.ts (+ Kontrast-Test)
+├─ domain/                    types.ts (aus zod abgeleitet), dates.ts, labels.ts, url.ts
+│  └─ selectors/              projekte, aufgaben, bezug, automationen, weiterbildung, cockpit,
+│                             crm, leads, bewerbungen, datenschutz, verknuepft, suche,
+│                             kalender, vorlagen, beziehung, schlagworte, wissen
+├─ data/                      schema.ts (zod, Version 7), migrations.ts (1 → 7), storage.ts,
+│                             tresorKrypto.ts (Datenschlüssel, Version 2), wiederherstellung.ts,
+│                             cloud/ (cloud.ts Schnittstelle, supabase.ts einziges Netzwerkmodul, sync.ts),
+│                             krypto.ts (AES-GCM/PBKDF2), tresor.ts (verschlüsselter Speicher),
+│                             sicherung.ts (verschlüsselte Sicherung), exportImport.ts,
+│                             empty.ts, seed.ts (+ lokal seed.privat.ts), vorlagen.ts,
+│                             actions.ts, reducer.ts, activity.ts, store.tsx, storeContext.ts
+├─ hooks/                     useForm, useNow
+├─ components/
+│  ├─ layout/                 AppShell (Suche/Neu, Sperren), NavList, NavDrawer, Seite, navigation.ts
+│  ├─ brand/                  Wordmark, Logo (mit Platzhalter), Diamond
+│  └─ ui/                     Button, Field, Badge, Panel, Tabs, Dialog, FormDialog,
+│                             ConfirmDialog, PasswortDialog, Toast, DueLabel, Icon,
+│                             ExternerLink, States
+├─ features/                  cockpit, projekte, automationen, weiterbildung, marke,
+│                             aufgaben (inkl. FokusKnopf), kalender, kontakte (Unternehmen,
+│                             Leads, Vorlagen, E-Mail, Datenschutz), bewerbungen (Pipeline),
+│                             gemeinsam (Gesamtsicht), suche (Suche, Schnellerfassung),
+│                             wissen (zweites Gehirn, Lerntagebuch),
+│                             einstellungen (Sicherheit, Wiederherstellung, Konto), NichtGefunden
+└─ test/                      setup, fakes, renderApp, beispielStart (fiktive Startdaten),
+                              barrierefreiheit (axe-core), datenschutz (Wächter),
+                              keineVerbindung (CSP und Quellcode)
+public/brand/                 Logos unverändert
 ```
+
+### Routen
+
+| Pfad | Seite |
+|---|---|
+| `/` | Arbeitscockpit |
+| `/projekte`, `/projekte/:id` | Projektliste, Projektdetail mit nächsten Schritten |
+| `/automationen` | Automationen nach Plattform oder Projekt |
+| `/weiterbildung` | Kurs, Arbeitstage, Kursaufgaben, Fortschritt |
+| `/pikartz-ai` | Marke, Designregeln, Präsentations-System |
+| `/aufgaben` (`?ansicht=termine`) | Aufgaben (mit Fokus) und Termine |
+| `/wissen`, `/wissen/:id` | Zweites Gehirn: Notizen, Tools, Erkenntnisse, Quellen, Lerntagebuch |
+| `/werkzeug`, `/werkzeug/:art`, `/werkzeug/:art/:id` | KI-Werkzeugkasten: Übersicht, Liste je Typ (prompts, befehle, agenten, skills, anleitungen, integrationen, workflows, abos), Detail |
+| `/postfach` | Gmail-Postfach: passende Mails abrufen, zuordnen, in den Verlauf übernehmen |
+| `/wiederherstellen#schluessel=…` | Einstieg über den Wiederherstellungslink (vor dem Entsperren) |
+| `/kalender` (`?ansicht=monat\|woche\|liste&datum=…`) | Kalender mit Terminen, Fristen, Wiedervorlagen, Kursaufgaben; .ics-Export |
+| `/kontakte` (`?faellig=1`, `?pruefen=1`), `/kontakte/:id` | Kontakte, Kontaktdetail mit Verlauf, Wiedervorlage, E-Mail, Datenschutz, Gesamtsicht |
+| `/kontakte/unternehmen`, `/kontakte/unternehmen/:id` | Unternehmen mit Gesamtsicht |
+| `/kontakte/leads`, `/kontakte/leads/:id` | Leads, Lead-Detail mit Gesamtsicht |
+| `/kontakte/vorlagen` | E-Mail-Vorlagen |
+| `/bewerbungen` (`?ansicht=pipeline`), `/bewerbungen/:id`, `/bewerbungen/zielrollen` | Bewerbungen mit Kennzahlen und Pipeline, Detail, Zielrollen |
+| `/einstellungen` | Speicherung, Sicherheit und Wiederherstellung, Konto und Synchronisierung, Datenschutz, Anzeigename, Sicherung und Import, Zurücksetzen |
+| `*` | Seite nicht gefunden |
+
+### Qualitätssicherung
+
+- `npm test`: Vitest mit jsdom (Zeitzone Europe/Berlin)
+  - Unit-Tests für Reducer, Speicherschicht, Migrationen, Seed, Verschlüsselung, Datums-Hilfen und alle Selektoren
+  - Bedienungstests je Bereich (Testing Library), inkl. Passwortschutz, Sicherung, Suche, Kalender, E-Mail
+  - axe-core-Prüfung aller Seiten und Dialoge
+  - Wächter: keine persönlichen Begriffe im Repository (`datenschutz.test.ts`), keine Netzwerkzugriffe und strikte CSP (`keineVerbindung.test.tsx`)
+- `npm run lint` (ESLint 9 mit jsx-a11y und react-hooks), `npm run typecheck`, `npm run build`
+
+### Datenschutz und Sicherheit (Roadmap v3)
+
+- Keine Verbindung nach außen (CSP `connect-src 'none'`, keine fremden Skripte, Schriften oder Bilder).
+- Daten im Browser nur verschlüsselt (AES-GCM 256, Schlüssel per PBKDF2-SHA-256 mit 600 000 Runden); Klartext nur im Arbeitsspeicher; automatische Sperre nach Inaktivität.
+- Sicherungen nur verschlüsselt; Auskunft (Art. 15) und Kalenderexport bewusst unverschlüsselt mit Hinweis.
+- Kontakte mit Rechtsgrundlage und Zweck; Löschen entfernt die Person auch aus dem Protokoll; Prüfhinweis nach 12 Monaten.
+- Persönliche Startdaten nur lokal (`seed.privat.ts`), Tests mit fiktiven Daten.
+- Tresor Version 2: zufälliger Datenschlüssel, verpackt per Passwort und optional per Wiederherstellungsschlüssel (der nur im #-Teil des Links in Saschas eigener Mail steht).
+- Optional Supabase (Roadmap v4): Login per E-Mail-Link, Ende-zu-Ende-verschlüsselte Synchronisierung; Supabase speichert nur E-Mail-Adresse und Chiffretext.
+- Optional Gmail (Roadmap v6): nur `gmail.readonly`, Anmeldung per Weiterleitung ohne Google-Skript, Token nur im Arbeitsspeicher; CSP öffnet dann genau `gmail.googleapis.com` und `oauth2.googleapis.com`. Einziges Modul mit `fetch`: `src/data/gmail/gmail.ts`.
+- Werkzeugkasten speichert nie Schlüssel: Eingaben, die wie Schlüssel oder Passwörter aussehen, werden erkannt und erst nach Entfernen oder ausdrücklicher Bestätigung gespeichert; bei Integrationen wird nur der Ablageort notiert.
 
 ### Datenmodell (Kern)
 
@@ -112,25 +177,32 @@ public/brand/ (Logos unverändert), public/fonts/ (nur wenn bereitgestellt), doc
     - Routing-Regeln, inklusive Fallback, mit `routingStatus: geplant | umgesetzt`
     - Logik-Hinweise
     - `verbindung: 'nicht_verbunden'` (fest)
-- **Aufgabe**, einheitlich, mit `bezug`: ohne | projekt | weiterbildung | kontakt
+- **Aufgabe**, einheitlich, mit `bezug`: ohne | projekt | weiterbildung | kontakt | unternehmen | lead | bewerbung; `fokus` für den Tagesfokus
   - „Nächste Schritte“ eines Projekts sind Aufgaben mit Projektbezug.
   - `faelligAm` ist nullable.
 - **Termin**: Datum (Pflicht), Uhrzeit optional, Bezug
-- **Kurs** (Zeitraum 2026-08 bis 2026-12, Arbeitstage Mo–Fr, Präfix `KIAutomSpez`) und **KursAufgabe** (Code `^KIAutomSpez_\d+_\d{2}$`, Status offen/in_arbeit/erledigt)
+- **Kurs** (Zeitraum 2026-08 bis 2026-12, Arbeitstage Mo–Fr, Präfix `KURS`) und **KursAufgabe** (Code `^KURS_\d+_\d{2}$`, Status offen/in_arbeit/erledigt)
 - **Designregel** und **Deck** (PIKARTZ.AI)
 - **CRM**
   - Unternehmen
-  - Kontakt: mit Kontext, Herkunft, LinkedIn, unternehmenId, projektIds, naechsteAktion
-  - Interaktion
-  - Lead: `betragEur: number | null`
-- **Bewerbungen**: Zielrolle; Bewerbung mit Status, Zielrolle, Kontakt, Quelle, Datum, Link und nächstem Schritt
+  - Kontakt: mit Kontext, Herkunft, LinkedIn, unternehmenId, projektIds, naechsteAktion, Rechtsgrundlage, Zweck, Schlagworte
+  - Interaktion (Verlauf): optional zu Projekt, Bewerbung oder Lead; bei E-Mails Betreff und Richtung
+  - Lead: `betragEur: number | null`, Projekt, Wiedervorlage
+  - Vorlage: E-Mail-Vorlage mit Platzhaltern
+- **Bewerbungen**: Zielrolle; Bewerbung mit Status, Zielrolle, Kontakt, Quelle, Datum, Link, nächstem Schritt und Wiedervorlage
 - **Aktivität**: Zeitpunkt, Art, Bezug mit Titel-Snapshot, deutsche Zusammenfassung
-- **Einstellungen**: Anzeigename
-- **AppData**: `schemaVersion: 1` plus alle Listen
+- **Projekt** zusätzlich: Auftraggeber (Unternehmen), Schlagworte, „zuletzt aktiv“ wird automatisch nachgezogen
+- **Einstellungen**: Anzeigename, Zeitpunkt der letzten Sicherung
+- **Wissen** (zweites Gehirn): Typ, Titel, Inhalt, Thema, Quelle, Schlagworte, Datum/Kurstag, Projekte, Kurs, Kursaufgaben
+- **Werkzeug** (KI-Werkzeugkasten): Typ (`prompt | befehl | agent | skill | anleitung | integration | workflow | abo`), Titel, Wofür, Inhalt, Plattform/Zielmodell/Umgebung/Anbieter, Status, Version, Link, Auslöser, Schritte (mit Erledigt), Integration (Art, Ablageort der Zugangsdaten, Region, AVV), Abo (Kosten, Abrechnung, nächste Verlängerung, Kündigungsfrist), verknüpfte Werkzeuge, Projekte, Schlagworte
+- **Mail** (Postfach): Gmail-ID, Thread, Zeitpunkt, Von, An, Betreff, Auszug, Richtung, Kontakt/Unternehmen/Bewerbung, Status `neu | uebernommen | verworfen`; nach Übernahme oder Verwerfen werden die Inhalte gelöscht
+- **Einstellungen** zusätzlich: Zeitpunkt des letzten Mailabrufs
+- **AppData**: `schemaVersion: 9` plus alle Listen; Migrationen 1 → 9 ohne Datenverlust (v8 übernimmt Wissens-Prompts als Masterprompts mit gleicher ID)
 
 ### Zustand und Speicherung
 
 - **Store-Status**: `loading | ready | error`
+- **Verschlüsselung**: Der TresorGate liefert dem StoreProvider einen `VerschluesselterSpeicher`; der Store selbst arbeitet unverändert synchron, geschrieben wird nur der verschlüsselte Umschlag.
 - **Laden**: fehlt der Eintrag, wird der Seed geschrieben. Defektes JSON, ungültiges Schema oder eine neuere Version führt in den Fehlerzustand mit „Rohdaten exportieren“ und „Zurücksetzen“; in diesem Zustand wird nicht automatisch gespeichert. Ist localStorage nicht verfügbar, läuft die App im Speicher weiter und zeigt einen deutlichen Hinweis.
 - **Speichern**: entprellt (400 ms) und zusätzlich bei `pagehide`. Bei Speicherfehler (z. B. Speicher voll) erscheint ein Banner mit Export.
 - **Reiner Reducer**: `now` und `newId` kommen über `meta`.
@@ -145,22 +217,31 @@ public/brand/ (Logos unverändert), public/fonts/ (nur wenn bereitgestellt), doc
 |---|---|
 | `selectBegruessung` | Gruß nach Tageszeit, Name, Datum lang (de-DE) |
 | `selectTagesuebersicht` | heute fällig, überfällig, Termine heute, Arbeitstag ja/nein |
-| `selectNaechsteSchritte` | offene Projektaufgaben und Kontakt-Wiedervorlagen; Reihenfolge: überfällig → mit Frist → ohne Frist |
+| `selectNaechsteSchritte` | offene Projektaufgaben und Wiedervorlagen (Kontakte, laufende Bewerbungen, offene Leads); Reihenfolge: überfällig → mit Frist → ohne Frist |
+| `selectFokus`, `selectWoche` | Aufgaben im Fokus mit Vorschlägen; die nächsten 7 Tage aus den Kalenderdaten |
+| `selectSicherungHinweis` | Erinnerung ohne Sicherung oder ab 7 Tagen |
+| `kalenderEintraege`, `alsIcs` | datierte Einträge aller Bereiche; iCalendar-Export |
+| `selectVerknuepft` | „Alles dazu“ für Kontakt, Unternehmen, Projekt, Bewerbung, Lead (auch indirekt) |
+| `suche` | Volltextsuche mit Relevanz über alle Bereiche |
+| `bewerbungKennzahlen`, `bewerbungPipeline` | Kennzahlen und Spalten je Status |
+| `kontaktpflege`, `kontakteMitPruefbedarf`, `datenauskunft` | letzter Kontakt und Funkstille; DSGVO-Prüfbedarf; Auskunft nach Art. 15 |
 | `selectAktuelleProjekte` | nicht abgeschlossen/pausiert, mit offenen und erledigten Schritten; **kein Prozentwert** |
-| `selectAnstehend` | Aufgaben, Termine und KursAufgaben der nächsten 7 Tage |
 | `selectWeiterbildung` | Kursrelation (vor/laufend/nach), Arbeitstage (gesamt/vergangen/verbleibend, ohne Feiertage); Fortschritt `null`, solange keine Aufgaben eingetragen sind |
 | `selectAutomationenNachPlattform` / `…NachProjekt` | gruppierte Sicht |
 | `selectLetzteAktivitaeten` | neueste zuerst; leer → Leerzustand |
 | `selectCrmUebersicht` | fällige Wiedervorlagen, Bewerbungen nach Status, offene Leads |
 | `selectLeadSumme` | Summe nur über Leads mit Betrag; ohne Beträge `null` |
+| `werkzeugListe`, `werkzeugVerknuepft`, `promptPlatzhalter`, `promptAusfuellen`, `geheimnisVerdacht` | Werkzeugkasten: Filter, Verknüpfungen in beide Richtungen, Platzhalter, Schlüsselwarnung |
+| `aboUebersicht`, `aboTermine`, `selectAboFristen` | Monatskosten, fortgeschriebene Verlängerungen und letzte Kündigungstage (Kalender, Cockpit, Dashboard) |
+| `abrufZiele`, `abfragen`, `mailZuordnen`, `kontaktAusMail` | Postfach: Suche nur nach Kontaktadressen und Unternehmensdomains, Zuordnung zu Kontakt, Unternehmen und Bewerbung |
 
 Datums-Hilfen in `dates.ts`: `isWorkday`, `nextWorkday`, `countWorkdays`, `relativeDueLabel` (z. B. „Noch keine Frist hinterlegt“, „Überfällig seit 3 Tagen“, „Heute fällig“) sowie Formatierer über `Intl` mit `de-DE`.
 
 ### Navigation, Layout und Design
 
 - **Breiten**
-  - ≥ 1200 px: dunkle Sidebar (256 px) mit Wortmarke und 9 Punkten; der aktive Punkt hat einen blauen Balken und `aria-current`
-  - 768–1199 px: Icon-Leiste mit kurzem Label
+  - ≥ 1200 px: dunkle Sidebar (256 px) mit Wortmarke und Gruppen (Arbeit, KI-Werkzeugkasten – einklappbar, Lernen, Netzwerk & Karriere, Marke & System); der aktive Punkt hat einen blauen Balken und `aria-current`
+  - 768–1199 px: Icon-Leiste mit kurzem Label; Gruppen durch Linien getrennt, der Werkzeugkasten als ein Punkt
   - < 768 px: dunkle Topbar und Menü als `<dialog>`-Schublade (Fokusfang, Esc schließt, Fokus kehrt zurück)
 - **Immer sichtbar**: Skip-Link; Fokus auf das h1 bei Routenwechsel; Demo-Banner, nicht schließbar
 - **Routen**: `/`, `/projekte(/:id)`, `/automationen`, `/weiterbildung`, `/pikartz-ai`, `/aufgaben`, `/kontakte` (plus `/unternehmen`, `/leads`, `/:id`), `/bewerbungen(/zielrollen)`, `/einstellungen`, NotFound
@@ -169,16 +250,16 @@ Datums-Hilfen in `dates.ts`: `isWorkday`, `nextWorkday`, `countWorkdays`, `relat
 - **Diamant**: nur im Cockpit-Kopf und im PIKARTZ.AI-Kopf
 - **Formulare**: kontrolliert über `useForm`, Validierung pro Entität als reine Funktion. Anlegen und Bearbeiten im Dialog, auf Mobil im Vollbild. Leere Zahlen werden zu `null`. Rückfrage „Änderungen verwerfen?“; nach dem Speichern ein Toast.
 
-### Seed (nur belegte Inhalte)
+### Seed (öffentlich neutral, persönlich nur lokal)
 
-Quelle: `docs/sources/arbeitskontext.md` (Saschas Projekt-Übersicht vom 2026-10-07, Roadmap v2 / task-1-7)
+Das Repository ist öffentlich. Alle persönlichen Startdaten (Projekte, Weiterbildung, Zielrollen, Anzeigename) stehen nur in `src/data/seed.privat.ts` (export `STARTDATEN`, von Git ignoriert). Ohne diese Datei startet die App ohne Projekte, Kurs und Zielrollen. Tests verwenden fiktive Beispieldaten aus `src/test/beispielStart.ts`; der Wächter `src/test/datenschutz.test.ts` prüft alle versionierten Dateien gegen die Begriffe der lokalen Datei (`PRIVATE_BEGRIFFE` plus Titel).
 
-- **Projekte**: 12 Projekte mit Kategorie, Status (🟢/🟡 → `in_arbeit`, ✅ → `abgeschlossen`, Konzeptphase → `idee`), „zuletzt aktiv“; ohne Automationsprofil
+- **Projekte** (lokal): mit Kategorie, Status (🟢/🟡 → `in_arbeit`, ✅ → `abgeschlossen`, Konzeptphase → `idee`), „zuletzt aktiv“; ohne Automationsprofil
 - **Private Details**: Beschreibung, Tools, Bestandteile, Notizen und nächste Schritte stehen nur lokal in `src/data/seed.privat.ts` (von Git ignoriert, Repository ist öffentlich). `seed.ts` bindet die Datei über `import.meta.glob` ein, wenn sie existiert.
 - **Aufgaben** (aus den lokalen Details): offene Punkte als nächste Schritte ohne Frist, [x]-Punkte als erledigt ohne Datum
-- **Weiterbildung**: Kurs mit Anbieter, 03.08.–18.12.2026, Unterrichtszeit, Umfang und Modulen; ohne Kursaufgaben
-- **PIKARTZ.AI**: 7 belegte Designregeln, Demo-Deck Modul 1 / Tag 1
-- **Bewerbungen**: 3 Zielrollen
-- **Einstellungen**: Anzeigename „Sascha“
+- **Weiterbildung** (lokal): Kurs mit Anbieter, Zeitraum, Unterrichtszeit, Umfang und Modulen; ohne Kursaufgaben
+- **PIKARTZ.AI** (öffentlich): 7 belegte Designregeln, Demo-Deck Modul 1 / Tag 1
+- **Bewerbungen** (lokal): Zielrollen
+- **Einstellungen** (lokal): Anzeigename
 - **Leer**: Kontakte, Unternehmen, Leads, Bewerbungen, Termine, Aktivitäten
 - **Schema**: Version 2 (Projekt mit `kategorie` und `zuletztAktiv`, Kurs mit Details); Migration 1 → 2 in `src/data/migrations.ts`
