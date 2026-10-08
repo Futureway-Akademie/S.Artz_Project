@@ -4,7 +4,7 @@ Stand: 2026-10-08, Roadmap v7. Die maßgebliche Quelle ist `.workshop/roadmap.js
 
 ## Gesamt
 
-**91,88 %**: 181 von 197 Gewichtspunkten, 73 von 81 Tasks abgeschlossen.
+**92,89 %**: 183 von 197 Gewichtspunkten, 74 von 81 Tasks abgeschlossen.
 
 ## Phasen
 
@@ -28,7 +28,7 @@ Stand: 2026-10-08, Roadmap v7. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | 16. Präsentation 21.10.2026 | in Arbeit | 1 von 2 | 2 von 4 |
 | 17. Anbindungen | abgeschlossen | 5 von 5 | 13 von 13 |
 | 18. Online und Handy | in Arbeit | 3 von 4 | 7 von 9 |
-| 19. Praxis und Abschluss | in Arbeit | 0 von 5 | 0 von 10 |
+| 19. Praxis und Abschluss | in Arbeit | 1 von 5 | 2 von 10 |
 
 ## Offene Tasks
 
@@ -41,7 +41,6 @@ Stand: 2026-10-08, Roadmap v7. Die maßgebliche Quelle ist `.workshop/roadmap.js
 | task-19-2 | Datenschutzerklärung, Impressum, Nutzungsbedingungen | geplant | 2 |
 | task-19-3 | AVVs und Verzeichnis der Verarbeitungen | geplant | 1 |
 | task-19-4 | Abschlussprüfung Roadmap v7 | geplant | 2 |
-| task-19-5 | Projektdokumentation für die Workshop-Zentrale | in Arbeit | 2 |
 
 Abgebrochen und nicht mitgezählt: task-5-6 (Git-Historie bereinigen, auf Saschas Entscheidung).
 

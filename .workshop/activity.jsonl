@@ -301,3 +301,5 @@
 {"timestamp":"2026-10-08T10:29:51Z","type":"task_completed","taskId":"task-18-3","summary":"Task 'Push-Erinnerungen ohne Inhalt' abgeschlossen."}
 {"timestamp":"2026-10-08T11:10:51Z","type":"roadmap_updated","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' ergänzt (elf Kapitel unter docs/), startbar."}
 {"timestamp":"2026-10-08T11:32:55Z","type":"task_started","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' gestartet."}
+{"timestamp":"2026-10-08T12:30:42Z","type":"verification_passed","taskId":"task-19-5","summary":"Elf Doku-Kapitel geprüft, Wächter grün; Reflexion als freigegebener Entwurf."}
+{"timestamp":"2026-10-08T12:30:42Z","type":"task_completed","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' abgeschlossen."}

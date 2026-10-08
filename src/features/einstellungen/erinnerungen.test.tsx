@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { readFileSync } from 'node:fs'
 import { berlinJetzt, ERINNERUNG, faelligeAbos } from '../../../supabase/functions/_gemeinsam/push.ts'
 import { CloudProvider } from '../../app/CloudProvider.tsx'
@@ -46,12 +46,10 @@ describe('Push-Erinnerungen ohne Inhalte', () => {
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: 'Erinnerung einschalten' }))
     })
-    expect(screen.getByText(/täglich um 07:00 Uhr/)).toBeInTheDocument()
+    expect(await screen.findByText(/täglich um 07:00 Uhr/)).toBeInTheDocument()
     expect([...fake.pushAbos.values()]).toEqual([{ endpoint: 'https://push.example/abc', p256dh: 'p', auth: 'a', stunde: 7 }])
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Ausschalten' }))
-    })
-    expect(fake.pushAbos.size).toBe(0)
+    fireEvent.click(screen.getByRole('button', { name: 'Ausschalten' }))
+    await waitFor(() => expect(fake.pushAbos.size).toBe(0))
   })
 
   it('erklärt, wenn Push hier nicht geht', async () => {

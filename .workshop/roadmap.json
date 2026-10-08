@@ -2525,7 +2525,7 @@
           "description": "Elf Kapitel unter docs/ (setup, idea, audience, features, architecture, decisions, usage, tests, limitations, progress, reflection), aus vorhandenen Quellen zusammengeführt; ohne private Projektinhalte.",
           "order": 5,
           "weight": 2,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [],
           "definitionOfDone": [
             "Alle elf Kapiteldateien unter docs/ vorhanden und mit Inhalt gefüllt",
@@ -2534,12 +2534,17 @@
             "Reflexion von Sascha verfasst oder freigegeben"
           ],
           "startedAt": "2026-10-08T11:32:55Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T12:30:42Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Elf Kapitel unter docs/ vorhanden (setup, idea, audience, features, architecture, decisions, usage, tests, limitations, progress, reflection); Inhalte mit Roadmap, Architektur, Entscheidungen, Prüfprotokoll und Datenbankschema abgeglichen, Knopfnamen in usage.md mit der App geprüft; Datenschutz-Wächter grün; Reflexion bleibt auf Saschas ausdrückliche Freigabe vorerst Entwurf mit Leitfragen, Sascha prüft sie am Ende. Nebenbei: wackeliger Test der Push-Erinnerung (erinnerungen.test.tsx) wartet jetzt auf asynchrone Updates.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run",
+              "npx vitest run src/test/datenschutz.test.ts"
+            ],
+            "checkedAt": "2026-10-08T12:30:42Z"
           }
         }
       ]
