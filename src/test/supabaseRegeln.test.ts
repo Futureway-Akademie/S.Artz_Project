@@ -171,6 +171,14 @@ describe('Supabase-Regeln (schema.sql)', () => {
     await als(SASCHA, `update public.profile set gesperrt = false where user_id = '${KIM}'`)
   })
 
+  it('Push-Abos: jeder nur die eigenen, nur https-Endpunkte', async () => {
+    await als(KIM, `insert into public.push_abos (user_id, endpoint, p256dh, auth, stunde) values ('${KIM}', 'https://push.example/abc', 'p', 'a', 7)`)
+    expect(await als(SASCHA, 'select endpoint from public.push_abos')).toEqual([])
+    expect(await als(KIM, 'select stunde from public.push_abos')).toEqual([{ stunde: 7 }])
+    await expect(als(KIM, `insert into public.push_abos (user_id, endpoint, p256dh, auth) values ('${SASCHA}', 'https://push.example/x', 'p', 'a')`)).rejects.toThrow()
+    await expect(als(KIM, `insert into public.push_abos (user_id, endpoint, p256dh, auth) values ('${KIM}', 'http://push.example/x', 'p', 'a')`)).rejects.toThrow()
+  })
+
   it('lässt sich gefahrlos erneut ausführen (z. B. nach einem Update)', async () => {
     await db.exec(readFileSync('supabase/schema.sql', 'utf8'))
     expect((await db.query(`select count(*)::int as n from public.profile`)).rows[0]).toEqual({ n: 2 })

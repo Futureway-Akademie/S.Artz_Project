@@ -52,3 +52,24 @@ self.addEventListener('fetch', (event) => {
     )
   }
 })
+
+// Erinnerungen per Push: zeigen nur den mitgeschickten Hinweis (ohne Inhalte aus deinen Daten)
+self.addEventListener('push', (event) => {
+  let nachricht = { titel: 'PIKARTZ.AI Arbeitscockpit', text: 'Schau, was heute ansteht.' }
+  try {
+    nachricht = { ...nachricht, ...event.data.json() }
+  } catch {
+    // ohne lesbare Nutzlast der Standardtext
+  }
+  event.waitUntil(self.registration.showNotification(nachricht.titel, { body: nachricht.text, icon: '/icons/icon-192.png', badge: '/icons/icon-192.png', tag: 'tageserinnerung' }))
+})
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((fenster) => {
+      const offen = fenster.find((f) => new URL(f.url).origin === self.location.origin)
+      return offen ? offen.focus() : self.clients.openWindow('/')
+    }),
+  )
+})

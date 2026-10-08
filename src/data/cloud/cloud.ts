@@ -102,6 +102,11 @@ export interface CloudDienst {
   freigabeSchreiben: (bereich: string, version: number, umschlag: FreigabeUmschlag, schluessel: Array<{ empfaengerId: string; verpackt: string }>) => Promise<void>
   freigabeEntfernen: (bereich: string) => Promise<void>
   freigabenFuerMich: () => Promise<ErhalteneFreigabe[]>
+
+  // --- Erinnerungen per Push (Roadmap v7): nur das Abo, keine Inhalte ---
+  pushAbos: () => Promise<Array<{ endpoint: string; stunde: number }>>
+  pushSpeichern: (abo: { endpoint: string; p256dh: string; auth: string }, stunde: number) => Promise<void>
+  pushEntfernen: (endpoint: string) => Promise<void>
 }
 
 /** Schutz vor Versehen: Nur ein verschlüsselter Tresor-Umschlag darf das Gerät verlassen. */

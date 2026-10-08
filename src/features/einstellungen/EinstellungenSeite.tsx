@@ -20,6 +20,7 @@ import type { AppData } from '../../domain/types.ts'
 import styles from './EinstellungenSeite.module.css'
 import { KiProtokollPanel } from '../ki/KiProtokollPanel.tsx'
 import { DemoPanel } from './DemoPanel.tsx'
+import { ErinnerungenPanel } from './ErinnerungenPanel.tsx'
 import { GmailPanel } from './GmailPanel.tsx'
 import { KontoPanel } from './KontoPanel.tsx'
 import { SicherheitPanel } from './SicherheitPanel.tsx'
@@ -141,6 +142,8 @@ export function EinstellungenSeite() {
       <KontoPanel />
 
       <GmailPanel />
+
+      <ErinnerungenPanel />
 
       <KiProtokollPanel />
 

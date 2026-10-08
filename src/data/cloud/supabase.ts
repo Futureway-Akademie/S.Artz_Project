@@ -280,6 +280,20 @@ export const supabaseDienst: CloudDienst = {
       return s ? [{ besitzerId: f.besitzer_id as string, bereich: f.bereich as string, version: f.version as number, umschlag: f.umschlag as FreigabeUmschlag, verpackt: s.verpackt as string, aktualisiertAm: f.aktualisiert_am as string }] : []
     })
   },
+
+  async pushAbos() {
+    const zeilen = pruefe(await (await holeClient()).from('push_abos').select('endpoint, stunde')) ?? []
+    return zeilen.map((z) => ({ endpoint: z.endpoint as string, stunde: z.stunde as number }))
+  },
+
+  async pushSpeichern(abo, stunde) {
+    const { c, id } = await mitNutzer()
+    pruefe(await c.from('push_abos').upsert({ user_id: id, endpoint: abo.endpoint, p256dh: abo.p256dh, auth: abo.auth, stunde }, { onConflict: 'user_id,endpoint' }))
+  },
+
+  async pushEntfernen(endpoint) {
+    pruefe(await (await holeClient()).from('push_abos').delete().eq('endpoint', endpoint))
+  },
 }
 
 const DOKUMENTE = 'dokumente'

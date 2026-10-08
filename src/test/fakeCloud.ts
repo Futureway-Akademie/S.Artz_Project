@@ -32,6 +32,7 @@ export function createFakeCloud(
   const einladungen: Array<{ email: string; rolleId: string | null }> = []
   const kiAnfragen: Array<{ aufgabe: string; eingabe: string }> = []
   const dateien = new Map<string, Uint8Array>()
+  const pushAbos = new Map<string, { endpoint: string; p256dh: string; auth: string; stunde: number }>()
   const webhooks = new Map<string, { url: string; letzteAusfuehrung: string | null; letzterStatus: number | null; letzteMeldung: string }>()
   const workflowAufrufe: Array<{ werkzeugId: string; eingabe: string; url: string }> = []
   // Gemeinsamer Zustand mehrerer Fake-Geräte: über opts.geteilt übergeben
@@ -145,6 +146,13 @@ export function createFakeCloud(
       geteilt.freigaben.delete(`${id}:${bereich}`)
       geteilt.freigabeSchluessel = geteilt.freigabeSchluessel.filter((s) => !(s.besitzerId === id && s.bereich === bereich))
     },
+    pushAbos: async () => [...pushAbos.values()].map((a) => ({ endpoint: a.endpoint, stunde: a.stunde })),
+    pushSpeichern: async (abo, stunde) => {
+      pushAbos.set(abo.endpoint, { ...abo, stunde })
+    },
+    pushEntfernen: async (endpoint) => {
+      pushAbos.delete(endpoint)
+    },
     freigabenFuerMich: async () => {
       const id = meineId()
       if (ich()?.gesperrt) return []
@@ -174,6 +182,7 @@ export function createFakeCloud(
     kiAnfragen,
     dateien,
     workflowAufrufe,
+    pushAbos,
     geteilt,
     profile: () => profile,
     setzeProfile: (p: Profil[]) => {

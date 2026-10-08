@@ -2362,20 +2362,24 @@
           "description": "Web-Push mit „n Punkte fällig“ ohne Details; Details erst nach dem Entsperren.",
           "order": 3,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-18-2"
           ],
           "definitionOfDone": [
             "Push ohne personenbezogene Inhalte"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T10:26:03Z",
+          "completedAt": "2026-10-08T10:29:51Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Push-Erinnerungen ohne Inhalt: Tabelle push_abos (nur eigenes Abo, nur https, RLS mit PGlite getestet), Supabase-Funktion erinnern (stündlich per Cron mit Geheimnis, einmal täglich ab gewählter Stunde in Berliner Zeit, fester Text ohne Daten, abgelaufene Abos werden gelöscht), Service Worker zeigt Benachrichtigung und öffnet die App, Einstellungs-Panel zum Ein- und Ausschalten mit Uhrzeit (nur angemeldet und wo unterstützt). Anleitung docs/push-einrichtung.md. Live-Test braucht https-Hosting und VAPID-Schlüssel (Sascha).",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T10:29:51Z"
           }
         },
         {

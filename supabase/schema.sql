@@ -319,3 +319,25 @@ create policy "freigabe_schluessel_schreiben" on public.freigabe_schluessel for 
   using (besitzer_id = auth.uid() and public.ist_admin()) with check (besitzer_id = auth.uid() and public.ist_admin());
 revoke all on public.freigaben from anon;
 revoke all on public.freigabe_schluessel from anon;
+
+-- ============================================================================
+-- Erinnerungen per Push (Roadmap v7): Der Server kennt keine Inhalte (Ende-zu-Ende-Verschlüsselung),
+-- er verschickt nur zur gewählten Uhrzeit „Schau, was heute ansteht“. Gespeichert wird nur das Push-Abo.
+-- ============================================================================
+
+create table if not exists public.push_abos (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  endpoint text not null check (endpoint ~ '^https://'),
+  p256dh text not null,
+  auth text not null,
+  -- Stunde der täglichen Erinnerung (Zeitzone Berlin), 0–23
+  stunde smallint not null default 8 check (stunde between 0 and 23),
+  letzter_versand date,
+  primary key (user_id, endpoint)
+);
+
+alter table public.push_abos enable row level security;
+drop policy if exists "push_abos_eigene" on public.push_abos;
+create policy "push_abos_eigene" on public.push_abos for all to authenticated
+  using (user_id = auth.uid()) with check (user_id = auth.uid() and not public.ist_gesperrt());
+revoke all on public.push_abos from anon;
