@@ -221,3 +221,10 @@
 {"timestamp":"2026-10-08T09:00:33Z","type":"task_started","taskId":"task-13-3","summary":"Task 'Werkzeugkasten-Startvorlagen' gestartet."}
 {"timestamp":"2026-10-08T09:01:46Z","type":"verification_passed","taskId":"task-13-3","summary":"Vorlagen-Übernahme getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T09:01:46Z","type":"task_completed","taskId":"task-13-3","summary":"Task 'Werkzeugkasten-Startvorlagen' abgeschlossen."}
+{"timestamp":"2026-10-08T09:02:04Z","type":"roadmap_updated","summary":"Roadmap-Korrektur: task-14-1, task-15-1, task-17-3 und task-17-5 hängen nicht mehr an task-13-1. Der Code wird gegen eine nachgebaute Supabase-Schnittstelle gebaut und getestet; der Live-Test erfolgt in task-13-1 gemeinsam mit Sascha (Saschas Auftrag: alles vorziehen, was ohne ihn geht)."}
+{"timestamp":"2026-10-08T09:03:36Z","type":"task_started","taskId":"task-14-1","summary":"Task 'Datenmodell für Nutzer, Rollen und Rechte' gestartet."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"verification_passed","taskId":"task-14-1","summary":"RLS-Regeln mit PGlite und Rechte-Logik getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_completed","taskId":"task-14-1","summary":"Task 'Datenmodell für Nutzer, Rollen und Rechte' abgeschlossen."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_ready","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' ist startbar."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_ready","taskId":"task-14-3","summary":"Task 'Admin-Bereich' ist startbar."}
+{"timestamp":"2026-10-08T09:08:19Z","type":"task_started","taskId":"task-14-2","summary":"Task 'Einladung und Erstanmeldung' gestartet."}

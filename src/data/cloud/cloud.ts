@@ -2,6 +2,7 @@
  * Schnittstelle für Login und Synchronisierung – unabhängig von Supabase, damit Tests einen Fake nutzen können.
  * Übertragen wird ausschließlich der verschlüsselte Umschlag (siehe `istVerschluesselterUmschlag`).
  */
+import type { Profil, Rolle } from '../../domain/bereiche.ts'
 import { alsTresor } from '../tresorKrypto.ts'
 
 export interface CloudNutzer {
@@ -29,6 +30,19 @@ export interface CloudDienst {
   /** `erwarteteRevision` null = erster Upload; bei abweichender Revision Konflikt statt Überschreiben */
   speichern: (umschlag: string, erwarteteRevision: number | null) => Promise<SpeicherAntwort>
   loeschen: () => Promise<void>
+
+  // --- Mehrbenutzer (Roadmap v7) ---
+  /** Eigenes Profil; null, wenn (noch) keins existiert */
+  meinProfil: () => Promise<Profil | null>
+  rollen: () => Promise<Rolle[]>
+  /** Nur für Admins: alle Profile */
+  profile: () => Promise<Profil[]>
+  /** Nur für Admins */
+  rolleSpeichern: (rolle: { id?: string; name: string; bereiche: string[] }) => Promise<Rolle>
+  rolleLoeschen: (id: string) => Promise<void>
+  profilAendern: (userId: string, aenderung: Partial<Pick<Profil, 'rolleId' | 'gesperrt' | 'bereicheAn' | 'bereicheAus' | 'istAdmin'>>) => Promise<void>
+  /** Einladung per Mail (über eine Supabase-Funktion, die den Admin prüft) */
+  einladen: (email: string, rolleId: string | null, zurueck: string) => Promise<void>
 }
 
 /** Schutz vor Versehen: Nur ein verschlüsselter Tresor-Umschlag darf das Gerät verlassen. */

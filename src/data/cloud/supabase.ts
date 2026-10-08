@@ -4,11 +4,40 @@
  * Zu Supabase gehen nur: E-Mail-Adresse (Login) und der verschlüsselte Umschlag – nie Klartext.
  */
 import type { SupabaseClient } from '@supabase/supabase-js'
+import type { Profil, Rolle } from '../../domain/bereiche.ts'
 import type { CloudDienst, CloudStand } from './cloud.ts'
 
 const URL_ = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 const TABELLE = 'tresor'
+const PROFIL_FELDER = 'user_id, email, anzeigename, rolle_id, ist_admin, gesperrt, bereiche_an, bereiche_aus'
+
+interface ProfilZeile {
+  user_id: string
+  email: string
+  anzeigename: string
+  rolle_id: string | null
+  ist_admin: boolean
+  gesperrt: boolean
+  bereiche_an: string[]
+  bereiche_aus: string[]
+}
+
+const alsProfil = (z: ProfilZeile): Profil => ({
+  userId: z.user_id,
+  email: z.email,
+  anzeigename: z.anzeigename,
+  rolleId: z.rolle_id,
+  istAdmin: z.ist_admin,
+  gesperrt: z.gesperrt,
+  bereicheAn: z.bereiche_an ?? [],
+  bereicheAus: z.bereiche_aus ?? [],
+})
+
+const pruefe = <T,>(antwort: { data: T; error: { message: string } | null }): T => {
+  if (antwort.error) throw new Error(antwort.error.message)
+  return antwort.data
+}
 
 let client: Promise<SupabaseClient> | null = null
 
@@ -96,6 +125,54 @@ export const supabaseDienst: CloudDienst = {
 
   async loeschen() {
     const { error } = await (await holeClient()).from(TABELLE).delete().neq('revision', -1)
+    if (error) throw new Error(error.message)
+  },
+
+  async meinProfil() {
+    const c = await holeClient()
+    const { data: sitzung } = await c.auth.getSession()
+    const id = sitzung.session?.user.id
+    if (!id) return null
+    const zeile = pruefe(await c.from('profile').select(PROFIL_FELDER).eq('user_id', id).maybeSingle<ProfilZeile>())
+    return zeile ? alsProfil(zeile) : null
+  },
+
+  async rollen(): Promise<Rolle[]> {
+    const zeilen = pruefe(await (await holeClient()).from('rollen').select('id, name, bereiche').order('name'))
+    return (zeilen ?? []) as Rolle[]
+  },
+
+  async profile() {
+    const zeilen = pruefe(await (await holeClient()).from('profile').select(PROFIL_FELDER).order('email').returns<ProfilZeile[]>())
+    return (zeilen ?? []).map(alsProfil)
+  },
+
+  async rolleSpeichern(rolle) {
+    const c = await holeClient()
+    const zeile = rolle.id
+      ? pruefe(await c.from('rollen').update({ name: rolle.name, bereiche: rolle.bereiche }).eq('id', rolle.id).select('id, name, bereiche').single())
+      : pruefe(await c.from('rollen').insert({ name: rolle.name, bereiche: rolle.bereiche }).select('id, name, bereiche').single())
+    return zeile as Rolle
+  },
+
+  async rolleLoeschen(id) {
+    pruefe(await (await holeClient()).from('rollen').delete().eq('id', id))
+  },
+
+  async profilAendern(userId, a) {
+    const felder: Record<string, unknown> = {}
+    if (a.rolleId !== undefined) felder.rolle_id = a.rolleId
+    if (a.gesperrt !== undefined) felder.gesperrt = a.gesperrt
+    if (a.istAdmin !== undefined) felder.ist_admin = a.istAdmin
+    if (a.bereicheAn !== undefined) felder.bereiche_an = a.bereicheAn
+    if (a.bereicheAus !== undefined) felder.bereiche_aus = a.bereicheAus
+    // Die Datenbank lässt Änderungen nur durch den Admin zu (RLS); ohne Treffer gab es keine Berechtigung
+    const zeilen = pruefe(await (await holeClient()).from('profile').update(felder).eq('user_id', userId).select('user_id'))
+    if (!zeilen || zeilen.length === 0) throw new Error('Keine Berechtigung für diese Änderung.')
+  },
+
+  async einladen(email, rolleId, zurueck) {
+    const { error } = await (await holeClient()).functions.invoke('einladen', { body: { email, rolleId, zurueck } })
     if (error) throw new Error(error.message)
   },
 }

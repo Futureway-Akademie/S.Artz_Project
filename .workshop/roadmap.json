@@ -1720,7 +1720,8 @@
           "definitionOfDone": [
             "Supabase-Projekt in Frankfurt mit Tabelle tresor und RLS",
             "Anmeldung per E-Mail-Link funktioniert lokal",
-            "Synchronisierung echt geprüft: Supabase enthält nur Chiffretext"
+            "Synchronisierung echt geprüft: Supabase enthält nur Chiffretext",
+            "Live geprüft: Mehrbenutzer-Tabellen und Regeln, Einladung, KI- und Webhook-Funktionen (sofern bis dahin gebaut)"
           ],
           "startedAt": null,
           "completedAt": null,
@@ -1787,7 +1788,7 @@
       "description": "Andere Nutzer nur per Einladung; Sascha als Admin vergibt Rollen und schaltet Bereiche je Nutzer frei oder sperrt Nutzer. Jeder hat eigene Daten, dazu geteilte Bereiche.",
       "order": 14,
       "weight": 16,
-      "status": "planned",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-14-1",
@@ -1795,22 +1796,24 @@
           "description": "Supabase: Profile, Rollen-Vorlagen (Kunde, Mitarbeiter, Kursteilnehmer, Familie/Freunde), Bereichsrechte je Nutzer, Sperre, Admin-Kennzeichen; Zugriffsregeln (RLS) und Tests. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "completed",
+          "dependsOn": [],
           "definitionOfDone": [
             "Tabellen und RLS-Regeln für Profile, Rollen und Rechte",
             "Nur der Admin ändert Rechte; Nutzer sehen nur eigene Rechte",
             "Gesperrte Nutzer erhalten keine Daten"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:03:36Z",
+          "completedAt": "2026-10-08T09:08:19Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "supabase/schema.sql erweitert: Tabellen rollen und profile, Funktionen ist_admin/ist_gesperrt, Profil-Trigger (erstes Konto = Admin, Eingeladene mit Rolle), Schutz für den letzten Admin, RLS (Rollen lesen alle, ändern nur Admin; Profile eigenes bzw. Admin), Tresor für Gesperrte gesperrt, Startrollen, mehrfach ausführbar. Mit echtem Postgres (PGlite, Supabase-auth nachgebildet) getestet: 7 Regeltests. Client: Bereiche, Rechteberechnung, Cloud-Schnittstelle um Profile/Rollen/Einladung erweitert (Supabase-Umsetzung und Fake), Rechte im CloudProvider mit Gerätecache. Live-Test in Supabase folgt in task-13-1.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:08:19Z"
           }
         },
         {
@@ -1819,7 +1822,7 @@
           "description": "Admin lädt per E-Mail ein; Selbstregistrierung ist abgeschaltet; neuer Nutzer legt beim ersten Login seinen eigenen Tresor an. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 2,
           "weight": 3,
-          "status": "planned",
+          "status": "in_progress",
           "dependsOn": [
             "task-14-1"
           ],
@@ -1828,7 +1831,7 @@
             "Ohne Einladung keine Registrierung",
             "Neuer Nutzer hat eigenen, getrennten Tresor"
           ],
-          "startedAt": null,
+          "startedAt": "2026-10-08T09:08:19Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
@@ -1843,7 +1846,7 @@
           "description": "Nutzerliste, Rollen-Vorlagen bearbeiten, Rolle zuweisen, Bereiche je Nutzer ein- und ausschalten, Nutzer sperren und entsperren. Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 3,
           "weight": 3,
-          "status": "planned",
+          "status": "ready",
           "dependsOn": [
             "task-14-1"
           ],
@@ -1917,7 +1920,7 @@
       "description": "Claude im Cockpit über AWS Bedrock (Frankfurt); Daten gehen nur nach Freigabe pro Aktion an die KI.",
       "order": 15,
       "weight": 14,
-      "status": "planned",
+      "status": "ready",
       "tasks": [
         {
           "id": "task-15-1",
@@ -1925,10 +1928,8 @@
           "description": "Edge Function als Vermittler zu Claude auf AWS Bedrock (eu-central-1): Zugangsdaten nur serverseitig, nur angemeldete und berechtigte Nutzer, Kostenlimit je Nutzer, keine Speicherung der Inhalte. Voraussetzung: AWS-Konto mit Claude-Freischaltung (Sascha). Für die Präsentation am 21.10.2026 nötig (lokal reicht).",
           "order": 1,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "ready",
+          "dependsOn": [],
           "definitionOfDone": [
             "Kein KI-Schlüssel im Browser oder Repository",
             "Nur berechtigte Nutzer, Kostenlimit greift",
@@ -2174,10 +2175,8 @@
           "description": "Workflows per Webhook über eine Supabase-Funktion starten und Status anzeigen; Webhook-Adressen geschützt, nie im Browser.",
           "order": 3,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "ready",
+          "dependsOn": [],
           "definitionOfDone": [
             "Workflow aus dem Cockpit startbar",
             "Status und letzte Ausführung sichtbar"
@@ -2219,10 +2218,8 @@
           "description": "Lebenslauf, Zeugnisse und Anschreiben verschlüsselt ablegen (Supabase Storage nur Chiffretext) und an Bewerbungen hängen.",
           "order": 5,
           "weight": 3,
-          "status": "planned",
-          "dependsOn": [
-            "task-13-1"
-          ],
+          "status": "ready",
+          "dependsOn": [],
           "definitionOfDone": [
             "Dateien nur verschlüsselt gespeichert",
             "Dokumente an Bewerbungen anhängbar"
