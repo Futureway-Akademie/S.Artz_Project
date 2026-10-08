@@ -154,3 +154,39 @@ export function idZiel(data: AppData, id: string): { titel: string; link: string
   if (wz) return { titel: wz.titel, link: werkzeugLink(wz) }
   return null
 }
+
+export interface Stellenanzeige {
+  stelle: string
+  unternehmen: string
+  ort: string
+  anforderungen: string[]
+  ansprechpartner: string
+  email: string
+  link: string
+  /** JJJJ-MM-TT oder leer */
+  bewerbungsfrist: string
+}
+
+/** Liest die JSON-Antwort der KI tolerant (auch mit Text drumherum); Unbekanntes wird leer. */
+export function stellenanzeigeAusAntwort(text: string): Stellenanzeige | null {
+  const start = text.indexOf('{')
+  const ende = text.lastIndexOf('}')
+  if (start < 0 || ende <= start) return null
+  try {
+    const roh = JSON.parse(text.slice(start, ende + 1)) as Record<string, unknown>
+    const s = (k: string) => (typeof roh[k] === 'string' ? (roh[k] as string).trim() : '')
+    const frist = s('bewerbungsfrist')
+    return {
+      stelle: s('stelle'),
+      unternehmen: s('unternehmen'),
+      ort: s('ort'),
+      anforderungen: Array.isArray(roh.anforderungen) ? roh.anforderungen.filter((a): a is string => typeof a === 'string' && a.trim() !== '').map((a) => a.trim()) : [],
+      ansprechpartner: s('ansprechpartner'),
+      email: s('email'),
+      link: s('link'),
+      bewerbungsfrist: /^\d{4}-\d{2}-\d{2}$/.test(frist) ? frist : '',
+    }
+  } catch {
+    return null
+  }
+}

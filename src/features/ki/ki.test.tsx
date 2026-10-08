@@ -162,3 +162,38 @@ describe('KI-Assistent: Fragen an die eigenen Daten', () => {
     expect(within(panel).getByRole('link', { name: 'KI-Skills' })).toHaveAttribute('href', '/projekte/seed-projekt-ki-skills')
   })
 })
+
+describe('Bewerbung aus Stellenanzeige', () => {
+  afterEach(() => localStorage.clear())
+
+  it('liest die Anzeige aus, zeigt die Angaben zur Prüfung und legt Bewerbung, Firma und Ansprechpartner an', async () => {
+    const { renderApp } = await import('../../test/renderApp.tsx')
+    const json = '```json\n{"stelle":"KI-Trainer (m/w/d)","unternehmen":"Acme GmbH","ort":"Köln","anforderungen":["n8n","Prompting"],"ansprechpartner":"Kim Muster","email":"kim@acme.example","link":"","bewerbungsfrist":"2026-11-01"}\n```'
+    const fake = createFakeCloud({ nutzer: { id: 'u1', email: 'admin@example.org' }, profile: [admin], kiAntwort: () => json })
+    const { gespeichert } = renderApp('/bewerbungen', { cloud: fake.dienst })
+    fireEvent.click(await screen.findByRole('button', { name: 'Aus Stellenanzeige' }))
+    const erster = screen.getByRole('dialog', { name: 'Bewerbung aus Stellenanzeige' })
+    fireEvent.change(within(erster).getByLabelText(/^Text der Stellenanzeige/), { target: { value: 'Wir suchen eine:n KI-Trainer:in …' } })
+    fireEvent.change(within(erster).getByLabelText(/^Link/), { target: { value: 'https://jobs.example/123' } })
+    fireEvent.click(within(erster).getByRole('button', { name: 'Mit KI auslesen' }))
+    const ki = await screen.findByRole('dialog', { name: 'KI: Stellenanzeige auslesen' })
+    await act(async () => {
+      fireEvent.click(await within(ki).findByRole('button', { name: 'Senden' }))
+    })
+    fireEvent.click(within(ki).getByRole('button', { name: 'Weiter zur Prüfung' }))
+    const pruefen = await screen.findByRole('dialog', { name: 'Angaben prüfen' })
+    expect(within(pruefen).getByLabelText(/^Stelle/)).toHaveValue('KI-Trainer (m/w/d)')
+    expect(within(pruefen).getByLabelText(/^Link/)).toHaveValue('https://jobs.example/123')
+    fireEvent.click(within(pruefen).getByRole('button', { name: 'Bewerbung anlegen' }))
+    expect(await screen.findByRole('heading', { level: 1, name: 'KI-Trainer (m/w/d)' })).toBeInTheDocument()
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    const d = gespeichert()
+    const b = d.bewerbungen.find((x) => x.stelle === 'KI-Trainer (m/w/d)')!
+    expect(b).toMatchObject({ status: 'geplant', wiedervorlageAm: '2026-11-01', link: 'https://jobs.example/123' })
+    expect(b.notiz).toContain('Anforderungen:\nn8n\nPrompting')
+    expect(d.unternehmen.find((u) => u.id === b.unternehmenId)!.name).toBe('Acme GmbH')
+    expect(d.kontakte.find((k) => k.id === b.kontaktId)).toMatchObject({ name: 'Kim Muster', email: 'kim@acme.example', rechtsgrundlage: 'vertrag' })
+  })
+})

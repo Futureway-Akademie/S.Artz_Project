@@ -20,6 +20,8 @@ import {
 import type { Bewerbung } from '../../domain/types.ts'
 import styles from '../kontakte/crm.module.css'
 import { BewerbungDialog } from './BewerbungDialog.tsx'
+import { StellenanzeigeDialog } from './StellenanzeigeDialog.tsx'
+import { NurMit } from '../../components/NurMit.tsx'
 import { BewerbungKennzahlen, BewerbungPipeline } from './Pipeline.tsx'
 import { BewerbungenNavigation } from './BewerbungenNavigation.tsx'
 
@@ -114,9 +116,20 @@ export function BewerbungenSeite() {
   const [params, setParams] = useSearchParams()
   const ansicht = params.get('ansicht') === 'pipeline' ? 'pipeline' : 'liste'
   const [dialog, setDialog] = useState<Bewerbung | 'neu' | null>(null)
+  const [anzeige, setAnzeige] = useState(false)
 
   return (
-    <Seite titel="Bewerbungen" einleitung="Deine Bewerbungen nach Status, verknüpft mit Zielrolle und Ansprechpartner." aktionen={<Button onClick={() => setDialog('neu')}>Bewerbung anlegen</Button>}>
+    <Seite titel="Bewerbungen" einleitung="Deine Bewerbungen nach Status, verknüpft mit Zielrolle und Ansprechpartner." aktionen={
+        <>
+          <NurMit bereich="ki">
+            <Button variant="secondary" onClick={() => setAnzeige(true)}>
+              Aus Stellenanzeige
+            </Button>
+          </NurMit>
+          <Button onClick={() => setDialog('neu')}>Bewerbung anlegen</Button>
+        </>
+      }
+    >
       <BewerbungenNavigation />
       {data.bewerbungen.length === 0 ? (
         <EmptyState title="Noch keine Bewerbungen" action={<Button onClick={() => setDialog('neu')}>Erste Bewerbung anlegen</Button>}>
@@ -138,6 +151,7 @@ export function BewerbungenSeite() {
           </Tabs>
         </>
       )}
+      {anzeige && <StellenanzeigeDialog onSchliessen={() => setAnzeige(false)} />}
       {dialog && <BewerbungDialog bewerbung={dialog === 'neu' ? undefined : dialog} onSchliessen={() => setDialog(null)} />}
     </Seite>
   )

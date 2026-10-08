@@ -268,3 +268,6 @@
 {"timestamp":"2026-10-08T09:47:42Z","type":"verification_passed","taskId":"task-16-1","summary":"Demo-Daten (gültig, entfernbar) getestet, Folien im Browser geprüft; alle Tests grün."}
 {"timestamp":"2026-10-08T09:47:42Z","type":"task_completed","taskId":"task-16-1","summary":"Task 'Demo-Daten, Ablauf und Folien' abgeschlossen."}
 {"timestamp":"2026-10-08T09:47:42Z","type":"task_ready","taskId":"task-16-2","summary":"Task 'Generalprobe' ist startbar."}
+{"timestamp":"2026-10-08T09:47:59Z","type":"task_started","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' gestartet."}
+{"timestamp":"2026-10-08T09:50:37Z","type":"verification_passed","taskId":"task-17-4","summary":"Ablauf Anzeige→KI→Prüfung→Anlage getestet; alle Tests grün."}
+{"timestamp":"2026-10-08T09:50:37Z","type":"task_completed","taskId":"task-17-4","summary":"Task 'Stellenanzeigen übernehmen' abgeschlossen."}

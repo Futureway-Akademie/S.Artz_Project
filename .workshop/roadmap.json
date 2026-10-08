@@ -2164,7 +2164,7 @@
       "description": "Google-Kalender, n8n/Make, Stellenanzeigen und Dokumente.",
       "order": 17,
       "weight": 13,
-      "status": "ready",
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-17-1",
@@ -2236,20 +2236,24 @@
           "description": "Stellenanzeige als Link oder Text einfügen; KI liest Firma, Stelle, Anforderungen und Kontakt aus und legt Bewerbung und Unternehmen an (nach Prüfung).",
           "order": 4,
           "weight": 3,
-          "status": "ready",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
           "definitionOfDone": [
             "Bewerbung aus Anzeige mit Vorschau"
           ],
-          "startedAt": null,
-          "completedAt": null,
+          "startedAt": "2026-10-08T09:47:59Z",
+          "completedAt": "2026-10-08T09:50:37Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "„Aus Stellenanzeige“ auf der Bewerbungsseite: Anzeigentext und Link einfügen, KI liest Stelle, Firma, Ort, Anforderungen, Ansprechpartner, E-Mail, Frist als JSON aus (tolerant geparst), Prüf-Formular zum Anpassen, dann Anlage von Bewerbung (geplant, Frist als Wiedervorlage), Unternehmen (vorhandene werden verknüpft) und Ansprechpartner (Rechtsgrundlage Anbahnung). Tests grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:50:37Z"
           }
         },
         {
