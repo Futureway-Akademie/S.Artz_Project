@@ -37,7 +37,7 @@ Web-App im Browser, responsiv für Desktop, Tablet und Smartphone. Oberfläche v
 11. Anbindungen: Google-Kalender, n8n/Make, Stellenanzeigen, Dokumente (Roadmap v7)
 12. Online in Deutschland gehostet, als App auf dem Handy installierbar (Roadmap v7)
 13. Projekte mit ausgewählten Nutzern zum Ansehen teilen, Aufgaben übergeben mit Rückmeldung (Roadmap v8)
-14. Anmeldung mit Google oder Microsoft für eingeladene Nutzer (Roadmap v8)
+14. Anmeldung mit Google oder Microsoft für eingeladene Nutzer, Zwei-Faktor-Anmeldung je Rolle (Roadmap v8)
 15. Outlook-Postfach und -Kalender, Dateien aus OneDrive und Google Drive (Roadmap v8)
 
 ## Nicht-Ziele

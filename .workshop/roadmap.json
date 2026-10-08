@@ -2725,9 +2725,9 @@
     {
       "id": "phase-21",
       "title": "Anmeldung",
-      "description": "Login nachschärfen; Anmeldung mit Google und Microsoft nur als Identitätsnachweis für eingeladene Nutzer; Tresor-Passwort bleibt.",
+      "description": "Login nachschärfen; Anmeldung mit Google und Microsoft nur als Identitätsnachweis für eingeladene Nutzer; Zwei-Faktor-Anmeldung je Rolle; Tresor-Passwort bleibt.",
       "order": 21,
-      "weight": 9,
+      "weight": 12,
       "status": "ready",
       "tasks": [
         {
@@ -2827,6 +2827,34 @@
             "Keine doppelten Konten bei wiederholten Rücksprüngen",
             "Die letzte Anmeldemethode lässt sich nicht entfernen",
             "Verhalten der automatischen Verknüpfung von Supabase geprüft und dokumentiert",
+            "Typecheck, Lint, Tests und Build grün",
+            "axe ohne Verstöße auf neuen Seiten und Dialogen"
+          ],
+          "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-21-5",
+          "title": "Zwei-Faktor-Anmeldung",
+          "order": 5,
+          "weight": 3,
+          "status": "planned",
+          "dependsOn": [
+            "task-21-4"
+          ],
+          "description": "Zweiter Faktor per Authenticator-App (TOTP, z. B. Google oder Microsoft Authenticator) über Supabase Auth für jede Anmeldeart; Pflicht je Rolle einstellbar, für den Admin immer Pflicht; serverseitig per RLS durchgesetzt.",
+          "definitionOfDone": [
+            "Einrichten per QR-Code in Einstellungen → Konto, Code-Abfrage nach jeder Anmeldeart (E-Mail-Link, Google, Microsoft)",
+            "Pflicht je Rolle einstellbar (Rollen-Vorlage, je Nutzer anpassbar); für den Admin immer Pflicht",
+            "Bei Pflicht: Synchronisierung, Teilen, Briefkasten, Admin-Funktionen und KI nur mit bestätigtem zweitem Faktor (RLS bzw. Funktionen prüfen die Stufe, PGlite-Test)",
+            "Zwei Geräte als zweiter Faktor möglich",
+            "Admin kann den zweiten Faktor eines Nutzers zurücksetzen; Ablauf zur Absicherung des eigenen Admin-Zugangs dokumentiert",
             "Typecheck, Lint, Tests und Build grün",
             "axe ohne Verstöße auf neuen Seiten und Dialogen"
           ],
@@ -3027,9 +3055,11 @@
             "task-22-3",
             "task-22-4",
             "task-22-5",
-            "task-22-7"
+            "task-22-7",
+            "task-21-5"
           ],
           "definitionOfDone": [
+            "Zwei-Faktor-Pflicht je Rolle serverseitig geprüft",
             "Keine Mail-, Kalender- oder Datei-Berechtigungen im reinen Login (Test)",
             "Keine Secrets oder Tokens im Repository, Log oder Tresor",
             "Browser bei 375, 768 und 1280 px",

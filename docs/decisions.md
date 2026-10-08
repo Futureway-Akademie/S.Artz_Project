@@ -661,3 +661,10 @@ Mit Sascha geplant und bestätigt; eingetragen als Roadmap v8 (Phasen 20–22, 1
 - Ein Nutzer kann mehrere Google- und Microsoft-Konten für Postfach, Kalender und Dateien verbinden (task-22-1, neu task-22-7). Fürs Anmelden reicht ein Konto.
 - **Sascha hat entschieden, bei der bestehenden Regel zu bleiben:** Zugangsschlüssel liegen nur im Arbeitsspeicher, nie im Tresor und nie auf dem Server. Nach dem Sperren oder Neuladen wird jedes Konto kurz neu bestätigt.
 - Verworfen: dauerhafte Schlüssel (Refresh-Token) verschlüsselt im Tresor. Bequemer, aber sie gelten bis zum Widerruf und müssten einmal über eine Supabase-Funktion laufen.
+
+## 2026-10-08 – Zwei-Faktor-Anmeldung je Rolle
+
+- Zweiter Faktor per Authenticator-App (TOTP) über Supabase Auth, für jede Anmeldeart (task-21-5). Googles eigene Zwei-Faktor-Bestätigung allein reicht nicht, weil das Cockpit sie nicht prüfen kann und sie beim E-Mail-Link nicht greift.
+- **Sascha hat entschieden:** Pflicht je Rolle einstellbar. Für den Admin ist sie immer Pflicht.
+- Durchsetzung serverseitig: Bei Pflicht verlangen Datenbankregeln und Funktionen die bestätigte zweite Stufe.
+- Ausfall des Geräts: zwei Geräte eintragbar, der Admin kann den Faktor eines Nutzers zurücksetzen.

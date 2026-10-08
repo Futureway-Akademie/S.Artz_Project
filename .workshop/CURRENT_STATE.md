@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v8, Fortschritt 75,93 % (183 von 241 Gewichtspunkten, 74 von 98 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v8, Fortschritt 75 % (183 von 244 Gewichtspunkten, 74 von 99 Tasks).
 
 ## Aktive Phase
 
@@ -266,6 +266,7 @@ Keine.
 | task-21-2 | Mit Google anmelden | ⏳ geplant | task-21-1 |
 | task-21-3 | Mit Microsoft anmelden | ⏳ geplant | task-21-2 |
 | task-21-4 | Anmeldemethoden verknüpfen und trennen | ⏳ geplant | task-21-3 |
+| task-21-5 | Zwei-Faktor-Anmeldung | ⏳ geplant | task-21-4 |
 
 ### Microsoft 365 und Google Drive anbinden
 
@@ -277,7 +278,7 @@ Keine.
 | task-22-4 | Dateien aus OneDrive | ⏳ geplant | task-22-1 |
 | task-22-5 | Dateien aus Google Drive | ▶️ startbar | – |
 | task-22-7 | Mehrere Google-Konten | ⏳ geplant | task-22-5 |
-| task-22-6 | Abschlussprüfung Anmeldung und Anbindungen | ⏳ geplant | task-21-4, task-22-2, task-22-3, task-22-4, task-22-5, task-22-7 |
+| task-22-6 | Abschlussprüfung Anmeldung und Anbindungen | ⏳ geplant | task-21-4, task-22-2, task-22-3, task-22-4, task-22-5, task-22-7, task-21-5 |
 
 ## Blockiert
 

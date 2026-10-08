@@ -309,3 +309,4 @@
 {"timestamp":"2026-10-08T17:27:21Z","type":"task_ready","taskId":"task-22-1","summary":"Task 'Microsoft verbinden' ist startbar."}
 {"timestamp":"2026-10-08T17:27:21Z","type":"task_ready","taskId":"task-22-5","summary":"Task 'Dateien aus Google Drive' ist startbar."}
 {"timestamp":"2026-10-08T17:33:08Z","type":"roadmap_updated","taskId":"task-22-7","summary":"Task 'Mehrere Google-Konten' ergänzt; task-22-1 für mehrere Microsoft-Konten präzisiert; Abschlussprüfung task-22-6 wartet zusätzlich auf task-22-7. Token bleiben nur im Arbeitsspeicher (Saschas Entscheidung)."}
+{"timestamp":"2026-10-08T17:40:06Z","type":"roadmap_updated","taskId":"task-21-5","summary":"Task 'Zwei-Faktor-Anmeldung' ergänzt (Authenticator-App, Pflicht je Rolle, Admin immer); Abschlussprüfung task-22-6 wartet zusätzlich darauf."}
