@@ -578,3 +578,15 @@ Die Planung mit Sascha läuft. Sobald sie abgeschlossen und bestätigt ist, wird
     - Gmail: nicht nötig
   - Dazu ein Verzeichnis der Verarbeitungen
   - Für das Produkt zusätzlich Datenschutzerklärung und Impressum
+- **Mehrbenutzer mit Admin (Saschas Vorgabe, 2026-10-08):**
+  - Andere Nutzer können sich am Ende ins CRM einloggen. Sascha ist Admin.
+  - Neue Nutzer kommen **nur per Einladung** rein. Zum Start haben sie nur Zugriff auf bestimmte Bereiche.
+  - Rechte über **Rollen**, z. B. Kunde, Mitarbeiter, Kursteilnehmer, Familie/Freunde:
+    - Rollen sind Vorlagen mit festen Rechten
+    - je Nutzer einzeln anpassbar
+    - Bereiche pro Nutzer ein- und ausschaltbar
+    - Nutzer komplett sperrbar
+  - Daten: **beides** – jeder Nutzer hat eigene Daten (eigener Tresor). Zusätzlich gibt Sascha einzelne Bereiche seiner Daten frei.
+  - Technische Folge: Geteilte Bereiche brauchen gemeinsame Schlüssel pro Bereich, verpackt je berechtigtem Nutzer.
+    - Beim Sperren oder Entziehen muss der Zugriff auch kryptografisch enden, also Schlüssel tauschen, nicht nur ausblenden.
+    - Durchsetzung zusätzlich serverseitig (Supabase RLS).
