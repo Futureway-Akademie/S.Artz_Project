@@ -17,6 +17,7 @@ import { UnternehmenDetailSeite } from '../features/kontakte/UnternehmenDetailSe
 import { UnternehmenSeite } from '../features/kontakte/UnternehmenSeite.tsx'
 import { VorlagenSeite } from '../features/kontakte/VorlagenSeite.tsx'
 import { MarkeSeite } from '../features/marke/MarkeSeite.tsx'
+import { AssistentSeite } from '../features/ki/AssistentSeite.tsx'
 import { AdminSeite } from '../features/admin/AdminSeite.tsx'
 import { PostfachSeite } from '../features/postfach/PostfachSeite.tsx'
 import { NichtGefunden } from '../features/NichtGefunden.tsx'
@@ -33,6 +34,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<CockpitSeite />} />
+        <Route path="assistent" element={<AssistentSeite />} />
         <Route path="dashboard" element={<DashboardSeite />} />
         <Route path="projekte">
           <Route index element={<ProjekteSeite />} />

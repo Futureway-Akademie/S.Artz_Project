@@ -135,6 +135,7 @@ const SEITEN = [
   '/kontakte/vorlagen',
   '/einstellungen',
   '/postfach',
+  '/assistent',
   '/gibt-es-nicht',
 ]
 

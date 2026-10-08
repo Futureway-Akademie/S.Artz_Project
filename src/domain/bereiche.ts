@@ -16,7 +16,7 @@ export const BEREICHE = [
   { key: 'postfach', label: 'Postfach', pfad: '/postfach' },
   { key: 'bewerbungen', label: 'Bewerbungen', pfad: '/bewerbungen' },
   { key: 'marke', label: 'PIKARTZ.AI', pfad: '/pikartz-ai' },
-  { key: 'ki', label: 'KI-Assistent', pfad: null },
+  { key: 'ki', label: 'KI-Assistent', pfad: '/assistent' },
 ] as const
 
 export type Bereich = (typeof BEREICHE)[number]['key']

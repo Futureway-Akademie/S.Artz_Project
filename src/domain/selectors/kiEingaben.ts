@@ -1,6 +1,7 @@
 import { formatDatum, heute, plusTage } from '../dates.ts'
 import { BEWERBUNG_STATUS, INTERAKTION_ART } from '../labels.ts'
 import type { AppData, Bewerbung, Interaktion, Mail } from '../types.ts'
+import { werkzeugLink } from './werkzeug.ts'
 
 /**
  * Bereitet die Texte für KI-Aufgaben vor. Sie erscheinen vollständig im Freigabe-Dialog und können dort
@@ -92,4 +93,64 @@ export function wiedervorlageAusAntwort(text: string): string | null {
 /** „Nächster Schritt: …“ aus einer Zusammenfassung lesen */
 export function naechsterSchrittAusAntwort(text: string): string | null {
   return text.match(/Nächster Schritt:\s*(.+)/)?.[1]?.trim() ?? null
+}
+
+export const CHAT_BEREICHE = [
+  { key: 'projekte', label: 'Projekte' },
+  { key: 'aufgaben', label: 'Aufgaben und Termine' },
+  { key: 'kontakte', label: 'Kontakte (ohne E-Mail und Telefon)' },
+  { key: 'bewerbungen', label: 'Bewerbungen' },
+  { key: 'leads', label: 'Leads' },
+  { key: 'wissen', label: 'Wissen' },
+  { key: 'werkzeug', label: 'Werkzeugkasten' },
+] as const
+
+export type ChatBereich = (typeof CHAT_BEREICHE)[number]['key']
+
+/** Kompakte Datenzeilen mit IDs für „Frage an deine Daten“ – nur aus den gewählten Bereichen, ohne Kontaktdaten. */
+export function chatEingabe(data: AppData, frage: string, bereiche: readonly ChatBereich[], now: Date, maxZeichen = 23_000): string {
+  const h = heute(now)
+  const firma = (id: string | null) => data.unternehmen.find((u) => u.id === id)?.name
+  const z: string[] = []
+  const teil = (...felder: Array<string | null | undefined | false>) => felder.filter(Boolean).join(' · ')
+  if (bereiche.includes('projekte')) for (const p of data.projekte) z.push(`[${p.id}] Projekt: ${teil(p.titel, p.status, p.kategorie, p.zuletztAktiv && `zuletzt aktiv ${p.zuletztAktiv}`)}`)
+  if (bereiche.includes('aufgaben')) {
+    for (const a of data.aufgaben.filter((a) => !a.erledigt || (a.erledigtAm ?? '') >= plusTage(h, -30)))
+      z.push(`[${a.id}] Aufgabe: ${teil(a.titel, a.faelligAm && `Frist ${a.faelligAm}`, a.erledigt && 'erledigt', a.fokus && 'im Fokus')}`)
+    for (const t of data.termine.filter((t) => t.datum >= plusTage(h, -30) && t.datum <= plusTage(h, 60))) z.push(`[${t.id}] Termin: ${teil(t.datum, t.uhrzeit, t.titel, t.ort)}`)
+  }
+  if (bereiche.includes('kontakte'))
+    for (const k of data.kontakte) z.push(`[${k.id}] Kontakt: ${teil(k.name, k.rolle, firma(k.unternehmenId), k.naechsteAktion && `nächste Aktion: ${k.naechsteAktion.text}${k.naechsteAktion.faelligAm ? ` (${k.naechsteAktion.faelligAm})` : ''}`)}`)
+  if (bereiche.includes('bewerbungen'))
+    for (const b of data.bewerbungen)
+      z.push(`[${b.id}] Bewerbung: ${teil(b.stelle, firma(b.unternehmenId), BEWERBUNG_STATUS[b.status].label, b.beworbenAm && `beworben ${b.beworbenAm}`, b.naechsterSchritt && `nächster Schritt: ${b.naechsterSchritt}`, b.wiedervorlageAm && `Wiedervorlage ${b.wiedervorlageAm}`)}`)
+  if (bereiche.includes('leads')) for (const l of data.leads) z.push(`[${l.id}] Lead: ${teil(l.titel, l.status, l.betragEur !== null && `${l.betragEur} €`, l.naechsterSchritt)}`)
+  if (bereiche.includes('wissen')) for (const w of data.wissen) z.push(`[${w.id}] Wissen: ${teil(w.titel, w.typ, w.thema)}`)
+  if (bereiche.includes('werkzeug')) for (const w of data.werkzeug) z.push(`[${w.id}] Werkzeug: ${teil(w.typ, w.titel, w.plattform, w.status)}`)
+
+  const kopf = `Heute ist ${h}.\nFrage: ${frage.trim()}\n\nDaten:\n`
+  let daten = z.join('\n') || '(keine Daten in den gewählten Bereichen)'
+  if (kopf.length + daten.length > maxZeichen) daten = `${daten.slice(0, maxZeichen - kopf.length - 40)}\n… (gekürzt)`
+  return kopf + daten
+}
+
+/** Wohin führt eine ID aus einer KI-Antwort? */
+export function idZiel(data: AppData, id: string): { titel: string; link: string } | null {
+  const p = data.projekte.find((x) => x.id === id)
+  if (p) return { titel: p.titel, link: `/projekte/${p.id}` }
+  const k = data.kontakte.find((x) => x.id === id)
+  if (k) return { titel: k.name, link: `/kontakte/${k.id}` }
+  const b = data.bewerbungen.find((x) => x.id === id)
+  if (b) return { titel: b.stelle, link: `/bewerbungen/${b.id}` }
+  const l = data.leads.find((x) => x.id === id)
+  if (l) return { titel: l.titel, link: `/kontakte/leads/${l.id}` }
+  const a = data.aufgaben.find((x) => x.id === id)
+  if (a) return { titel: a.titel, link: '/aufgaben' }
+  const t = data.termine.find((x) => x.id === id)
+  if (t) return { titel: t.titel, link: '/aufgaben?ansicht=termine' }
+  const w = data.wissen.find((x) => x.id === id)
+  if (w) return { titel: w.titel, link: `/wissen/${w.id}` }
+  const wz = data.werkzeug.find((x) => x.id === id)
+  if (wz) return { titel: wz.titel, link: werkzeugLink(wz) }
+  return null
 }

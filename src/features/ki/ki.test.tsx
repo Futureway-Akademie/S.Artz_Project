@@ -140,3 +140,25 @@ describe('KI-Tagesplanung', () => {
     ])
   })
 })
+
+describe('KI-Assistent: Fragen an die eigenen Daten', () => {
+  afterEach(() => localStorage.clear())
+
+  it('sendet nur gewählte Bereiche und verlinkt die Einträge in der Antwort', async () => {
+    const { renderApp } = await import('../../test/renderApp.tsx')
+    const fake = createFakeCloud({ nutzer: { id: 'u1', email: 'admin@example.org' }, profile: [admin], kiAntwort: () => 'Am weitesten ist [seed-projekt-ki-skills].' })
+    renderApp('/assistent', { cloud: fake.dienst })
+    fireEvent.change(await screen.findByLabelText(/^Deine Frage/), { target: { value: 'Welches Projekt ist am weitesten?' } })
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Bewerbungen' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Prüfen und senden' }))
+    const dialog = await screen.findByRole('dialog', { name: 'KI: Frage an deine Daten' })
+    await act(async () => {
+      fireEvent.click(await within(dialog).findByRole('button', { name: 'Senden' }))
+    })
+    expect(fake.kiAnfragen[0]!.eingabe).toContain('Projekt: KI-Skills')
+    expect(fake.kiAnfragen[0]!.eingabe).not.toContain('Bewerbung:')
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Antwort anzeigen' }))
+    const panel = screen.getByRole('region', { name: 'Antwort' })
+    expect(within(panel).getByRole('link', { name: 'KI-Skills' })).toHaveAttribute('href', '/projekte/seed-projekt-ki-skills')
+  })
+})

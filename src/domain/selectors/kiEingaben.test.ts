@@ -1,6 +1,6 @@
 import { beispielSeed } from '../../test/beispielStart.ts'
 import type { AppData } from '../types.ts'
-import { anschreibenEingabe, antwortEingabe, idsAusAntwort, naechsterSchrittAusAntwort, tagesplanEingabe, wiedervorlageAusAntwort, zusammenfassungEingabe } from './kiEingaben.ts'
+import { chatEingabe, idZiel, anschreibenEingabe, antwortEingabe, idsAusAntwort, naechsterSchrittAusAntwort, tagesplanEingabe, wiedervorlageAusAntwort, zusammenfassungEingabe } from './kiEingaben.ts'
 
 const zeit = '2026-10-01T10:00:00.000Z'
 const m = { erstelltAm: zeit, geaendertAm: zeit }
@@ -50,6 +50,18 @@ describe('Texte für KI-Aufgaben', () => {
     expect(t).toContain('[a1] Portfolio aktualisieren (Frist 2026-10-05, überfällig)')
     expect(t).not.toContain('Später')
     expect(t).toContain('[k1] Wiedervorlage Kontakt Kim Muster: Nachfassen')
+  })
+
+  it('Chat: nur gewählte Bereiche, ohne E-Mail und Telefon, gekürzt bei Überlänge; IDs führen zu Einträgen', () => {
+    const t = chatEingabe(daten(), 'Was wartet auf Antwort?', ['kontakte', 'bewerbungen'], now)
+    expect(t).toContain('Frage: Was wartet auf Antwort?')
+    expect(t).toContain('[b1] Bewerbung: KI-Trainer · Acme GmbH · Beworben')
+    expect(t).toContain('[k1] Kontakt: Kim Muster · HR · Acme GmbH')
+    expect(t).not.toContain('kim@acme.de')
+    expect(t).not.toContain('Portfolio')
+    expect(chatEingabe(daten(), 'x', ['aufgaben'], now, 120)).toContain('… (gekürzt)')
+    expect(idZiel(daten(), 'b1')).toEqual({ titel: 'KI-Trainer', link: '/bewerbungen/b1' })
+    expect(idZiel(daten(), 'erfunden')).toBeNull()
   })
 
   it('liest IDs, nächsten Schritt und Wiedervorlage aus Antworten', () => {

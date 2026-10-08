@@ -25,6 +25,7 @@ export const NAV_GRUPPEN: NavGruppe[] = [
     eintraege: [
       { to: '/', label: 'Arbeitscockpit', kurz: 'Cockpit', icon: 'cockpit' },
       { to: '/dashboard', label: 'Dashboard', kurz: 'Dashboard', icon: 'dashboard' },
+      { to: '/assistent', label: 'KI-Assistent', kurz: 'KI', icon: 'agent' },
       { to: '/aufgaben', label: 'Aufgaben & Termine', kurz: 'Aufgaben', icon: 'aufgaben' },
       { to: '/kalender', label: 'Kalender', kurz: 'Kalender', icon: 'kalender' },
       { to: '/projekte', label: 'Projekte', kurz: 'Projekte', icon: 'projekte' },

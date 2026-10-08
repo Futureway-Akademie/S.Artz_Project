@@ -1932,7 +1932,7 @@
       "description": "Claude im Cockpit über AWS Bedrock (Frankfurt); Daten gehen nur nach Freigabe pro Aktion an die KI.",
       "order": 15,
       "weight": 14,
-      "status": "in_progress",
+      "status": "completed",
       "tasks": [
         {
           "id": "task-15-1",
@@ -2074,7 +2074,7 @@
           "description": "Fragen an die eigenen Daten; der Nutzer wählt die einbezogenen Bereiche; Antworten mit Links zu den Einträgen.",
           "order": 6,
           "weight": 3,
-          "status": "in_progress",
+          "status": "completed",
           "dependsOn": [
             "task-15-2"
           ],
@@ -2083,12 +2083,16 @@
             "Antworten verlinken die Quellen-Einträge"
           ],
           "startedAt": "2026-10-08T09:39:16Z",
-          "completedAt": null,
+          "completedAt": "2026-10-08T09:42:39Z",
           "verification": {
-            "status": "not_run",
-            "summary": null,
-            "commands": [],
-            "checkedAt": null
+            "status": "passed",
+            "summary": "Neue Seite „KI-Assistent“ (/assistent, Bereich ki, in der Navigation): Frage stellen, Bereiche wählen (Projekte, Aufgaben/Termine, Kontakte ohne E-Mail/Telefon, Bewerbungen, Leads, Wissen, Werkzeugkasten), kompakte Datenzeilen mit IDs, Kürzung bei Überlänge, Freigabe-Dialog; Antwort mit Links zu den genannten Einträgen. Tests inkl. axe grün.",
+            "commands": [
+              "npx tsc --noEmit -p tsconfig.app.json",
+              "npx eslint src",
+              "npx vitest run"
+            ],
+            "checkedAt": "2026-10-08T09:42:39Z"
           }
         }
       ]
