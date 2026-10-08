@@ -299,3 +299,5 @@
 {"timestamp":"2026-10-08T10:26:03Z","type":"task_started","taskId":"task-18-3","summary":"Task 'Push-Erinnerungen ohne Inhalt' gestartet."}
 {"timestamp":"2026-10-08T10:29:51Z","type":"verification_passed","taskId":"task-18-3","summary":"Versandlogik, Text ohne Inhalte, Panel und Regeln getestet; alle Tests grün."}
 {"timestamp":"2026-10-08T10:29:51Z","type":"task_completed","taskId":"task-18-3","summary":"Task 'Push-Erinnerungen ohne Inhalt' abgeschlossen."}
+{"timestamp":"2026-10-08T11:10:51Z","type":"roadmap_updated","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' ergänzt (elf Kapitel unter docs/), startbar."}
+{"timestamp":"2026-10-08T11:32:55Z","type":"task_started","taskId":"task-19-5","summary":"Task 'Projektdokumentation für die Workshop-Zentrale' gestartet."}

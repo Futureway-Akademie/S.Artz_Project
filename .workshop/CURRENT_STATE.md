@@ -2,7 +2,7 @@
 
 ## Projekt
 
-PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v7, Fortschritt 92,82 % (181 von 195 Gewichtspunkten, 73 von 80 Tasks).
+PIKARTZ.AI – Arbeitscockpit. Persönliches Arbeitscockpit mit CRM-Funktionen für Sascha Artz (KI-Automationen, Weiterbildung, PIKARTZ.AI). Status: aktiv, Roadmap v7, Fortschritt 91,88 % (181 von 197 Gewichtspunkten, 73 von 81 Tasks).
 
 ## Aktive Phase
 
@@ -10,7 +10,7 @@ Inbetriebnahme (phase-13).
 
 ## Aktive Aufgabe
 
-Keine.
+task-19-5 – Projektdokumentation für die Workshop-Zentrale (in_progress seit 2026-10-08T11:32:55Z).
 
 ## Zuletzt abgeschlossen
 
@@ -240,6 +240,7 @@ Keine.
 | task-19-2 | Datenschutzerklärung, Impressum, Nutzungsbedingungen | ⏳ geplant | task-18-1 |
 | task-19-3 | AVVs und Verzeichnis der Verarbeitungen | ⏳ geplant | task-19-2 |
 | task-19-4 | Abschlussprüfung Roadmap v7 | ⏳ geplant | task-19-1, task-19-3 |
+| task-19-5 | Projektdokumentation für die Workshop-Zentrale | 🔨 in Arbeit | – |
 
 ## Blockiert
 

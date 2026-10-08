@@ -2413,8 +2413,8 @@
       "title": "Praxis und Abschluss",
       "description": "Praxistest mit Feedback, rechtliche Grundlagen und Abschlussprüfung.",
       "order": 19,
-      "weight": 8,
-      "status": "planned",
+      "weight": 10,
+      "status": "in_progress",
       "tasks": [
         {
           "id": "task-19-1",
@@ -2511,6 +2511,29 @@
             "Architektur, Entscheidungen und Prüfprotokoll aktuell"
           ],
           "startedAt": null,
+          "completedAt": null,
+          "verification": {
+            "status": "not_run",
+            "summary": null,
+            "commands": [],
+            "checkedAt": null
+          }
+        },
+        {
+          "id": "task-19-5",
+          "title": "Projektdokumentation für die Workshop-Zentrale",
+          "description": "Elf Kapitel unter docs/ (setup, idea, audience, features, architecture, decisions, usage, tests, limitations, progress, reflection), aus vorhandenen Quellen zusammengeführt; ohne private Projektinhalte.",
+          "order": 5,
+          "weight": 2,
+          "status": "in_progress",
+          "dependsOn": [],
+          "definitionOfDone": [
+            "Alle elf Kapiteldateien unter docs/ vorhanden und mit Inhalt gefüllt",
+            "Inhalte stimmen mit Roadmap, Architektur, Entscheidungen und Prüfprotokoll überein",
+            "Keine privaten Projektinhalte; Datenschutz-Wächter grün",
+            "Reflexion von Sascha verfasst oder freigegeben"
+          ],
+          "startedAt": "2026-10-08T11:32:55Z",
           "completedAt": null,
           "verification": {
             "status": "not_run",
